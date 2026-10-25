@@ -315,10 +315,50 @@
     toast._t = setTimeout(function () { toastEl.classList.remove("visible"); }, Math.max(1800, msg.length * 60));
   }
   // Retour haptique : natif dans les apps (l'API web de vibration n'existe pas sur iPhone).
+  // type : "succes", "erreur", ou "tampon" (un coup franc, comme un vrai tampon sur le passeport)
   function vibrer(type) {
     var h = plugin("Haptics");
-    if (h) { h.notification({ type: type === "succes" ? "SUCCESS" : "ERROR" }).catch(function () {}); return; }
-    try { if (navigator.vibrate) navigator.vibrate(type === "succes" ? 30 : 80); } catch (e) {}
+    if (h) {
+      (type === "tampon" ? h.impact({ style: "HEAVY" }) : h.notification({ type: type === "succes" ? "SUCCESS" : "ERROR" })).catch(function () {});
+      return;
+    }
+    try { if (navigator.vibrate) navigator.vibrate(type === "succes" ? 30 : type === "tampon" ? [50, 40, 90] : 80); } catch (e) {}
+  }
+
+  // ---------- Mouvement ----------
+  // Tout se coupe si le téléphone demande moins d'animations (le CSS fait pareil de son côté).
+  function moinsDeMouvement() {
+    try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; }
+  }
+  // Petits confettis qui jaillissent d'une bonne réponse.
+  function confettis(el) {
+    if (!el || moinsDeMouvement()) return;
+    var r = el.getBoundingClientRect(), h = "";
+    var couleurs = ["var(--mangue)", "var(--menthe)", "var(--piment)", "var(--sur-indigo)"];
+    for (var i = 0; i < 16; i++) {
+      var a = Math.random() * Math.PI * 2, d = 50 + Math.random() * 70;
+      h += '<i style="left:' + Math.round(r.left + r.width * (0.15 + Math.random() * 0.7)) + 'px;top:' + Math.round(r.top + r.height / 2) + 'px;' +
+        'background:' + couleurs[i % 4] + ';--x:' + Math.round(Math.cos(a) * d) + 'px;--y:' + Math.round(Math.sin(a) * d - 30) + 'px;' +
+        '--r:' + Math.round(Math.random() * 540 - 270) + 'deg"></i>';
+    }
+    var couche = document.createElement("div");
+    couche.className = "confettis"; couche.setAttribute("aria-hidden", "true"); couche.innerHTML = h;
+    document.body.appendChild(couche);
+    setTimeout(function () { couche.remove(); }, 900);
+  }
+  // Les chiffres marqués data-compte (et data-de, s'ils partent d'ailleurs que 0) défilent jusqu'à leur valeur.
+  function animerCompteurs() {
+    app.querySelectorAll("[data-compte]").forEach(function (el) {
+      var fin = +el.getAttribute("data-compte"), de = +(el.getAttribute("data-de") || 0), t0 = null;
+      if (fin === de) return;
+      el.textContent = de;
+      requestAnimationFrame(function pas(t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min(1, (t - t0) / 650);
+        el.textContent = Math.round(de + (fin - de) * (1 - Math.pow(1 - k, 3)));
+        if (k < 1 && el.isConnected) requestAnimationFrame(pas);
+      });
+    });
   }
 
   var ICONES = {
@@ -343,7 +383,7 @@
     var bulle = '<path class="bulle" d="M60 12c27.6 0 48 18.8 48 44s-20.4 44-48 44c-6.2 0-12-.9-17.4-2.7L20 108l5.6-20.4C16.9 79.6 12 68.5 12 56 12 30.8 32.4 12 60 12z" style="fill:var(--indigo)" stroke="var(--encre)" stroke-width="3"/>';
     var visage;
     if (humeur === "joie") {
-      visage = '<path d="M38 46q7-9 14 0M66 46q7-9 14 0" fill="none" stroke="#FFF3DF" stroke-width="6" stroke-linecap="round"/>' +
+      visage = '<path class="yeux" d="M38 46q7-9 14 0M66 46q7-9 14 0" fill="none" stroke="#FFF3DF" stroke-width="6" stroke-linecap="round"/>' +
                '<path d="M42 62q17 16 34 0" fill="none" stroke="#FFF3DF" stroke-width="7" stroke-linecap="round"/>';
     } else {
       visage = '<path d="M40 43h12M66 41l12 3" stroke="#FFF3DF" stroke-width="6" stroke-linecap="round"/>' +
@@ -351,8 +391,8 @@
                '<path d="M73 56.5c4-3.6 11.5-3.6 14 .8 2.4 4.2-.6 9.4-6.2 10-4.4.5-8.6-1.6-9.6-5-.5-2.1.3-4.4 1.8-5.8z" fill="#FF4D2E"/>';
     }
     var ondes = humeur === "joie"
-      ? '<path d="M100 30l6-8M106 50h10M100 70l6 8" stroke="#FFC233" stroke-width="5.5" stroke-linecap="round"/>'
-      : '<path d="M100 42l8-7M103 57h11M100 72l8 7" stroke="#FFC233" stroke-width="5.5" stroke-linecap="round"/>';
+      ? '<path class="ondes" d="M100 30l6-8M106 50h10M100 70l6 8" stroke="#FFC233" stroke-width="5.5" stroke-linecap="round"/>'
+      : '<path class="ondes" d="M100 42l8-7M103 57h11M100 72l8 7" stroke="#FFC233" stroke-width="5.5" stroke-linecap="round"/>';
     return '<svg class="mascotte" id="mascotte" viewBox="0 0 120 120" aria-hidden="true"><g transform="translate(2 6) scale(.86)">' + bulle + visage + '</g>' + ondes + '</svg>';
   }
 
@@ -383,7 +423,8 @@
     var gauche = jourAffiche === jourReel
       ? '<span class="chip">Tchip #' + jourAffiche + ' · ' + esc(dateDuNumero(jourAffiche)) + '</span>'
       : '<span class="chip archive">Archive #' + jourAffiche + ' · ' + esc(dateDuNumero(jourAffiche)) + '</span>';
-    var droite = serie > 0 ? '<span class="chip serie" aria-label="Série de ' + serie + ' jours">🔥 ' + serie + ' j</span>' : '';
+    var droite = serie > 0 ? '<span class="chip serie' + (feterSerie ? ' danse' : '') + '" aria-label="Série de ' + serie + ' jours">' +
+      '<span class="flamme" aria-hidden="true">🔥</span> ' + serie + ' j</span>' : '';
     return '<div class="dayline">' + gauche + droite + '</div>';
   }
 
@@ -398,8 +439,27 @@
   }
 
   // ---------- Navigation ----------
-  // Point d'entrée unique de l'affichage : l'onglet courant, ou la série en cours (plein écran).
+  // Arrivée sur un écran : "de-droite" (on avance), "de-gauche" (on revient), "du-bas" (une série s'ouvre),
+  // "place" (même écran, nouvelle étape). null = simple mise à jour (une réponse, le lexique derrière une feuille) : rien ne bouge.
+  var entree = null, feterSerie = false;
+  var ANIMES = ["anime", "vient-de-droite", "vient-de-gauche", "vient-du-bas"];
   function rendre() {
+    rendreEcran();
+    var sens = entree; entree = null;
+    ANIMES.forEach(function (c) { app.classList.remove(c); }); // une mise à jour juste après une arrivée ne rejoue pas la cascade
+    if (!sens || moinsDeMouvement()) return;
+    void app.offsetWidth; // relance l'animation même si la classe était déjà là
+    app.querySelectorAll(".grille-pays, .lexique, .passeport, .stats-grid, .options, .actions").forEach(function (liste) {
+      Array.prototype.forEach.call(liste.children, function (x, i) { x.style.setProperty("--i", Math.min(i, 10)); });
+    });
+    app.classList.add("anime");
+    if (sens !== "place") app.classList.add("vient-" + sens);
+    clearTimeout(rendre._t);
+    rendre._t = setTimeout(function () { ANIMES.forEach(function (c) { app.classList.remove(c); }); }, 1000);
+    animerCompteurs();
+  }
+  // Point d'entrée unique de l'affichage : l'onglet courant, ou la série en cours (plein écran).
+  function rendreEcran() {
     clearInterval(timer);
     document.body.classList.toggle("en-serie", !!serie);
     if (AP) barreOnglets();
@@ -409,7 +469,11 @@
     if (onglet === "carnet") return rendreCarnet();
     return rendreJour();
   }
+  var ORDRE_ONGLETS = { jour: 0, voyager: 1, carnet: 2 };
   function allerA(o, code) {
+    var avant = serie ? 99 : ORDRE_ONGLETS[onglet] * 2 + (paysOuvert ? 1 : 0), apres = ORDRE_ONGLETS[o] * 2 + (code ? 1 : 0);
+    // ouvrir un pays, c'est toujours aller plus loin ; sinon on glisse dans le sens des onglets
+    entree = code && code !== paysOuvert ? "de-droite" : apres > avant ? "de-droite" : apres < avant ? "de-gauche" : "place";
     onglet = o; paysOuvert = code || null; serie = null;
     fermerFeuille(); rendre(); window.scrollTo(0, 0);
     if (code) signal("Pays.ouvert", { pays: code });
@@ -494,7 +558,7 @@
     h += '<section class="resultat">';
     h += '<div class="card score-card">' + mascotte(s >= 3 ? "joie" : "neutre") +
          '<p class="question">Ton score</p>' +
-         '<p class="score">' + s + '<small>/4</small></p>' +
+         '<p class="score"><span data-compte="' + s + '">' + s + '</span><small>/4</small></p>' +
          '<p class="verdict">' + verdict(s) + '</p>' +
          '<div class="grille" aria-label="Grille de partage">💬 ' + grilleTexte() + '&nbsp; 🌍 ' + (etat.pays === P.e.pays ? '✅' : '❌') + '</div>' +
          '</div>';
@@ -520,6 +584,7 @@
     }
     h += '</section>' + pied();
     app.innerHTML = h;
+    feterSerie = false; // la flamme danse une fois, juste après la partie
     if (jourAffiche === jourReel) {
       timer = setInterval(function () {
         var el = document.getElementById("compte");
@@ -534,6 +599,11 @@
     var m = document.getElementById("mascotte");
     if (!m) return;
     m.classList.remove("tchip", "joie"); void m.offsetWidth; m.classList.add(cls);
+    // puis elle reprend sa respiration
+    m.addEventListener("animationend", function fin(ev) {
+      if (ev.target !== m) return;
+      m.classList.remove(cls); m.removeEventListener("animationend", fin);
+    });
   }
 
   // ---------- Actions ----------
@@ -546,9 +616,10 @@
       if (b) { b.classList.add("bon"); b.querySelector(".lettre").textContent = "✓"; }
       app.querySelectorAll("[data-sens]").forEach(function (x) { x.disabled = true; });
       animerMascotte("joie");
+      confettis(b);
       vibrer("succes");
       toast(etat.erreurs.length ? "Bien rattrapé !" : "Direct ! +3");
-      setTimeout(rendre, 900);
+      setTimeout(function () { entree = "place"; rendre(); }, 900);
     } else {
       etat.erreurs.push(i);
       vibrer("erreur");
@@ -577,9 +648,11 @@
     });
     toast(ok ? "Bien vu ! +1" : "Raté, c'était " + paysInfo(P.e.pays).nom);
     vibrer(ok ? "succes" : "erreur");
+    if (ok) confettis(app.querySelector('[data-pays="' + i + '"]'));
     enregistrerStats();
     signal("Partie.finie", { score: score(etat, P.e), jour: jourAffiche, archive: jourAffiche !== jourReel });
-    setTimeout(rendre, 1100);
+    feterSerie = jourAffiche === jourReel;
+    setTimeout(function () { entree = "place"; rendre(); }, 1100);
   }
 
   function partager() {
@@ -672,11 +745,15 @@
   }
   function badgeRang(r) { return r ? '<span class="rang rang-' + r + '">' + AP.NOMS_RANGS[r] + '</span>' : ''; }
   // Barre de mots maîtrisés, avec un repère à chaque palier de tampon (25, 50, 75 %).
-  function barreProgression(p) {
-    var pct = p.total ? Math.round(p.maitrises / p.total * 100) : 0;
-    var reperes = AP.SEUILS.slice(1, -1).map(function (s) { return '<b style="left:' + Math.round(s * 100) + '%"></b>'; }).join("");
-    return '<span class="barre-prog" role="img" aria-label="' + p.maitrises + ' mots maîtrisés sur ' + p.total + ', ' + AP.pourcentage(p) + ' %">' +
-      '<i style="width:' + pct + '%"></i>' + reperes + '</span>';
+  // opts.de : part maîtrisée avant la série (la barre se remplit depuis là) ; opts.eclat : rang qu'on vient de décrocher.
+  function barreProgression(p, opts) {
+    opts = opts || {};
+    var part = p.total ? p.maitrises / p.total : 0, dernier = AP.SEUILS.length - 1;
+    var reperes = AP.SEUILS.slice(1, -1).map(function (s, k) {
+      return '<b' + (opts.eclat === k + 1 ? ' class="eclat"' : '') + ' style="left:' + Math.round(s * 100) + '%"></b>';
+    }).join("");
+    return '<span class="barre-prog' + (opts.eclat === dernier ? ' complete' : '') + '" role="img" aria-label="' + p.maitrises + ' mots maîtrisés sur ' + p.total + ', ' + AP.pourcentage(p) + ' %">' +
+      '<i style="--p:' + part.toFixed(3) + (opts.de ? ';--de:' + opts.de.toFixed(3) : '') + '"></i>' + reperes + '</span>';
   }
   function phrasePalier(p) {
     var s = AP.prochainPalier(p);
@@ -721,7 +798,7 @@
         '<h1 class="titre-page">' + esc(p.nom) + '</h1>' +
         (p.intro ? '<p>' + esc(p.intro) + '</p>' : '') +
         '<div class="niveau">' + (badgeRang(r) || '<span class="rang">Pas encore de tampon</span>') +
-        '<span>' + AP.pourcentage(pr) + ' % · ' + pr.maitrises + '/' + pr.total + ' maîtrisés</span></div>' + barreProgression(pr) +
+        '<span><span data-compte="' + AP.pourcentage(pr) + '">' + AP.pourcentage(pr) + '</span> % · ' + pr.maitrises + '/' + pr.total + ' maîtrisés</span></div>' + barreProgression(pr) +
         '<p class="palier">' + phrasePalier(pr) + '</p>' +
       '</section>' +
       '<div class="actions"><button class="btn" data-act="serie-pays">' + ICONES.voyager + 'Jouer une série</button></div>' +
@@ -767,8 +844,10 @@
     Object.keys(PAYS).forEach(function (c) { rangs[c] = rangPays(c, s); });
     serie = {
       retour: retour, i: 0, bonnes: 0, reponse: null, resultats: [], rangsAvant: rangs, tampons: [],
+      avant: retour.source === "pays" ? AP.progression(exprDuPays(retour.code), s) : null, // pour montrer le chemin parcouru au bilan
       questions: choix.map(function (e) { return AP.question(e, jouables(exprDuPays(e.pays)), s, Math.random); })
     };
+    entree = "du-bas";
     fermerFeuille(); rendre(); window.scrollTo(0, 0);
   }
   function rejouerSerie() {
@@ -791,6 +870,7 @@
     noterReponse(q.e, juste);
     vibrer(juste ? "succes" : "erreur");
     rendre();
+    if (juste) confettis(app.querySelector(".option.bon"));
   }
   function suivant() {
     serie.i++; serie.reponse = null;
@@ -801,6 +881,7 @@
         .filter(function (t) { return t.rang > serie.rangsAvant[t.code]; });
       signal("Serie.finie", { pays: serie.retour.code || "revision", bonnes: serie.bonnes, total: serie.questions.length });
     }
+    entree = serie.fini ? "place" : "de-droite";
     rendre(); window.scrollTo(0, 0);
   }
   function rendreSerie() {
@@ -808,7 +889,7 @@
     var q = serie.questions[serie.i], e = q.e, p = paysInfo(e.pays), rep = serie.reponse, n = serie.questions.length;
     var inverse = q.type === "inverse";
     var h = '<div class="serie-haut"><button class="icon-btn" data-act="quitter-serie" aria-label="Quitter la série">' + ICONES.fermer + '</button>' +
-      '<span class="progression" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + serie.i + '"><i style="width:' + Math.round(serie.i / n * 100) + '%"></i></span>' +
+      '<span class="progression" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + serie.i + '"><i style="--p:' + (serie.i / n).toFixed(3) + ';--de:' + (Math.max(0, serie.i - 1) / n).toFixed(3) + '"></i></span>' +
       '<span class="compteur">' + (serie.i + 1) + '/' + n + '</span></div>';
     h += '<section class="card carte-question"><p class="question">' + drapeau(e.pays) + ' ' + esc(p.nom) + ' · ' +
       (inverse ? "Comment dit-on…" : "Ça veut dire quoi ?") + '</p>' +
@@ -844,15 +925,18 @@
       part >= 0.5 ? "Pas mal. Les mots ratés reviendront demain." : "Courage : c'est en se trompant qu'on retient.";
     var h = '<section class="resultat">' +
       '<div class="card score-card">' + mascotte(part >= 0.75 ? "joie" : "neutre") +
-      '<p class="question">Série terminée</p><p class="score">' + b + '<small>/' + n + '</small></p><p class="verdict">' + msg + '</p></div>';
+      '<p class="question">Série terminée</p><p class="score"><span data-compte="' + b + '">' + b + '</span><small>/' + n + '</small></p><p class="verdict">' + msg + '</p></div>';
     serie.tampons.forEach(function (t) {
       h += '<div class="card nouveau-tampon">' + tampon(t.code, t.rang, false) +
         '<p><b>Nouveau tampon !</b><br>' + esc(paysInfo(t.code).nom) + ' : ' + esc(AP.NOMS_RANGS[t.rang]) + '</p></div>';
     });
     if (serie.retour.source === "pays") {
-      var pr = AP.progression(exprDuPays(serie.retour.code), savoir());
-      h += '<div class="card palier-carte"><p class="niveau"><span>' + drapeau(serie.retour.code) + ' ' + esc(paysInfo(serie.retour.code).nom) + '</span>' +
-        '<span>' + AP.pourcentage(pr) + ' % maîtrisés</span></p>' + barreProgression(pr) + '<p class="palier">' + phrasePalier(pr) + '</p></div>';
+      var code = serie.retour.code, pr = AP.progression(exprDuPays(code), savoir()), av = serie.avant || pr;
+      var gagne = serie.tampons.filter(function (t) { return t.code === code; })[0];
+      h += '<div class="card palier-carte"><p class="niveau"><span>' + drapeau(code) + ' ' + esc(paysInfo(code).nom) + '</span>' +
+        '<span><span data-compte="' + AP.pourcentage(pr) + '" data-de="' + AP.pourcentage(av) + '">' + AP.pourcentage(pr) + '</span> % maîtrisés</span></p>' +
+        barreProgression(pr, { de: av.total ? av.maitrises / av.total : 0, eclat: gagne ? gagne.rang : 0 }) +
+        '<p class="palier">' + phrasePalier(pr) + '</p></div>';
     }
     h += motif() + '<h2 class="region">Les mots de la série</h2><ul class="lexique bilan">' + serie.resultats.map(function (r) {
       return '<li><button class="mot ' + (r.juste ? 'juste' : 'rate') + '" data-mot="' + EXPR.indexOf(r.e) + '">' +
@@ -862,6 +946,10 @@
       (serie.tampons.length ? '<button class="btn secondaire" data-act="partager-passeport">' + ICONES.partager + 'Partager mon passeport</button>' : '') +
       '<button class="btn secondaire" data-act="quitter-serie">Terminer</button></div></section>';
     app.innerHTML = h;
+    if (serie.tampons.length && !serie.tamponVibre) {
+      serie.tamponVibre = true;
+      setTimeout(function () { vibrer("tampon"); }, 550); // quand le tampon touche le papier
+    }
   }
 
   // ---------- Carnet : passeport, accent, révisions ----------
@@ -889,10 +977,9 @@
       h += '<p class="accent-phrase">Pas encore d\'accent…</p><p class="vide">Maîtrise 3 mots d\'un même pays pour attraper ton premier accent.</p>';
     }
     h += '</section><div class="stats-grid">' +
-      '<div class="stat"><b>' + cles.length + '</b><span>Mots découverts</span></div>' +
-      '<div class="stat"><b>' + maitrises + '</b><span>Maîtrisés</span></div>' +
-      '<div class="stat"><b>' + nbTampons + '</b><span>Tampons</span></div>' +
-      '<div class="stat"><b>' + aRevoir(s).length + '</b><span>À revoir</span></div></div>';
+      [[cles.length, "Mots découverts"], [maitrises, "Maîtrisés"], [nbTampons, "Tampons"], [aRevoir(s).length, "À revoir"]].map(function (x) {
+        return '<div class="stat"><b data-compte="' + x[0] + '">' + x[0] + '</b><span>' + x[1] + '</span></div>';
+      }).join("") + '</div>';
     h += carteRevision() + '<h2 class="region">Tampons</h2>' +
       '<p class="legende-paliers">Pour chaque pays, maîtrise ' +
       AP.SEUILS.slice(1).map(function (s, i) { return '<span class="rang rang-' + (i + 1) + '">' + Math.round(s * 100) + ' %</span> ' + AP.NOMS_RANGS[i + 1]; }).join(" · ") +
@@ -1024,11 +1111,19 @@
     fond.className = "feuille-fond"; fond.id = "feuille";
     fond.setAttribute("data-feuille", nom || "");
     fond.innerHTML = '<div class="feuille" role="dialog" aria-modal="true">' + contenu + '</div>';
-    fond.addEventListener("click", function (ev) { if (ev.target === fond) fermerFeuille(); });
+    fond.addEventListener("click", function (ev) { if (ev.target === fond) fermerFeuille(true); });
     document.body.appendChild(fond);
     var f = fond.querySelector("[data-act='fermer']"); if (f) f.focus();
   }
-  function fermerFeuille() { var f = document.getElementById("feuille"); if (f) f.remove(); }
+  // anime : fermée par le joueur (bouton, fond, Échap, retour), la feuille redescend.
+  // Sinon (une autre feuille s'ouvre, on change d'écran), elle disparaît tout de suite.
+  function fermerFeuille(anime) {
+    var f = document.getElementById("feuille");
+    if (!f) return;
+    if (!anime || moinsDeMouvement()) { f.remove(); return; }
+    f.removeAttribute("id"); f.classList.add("sortie"); // plus « ouverte » : une autre feuille peut s'ouvrir aussitôt
+    setTimeout(function () { f.remove(); }, 200);
+  }
   function feuilleOuverte(nom) { var f = document.getElementById("feuille"); return !!f && (!nom || f.getAttribute("data-feuille") === nom); }
 
   // ---------- Rappel quotidien (notification locale, programmée sur l'appareil : aucun serveur) ----------
@@ -1211,11 +1306,12 @@
 
   // ---------- Événements ----------
   document.addEventListener("click", function (ev) {
+    if (ev.target.closest(".mascotte")) return animerMascotte("joie"); // la toucher la fait sauter
     var b = ev.target.closest("button");
     if (!b || b.disabled) return;
     if (b.hasAttribute("data-sens")) return choisirSens(+b.getAttribute("data-sens"));
     if (b.hasAttribute("data-pays")) return choisirPays(+b.getAttribute("data-pays"));
-    if (b.hasAttribute("data-jour")) { fermerFeuille(); onglet = "jour"; chargerJour(+b.getAttribute("data-jour")); rendre(); window.scrollTo(0, 0); return; }
+    if (b.hasAttribute("data-jour")) { fermerFeuille(); onglet = "jour"; chargerJour(+b.getAttribute("data-jour")); entree = "place"; rendre(); window.scrollTo(0, 0); return; }
     if (b.hasAttribute("data-onglet")) return allerA(b.getAttribute("data-onglet"));
     if (b.hasAttribute("data-voyage")) return allerA("voyager", b.getAttribute("data-voyage"));
     if (b.hasAttribute("data-mot")) return feuilleMot(EXPR[+b.getAttribute("data-mot")]);
@@ -1252,9 +1348,9 @@
       case "aide": return feuilleAide();
       case "stats": return feuilleStats();
       case "archives": return feuilleArchives();
-      case "fermer": return fermerFeuille();
+      case "fermer": return fermerFeuille(true);
       case "partager": return partager();
-      case "aujourdhui": onglet = "jour"; chargerJour(jourReel); rendre(); window.scrollTo(0, 0); return;
+      case "aujourdhui": onglet = "jour"; chargerJour(jourReel); entree = "place"; rendre(); window.scrollTo(0, 0); return;
       case "reglages": return feuilleReglages();
       case "confidentialite": return feuilleConfidentialite();
       case "effacer": return effacerDonnees();
@@ -1279,7 +1375,7 @@
   });
   document.addEventListener("keydown", function (ev) {
     if (ev.key !== "Escape") return;
-    if (feuilleOuverte()) fermerFeuille();
+    if (feuilleOuverte()) fermerFeuille(true);
     else if (serie) quitterSerie();
   });
 
@@ -1294,7 +1390,7 @@
   var appNatif = plugin("App");
   if (appNatif && Cap.getPlatform() === "android") {
     appNatif.addListener("backButton", function () {
-      if (feuilleOuverte()) fermerFeuille();
+      if (feuilleOuverte()) fermerFeuille(true);
       else if (serie) quitterSerie();
       else if (onglet === "voyager" && paysOuvert) allerA("voyager");
       else if (onglet !== "jour") allerA("jour");
@@ -1319,6 +1415,7 @@
     if (local && !estNatif() && q && +q >= 1) apercu = Math.floor(+q);
   } catch (e) {}
   chargerJour(apercu || jourReel);
+  entree = "place";
   rendre();
   if (!lire("tchip:vu-aide", false)) { ecrire("tchip:vu-aide", true); feuilleBienvenue(); }
   enregistrerServiceWorker();

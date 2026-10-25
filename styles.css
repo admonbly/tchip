@@ -22,6 +22,12 @@
   --bord: 2.5px solid var(--encre);
   --pop: 0 4px 0 0 var(--ombre);
   --pop-sm: 0 2px 0 0 var(--ombre);
+  --pop-haut: 0 7px 0 0 var(--ombre);      /* autocollant soulevé (survol à la souris) */
+  --pop-sm-haut: 0 5px 0 0 var(--ombre);
+
+  /* Mouvement : un seul rythme pour toute l'app */
+  --ressort: cubic-bezier(.3, 1.6, .5, 1);  /* petit rebond, pour ce qui arrive ou se relâche */
+  --sortie: cubic-bezier(.5, 0, .9, .4);    /* ce qui s'en va part plus vite qu'il n'est venu */
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -83,6 +89,23 @@ button {
 .icon-btn svg { width: 20px; height: 20px; stroke: var(--encre); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .icon-btn:active { transform: translateY(2px); box-shadow: none; }
 
+/* ---------- Relief des autocollants ----------
+   Au doigt : l'autocollant s'enfonce vite, puis remonte avec un petit rebond.
+   À la souris : il se soulève au survol (l'ombre grandit). */
+.icon-btn, .option, .btn, .btn-son, .carte-pays, .carte-revision, .mot, .archives button, .passeport .tampon {
+  transition: transform .22s var(--ressort), box-shadow .22s var(--ressort), background .15s ease;
+}
+.icon-btn:active, .option:active, .btn:active, .btn-son:active, .carte-pays:active, .carte-revision:active,
+.mot:active, .archives button:active, .passeport .tampon:active { transition-duration: .06s; }
+@media (hover: hover) and (pointer: fine) {
+  .icon-btn:hover, .btn-son:hover, .carte-pays:hover, .mot:hover, .archives button:hover { transform: translateY(-2px); box-shadow: var(--pop-sm-haut); }
+  .option:not(:disabled):hover, .btn:not(.ajout):hover, .carte-revision:hover { transform: translateY(-3px); box-shadow: var(--pop-haut); }
+  .passeport .tampon[data-voyage]:hover { transform: rotate(0deg) scale(1.06); }
+  /* appuyer reste plus fort que survoler */
+  .icon-btn:hover:active, .btn-son:hover:active, .carte-pays:hover:active, .mot:hover:active, .archives button:hover:active { transform: translateY(2px); box-shadow: none; }
+  .option:not(:disabled):hover:active, .btn:not(.ajout):hover:active, .carte-revision:hover:active { transform: translateY(4px); box-shadow: none; }
+}
+
 /* ---------- Bandeau du jour ---------- */
 .dayline { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .chip {
@@ -91,6 +114,13 @@ button {
   padding: 6px 12px; border-radius: var(--r-pill); border: var(--bord); background: var(--surface);
 }
 .chip.serie { background: var(--mangue); color: var(--encre-fixe); border-color: var(--encre-fixe); }
+.chip.serie .flamme { display: inline-block; transform-origin: 50% 90%; }
+.chip.serie.danse { animation: gonfle .5s var(--ressort) .2s; }
+.chip.serie.danse .flamme { animation: danse 1s ease .2s; }   /* la série vient d'augmenter */
+@keyframes danse {
+  20% { transform: scale(1.5) rotate(-12deg); } 40% { transform: scale(1.3) rotate(10deg); }
+  60% { transform: scale(1.4) rotate(-6deg); } 80% { transform: scale(1.1) rotate(4deg); }
+}
 .chip.archive { background: var(--sable); }
 
 /* ---------- Carte expression ---------- */
@@ -114,11 +144,23 @@ button {
 .mascotte {
   position: absolute; right: -10px; top: -22px; width: 84px; height: 84px;
   transform: rotate(8deg); transition: transform .25s ease;
+  animation: flotte 5s ease-in-out infinite;   /* au repos, elle respire et jette un coup d'œil de temps en temps */
 }
+.mascotte .yeux { transform-box: fill-box; transform-origin: center; animation: cligne 4.6s infinite; }
+.mascotte .ondes { transform-box: fill-box; transform-origin: left center; animation: vibre 2.4s ease-in-out infinite; }
 .mascotte.tchip { animation: tchip .5s ease; }
-.mascotte.joie { animation: hop .6s ease; }
+.mascotte.joie { animation: hop .6s var(--ressort); }
 @keyframes tchip { 0%,100% { transform: rotate(8deg); } 25% { transform: rotate(-6deg) translateX(-4px); } 60% { transform: rotate(14deg) translateX(3px); } }
-@keyframes hop { 0%,100% { transform: rotate(8deg) translateY(0); } 40% { transform: rotate(-4deg) translateY(-14px); } }
+@keyframes hop { 0%,100% { transform: rotate(8deg) translateY(0); } 40% { transform: rotate(-4deg) translateY(-14px) scale(1.06); } }
+@keyframes flotte {
+  0%, 100% { transform: rotate(8deg) translateY(0); }
+  40% { transform: rotate(6deg) translateY(-3px); }
+  70% { transform: rotate(8deg) translateY(0); }
+  76% { transform: rotate(13deg); }
+  82% { transform: rotate(8deg); }
+}
+@keyframes cligne { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.15); } }
+@keyframes vibre { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.12); opacity: .75; } }
 
 .vies { display: flex; gap: 6px; align-items: center; margin-top: 16px; font-size: 13px; font-weight: 600; color: var(--encre-douce); }
 .vie { width: 20px; height: 16px; }
@@ -140,7 +182,6 @@ button {
   width: 100%; min-height: 58px; padding: 12px 16px;
   background: var(--surface); border: var(--bord); border-radius: var(--r-md);
   box-shadow: var(--pop); font-size: 16px; font-weight: 600; line-height: 1.3;
-  transition: transform .08s ease, box-shadow .08s ease, background .15s ease;
 }
 .option .lettre {
   flex: none; width: 30px; height: 30px; border-radius: var(--r-pill);
@@ -150,7 +191,16 @@ button {
 .option:not(:disabled):active { transform: translateY(4px); box-shadow: none; }
 .option:disabled { cursor: default; }
 .option.faux { background: var(--piment); color: var(--encre-fixe); border-color: var(--encre-fixe); animation: shake .35s ease; }
-.option.bon { background: var(--menthe); color: var(--encre-fixe); border-color: var(--encre-fixe); }
+.option.bon { background: var(--menthe); color: var(--encre-fixe); border-color: var(--encre-fixe); animation: gonfle .45s var(--ressort); }
+@keyframes gonfle { 40% { transform: scale(1.05); } }
+/* Confettis de la bonne réponse : de petits carrés « autocollant » aux couleurs du jeu */
+.confettis { position: fixed; inset: 0; pointer-events: none; z-index: 25; overflow: hidden; }
+.confettis i {
+  position: absolute; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 2px;
+  border: 1.5px solid var(--encre-fixe); animation: vole .75s cubic-bezier(.2, .8, .4, 1) forwards;
+}
+.confettis i:nth-child(3n) { border-radius: 50%; }
+@keyframes vole { to { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; } }
 .option.faux .lettre, .option.bon .lettre { background: var(--papier); border-color: var(--encre-fixe); color: var(--encre-fixe); }
 .option.eteint { opacity: .45; box-shadow: none; }
 /* Drapeaux en image (assets/drapeaux, voir tools/copier-drapeaux.js) */
@@ -216,16 +266,21 @@ button {
 .feuille-fond {
   position: fixed; inset: 0; background: rgba(10, 8, 30, .55); z-index: 20;
   display: flex; align-items: flex-end; justify-content: center;
+  animation: fondu .22s ease-out;
 }
+.feuille-fond.sortie { animation: fondu .18s var(--sortie) reverse forwards; pointer-events: none; }
+.feuille-fond.sortie .feuille { animation: descend .18s var(--sortie) forwards; }
+@keyframes fondu { from { opacity: 0; } }
+@keyframes descend { to { transform: translateY(70%); } }
 .feuille {
   width: 100%; max-width: 460px; max-height: 88vh; overflow: auto;
   background: var(--papier); border: var(--bord); border-bottom: none;
   border-radius: var(--r-lg) var(--r-lg) 0 0;
   padding: 22px max(20px, env(safe-area-inset-left, 0px)) calc(28px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-right, 0px));
   display: flex; flex-direction: column; gap: 16px;
-  animation: monte .25s ease;
+  animation: monte .34s cubic-bezier(.2, 1.15, .4, 1);
 }
-@keyframes monte { from { transform: translateY(40px); opacity: 0; } }
+@keyframes monte { from { transform: translateY(60%); } }
 .feuille header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .feuille h2 { font-family: var(--f-display); font-weight: 800; font-size: 28px; line-height: 1.1; margin: 0; }
 .feuille p { margin: 0; }
@@ -256,6 +311,7 @@ button {
   padding: 12px 14px; background: var(--surface); border: var(--bord); border-radius: var(--r-md); box-shadow: var(--pop-sm);
   font-weight: 700; text-align: left;
 }
+.archives button:active { transform: translateY(2px); box-shadow: none; }
 .archives .etat { font-size: 14px; color: var(--encre-douce); font-weight: 600; }
 .vide { color: var(--encre-douce); }
 
@@ -364,8 +420,12 @@ body:not(.en-serie) .toast { bottom: calc(var(--h-onglets) + 16px + env(safe-are
 .carte-pays .rang { margin-top: auto; }
 
 .barre-prog { position: relative; display: block; width: 100%; height: 8px; border-radius: var(--r-pill); background: var(--trait); overflow: hidden; }
-.barre-prog i { display: block; height: 100%; background: var(--menthe); border-radius: inherit; }
+/* le remplissage est une échelle (--p de 0 à 1) : ça s'anime sans recalculer la mise en page */
+.barre-prog i, .progression i { display: block; height: 100%; background: var(--menthe); transform-origin: left; transform: scaleX(var(--p, 0)); }
 .barre-prog b { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--encre); opacity: .35; } /* paliers des tampons */
+.barre-prog b.eclat { animation: eclat .7s var(--ressort) .75s both; }   /* palier qu'on vient de passer */
+@keyframes eclat { 0% { opacity: .35; } 40% { opacity: 1; background: var(--mangue); transform: scaleX(4); } 100% { opacity: .9; background: var(--encre); } }
+.barre-prog.complete { animation: gonfle .5s var(--ressort) .8s; }
 .palier { margin: 0; font-size: 14px; color: var(--encre-douce); }
 .palier b { color: var(--encre); }
 .palier-carte { display: grid; gap: 8px; }
@@ -433,7 +493,6 @@ body:not(.en-serie) .toast { bottom: calc(var(--h-onglets) + 16px + env(safe-are
 /* ---------- Série ---------- */
 .serie-haut { display: flex; align-items: center; gap: 12px; }
 .progression { flex: 1; height: 14px; overflow: hidden; border-radius: var(--r-pill); border: 2px solid var(--encre); background: var(--surface); }
-.progression i { display: block; height: 100%; background: var(--menthe); transition: width .3s ease; }
 .compteur { font-weight: 800; font-variant-numeric: tabular-nums; }
 .carte-question .expression { padding-right: 0; }
 .expression.inverse { font-size: clamp(24px, 6.5vw, 30px); line-height: 1.15; }
@@ -470,8 +529,33 @@ body:not(.en-serie) .toast { bottom: calc(var(--h-onglets) + 16px + env(safe-are
 .tampon.rang-4 { background: var(--piment); color: var(--encre-fixe); border-color: var(--encre-fixe); }
 .nouveau-tampon { display: flex; align-items: center; gap: 16px; }
 .nouveau-tampon p { margin: 0; }
-.nouveau-tampon .tampon { flex: none; width: 110px; animation: tamponner .5s cubic-bezier(.2, 1.6, .4, 1); }
-@keyframes tamponner { from { transform: scale(1.8) rotate(-20deg); opacity: 0; } }
+.nouveau-tampon .tampon { position: relative; flex: none; width: 110px; animation: tamponner .55s cubic-bezier(.2, 1.6, .4, 1) .25s both; }
+/* l'encre gicle autour du tampon au moment où il touche le papier */
+.nouveau-tampon .tampon::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 3px solid var(--encre);
+  opacity: 0; animation: onde .6s ease-out .55s;
+}
+@keyframes tamponner { 0% { transform: scale(1.9) rotate(-25deg); opacity: 0; } 55% { transform: scale(.9) rotate(-4deg); opacity: 1; } }
+@keyframes onde { from { transform: scale(.85); opacity: .7; } to { transform: scale(1.45); opacity: 0; } }
+
+/* ---------- Entrées d'écran ----------
+   Seulement quand on arrive sur un écran (pas quand il se redessine) : app.js pose .anime pendant un instant.
+   Le sens du glissement suit la navigation : vers la droite = on avance, vers la gauche = on revient. */
+.app.vient-de-droite { animation: glisse-g .26s ease-out; }
+.app.vient-de-gauche { animation: glisse-d .26s ease-out; }
+.app.vient-du-bas { animation: glisse-h .3s cubic-bezier(.2, 1.1, .4, 1); }
+@keyframes glisse-g { from { transform: translateX(28px); opacity: 0; } }
+@keyframes glisse-d { from { transform: translateX(-28px); opacity: 0; } }
+@keyframes glisse-h { from { transform: translateY(36px); opacity: 0; } }
+/* les listes arrivent en cascade, un élément après l'autre (--i posé par app.js, plafonné) */
+.app.anime :is(.grille-pays, .lexique, .passeport, .stats-grid, .options, .actions) > * {
+  animation: apparait .32s var(--ressort) both; animation-delay: calc(var(--i, 0) * 40ms + 60ms);
+}
+@keyframes apparait { from { transform: translateY(12px) scale(.97); opacity: 0; } }
+.app.anime .barre-prog i, .app.anime .progression i { animation: remplit .7s cubic-bezier(.3, 1.2, .5, 1) .2s both; }
+@keyframes remplit { from { transform: scaleX(var(--de, 0)); } }
+.app.anime .passeport .tampon { animation-name: apparait-tampon; }
+@keyframes apparait-tampon { from { transform: scale(1.3) rotate(-14deg); opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
