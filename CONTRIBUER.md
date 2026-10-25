@@ -11,9 +11,25 @@ Les expressions sont dans `data/expressions.js`. L'ordre du tableau donne l'ordr
   sens: "Une personne très diplômée",
   leurres: ["Un menteur", "Une personne très grande", "Un écrivain de lettres d'amour"],
   exemple: "Demande au long crayon de la famille, il saura remplir le formulaire.",
-  fiche: "Expression camerounaise : plus le crayon est long, plus on a fait de longues études."
+  fiche: "Expression camerounaise : plus le crayon est long, plus on a fait de longues études.",
+  autresSens: [                     // facultatif : ce que l'expression veut dire ailleurs
+    { sens: "Un vrai crayon très long", ou: "Au sens propre" }
+  ],
+  aVerifier: true                   // facultatif : à faire relire avant la mise en jeu
 }
 ```
+
+## Une expression, plusieurs sens
+
+Le jeu ne compte qu'**une** bonne réponse, celle du pays indiqué. Les autres sens vont dans `autresSens` : ils s'affichent dans la fiche découverte sous « Ailleurs, ça veut aussi dire ». Règle importante : **aucun leurre ne doit être un vrai sens** de l'expression, sinon le joueur aurait raison en perdant.
+
+## Traiter une proposition de joueur
+
+Les propositions arrivent en tickets GitHub avec l'étiquette `proposition`.
+1. Faire confirmer le sens par au moins une personne du pays (en commentaire du ticket).
+2. Choisir le sens principal ; les autres vont dans `autresSens`.
+3. Écrire 3 leurres plausibles et une fiche courte.
+4. Ajouter l'entrée à la fin du tableau, citer le pseudo dans la fiche si la personne le souhaite, puis fermer le ticket.
 
 ## Ajouter un pays
 

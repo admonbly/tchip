@@ -19,6 +19,9 @@ Chaque jour à minuit, une nouvelle expression : le **tchip du jour**. Tout le m
 - **1 seul essai.**
 - Bonne réponse : **+1 point**.
 
+### Plusieurs sens ?
+Certaines expressions changent de sens d'un pays à l'autre. La bonne réponse est toujours le sens du pays indiqué dans la fiche ; les autres sens sont présentés à la fin, sous « Ailleurs, ça veut aussi dire ».
+
 ### Score
 Sur **4 points** : 3 + 1 au maximum.
 
@@ -52,3 +55,7 @@ Tu parles d'où ? tchip.app
 - Les 3 leurres doivent être plausibles et tirés du même univers (pas de réponse absurde).
 - Pas d'expression insultante, sexuelle ou qui se moque d'un groupe.
 - L'anecdote reste courte et vérifiée. Dans le doute, on écrit « on raconte que ».
+
+## Proposer une expression
+
+À la fin de chaque partie, le bouton **Proposer une expression** permet d'envoyer une expression de chez soi, avec jusqu'à 3 sens. Chaque proposition est relue par des personnes du pays avant d'entrer dans le jeu.

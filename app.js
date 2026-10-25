@@ -11,6 +11,8 @@
   // ---------- Réglages ----------
   var LANCEMENT = { a: 2026, m: 10, j: 25 };      // jour #1 (année, mois 1-12, jour)
   var ADRESSE_PARTAGE = "tchip.app";               // à remplacer par le vrai domaine
+  var DEPOT_PROPOSITIONS = "https://github.com/admonbly/tchip"; // les propositions arrivent en tickets ici
+  var SENS_MAX = 3;                                 // sens proposés au maximum pour une expression
   var ESSAIS_SENS = 2;
 
   var EXPR = window.TCHIP_EXPRESSIONS || [];
@@ -131,7 +133,8 @@
     stats: '<svg viewBox="0 0 24 24"><path d="M5 20V12M12 20V5M19 20v-5"/></svg>',
     archives: '<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',
     partager: '<svg viewBox="0 0 24 24"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>',
-    fermer: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+    fermer: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+    bulle: '<svg viewBox="0 0 24 24"><path d="M12 3.5c5 0 9 3.3 9 7.5s-4 7.5-9 7.5c-1.1 0-2.2-.2-3.2-.5L4 20l1.3-3.6C3.9 15 3 13.1 3 11c0-4.2 4-7.5 9-7.5z"/><path d="M12 8v6M9 11h6"/></svg>'
   };
 
   var WORDMARK = '<svg class="wordmark" viewBox="-8 0 232 100" role="img" aria-label="Tchip"><g class="ink" fill="none" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12V54q0 16 16 16"/><path d="M2 32H28"/><path d="M74 36A20 20 0 1 0 74 64"/><path d="M94 10V70M94 48A16 16 0 0 1 126 48V70"/><path d="M146 36V70"/><path d="M168 36V92"/><circle cx="186" cy="52" r="17"/></g><path d="M146 1c6.6 0 11 4.2 11 9.4s-4.4 9.4-11 9.4c-1.4 0-2.7-.2-3.9-.6L136 22l1.4-4.6c-1.6-1.8-2.4-4.2-2.4-7C135 5.2 139.4 1 146 1z" fill="var(--piment)"/></svg>';
@@ -270,10 +273,16 @@
          '<p class="origine">' + p.drapeau + ' ' + esc(p.nom) + '</p>' +
          '<dl><div><dt>Ça veut dire</dt><dd>' + esc(P.e.sens) + '</dd></div>' +
          '<div><dt>Exemple</dt><dd class="exemple">«&nbsp;' + esc(P.e.exemple) + '&nbsp;»</dd></div>' +
+         autresSensHtml(P.e) +
          '<div><dt>Le saviez-vous ?</dt><dd>' + esc(P.e.fiche) + '</dd></div></dl>' +
          '</article>';
     h += '<div class="actions"><button class="btn" data-act="partager">' + ICONES.partager + 'Partager mon score</button>' +
          '<button class="btn secondaire" data-act="archives">Jouer un jour précédent</button></div>';
+    h += '<section class="card proposer-carte">' +
+         '<h3>Chez toi, on dit quoi ?</h3>' +
+         '<p>Propose une expression de ton pays ou de ton quartier, avec un ou plusieurs sens. Les meilleures deviendront le tchip du jour.</p>' +
+         '<button class="btn secondaire" data-act="proposer">' + ICONES.bulle + 'Proposer une expression</button>' +
+         '</section>';
     if (jourAffiche === jourReel) {
       h += '<p class="prochain">Prochain tchip dans<strong id="compte">' + avantMinuit() + '</strong></p>';
     }
@@ -381,7 +390,119 @@
       '<li><span class="pastille p4">4</span><div><b>Partage sans spoiler.</b> Ta grille montre ton score, jamais la réponse. Reviens chaque jour pour faire grimper ta série 🔥.</div></li>' +
       '</ol>' +
       '<div class="exemple-grille">Tchip #12 · 3/4\n💬 🟥🟩\n🌍 ✅\n🔥 Série : 5 jours</div>' +
-      '<p class="vide">🟥 un essai raté · 🟩 sens trouvé · 🌍 le bonus pays. Nouveau tchip chaque jour à minuit.</p>');
+      '<p class="vide">🟥 un essai raté · 🟩 sens trouvé · 🌍 le bonus pays. Nouveau tchip chaque jour à minuit.</p>' +
+      '<button class="btn secondaire" data-act="proposer">' + ICONES.bulle + 'Proposer une expression</button>');
+  }
+
+  // ---------- Autres sens (une expression peut vouloir dire autre chose ailleurs) ----------
+  function autresSensHtml(e) {
+    if (!e.autresSens || !e.autresSens.length) return "";
+    var li = e.autresSens.map(function (a) {
+      return '<li><b>' + esc(a.sens) + '</b>' + (a.ou ? '<span> · ' + esc(a.ou) + '</span>' : '') + '</li>';
+    }).join("");
+    return '<div><dt>Ailleurs, ça veut aussi dire</dt><dd><ul class="autres-sens">' + li + '</ul></dd></div>';
+  }
+
+  // ---------- Proposer une expression ----------
+  var brouillon = null;
+  function brouillonVide() { return { expression: "", pays: "", lieu: "", sens: [{ sens: "", ou: "" }], exemple: "", pseudo: "" }; }
+
+  function optionsPays(choisi) {
+    var codes = Object.keys(PAYS).sort(function (a, b) { return PAYS[a].nom.localeCompare(PAYS[b].nom, "fr"); });
+    return '<option value="">Choisis…</option>' + codes.map(function (c) {
+      return '<option value="' + c + '"' + (c === choisi ? ' selected' : '') + '>' + PAYS[c].drapeau + ' ' + esc(PAYS[c].nom) + '</option>';
+    }).join("") + '<option value="AUTRE"' + (choisi === "AUTRE" ? ' selected' : '') + '>Un autre pays (précise-le dessous)</option>';
+  }
+
+  function lireFormulaire() {
+    var f = document.getElementById("form-proposer");
+    if (!f) return;
+    brouillon.expression = f.elements["p-expression"].value;
+    brouillon.pays = f.elements["p-pays"].value;
+    brouillon.lieu = f.elements["p-lieu"].value;
+    brouillon.exemple = f.elements["p-exemple"].value;
+    brouillon.pseudo = f.elements["p-pseudo"].value;
+    brouillon.sens = brouillon.sens.map(function (s, i) {
+      return { sens: f.elements["p-sens-" + i].value, ou: f.elements["p-ou-" + i] ? f.elements["p-ou-" + i].value : "" };
+    });
+    ecrire("tchip:brouillon", brouillon);
+  }
+
+  function feuilleProposer() {
+    if (!brouillon) brouillon = lire("tchip:brouillon", null) || brouillonVide();
+    var champsSens = brouillon.sens.map(function (s, i) {
+      return '<fieldset class="sens-bloc"><legend>Sens ' + (i + 1) + (i === 0 ? ' (le plus courant)' : '') + '</legend>' +
+        '<label for="p-sens-' + i + '">Ça veut dire…</label>' +
+        '<input id="p-sens-' + i + '" name="p-sens-' + i + '" maxlength="90" value="' + esc(s.sens) + '" placeholder="' + (i === 0 ? 'Ex. : une personne très diplômée' : 'Un autre sens') + '"' + (i === 0 ? ' required' : '') + '>' +
+        (i > 0 ? '<label for="p-ou-' + i + '">Où ou dans quel contexte ? <span class="opt">facultatif</span></label>' +
+          '<input id="p-ou-' + i + '" name="p-ou-' + i + '" maxlength="60" value="' + esc(s.ou) + '" placeholder="Ex. : chez les jeunes, au Gabon…">' +
+          '<button type="button" class="lien-retirer" data-act="retirer-sens" data-index="' + i + '">Retirer ce sens</button>' : '') +
+        '</fieldset>';
+    }).join("");
+    feuille('<header><h2>Propose ton expression</h2>' + boutonFermer() + '</header>' +
+      '<p class="vide">Une expression qu\'on dit chez toi et que tout le monde devrait connaître. Elle peut avoir plusieurs sens : ajoute-les tous.</p>' +
+      '<form id="form-proposer" class="formulaire" novalidate>' +
+      '<label for="p-expression">L\'expression</label>' +
+      '<input id="p-expression" name="p-expression" maxlength="60" required value="' + esc(brouillon.expression) + '" placeholder="Ex. : Long crayon">' +
+      '<div class="deux-colonnes">' +
+      '<div><label for="p-pays">Pays</label><select id="p-pays" name="p-pays" required>' + optionsPays(brouillon.pays) + '</select></div>' +
+      '<div><label for="p-lieu">Ville ou région <span class="opt">facultatif</span></label><input id="p-lieu" name="p-lieu" maxlength="40" value="' + esc(brouillon.lieu) + '" placeholder="Ex. : Douala"></div>' +
+      '</div>' +
+      champsSens +
+      (brouillon.sens.length < SENS_MAX ? '<button type="button" class="btn ajout" data-act="ajouter-sens">+ Ajouter un autre sens</button>' : '') +
+      '<label for="p-exemple">Une phrase d\'exemple <span class="opt">facultatif</span></label>' +
+      '<textarea id="p-exemple" name="p-exemple" maxlength="200" rows="2" placeholder="Comment on l\'emploie au quotidien">' + esc(brouillon.exemple) + '</textarea>' +
+      '<label for="p-pseudo">Ton pseudo, pour te citer <span class="opt">facultatif</span></label>' +
+      '<input id="p-pseudo" name="p-pseudo" maxlength="30" value="' + esc(brouillon.pseudo) + '" placeholder="Ex. : Aya de Yopougon">' +
+      '<p class="erreur-form" id="erreur-form" hidden></p>' +
+      '<button type="submit" class="btn">Préparer ma proposition</button>' +
+      '</form>');
+    var f = document.getElementById("form-proposer");
+    f.addEventListener("input", lireFormulaire);
+    f.addEventListener("submit", function (ev) { ev.preventDefault(); validerProposition(); });
+  }
+
+  function texteProposition() {
+    var b = brouillon;
+    var p = b.pays === "AUTRE" ? "Autre pays" : (PAYS[b.pays] ? PAYS[b.pays].drapeau + " " + PAYS[b.pays].nom : "");
+    var lignes = [
+      "Expression : " + b.expression.trim(),
+      "Pays : " + p + (b.lieu.trim() ? " (" + b.lieu.trim() + ")" : "")
+    ];
+    b.sens.forEach(function (s, i) {
+      if (!s.sens.trim()) return;
+      lignes.push("Sens " + (i + 1) + " : " + s.sens.trim() + (s.ou && s.ou.trim() ? " — " + s.ou.trim() : ""));
+    });
+    if (b.exemple.trim()) lignes.push("Exemple : " + b.exemple.trim());
+    if (b.pseudo.trim()) lignes.push("Proposé par : " + b.pseudo.trim());
+    return lignes.join("\n");
+  }
+
+  function validerProposition() {
+    lireFormulaire();
+    var err = document.getElementById("erreur-form");
+    var manque = [];
+    if (!brouillon.expression.trim()) manque.push("l'expression");
+    if (!brouillon.pays) manque.push("le pays");
+    if (!brouillon.sens[0].sens.trim()) manque.push("au moins un sens");
+    if (brouillon.pays === "AUTRE" && !brouillon.lieu.trim()) manque.push("le nom du pays (dans « Ville ou région »)");
+    if (manque.length) {
+      err.textContent = "Il manque " + manque.join(", ") + ".";
+      err.hidden = false;
+      return;
+    }
+    var texte = texteProposition();
+    var titre = "Proposition : " + brouillon.expression.trim();
+    var corps = texte + "\n\n---\nEnvoyé depuis le jeu Tchip.";
+    var lien = DEPOT_PROPOSITIONS + "/issues/new?labels=proposition&title=" + encodeURIComponent(titre) + "&body=" + encodeURIComponent(corps);
+    feuille('<header><h2>Merci, c\'est prêt !</h2>' + boutonFermer() + '</header>' +
+      '<div class="exemple-grille">' + esc(texte) + '</div>' +
+      '<p>Envoie-la sur la page des propositions de Tchip. On la fait relire par des gens de ton pays avant de la mettre en jeu.</p>' +
+      '<a class="btn" href="' + esc(lien) + '" target="_blank" rel="noopener">Envoyer ma proposition</a>' +
+      '<p class="vide">L\'envoi passe par GitHub et demande un compte gratuit. Pas de compte ? Copie le texte et envoie-le-nous sur nos réseaux.</p>' +
+      '<button class="btn secondaire" data-act="copier-proposition">Copier le texte</button>' +
+      '<button class="btn secondaire" data-act="nouvelle-proposition">Proposer une autre expression</button>');
+    feuilleProposer.texte = texte;
   }
 
   function feuilleStats() {
@@ -433,13 +554,40 @@
       case "archives": return feuilleArchives();
       case "fermer": return fermerFeuille();
       case "partager": return partager();
+      case "proposer": return feuilleProposer();
+      case "ajouter-sens":
+        lireFormulaire();
+        if (brouillon.sens.length < SENS_MAX) brouillon.sens.push({ sens: "", ou: "" });
+        ecrire("tchip:brouillon", brouillon);
+        feuilleProposer();
+        var dernier = document.getElementById("p-sens-" + (brouillon.sens.length - 1));
+        if (dernier) dernier.focus();
+        return;
+      case "retirer-sens":
+        lireFormulaire();
+        brouillon.sens.splice(+b.getAttribute("data-index"), 1);
+        ecrire("tchip:brouillon", brouillon);
+        return feuilleProposer();
+      case "copier-proposition":
+        return copier(feuilleProposer.texte || "", function () { toast("Texte copié !"); });
+      case "nouvelle-proposition":
+        brouillon = brouillonVide();
+        ecrire("tchip:brouillon", brouillon);
+        return feuilleProposer();
       case "aujourdhui": chargerJour(jourReel); rendre(); window.scrollTo(0, 0); return;
     }
   });
   document.addEventListener("keydown", function (ev) { if (ev.key === "Escape") fermerFeuille(); });
 
   // ---------- Démarrage ----------
-  chargerJour(jourReel);
+  // En local seulement : ?jour=N pour tester n'importe quel jour
+  var apercu = null;
+  try {
+    var local = location.protocol === "file:" || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    var q = new URLSearchParams(location.search).get("jour");
+    if (local && q && +q >= 1) apercu = +q;
+  } catch (e) {}
+  chargerJour(apercu || jourReel);
   rendre();
   if (!lire("tchip:vu-aide", false)) { ecrire("tchip:vu-aide", true); feuilleAide(); }
 
