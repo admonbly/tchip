@@ -24,6 +24,21 @@ Les expressions sont dans `data/expressions.js`. L'ordre du tableau donne l'ordr
 
 Deux expressions synonymes du même pays doivent avoir **exactement le même sens** (ex. « Ya fohi » et « Y a pas drap » : « Il n'y a pas de problème »). Le jeu évite alors de les proposer ensemble dans une même question.
 
+## Une expression, plusieurs sens
+
+Le jeu ne compte qu'**une** bonne réponse, celle du pays indiqué. Les autres sens vont dans `ailleurs` : ils s'affichent dans la fiche découverte sous « Ailleurs, ça veut aussi dire ». Règle importante : **aucun leurre ne doit être un vrai sens** de l'expression, sinon le joueur aurait raison en perdant (`npm run verifier` le refuse).
+
+Si l'expression s'emploie **avec le même sens** dans d'autres pays, liste-les dans `aussi` : ils ne seront jamais proposés comme mauvaise réponse au bonus « d'où ça vient ? ».
+
+## Traiter une proposition de joueur
+
+Les propositions arrivent en tickets GitHub avec l'étiquette `proposition` (formulaire « Proposer une expression » dans le jeu, ou directement sur GitHub).
+1. Faire confirmer le sens par au moins une personne du pays (en commentaire du ticket).
+2. Choisir le sens principal ; les autres vont dans `ailleurs`.
+3. Écrire 3 leurres plausibles, une phrase d'exemple, une fiche courte, choisir le thème et noter la prononciation.
+4. Si une voix est jointe et que la personne a donné son accord, suivre « Enregistrer une voix » ci-dessous.
+5. Ajouter l'entrée à la fin du tableau, citer le pseudo dans la fiche si la personne le souhaite, puis fermer le ticket.
+
 ## Ajouter un pays
 
 Ajoute une ligne dans `TCHIP_PAYS`, en haut du même fichier, puis génère son drapeau :

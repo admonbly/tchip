@@ -454,3 +454,32 @@ body:not(.en-serie) .toast { bottom: calc(var(--h-onglets) + 16px + env(safe-are
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- Autres sens ---------- */
+.autres-sens { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.autres-sens li { background: var(--sable); border-radius: var(--r-sm); padding: 6px 10px; }
+.autres-sens span { color: var(--encre-douce); font-size: 14px; }
+
+/* ---------- Proposer une expression ---------- */
+a.btn { text-decoration: none; }
+.proposer-carte { display: flex; flex-direction: column; gap: 10px; background: var(--sable); }
+.proposer-carte h3 { font-family: var(--f-display); font-weight: 800; font-size: 24px; line-height: 1.1; margin: 0; }
+.proposer-carte p { margin: 0; }
+.formulaire { display: flex; flex-direction: column; gap: 8px; }
+.formulaire label { font-weight: 700; font-size: 14px; margin-top: 6px; }
+.formulaire .opt { font-weight: 500; color: var(--encre-douce); }
+.formulaire input, .formulaire select, .formulaire textarea {
+  width: 100%; min-height: 48px; padding: 10px 12px; font: inherit; font-size: 16px;
+  color: var(--encre); background: var(--surface);
+  border: 2.5px solid var(--encre); border-radius: var(--r-md);
+}
+.formulaire textarea { resize: vertical; }
+.formulaire input::placeholder, .formulaire textarea::placeholder { color: var(--encre-douce); opacity: .8; }
+.deux-colonnes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.deux-colonnes > div { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.sens-bloc { margin: 6px 0 0; padding: 4px 12px 12px; border: 2.5px dashed var(--encre-douce); border-radius: var(--r-md); display: flex; flex-direction: column; gap: 6px; }
+.sens-bloc legend { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 0 6px; }
+.lien-retirer { align-self: flex-start; background: none; border: none; padding: 6px 0; text-decoration: underline; color: var(--encre-douce); font-weight: 600; font-size: 14px; }
+.btn.ajout { background: transparent; color: var(--encre); border: 2.5px dashed var(--encre); box-shadow: none; min-height: 48px; font-size: 15px; }
+.erreur-form { margin: 4px 0 0; padding: 10px 12px; border-radius: var(--r-md); background: var(--piment); color: var(--encre-fixe); font-weight: 700; }
+@media (max-width: 360px) { .deux-colonnes { grid-template-columns: 1fr; } }

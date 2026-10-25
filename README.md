@@ -55,6 +55,8 @@ tools/                 build, vérification, tests, icônes, polices, drapeaux, 
 .github/workflows/     CI : tests, vérification, compilation Android et iOS, publication GitHub Pages
 RELECTURE.md           liste de relecture des expressions par pays (⚠️ = à valider en priorité)
 REGLES.md              règles du jeu détaillées
+RELECTURE.md           les 120 expressions classées par pays, pour la relecture
+.github/ISSUE_TEMPLATE formulaire des propositions d'expressions
 CONTRIBUER.md          comment ajouter des expressions
 DEPLOIEMENT.md         publier sur l'App Store et Google Play, pas à pas
 ```
@@ -68,6 +70,9 @@ En haut de `app.js` :
 - `ESSAIS_SENS` : nombre d'essais pour trouver le sens (2 par défaut).
 - `CONTENU_URL` : où les apps vont chercher les nouvelles expressions (GitHub Pages par défaut). Elles n'acceptent qu'une liste valide qui ne retire aucune expression, pour que l'ordre des jours ne bouge jamais.
 - `TELEMETRYDECK_APP_ID` : vide = pas de statistiques. Voir `DEPLOIEMENT.md` pour les activer.
+- `DEPOT_PROPOSITIONS` : le dépôt GitHub où arrivent les propositions des joueurs, sous forme de tickets.
+
+En local, ajoute `?jour=N` à l'adresse pour tester n'importe quel jour (désactivé une fois en ligne).
 
 ## Données du joueur
 
@@ -75,23 +80,27 @@ Pas de compte. Les parties, la série, les stats, les mots appris et le passepor
 
 ## Feuille de route
 
-**V1 (ce dépôt)** : jeu du jour, indice, bonus pays, partage, série, stats, archives ; mode Voyager (séries par pays, lexique par thème, prononciation, voix) ; Carnet (passeport, accent, révisions espacées) ; 230 expressions de 21 pays ; thème clair et sombre, site hors ligne, apps iOS et Android (rappel quotidien, retour haptique, partage natif), contenu mis à jour sans passer par les stores.
+**V1 (ce dépôt)** : jeu du jour, indice, bonus pays, partage, série, stats, archives ; mode Voyager (séries par pays, lexique par thème, prononciation, voix) ; Carnet (passeport, accent, révisions espacées) ; 230 expressions de 21 pays, dont certaines à plusieurs sens ; propositions des joueurs ; thème clair et sombre, site hors ligne, apps iOS et Android (rappel quotidien, retour haptique, partage natif), contenu mis à jour sans passer par les stores.
 
 **V1.1 — avant le lancement**
 - Faire relire chaque expression par des locuteurs de chaque pays (`RELECTURE.md`), en priorité les ⚠️ et les brouillons à partir du #39.
 - Enregistrer les premières voix, en commençant par les salutations de chaque pays (`CONTRIBUER.md`).
-- Acheter le domaine, le brancher dans `ADRESSE_PARTAGE`.
+- Acheter le domaine, le brancher dans `ADRESSE_PARTAGE` et sur GitHub Pages.
 - Image de partage générée (story TikTok / Instagram) en plus du texte.
 
 **V2 — le moteur viral**
 - Choix du pays au premier lancement et **duel des pays** du jour (classement par pays, puis par ville).
 - Packs « avant de partir » : les 20 mots indispensables d'une ville.
-- Propositions d'expressions et de voix par les joueurs, validées par vote.
+- Propositions des joueurs directement dans l'appli (sans compte GitHub), voix comprises, et votes de la communauté sur les sens.
 - Petit serveur (Supabase ou Firebase) pour les classements.
 
 **V3 — monétisation**
 - Widget écran d'accueil.
 - « Tchip+ » en achat intégré : archives illimitées, packs thématiques. Pas de pub au lancement (voir `DEPLOIEMENT.md`).
+
+## Les propositions des joueurs
+
+À la fin de chaque partie, le joueur peut proposer une expression de chez lui, avec jusqu'à 3 sens (et pour chaque sens, où ou dans quel contexte on l'emploie). Le jeu prépare un ticket GitHub prérempli avec l'étiquette `proposition`. Pense à créer cette étiquette dans *Issues → Labels*. Ceux qui n'ont pas de compte GitHub peuvent copier le texte et l'envoyer sur les réseaux.
 
 ## Identité
 
