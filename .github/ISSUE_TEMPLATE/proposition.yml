@@ -1,0 +1,41 @@
+name: Proposer une expression
+description: Une expression de chez toi que tout le monde devrait connaître
+title: "Proposition : "
+labels: ["proposition"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci ! Chaque proposition est relue par des personnes du pays avant d'entrer dans le jeu.
+  - type: input
+    id: expression
+    attributes:
+      label: L'expression
+      placeholder: "Ex. : Long crayon"
+    validations:
+      required: true
+  - type: input
+    id: pays
+    attributes:
+      label: Pays (et ville ou région si tu veux)
+      placeholder: "Ex. : Cameroun, Douala"
+    validations:
+      required: true
+  - type: textarea
+    id: sens
+    attributes:
+      label: Le ou les sens
+      description: Une ligne par sens. Précise où ou dans quel contexte quand le sens change.
+      placeholder: |
+        Sens 1 : une personne très diplômée
+        Sens 2 : …
+    validations:
+      required: true
+  - type: textarea
+    id: exemple
+    attributes:
+      label: Une phrase d'exemple
+  - type: input
+    id: pseudo
+    attributes:
+      label: Ton pseudo pour te citer (facultatif)
