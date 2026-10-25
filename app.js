@@ -1,9 +1,10 @@
-/* Tchip — logique du jeu (v1, sans serveur)
+/* Tchip — logique du jeu (sans compte ni serveur de jeu)
  * - Une expression par jour, la même pour tout le monde, numérotée depuis le lancement.
  * - Étape 1 « Ça veut dire quoi ? » : 4 propositions, 2 essais. Après une erreur, l'indice (phrase d'exemple) s'ouvre.
  * - Étape 2 « D'où ça vient ? » : 4 pays, 1 essai, +1 point.
  * - Score sur 4 : 3 (1er essai) ou 1 (2e essai) ou 0, + 1 pour le pays.
- * Tout est stocké dans le navigateur (localStorage), sans compte.
+ * La progression reste sur l'appareil (localStorage). Les mêmes fichiers tournent sur le web
+ * et dans les apps iOS/Android (Capacitor) : les fonctions natives sont optionnelles.
  */
 (function () {
   "use strict";
@@ -12,11 +13,33 @@
   var LANCEMENT = { a: 2026, m: 10, j: 25 };      // jour #1 (année, mois 1-12, jour)
   var ADRESSE_PARTAGE = "tchip.app";               // à remplacer par le vrai domaine
   var ESSAIS_SENS = 2;
+  var VERSION_APP = "dev";                          // remplacé par la version de package.json au build
+  // Expressions publiées en ligne : les apps reçoivent les nouvelles sans mise à jour sur les stores. "" = désactivé.
+  var CONTENU_URL = "https://admonbly.github.io/tchip/data/expressions.json";
+  // Statistiques anonymes (TelemetryDeck, hébergé en UE, sans traçage publicitaire). "" = désactivé.
+  var TELEMETRYDECK_APP_ID = "";
+  var HEURES_RAPPEL = [7, 9, 12, 18, 20];
+  var ID_RAPPEL = 1;
 
-  var EXPR = window.TCHIP_EXPRESSIONS || [];
-  var PAYS = window.TCHIP_PAYS || {};
+  var EXPR_EMBARQUEES = window.TCHIP_EXPRESSIONS || [];
+  var PAYS_EMBARQUES = window.TCHIP_PAYS || {};
+  var EXPR = EXPR_EMBARQUEES;
+  var PAYS = PAYS_EMBARQUES;
+  var verifier = window.TCHIP_VERIFIER || null; // verification.js ; sans lui, aucun contenu distant n'est accepté
   var app = document.getElementById("app");
   var toastEl = document.getElementById("toast");
+
+  // Un pays absent de TCHIP_PAYS ne doit jamais casser le rendu : repli neutre.
+  function paysInfo(code) {
+    return Object.prototype.hasOwnProperty.call(PAYS, code) ? PAYS[code] : { nom: String(code), drapeau: "🏳️" };
+  }
+
+  // Contrôle des données au démarrage (silencieux pour le joueur, visible en console, bloquant au build).
+  function verifierDonnees() {
+    var pbs = verifier ? verifier(EXPR, PAYS) : [];
+    if (pbs.length && window.console && console.error) console.error("Tchip — données à corriger :\n- " + pbs.join("\n- "));
+    return pbs;
+  }
 
   // ---------- Stockage prudent ----------
   function lire(cle, defaut) {
@@ -24,7 +47,119 @@
   }
   function ecrire(cle, val) {
     try { localStorage.setItem(cle, JSON.stringify(val)); } catch (e) { /* stockage indisponible : on joue quand même */ }
+    if (cle !== "tchip:contenu") sauvegarderSecours();
   }
+
+  // ---------- Copie de secours native (apps) ----------
+  // iOS peut vider le stockage d'une WebView quand le téléphone manque de place : la série 🔥 serait perdue.
+  // On garde donc une copie de la progression dans le stockage natif de l'app (plugin Preferences).
+  var CLE_SECOURS = "tchip:secours";
+  var secoursEnAttente = null;
+  function sauvegarderSecours() {
+    var prefs = plugin("Preferences");
+    if (!prefs) return;
+    clearTimeout(secoursEnAttente);
+    secoursEnAttente = setTimeout(function () {
+      var copie = {};
+      try {
+        Object.keys(localStorage).forEach(function (k) {
+          if (k.indexOf("tchip:") === 0 && k !== "tchip:contenu") copie[k] = localStorage.getItem(k);
+        });
+      } catch (e) { return; }
+      prefs.set({ key: CLE_SECOURS, value: JSON.stringify(copie) }).catch(function () {});
+    }, 500);
+  }
+  function restaurerSecours() {
+    var prefs = plugin("Preferences");
+    if (!prefs || lire("tchip:stats", null)) return; // stockage intact : rien à faire
+    prefs.get({ key: CLE_SECOURS }).then(function (r) {
+      var copie = r && r.value ? JSON.parse(r.value) : null;
+      if (!copie || !copie["tchip:stats"]) return;
+      Object.keys(copie).forEach(function (k) { try { localStorage.setItem(k, copie[k]); } catch (e) {} });
+      if (lire("tchip:stats", null)) location.reload(); // seulement si l'écriture a réussi (pas de boucle)
+    }).catch(function () {});
+  }
+  function reglages() {
+    var r = lire("tchip:reglages", {});
+    return { rappel: r.rappel === true, heure: HEURES_RAPPEL.indexOf(r.heure) !== -1 ? r.heure : 9, statsAnonymes: r.statsAnonymes !== false };
+  }
+  function changerReglage(cle, val) { var r = reglages(); r[cle] = val; ecrire("tchip:reglages", r); }
+
+  // ---------- Contenu distant ----------
+  // Accepté seulement s'il est valide et ne retire rien : l'ordre des jours ne doit jamais bouger.
+  function contenuAcceptable(c) {
+    return !!(verifier && c && Array.isArray(c.expressions) && c.pays && typeof c.pays === "object" &&
+      c.expressions.length >= EXPR_EMBARQUEES.length && verifier(c.expressions, c.pays).length === 0);
+  }
+  function appliquerContenu(c) {
+    if (contenuAcceptable(c) && c.expressions.length >= EXPR.length) { EXPR = c.expressions; PAYS = c.pays; return true; }
+    return false;
+  }
+  function partieCommencee() { return !!(etat && (etat.erreurs.length || etat.sensFini || etat.fini)); }
+  var dernierRafraichissement = 0;
+  function rafraichirContenu() {
+    if (!CONTENU_URL || !window.fetch || Date.now() - dernierRafraichissement < 3600000) return; // au plus une fois par heure
+    dernierRafraichissement = Date.now();
+    fetch(CONTENU_URL, { cache: "no-cache" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (c) {
+        if (!contenuAcceptable(c)) return;
+        ecrire("tchip:contenu", c);
+        var avant = P && P.e.expression;
+        if (!appliquerContenu(c)) return;
+        // l'expression du jour a changé (base qui s'allonge) : on l'affiche si la partie n'a pas commencé
+        if (jourAffiche === jourReel && !partieCommencee() && puzzle(jourReel).e.expression !== avant && !document.getElementById("feuille")) {
+          chargerJour(jourReel); rendre();
+        }
+      })
+      .catch(function () { /* hors ligne : on garde le contenu connu */ });
+  }
+
+  // ---------- Pont natif (apps iOS / Android) ----------
+  var Cap = window.Capacitor;
+  function estNatif() { return !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform()); }
+  function plugin(nom) {
+    if (!estNatif() || !Cap.registerPlugin) return null;
+    return (Cap.Plugins && Cap.Plugins[nom]) || Cap.registerPlugin(nom);
+  }
+
+  // ---------- Statistiques anonymes ----------
+  // Un identifiant aléatoire (jamais lié à une personne), renouvelé au bout de 13 mois, haché avant envoi.
+  var SESSION = Math.random().toString(36).slice(2, 10);
+  function idAnonyme() {
+    var id = lire("tchip:id", null);
+    if (!id || !id.v || Date.now() - id.cree > 395 * 86400000) {
+      id = { v: Math.random().toString(36).slice(2) + Date.now().toString(36), cree: Date.now() };
+      ecrire("tchip:id", id);
+    }
+    return id.v;
+  }
+  function sha256(txt) {
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt)).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
+    });
+  }
+  function signal(type, donnees) {
+    if (!TELEMETRYDECK_APP_ID || !reglages().statsAnonymes || !window.fetch || !window.crypto || !crypto.subtle) return;
+    var payload = { plateforme: estNatif() ? Cap.getPlatform() : "web", version: VERSION_APP };
+    Object.keys(donnees || {}).forEach(function (k) { payload[k] = String(donnees[k]); });
+    sha256(idAnonyme()).then(function (user) {
+      var corps = { appID: TELEMETRYDECK_APP_ID, clientUser: user, sessionID: SESSION, type: type, payload: payload };
+      if (VERSION_APP === "dev") corps.isTestMode = true;
+      return fetch("https://nom.telemetrydeck.com/v2/", {
+        method: "POST", mode: "cors", keepalive: true,
+        headers: { "Content-Type": "application/json" }, body: JSON.stringify([corps])
+      });
+    }).catch(function () {});
+  }
+  // Erreurs JavaScript : remontées (message court, sans donnée personnelle) pour corriger vite.
+  var erreursEnvoyees = 0;
+  function signalerErreur(message, source) {
+    if (erreursEnvoyees++ >= 3) return;
+    signal("Erreur.js", { message: String(message || "?").slice(0, 200), source: String(source || "").split("/").pop().slice(0, 80) });
+  }
+  window.addEventListener("error", function (ev) { signalerErreur(ev.message, (ev.filename || "") + ":" + (ev.lineno || 0)); });
+  window.addEventListener("unhandledrejection", function (ev) { signalerErreur(ev.reason && (ev.reason.message || ev.reason), "promesse"); });
 
   // ---------- Dates ----------
   function numeroDuJour(date) {
@@ -85,10 +220,11 @@
   }
   function sauver() { ecrire(cleJour(jourAffiche), etat); }
 
-  function score(st) {
+  // score(état, expression) : indépendant de l'état global, pour pouvoir noter n'importe quel jour.
+  function score(st, e) {
     var s = 0;
     if (st.sensOk) s += st.erreurs.length === 0 ? 3 : 1;
-    if (st.pays && st.pays === P.e.pays) s += 1;
+    if (st.pays && st.pays === e.pays) s += 1;
     return s;
   }
 
@@ -104,7 +240,7 @@
     s.serie = s.dernier === jourReel - 1 ? s.serie + 1 : 1;
     s.meilleure = Math.max(s.meilleure, s.serie);
     s.dernier = jourReel;
-    s.distrib[score(etat)] += 1;
+    s.distrib[score(etat, P.e)] += 1;
     ecrire("tchip:stats", s);
   }
   function serieActuelle() {
@@ -122,16 +258,23 @@
     toastEl.textContent = msg;
     toastEl.classList.add("visible");
     clearTimeout(toast._t);
-    toast._t = setTimeout(function () { toastEl.classList.remove("visible"); }, 1800);
+    toast._t = setTimeout(function () { toastEl.classList.remove("visible"); }, Math.max(1800, msg.length * 60));
   }
-  function vibrer(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+  // Retour haptique : natif dans les apps (l'API web de vibration n'existe pas sur iPhone).
+  function vibrer(type) {
+    var h = plugin("Haptics");
+    if (h) { h.notification({ type: type === "succes" ? "SUCCESS" : "ERROR" }).catch(function () {}); return; }
+    try { if (navigator.vibrate) navigator.vibrate(type === "succes" ? 30 : 80); } catch (e) {}
+  }
 
   var ICONES = {
     aide: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M9.3 9.2a2.8 2.8 0 0 1 5.4 1c0 1.9-2.7 2.4-2.7 4"/><path d="M12 17.6h.01"/></svg>',
     stats: '<svg viewBox="0 0 24 24"><path d="M5 20V12M12 20V5M19 20v-5"/></svg>',
     archives: '<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',
     partager: '<svg viewBox="0 0 24 24"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>',
-    fermer: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+    fermer: '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+    reglages: '<svg viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>',
+    cloche: '<svg viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>'
   };
 
   var WORDMARK = '<svg class="wordmark" viewBox="-8 0 232 100" role="img" aria-label="Tchip"><g class="ink" fill="none" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12V54q0 16 16 16"/><path d="M2 32H28"/><path d="M74 36A20 20 0 1 0 74 64"/><path d="M94 10V70M94 48A16 16 0 0 1 126 48V70"/><path d="M146 36V70"/><path d="M168 36V92"/><circle cx="186" cy="52" r="17"/></g><path d="M146 1c6.6 0 11 4.2 11 9.4s-4.4 9.4-11 9.4c-1.4 0-2.7-.2-3.9-.6L136 22l1.4-4.6c-1.6-1.8-2.4-4.2-2.4-7C135 5.2 139.4 1 146 1z" fill="var(--piment)"/></svg>';
@@ -171,6 +314,7 @@
       '<button class="icon-btn" data-act="archives" aria-label="Jours précédents">' + ICONES.archives + '</button>' +
       '<button class="icon-btn" data-act="stats" aria-label="Mes statistiques">' + ICONES.stats + '</button>' +
       '<button class="icon-btn" data-act="aide" aria-label="Comment jouer">' + ICONES.aide + '</button>' +
+      '<button class="icon-btn" data-act="reglages" aria-label="Réglages">' + ICONES.reglages + '</button>' +
       '</div></header>';
   }
 
@@ -212,7 +356,7 @@
       h += '<div class="etape-titre"><h2>Choisis le bon sens</h2><span>' + (ouvert ? '1 point' : '3 points') + '</span></div>';
       h += '<div class="options">';
       P.sens.forEach(function (txt, i) {
-        var faux = etat.erreurs.indexOf(txt) !== -1;
+        var faux = etat.erreurs.indexOf(i) !== -1;
         h += '<button class="option' + (faux ? ' faux' : '') + '" data-sens="' + i + '"' + (faux ? ' disabled' : '') + '>' +
              '<span class="lettre">' + (faux ? '✕' : "ABCD"[i]) + '</span><span>' + esc(txt) + '</span></button>';
       });
@@ -220,8 +364,8 @@
     } else {
       h += '<div class="etape-titre"><h2>D\'où vient cette expression ?</h2><span>+1 point</span></div><div class="options">';
       P.pays.forEach(function (code, i) {
-        var p = PAYS[code];
-        h += '<button class="option" data-pays="' + i + '"><span class="drapeau" aria-hidden="true">' + p.drapeau + '</span><span>' + esc(p.nom) + '</span></button>';
+        var p = paysInfo(code);
+        h += '<button class="option" data-pays="' + i + '"><span class="drapeau" aria-hidden="true">' + esc(p.drapeau) + '</span><span>' + esc(p.nom) + '</span></button>';
       });
       h += '</div>';
     }
@@ -245,7 +389,7 @@
   }
 
   function textePartage() {
-    var s = score(etat);
+    var s = score(etat, P.e);
     var serie = serieActuelle();
     return "Tchip #" + jourAffiche + " · " + s + "/4\n" +
       "💬 " + grilleTexte() + "\n" +
@@ -255,7 +399,7 @@
   }
 
   function rendreResultat() {
-    var s = score(etat), p = PAYS[P.e.pays];
+    var s = score(etat, P.e), p = paysInfo(P.e.pays);
     var h = enTete() + ligneDuJour();
     h += '<section class="resultat">';
     h += '<div class="card score-card">' + mascotte(s >= 3 ? "joie" : "neutre") +
@@ -267,12 +411,15 @@
     h += motif();
     h += '<article class="card fiche">' +
          '<h3>«&nbsp;' + esc(P.e.expression) + '&nbsp;»</h3>' +
-         '<p class="origine">' + p.drapeau + ' ' + esc(p.nom) + '</p>' +
+         '<p class="origine">' + esc(p.drapeau) + ' ' + esc(p.nom) + '</p>' +
          '<dl><div><dt>Ça veut dire</dt><dd>' + esc(P.e.sens) + '</dd></div>' +
          '<div><dt>Exemple</dt><dd class="exemple">«&nbsp;' + esc(P.e.exemple) + '&nbsp;»</dd></div>' +
          '<div><dt>Le saviez-vous ?</dt><dd>' + esc(P.e.fiche) + '</dd></div></dl>' +
          '</article>';
+    // Le rappel se propose ici, une seule fois, après une partie : c'est là que la permission a du sens (règle Apple).
+    var proposerRappel = jourAffiche === jourReel && plugin("LocalNotifications") && !reglages().rappel && !lire("tchip:rappel-propose", false);
     h += '<div class="actions"><button class="btn" data-act="partager">' + ICONES.partager + 'Partager mon score</button>' +
+         (proposerRappel ? '<button class="btn secondaire" data-act="proposer-rappel">' + ICONES.cloche + 'Me rappeler le tchip chaque jour</button>' : '') +
          '<button class="btn secondaire" data-act="archives">Jouer un jour précédent</button></div>';
     if (jourAffiche === jourReel) {
       h += '<p class="prochain">Prochain tchip dans<strong id="compte">' + avantMinuit() + '</strong></p>';
@@ -304,11 +451,12 @@
       if (b) { b.classList.add("bon"); b.querySelector(".lettre").textContent = "✓"; }
       app.querySelectorAll("[data-sens]").forEach(function (x) { x.disabled = true; });
       animerMascotte("joie");
+      vibrer("succes");
       toast(etat.erreurs.length ? "Bien rattrapé !" : "Direct ! +3");
       setTimeout(rendre, 900);
     } else {
-      etat.erreurs.push(txt);
-      vibrer(80);
+      etat.erreurs.push(i);
+      vibrer("erreur");
       if (etat.erreurs.length >= ESSAIS_SENS) {
         etat.sensFini = true; sauver();
         rendre(); animerMascotte("tchip");
@@ -331,15 +479,19 @@
       else if (j === i) b.classList.add("faux");
       else b.classList.add("eteint");
     });
-    toast(ok ? "Bien vu ! +1" : "Raté, c'était " + PAYS[P.e.pays].nom);
-    if (!ok) vibrer(80);
+    toast(ok ? "Bien vu ! +1" : "Raté, c'était " + paysInfo(P.e.pays).nom);
+    vibrer(ok ? "succes" : "erreur");
     enregistrerStats();
+    signal("Partie.finie", { score: score(etat, P.e), jour: jourAffiche, archive: jourAffiche !== jourReel });
     setTimeout(rendre, 1100);
   }
 
   function partager() {
     var t = textePartage();
     var fini = function () { toast("Score copié, colle-le où tu veux !"); };
+    signal("Partage");
+    var natif = plugin("Share");
+    if (natif) { natif.share({ text: t, dialogTitle: "Partager mon score" }).catch(function () { /* partage annulé */ }); return; }
     try {
       if (navigator.share) {
         navigator.share({ text: t }).catch(function () { copier(t, fini); });
@@ -360,16 +512,117 @@
 
   // ---------- Feuilles ----------
   function boutonFermer() { return '<button class="icon-btn" data-act="fermer" aria-label="Fermer">' + ICONES.fermer + '</button>'; }
-  function feuille(contenu) {
+  function feuille(contenu, nom) {
     fermerFeuille();
     var fond = document.createElement("div");
     fond.className = "feuille-fond"; fond.id = "feuille";
+    fond.setAttribute("data-feuille", nom || "");
     fond.innerHTML = '<div class="feuille" role="dialog" aria-modal="true">' + contenu + '</div>';
     fond.addEventListener("click", function (ev) { if (ev.target === fond) fermerFeuille(); });
     document.body.appendChild(fond);
     var f = fond.querySelector("[data-act='fermer']"); if (f) f.focus();
   }
   function fermerFeuille() { var f = document.getElementById("feuille"); if (f) f.remove(); }
+  function feuilleOuverte(nom) { var f = document.getElementById("feuille"); return !!f && (!nom || f.getAttribute("data-feuille") === nom); }
+
+  // ---------- Rappel quotidien (notification locale, programmée sur l'appareil : aucun serveur) ----------
+  function programmerRappel(heure) {
+    var ln = plugin("LocalNotifications");
+    if (!ln) return Promise.resolve(false);
+    return ln.cancel({ notifications: [{ id: ID_RAPPEL }] }).catch(function () {}).then(function () {
+      return ln.schedule({ notifications: [{
+        id: ID_RAPPEL,
+        title: "Tchip",
+        body: "Ton expression du jour t'attend 🌶️ Tu sais ce qu'elle veut dire ?",
+        schedule: { on: { hour: heure, minute: 0 }, allowWhileIdle: true },
+        isExactNotification: false // un rappel n'a pas besoin d'alarme exacte : aucune permission spéciale sur Android
+      }] });
+    }).then(function () { return true; });
+  }
+  function activerRappel(heure) {
+    var ln = plugin("LocalNotifications");
+    if (!ln) return Promise.resolve(false);
+    return ln.requestPermissions().then(function (p) {
+      if (p.display !== "granted") {
+        changerReglage("rappel", false);
+        toast("Notifications refusées : tu peux les autoriser dans les réglages du téléphone.");
+        return false;
+      }
+      return programmerRappel(heure).then(function () {
+        changerReglage("rappel", true); changerReglage("heure", heure);
+        toast("Rappel activé : chaque jour à " + heure + " h");
+        signal("Rappel.active", { heure: heure });
+        return true;
+      });
+    }).catch(function () { toast("Impossible d'activer le rappel."); return false; });
+  }
+  function desactiverRappel() {
+    var ln = plugin("LocalNotifications");
+    changerReglage("rappel", false);
+    if (ln) ln.cancel({ notifications: [{ id: ID_RAPPEL }] }).catch(function () {});
+    signal("Rappel.desactive");
+  }
+  // Au lancement : si le joueur a coupé les notifications ou réinstallé l'app, on remet tout d'aplomb.
+  function verifierRappel() {
+    var ln = plugin("LocalNotifications");
+    if (!ln || !reglages().rappel) return;
+    ln.checkPermissions().then(function (p) {
+      if (p.display !== "granted") { changerReglage("rappel", false); return; }
+      return ln.getPending().then(function (r) {
+        var present = (r.notifications || []).some(function (n) { return n.id === ID_RAPPEL; });
+        if (!present) return programmerRappel(reglages().heure);
+      });
+    }).catch(function () {});
+  }
+
+  // ---------- Réglages, confidentialité ----------
+  function interrupteur(act, actif, titre, detail) {
+    return '<div class="reglage"><div><b>' + titre + '</b><span>' + detail + '</span></div>' +
+      '<button class="interrupteur" role="switch" aria-checked="' + (actif ? "true" : "false") + '" aria-label="' + titre + '" data-act="' + act + '"><span></span></button></div>';
+  }
+  function feuilleReglages() {
+    var r = reglages();
+    var h = '<header><h2>Réglages</h2>' + boutonFermer() + '</header>';
+    if (plugin("LocalNotifications")) {
+      h += interrupteur("rappel", r.rappel, "Rappel quotidien", "Une notification quand le tchip du jour est prêt.");
+      if (r.rappel) {
+        h += '<label class="reglage"><div><b>Heure du rappel</b></div><select data-reglage="heure">' +
+          HEURES_RAPPEL.map(function (x) { return '<option value="' + x + '"' + (x === r.heure ? " selected" : "") + '>' + x + ' h</option>'; }).join("") +
+          '</select></label>';
+      }
+    }
+    if (TELEMETRYDECK_APP_ID) {
+      h += interrupteur("stats-anonymes", r.statsAnonymes, "Statistiques anonymes", "Aide à améliorer le jeu. Sans pub ni traçage, rien qui t'identifie.");
+    }
+    h += '<div class="actions">' +
+      '<button class="btn secondaire" data-act="confidentialite">Confidentialité</button>' +
+      '<button class="btn secondaire" data-act="effacer">Effacer mes données</button></div>' +
+      '<p class="vide version">Tchip ' + esc(VERSION_APP) + ' · sans compte, ta progression reste sur cet appareil.</p>';
+    feuille(h, "reglages");
+  }
+  function feuilleConfidentialite() {
+    feuille('<header><h2>Confidentialité</h2>' + boutonFermer() + '</header><div class="texte-legal">Chargement…</div>', "confidentialite");
+    var zone = function () { return document.querySelector("#feuille .texte-legal"); };
+    fetch("confidentialite.html").then(function (r) { return r.text(); }).then(function (html) {
+      var main = new DOMParser().parseFromString(html, "text/html").querySelector("main");
+      if (!main || !zone()) return;
+      var titre = main.querySelector("h1"); if (titre) titre.remove();
+      zone().innerHTML = main.innerHTML; // notre propre page, embarquée avec l'app
+    }).catch(function () { if (zone()) zone().textContent = "Page indisponible pour le moment."; });
+  }
+  function effacerDonnees() {
+    if (!window.confirm("Effacer ta série, tes stats et tes parties sur cet appareil ? C'est définitif.")) return;
+    var ln = plugin("LocalNotifications");
+    if (ln) ln.cancel({ notifications: [{ id: ID_RAPPEL }] }).catch(function () {});
+    clearTimeout(secoursEnAttente);
+    try {
+      Object.keys(localStorage).filter(function (k) { return k.indexOf("tchip:") === 0; })
+        .forEach(function (k) { localStorage.removeItem(k); });
+    } catch (e) {}
+    var prefs = plugin("Preferences"); // la copie de secours part aussi, sinon elle serait restaurée
+    (prefs ? prefs.remove({ key: CLE_SECOURS }).catch(function () {}) : Promise.resolve())
+      .then(function () { location.reload(); });
+  }
 
   function feuilleAide() {
     feuille('<header><h2>Comment jouer</h2>' + boutonFermer() + '</header>' +
@@ -389,7 +642,7 @@
     var max = Math.max.apply(null, s.distrib.concat([1]));
     var pct = s.joues ? Math.round((s.trouves / s.joues) * 100) : 0;
     var auj = (s.dernier === jourReel) ? lire(cleJour(jourReel), null) : null;
-    var scoreAuj = auj ? (function () { var p0 = P; P = puzzle(jourReel); var sc = score(auj); P = p0; return sc; })() : -1;
+    var scoreAuj = auj ? score(auj, puzzle(jourReel).e) : -1;
     var lignes = "";
     for (var i = 4; i >= 0; i--) {
       var w = Math.max(8, Math.round((s.distrib[i] / max) * 100));
@@ -411,7 +664,7 @@
     for (var n = jourReel; n >= Math.max(1, jourReel - 59); n--) {
       var st = lire(cleJour(n), null);
       var label = n === jourReel ? "Aujourd'hui" : esc(dateDuNumero(n));
-      var etatTxt = st && st.fini ? (function () { var p0 = P; P = puzzle(n); var sc = score(st); P = p0; return sc + "/4"; })() : (st ? "En cours" : "À jouer");
+      var etatTxt = st && st.fini ? score(st, puzzle(n).e) + "/4" : (st ? "En cours" : "À jouer");
       items += '<li><button data-jour="' + n + '"><span>#' + n + ' · ' + label + '</span><span class="etat">' + etatTxt + '</span></button></li>';
     }
     feuille('<header><h2>Jours précédents</h2>' + boutonFermer() + '</header>' +
@@ -434,15 +687,64 @@
       case "fermer": return fermerFeuille();
       case "partager": return partager();
       case "aujourdhui": chargerJour(jourReel); rendre(); window.scrollTo(0, 0); return;
+      case "reglages": return feuilleReglages();
+      case "confidentialite": return feuilleConfidentialite();
+      case "effacer": return effacerDonnees();
+      case "rappel":
+        if (reglages().rappel) { desactiverRappel(); feuilleReglages(); return; }
+        b.disabled = true;
+        return activerRappel(reglages().heure).then(function () { if (feuilleOuverte("reglages")) feuilleReglages(); });
+      case "proposer-rappel":
+        ecrire("tchip:rappel-propose", true);
+        b.disabled = true;
+        return activerRappel(reglages().heure).then(function () { if (etat.fini) rendre(); });
+      case "stats-anonymes":
+        changerReglage("statsAnonymes", !reglages().statsAnonymes);
+        return feuilleReglages();
     }
+  });
+  document.addEventListener("change", function (ev) {
+    if (ev.target.getAttribute("data-reglage") !== "heure") return;
+    var heure = +ev.target.value;
+    changerReglage("heure", heure);
+    programmerRappel(heure).then(function () { toast("Rappel déplacé à " + heure + " h"); }).catch(function () {});
   });
   document.addEventListener("keydown", function (ev) { if (ev.key === "Escape") fermerFeuille(); });
 
+  // Retour dans l'app (après une notification, ou le lendemain) : nouveau jour → nouveau tchip.
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState !== "visible") return;
+    if (numeroDuJour() !== jourReel) { location.reload(); return; }
+    rafraichirContenu();
+  });
+
+  // Bouton retour Android : ferme la feuille ouverte, puis revient au jour, puis met l'app en arrière-plan.
+  var appNatif = plugin("App");
+  if (appNatif && Cap.getPlatform() === "android") {
+    appNatif.addListener("backButton", function () {
+      if (feuilleOuverte()) fermerFeuille();
+      else if (jourAffiche !== jourReel) { chargerJour(jourReel); rendre(); window.scrollTo(0, 0); }
+      else appNatif.minimizeApp();
+    });
+  }
+
+  function enregistrerServiceWorker() {
+    if (estNatif() || !("serviceWorker" in navigator) || !/^https?:$/.test(location.protocol)) return;
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  }
+
   // ---------- Démarrage ----------
+  verifierDonnees();
+  appliquerContenu(lire("tchip:contenu", null)); // expressions reçues lors d'une visite précédente
   chargerJour(jourReel);
   rendre();
   if (!lire("tchip:vu-aide", false)) { ecrire("tchip:vu-aide", true); feuilleAide(); }
+  enregistrerServiceWorker();
+  restaurerSecours();
+  verifierRappel();
+  rafraichirContenu();
+  signal("Ouverture");
 
   // Exposé pour les tests
-  window.TCHIP = { numeroDuJour: numeroDuJour, puzzle: puzzle, score: function (st) { return score(st); } };
+  window.TCHIP = { numeroDuJour: numeroDuJour, puzzle: puzzle, verifierDonnees: verifierDonnees, score: function (st, e) { return score(st, e || P.e); } };
 })();

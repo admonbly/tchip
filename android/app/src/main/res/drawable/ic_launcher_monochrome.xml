@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icône « thématique » d'Android 13+ : la bulle de la mascotte, teintée par le système. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <group
+        android:scaleX="0.55"
+        android:scaleY="0.55"
+        android:translateX="30"
+        android:translateY="28">
+        <group
+            android:scaleX="0.86"
+            android:scaleY="0.86"
+            android:translateX="2"
+            android:translateY="6">
+            <path
+                android:fillColor="#FFFFFFFF"
+                android:pathData="M60 12c27.6 0 48 18.8 48 44s-20.4 44-48 44c-6.2 0-12-0.9-17.4-2.7L20 108l5.6-20.4C16.9 79.6 12 68.5 12 56 12 30.8 32.4 12 60 12z" />
+        </group>
+    </group>
+</vector>

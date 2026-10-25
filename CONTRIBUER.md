@@ -23,6 +23,14 @@ Ajoute une ligne dans `TCHIP_PAYS`, en haut du même fichier :
 BF: { nom: "Burkina Faso", drapeau: "🇧🇫" },
 ```
 
+## Vérifier
+
+```bash
+npm run verifier
+```
+
+La commande refuse une expression dont le pays n'est pas déclaré, un leurre manquant ou en double, un champ vide. La CI la lance à chaque push : une erreur bloque la publication. Une fois sur `main`, les nouvelles expressions arrivent dans les apps sans mise à jour sur les stores (voir `DEPLOIEMENT.md`).
+
 ## Check-list avant d'ajouter
 
 - [ ] L'expression est vérifiée par au moins une personne du pays.

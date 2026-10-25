@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_launcher_background">#FF4D2E</color>
+    <!-- Écran de lancement (Android 12+) : fond papier, pastille piment autour de la mascotte -->
+    <color name="fond_lancement">#FFF3DF</color>
+    <color name="pastille_lancement">#FF4D2E</color>
+</resources>

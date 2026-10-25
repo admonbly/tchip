@@ -4,36 +4,52 @@
 
 ![Logo Tchip](assets/logo-wordmark.svg)
 
+Un seul code (HTML, CSS, JavaScript, sans framework) pour le **site web** et les **apps iOS et Android** (emballées avec [Capacitor](https://capacitorjs.com)).
+
 ## Lancer le jeu
 
-Aucune installation. C'est un site statique en HTML, CSS et JavaScript, sans dépendance.
+Prérequis : [Node.js](https://nodejs.org) 22 ou plus.
 
 ```bash
-# n'importe quel petit serveur fait l'affaire
-python3 -m http.server 8000
-# puis ouvrir http://localhost:8000
+npm install          # une fois
+npm run serve        # → http://localhost:8000
 ```
 
-Ouvrir `index.html` directement dans le navigateur marche aussi.
+Ouvrir `index.html` directement dans le navigateur marche aussi (sans le mode hors ligne).
 
-Pour obtenir un seul fichier autonome (pratique pour un test ou un partage rapide) :
+## Commandes
 
-```bash
-python3 tools/build-single.py          # → dist/tchip.html
-```
+| Commande | Rôle |
+|---|---|
+| `npm run verifier` | Contrôle la base d'expressions (pays inconnu, leurre en double…) et dit jusqu'à quelle date elle tient. |
+| `npm run build` | Vérifie puis construit `www/`, le dossier embarqué dans les apps et publié sur le web. |
+| `npm run sync` | Build + copie dans les projets iOS et Android. |
+| `npm run android` / `npm run ios` | Sync puis ouvre Android Studio / Xcode (Xcode : sur Mac uniquement). |
+| `npm run icones` | Régénère toutes les icônes et écrans de lancement depuis la mascotte. |
+| `npm run polices` | Recopie les polices dans `assets/fonts/` (après une mise à jour des paquets de polices). |
+| `npm run serve -- www` | Sert la version construite. |
+| `python3 tools/build-single.py` | Assemble tout en un seul fichier HTML (`dist/tchip.html`). |
 
 ## Structure
 
 ```
 index.html             page du jeu
 styles.css             identité visuelle (couleurs, typo, style « autocollant »)
-app.js                 logique : jour, essais, score, partage, série, stats, archives
+app.js                 logique : jour, essais, score, partage, série, stats, archives, réglages,
+                       rappel quotidien, contenu distant, statistiques anonymes
+verification.js        règles de la base d'expressions (partagées entre l'app, le build et la CI)
 data/expressions.js    la base d'expressions (l'ordre = l'ordre des jours)
-assets/                logo, symbole, icône d'app, favicons
+confidentialite.html   politique de confidentialité et mentions légales (affichée aussi dans l'app)
+sw.js                  service worker : le site marche hors ligne
+assets/                logo, icônes, polices embarquées (assets/fonts), icône Google Play (assets/store)
 manifest.webmanifest   installation sur l'écran d'accueil (PWA)
-tools/build-single.py  assemble tout en un fichier
+capacitor.config.json  configuration des apps (identifiant app.tchip)
+android/  ios/         projets natifs (générés par Capacitor, puis réglés aux normes des stores)
+tools/                 build, vérification, icônes, polices, serveur local
+.github/workflows/     CI : vérification, compilation Android et iOS, publication GitHub Pages
 REGLES.md              règles du jeu détaillées
 CONTRIBUER.md          comment ajouter des expressions
+DEPLOIEMENT.md         publier sur l'App Store et Google Play, pas à pas
 ```
 
 ## Réglages à connaître
@@ -41,31 +57,34 @@ CONTRIBUER.md          comment ajouter des expressions
 En haut de `app.js` :
 
 - `LANCEMENT` : la date du Tchip #1. À caler sur le jour du lancement public.
-- `ADRESSE_PARTAGE` : le domaine affiché dans le texte partagé (`tchip.app` est provisoire, à remplacer par le vrai domaine).
+- `ADRESSE_PARTAGE` : le domaine affiché dans le texte partagé (`tchip.app` est provisoire).
 - `ESSAIS_SENS` : nombre d'essais pour trouver le sens (2 par défaut).
+- `CONTENU_URL` : où les apps vont chercher les nouvelles expressions (GitHub Pages par défaut). Elles n'acceptent qu'une liste valide qui ne retire aucune expression, pour que l'ordre des jours ne bouge jamais.
+- `TELEMETRYDECK_APP_ID` : vide = pas de statistiques. Voir `DEPLOIEMENT.md` pour les activer.
 
-Les données du joueur (parties, série, stats) restent dans son navigateur (`localStorage`). Il n'y a ni compte ni serveur dans cette version.
+## Données du joueur
+
+Pas de compte. Les parties, la série et les stats restent sur l'appareil (`localStorage`). Dans les apps, une copie de secours est gardée dans le stockage natif (au cas où iOS viderait celui de la WebView), et les sauvegardes iCloud / Google du téléphone la prennent normalement en charge. Le joueur peut tout effacer dans Réglages.
 
 ## Feuille de route
 
-**V1 (ce dépôt)** : jeu du jour, indice, bonus pays, partage texte, série, stats, archives, 38 expressions de 10 pays, thème clair et sombre, installable sur mobile.
+**V1 (ce dépôt)** : jeu du jour, indice, bonus pays, partage, série, stats, archives, 38 expressions de 10 pays, thème clair et sombre, site hors ligne, apps iOS et Android (rappel quotidien, retour haptique, partage natif), contenu mis à jour sans passer par les stores.
 
 **V1.1 — avant le lancement**
-- Faire relire chaque expression par des locuteurs de chaque pays.
-- Monter la base à 120 expressions au moins (4 mois de jeu).
-- Acheter le domaine, le brancher dans `ADRESSE_PARTAGE`, héberger (GitHub Pages, Netlify ou Cloudflare Pages, gratuits).
+- Faire relire chaque expression par des locuteurs de chaque pays (`RELECTURE.md`).
+- Monter la base à 120 expressions au moins (`npm run verifier` dit jusqu'à quand elle tient).
+- Acheter le domaine, le brancher dans `ADRESSE_PARTAGE`.
 - Image de partage générée (story TikTok / Instagram) en plus du texte.
 
 **V2 — le moteur viral**
 - Choix du pays au premier lancement et **duel des pays** du jour (classement par pays, puis par ville).
 - Passeport : un tampon par pays découvert.
 - Propositions d'expressions par les joueurs, validées par vote.
-- Petit serveur (Supabase ou Firebase) pour les classements et la base d'expressions.
+- Petit serveur (Supabase ou Firebase) pour les classements.
 
-**V3 — applis iOS et Android**
-- Emballer le jeu web avec Capacitor (le plus rapide, on garde ce code) ou le réécrire en React Native / Expo.
-- Notifications « ton tchip du jour est là », widget écran d'accueil.
-- Premium à environ 2 € par mois : archives illimitées, packs thématiques, sans pub.
+**V3 — monétisation**
+- Widget écran d'accueil.
+- « Tchip+ » en achat intégré : archives illimitées, packs thématiques. Pas de pub au lancement (voir `DEPLOIEMENT.md`).
 
 ## Identité
 

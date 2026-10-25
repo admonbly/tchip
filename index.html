@@ -7,21 +7,29 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Tchip — Tu parles d'où ? Chaque jour, une expression de la francophonie à deviner.">
 <meta name="theme-color" content="#FF4D2E">
+<meta name="color-scheme" content="light dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tchip">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="assets/app-icon.svg">
 <link rel="apple-touch-icon" href="assets/favicon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta property="og:title" content="Tchip — Tu parles d'où ?">
 <meta property="og:description" content="Une expression par jour, de Dakar à Bruxelles. Devine ce qu'elle veut dire et d'où elle vient.">
 <meta property="og:image" content="assets/app-icon-1024.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/polices.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<main class="app" id="app" aria-live="polite"></main>
+<main class="app" id="app"></main>
 <div class="toast" id="toast" role="status"></div>
 <script src="data/expressions.js"></script>
+<script src="verification.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

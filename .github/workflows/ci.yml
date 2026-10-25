@@ -1,0 +1,93 @@
+# Tchip — intégration continue
+# À chaque push / pull request :
+#   1. vérifie la base d'expressions (un pays inconnu, un leurre en double… = échec) et construit www/ ;
+#   2. compile l'app Android (APK de test téléchargeable dans l'onglet Actions) ;
+#   3. compile l'app iOS pour le simulateur (sans signature).
+# Sur main : publie www/ sur GitHub Pages → le jeu web, la page de confidentialité (URL demandée par les stores)
+# et data/expressions.json (lu par les apps pour recevoir les nouvelles expressions sans mise à jour).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Données et build web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: www
+
+  android:
+    name: App Android
+    needs: web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+      - run: npm ci
+      - run: npm run build && npx cap sync android
+      - name: Compiler l'APK de test
+        working-directory: android
+        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tchip-android-debug
+          path: android/app/build/outputs/apk/debug/*.apk
+          retention-days: 14
+
+  ios:
+    name: App iOS
+    needs: web
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build && npx cap sync ios
+      - name: Compiler pour le simulateur (sans signature)
+        run: >
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug
+          -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+
+  pages:
+    name: Publier sur GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: web
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - id: deploiement
+        uses: actions/deploy-pages@v4

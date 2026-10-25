@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Thème sombre : même fond que l'app en mode sombre (styles.css) -->
+    <color name="fond_lancement">#14122E</color>
+</resources>
