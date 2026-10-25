@@ -1119,8 +1119,7 @@
       '<p class="vide">🟥 un essai raté · 🟩 sens trouvé · 🌍 le bonus pays. Nouveau tchip chaque jour à minuit.</p>' +
       (AP ? '<h3 class="sous-titre-aide">Et quand tu veux</h3>' +
       '<p><b>Voyager.</b> Tu pars bientôt ? Choisis un pays, joue des séries sans limite et parcours son lexique : saluer, manger, se déplacer…</p>' +
-      '<p><b>Carnet.</b> Gagne un tampon par pays, de Touriste à Enfant du pays, et découvre ton accent. Les mots que tu rates reviennent en révision au bon moment.</p>' : '') +
-      '<button class="btn secondaire" data-act="proposer">' + ICONES.bulle + 'Proposer une expression</button>');
+      '<p><b>Carnet.</b> Gagne un tampon par pays, de Touriste à Enfant du pays, et découvre ton accent. Les mots que tu rates reviennent en révision au bon moment.</p>' : ''));
   }
 
   function feuilleStats() {
