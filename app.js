@@ -1130,20 +1130,47 @@
       .then(function () { location.reload(); });
   }
 
+  // Accueil, affiché une seule fois au premier lancement : 3 lignes, une par onglet, avec les mêmes icônes.
+  function feuilleBienvenue() {
+    var etapes = [
+      ["jour", "p1", "Chaque jour, une expression", "Devine ce qu'elle veut dire, puis de quel pays elle vient."]
+    ];
+    if (AP) etapes.push(
+      ["voyager", "p2", "Voyager", "Choisis un pays et apprends ses mots. Joue autant que tu veux."],
+      ["carnet", "p3", "Carnet", "Gagne un tampon pour chaque pays que tu apprends."]
+    );
+    feuille('<header><h2>Bienvenue sur Tchip&nbsp;!</h2>' + boutonFermer() + '</header>' +
+      '<p class="intro-aide">Le jeu des expressions de la francophonie, de Dakar à Montréal.</p>' +
+      '<ol class="etapes-aide">' + etapes.map(function (x) {
+        return '<li><span class="pastille ' + x[1] + '" aria-hidden="true">' + ICONES[x[0]] + '</span><div><b>' + x[2] + '</b><span>' + x[3] + '</span></div></li>';
+      }).join("") + '</ol>' +
+      '<button class="btn" data-act="fermer">C\'est parti&nbsp;!</button>' +
+      '<p class="vide centre">Besoin d\'aide plus tard ? Touche le <b>?</b> en haut de l\'écran.</p>', "bienvenue");
+  }
+
+  // Aide complète (bouton « ? ») : courte, une partie par onglet, des phrases simples.
   function feuilleAide() {
-    feuille('<header><h2>Comment jouer</h2>' + boutonFermer() + '</header>' +
-      '<p>Chaque jour, une expression de la francophonie. La même pour tout le monde, de Dakar à Montréal.</p>' +
-      '<ol class="regles">' +
-      '<li><span class="pastille p1">1</span><div><b>Trouve le sens.</b> 4 propositions, 2 essais. Du premier coup : 3 points. Au deuxième : 1 point.</div></li>' +
-      '<li><span class="pastille p2">2</span><div><b>Un indice si tu te trompes.</b> Une phrase d\'exemple s\'affiche pour t\'aider.</div></li>' +
-      '<li><span class="pastille p3">3</span><div><b>Bonus : d\'où ça vient ?</b> Choisis le bon pays parmi 4, en un seul essai : +1 point.</div></li>' +
-      '<li><span class="pastille p4">4</span><div><b>Partage sans spoiler.</b> Ta grille montre ton score, jamais la réponse. Reviens chaque jour pour faire grimper ta série 🔥.</div></li>' +
-      '</ol>' +
-      '<div class="exemple-grille">Tchip #12 · 3/4\n💬 🟥🟩\n🌍 ✅\n🔥 Série : 5 jours</div>' +
-      '<p class="vide">🟥 un essai raté · 🟩 sens trouvé · 🌍 le bonus pays. Nouveau tchip chaque jour à minuit.</p>' +
-      (AP ? '<h3 class="sous-titre-aide">Et quand tu veux</h3>' +
-      '<p><b>Voyager.</b> Tu pars bientôt ? Choisis un pays, joue des séries sans limite et parcours son lexique : saluer, manger, se déplacer…</p>' +
-      '<p><b>Carnet.</b> Gagne un tampon par pays, de Touriste à Enfant du pays, et découvre ton accent. Les mots que tu rates reviennent en révision au bon moment.</p>' : ''));
+    var h = '<header><h2>Comment jouer</h2>' + boutonFermer() + '</header>' +
+      '<section class="aide-bloc"><h3><span class="pastille p1" aria-hidden="true">' + ICONES.jour + '</span>Aujourd\'hui</h3><ul>' +
+      '<li>Une nouvelle expression chaque jour à minuit, la même pour tout le monde.</li>' +
+      '<li>Trouve ce qu\'elle veut dire. Tu as <b>2 essais</b> : du premier coup, <b>3 points</b> ; au deuxième, <b>1 point</b>.</li>' +
+      '<li>Si tu te trompes, un <b>indice</b> apparaît.</li>' +
+      '<li>Bonus : trouve le pays. <b>+1 point</b>.</li>' +
+      '<li>Partage ton score : la réponse reste secrète. Joue chaque jour pour faire monter ta série 🔥.</li>' +
+      '</ul></section>';
+    if (AP) h +=
+      '<section class="aide-bloc"><h3><span class="pastille p2" aria-hidden="true">' + ICONES.voyager + '</span>Voyager</h3><ul>' +
+      '<li>Choisis un pays et joue des séries de 8 mots, autant que tu veux.</li>' +
+      '<li>Dans le lexique, touche un mot pour voir ce qu\'il veut dire.</li>' +
+      '</ul></section>' +
+      '<section class="aide-bloc"><h3><span class="pastille p3" aria-hidden="true">' + ICONES.carnet + '</span>Carnet</h3><ul>' +
+      '<li>Un mot est <b>maîtrisé</b> quand tu l\'as trouvé 3 fois : la première fois, le lendemain, puis 3 jours après.</li>' +
+      '<li>Les mots à revoir t\'attendent ici. Le chiffre rouge te dit combien.</li>' +
+      '<li>Maîtrise les mots d\'un pays pour gagner ses tampons :</li>' +
+      '</ul><div class="paliers-aide">' + AP.SEUILS.slice(1).map(function (s, i) {
+        return '<span class="rang rang-' + (i + 1) + '">' + Math.round(s * 100) + ' %</span><span>' + AP.NOMS_RANGS[i + 1] + '</span>';
+      }).join("") + '</div></section>';
+    feuille(h, "aide");
   }
 
   function feuilleStats() {
@@ -1293,7 +1320,7 @@
   } catch (e) {}
   chargerJour(apercu || jourReel);
   rendre();
-  if (!lire("tchip:vu-aide", false)) { ecrire("tchip:vu-aide", true); feuilleAide(); }
+  if (!lire("tchip:vu-aide", false)) { ecrire("tchip:vu-aide", true); feuilleBienvenue(); }
   enregistrerServiceWorker();
   restaurerSecours();
   verifierRappel();
