@@ -13,7 +13,8 @@
 
   // ---------- Réglages ----------
   var LANCEMENT = { a: 2026, m: 10, j: 25 };      // jour #1 (année, mois 1-12, jour)
-  var ADRESSE_PARTAGE = "tchip.app";               // à remplacer par le vrai domaine
+  var ADRESSE_PARTAGE = "tchip.app";               // domaine affiché dans les partages et les invitations
+  var LIEN_JEU = "https://" + ADRESSE_PARTAGE + "/";
   var DEPOT_PROPOSITIONS = "https://github.com/admonbly/tchip"; // les propositions arrivent en tickets ici
   var SENS_MAX = 3;                                 // sens proposés au maximum pour une expression
   var ESSAIS_SENS = 2;
@@ -28,12 +29,14 @@
   var TAILLE_SERIE = 8;
 
   var EXPR_EMBARQUEES = window.TCHIP_EXPRESSIONS || [];
-  var PAYS_EMBARQUES = window.TCHIP_PAYS || {};
-  var EXPR = EXPR_EMBARQUEES;
-  var PAYS = PAYS_EMBARQUES;
-  var THEMES = window.TCHIP_THEMES || {};
+  // BASE : le contenu en français (et ses traductions) ; EXPR, PAYS, THEMES : ce qu'on affiche, dans la langue du joueur.
+  var BASE = { expressions: EXPR_EMBARQUEES, pays: window.TCHIP_PAYS || {}, themes: window.TCHIP_THEMES || {}, en: window.TCHIP_EN || null };
+  var EXPR = BASE.expressions;
+  var PAYS = BASE.pays;
+  var THEMES = BASE.themes;
   var verifier = window.TCHIP_VERIFIER || null; // verification.js ; sans lui, aucun contenu distant n'est accepté
   var AP = window.TCHIP_APPRENTISSAGE || null;   // apprentissage.js ; sans lui, seul le jeu du jour est proposé
+  var SONS = window.TCHIP_SONS || null;          // sons.js : musique et bruitages
   var app = document.getElementById("app");
   var toastEl = document.getElementById("toast");
 
@@ -50,7 +53,8 @@
 
   // Contrôle des données au démarrage (silencieux pour le joueur, visible en console, bloquant au build).
   function verifierDonnees() {
-    var pbs = verifier ? verifier(EXPR, PAYS, THEMES) : [];
+    var pbs = verifier ? verifier(BASE.expressions, BASE.pays, BASE.themes) : [];
+    if (verifier && verifier.traduction && BASE.en) pbs = pbs.concat(verifier.traduction(BASE.expressions, BASE.pays, BASE.themes, BASE.en));
     if (pbs.length && window.console && console.error) console.error("Tchip — données à corriger :\n- " + pbs.join("\n- "));
     return pbs;
   }
@@ -95,9 +99,51 @@
   }
   function reglages() {
     var r = lire("tchip:reglages", {});
-    return { rappel: r.rappel === true, heure: HEURES_RAPPEL.indexOf(r.heure) !== -1 ? r.heure : 9, statsAnonymes: r.statsAnonymes !== false };
+    return {
+      rappel: r.rappel === true, heure: HEURES_RAPPEL.indexOf(r.heure) !== -1 ? r.heure : 9, statsAnonymes: r.statsAnonymes !== false,
+      musique: r.musique === true, bruitages: r.bruitages !== false, vibrations: r.vibrations !== false, animations: r.animations !== false,
+      theme: r.theme === "clair" || r.theme === "sombre" ? r.theme : "auto",
+      langue: r.langue === "fr" || r.langue === "en" ? r.langue : null // null : celle du téléphone
+    };
   }
   function changerReglage(cle, val) { var r = reglages(); r[cle] = val; ecrire("tchip:reglages", r); }
+
+  // ---------- Langue : français ou anglais ----------
+  // Les textes de l'interface sont écrits en français dans le code ; t() les traduit (langues.js), {x} = valeur à insérer.
+  // Les expressions gardent leur forme d'origine ; en anglais, leurs sens, leurres et fiches viennent de data/expressions-en.js.
+  var DICO_EN = (window.TCHIP_LANGUES && window.TCHIP_LANGUES.en) || {};
+  var L = "fr";
+  function t(fr, v) {
+    var s = (L === "en" && DICO_EN[fr]) || fr;
+    return v ? s.replace(/\{(\w+)\}/g, function (m, k) { return v[k] !== undefined ? v[k] : m; }) : s;
+  }
+  function langueDuTelephone() {
+    try { return /^en\b/i.test(navigator.language || "") ? "en" : "fr"; } catch (e) { return "fr"; } // le français reste la langue du jeu
+  }
+  function localiser() {
+    L = reglages().langue || langueDuTelephone();
+    document.documentElement.lang = L;
+    var tr = L === "en" ? BASE.en : null;
+    if (!tr) { EXPR = BASE.expressions; PAYS = BASE.pays; THEMES = BASE.themes; return; }
+    // une expression sans traduction (arrivée en ligne avant la sienne) reste en français
+    EXPR = BASE.expressions.map(function (e) {
+      var x = tr.expressions && tr.expressions[e.pays + "|" + e.expression];
+      return x ? Object.assign({}, e, x) : e;
+    });
+    PAYS = {}; THEMES = {};
+    Object.keys(BASE.pays).forEach(function (c) { PAYS[c] = Object.assign({}, BASE.pays[c], (tr.pays || {})[c]); });
+    Object.keys(BASE.themes).forEach(function (k) { THEMES[k] = Object.assign({}, BASE.themes[k], (tr.themes || {})[k]); });
+  }
+
+  // ---------- Affichage, sons et vibrations réglables ----------
+  function appliquerReglages() {
+    var r = reglages(), racine = document.documentElement;
+    if (r.theme === "auto") racine.removeAttribute("data-theme");
+    else racine.setAttribute("data-theme", r.theme === "sombre" ? "dark" : "light");
+    racine.classList.toggle("sans-animation", !r.animations);
+    if (SONS) SONS.regler(r);
+  }
+  function son(nom) { if (SONS) SONS.jouer(nom); }
 
   // ---------- Contenu distant ----------
   // Accepté seulement s'il est valide et ne retire rien : l'ordre des jours ne doit jamais bouger.
@@ -106,8 +152,12 @@
       c.expressions.length >= EXPR_EMBARQUEES.length && verifier(c.expressions, c.pays, c.themes).length === 0);
   }
   function appliquerContenu(c) {
-    if (contenuAcceptable(c) && c.expressions.length >= EXPR.length) { EXPR = c.expressions; PAYS = c.pays; THEMES = c.themes; return true; }
-    return false;
+    if (!contenuAcceptable(c) || c.expressions.length < BASE.expressions.length) return false;
+    // des traductions invalides ne bloquent pas les expressions : on garde alors celles qu'on a
+    var en = c.en && verifier.traduction && verifier.traduction(c.expressions, c.pays, c.themes, c.en).length === 0 ? c.en : BASE.en;
+    BASE = { expressions: c.expressions, pays: c.pays, themes: c.themes, en: en };
+    localiser();
+    return true;
   }
   function partieCommencee() { return !!(etat && (etat.erreurs.length || etat.sensFini || etat.fini)); }
   var dernierRafraichissement = 0;
@@ -185,7 +235,7 @@
   function dateDuNumero(n) {
     var dep = Date.UTC(LANCEMENT.a, LANCEMENT.m - 1, LANCEMENT.j);
     var d = new Date(dep + (n - 1) * 86400000);
-    return d.toLocaleDateString("fr-FR", { day: "numeric", month: "long", timeZone: "UTC" });
+    return d.toLocaleDateString(L === "en" ? "en-GB" : "fr-FR", { day: "numeric", month: "long", timeZone: "UTC" });
   }
   function avantMinuit() {
     var now = new Date();
@@ -317,6 +367,7 @@
   // Retour haptique : natif dans les apps (l'API web de vibration n'existe pas sur iPhone).
   // type : "succes", "erreur", ou "tampon" (un coup franc, comme un vrai tampon sur le passeport)
   function vibrer(type) {
+    if (!reglages().vibrations) return;
     var h = plugin("Haptics");
     if (h) {
       (type === "tampon" ? h.impact({ style: "HEAVY" }) : h.notification({ type: type === "succes" ? "SUCCESS" : "ERROR" })).catch(function () {});
@@ -326,8 +377,10 @@
   }
 
   // ---------- Mouvement ----------
-  // Tout se coupe si le téléphone demande moins d'animations (le CSS fait pareil de son côté).
+  // Tout se coupe si le joueur les coupe dans les réglages, ou si le téléphone demande moins d'animations
+  // (le CSS fait pareil de son côté).
   function moinsDeMouvement() {
+    if (!reglages().animations) return true;
     try { return matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; }
   }
   // Petits confettis qui jaillissent d'une bonne réponse.
@@ -374,7 +427,10 @@
     carnet: '<svg viewBox="0 0 24 24"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><circle cx="12" cy="10.5" r="3"/><path d="M9 16h6"/></svg>',
     retour: '<svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>',
     bulle: '<svg viewBox="0 0 24 24"><path d="M12 3.5c5 0 9 3.3 9 7.5s-4 7.5-9 7.5c-1.1 0-2.2-.2-3.2-.5L4 20l1.3-3.6C3.9 15 3 13.1 3 11c0-4.2 4-7.5 9-7.5z"/><path d="M12 8v6M9 11h6"/></svg>',
-    son: '<svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>'
+    son: '<svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>',
+    inviter: '<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M19 8v6M16 11h6"/></svg>',
+    info: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><path d="M12 7.5h.01"/></svg>',
+    cadenas: '<svg viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg>'
   };
 
   var WORDMARK = '<svg class="wordmark" viewBox="-8 0 232 100" role="img" aria-label="Tchip"><g class="ink" fill="none" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12V54q0 16 16 16"/><path d="M2 32H28"/><path d="M74 36A20 20 0 1 0 74 64"/><path d="M94 10V70M94 48A16 16 0 0 1 126 48V70"/><path d="M146 36V70"/><path d="M168 36V92"/><circle cx="186" cy="52" r="17"/></g><path d="M146 1c6.6 0 11 4.2 11 9.4s-4.4 9.4-11 9.4c-1.4 0-2.7-.2-3.9-.6L136 22l1.4-4.6c-1.6-1.8-2.4-4.2-2.4-7C135 5.2 139.4 1 146 1z" fill="var(--piment)"/></svg>';
@@ -411,10 +467,10 @@
   function enTete() {
     return '<header class="topbar">' + WORDMARK +
       '<div class="icons">' +
-      '<button class="icon-btn" data-act="archives" aria-label="Jours précédents">' + ICONES.archives + '</button>' +
-      '<button class="icon-btn" data-act="stats" aria-label="Mes statistiques">' + ICONES.stats + '</button>' +
-      '<button class="icon-btn" data-act="aide" aria-label="Comment jouer">' + ICONES.aide + '</button>' +
-      '<button class="icon-btn" data-act="reglages" aria-label="Réglages">' + ICONES.reglages + '</button>' +
+      '<button class="icon-btn" data-act="archives" aria-label="' + t("Jours précédents") + '">' + ICONES.archives + '</button>' +
+      '<button class="icon-btn" data-act="stats" aria-label="' + t("Mes statistiques") + '">' + ICONES.stats + '</button>' +
+      '<button class="icon-btn" data-act="aide" aria-label="' + t("Comment jouer") + '">' + ICONES.aide + '</button>' +
+      '<button class="icon-btn" data-act="reglages" aria-label="' + t("Réglages") + '">' + ICONES.reglages + '</button>' +
       '</div></header>';
   }
 
@@ -422,9 +478,9 @@
     var serie = serieActuelle();
     var gauche = jourAffiche === jourReel
       ? '<span class="chip">Tchip #' + jourAffiche + ' · ' + esc(dateDuNumero(jourAffiche)) + '</span>'
-      : '<span class="chip archive">Archive #' + jourAffiche + ' · ' + esc(dateDuNumero(jourAffiche)) + '</span>';
-    var droite = serie > 0 ? '<span class="chip serie' + (feterSerie ? ' danse' : '') + '" aria-label="Série de ' + serie + ' jours">' +
-      '<span class="flamme" aria-hidden="true">🔥</span> ' + serie + ' j</span>' : '';
+      : '<span class="chip archive">' + t("Archive") + ' #' + jourAffiche + ' · ' + esc(dateDuNumero(jourAffiche)) + '</span>';
+    var droite = serie > 0 ? '<span class="chip serie' + (feterSerie ? ' danse' : '') + '" aria-label="' + t("Série de {n} jours", { n: serie }) + '">' +
+      '<span class="flamme" aria-hidden="true">🔥</span> ' + t("{n} j", { n: serie }) + '</span>' : '';
     return '<div class="dayline">' + gauche + droite + '</div>';
   }
 
@@ -435,7 +491,7 @@
       s += '<svg class="vie' + (perdue ? ' perdue' : '') + '" viewBox="0 0 24 20" aria-hidden="true"><path d="M12 1c6 0 11 3.8 11 8.6S18 18 12 18c-1.2 0-2.3-.2-3.4-.5L3 19.5l1.4-4C2.3 14 1 11.9 1 9.6 1 4.8 6 1 12 1z"/></svg>';
     }
     var reste = ESSAIS_SENS - etat.erreurs.length;
-    return '<div class="vies">' + s + '<span>' + (reste > 1 ? reste + ' essais' : reste === 1 ? 'Dernier essai' : 'Plus d\'essai') + '</span></div>';
+    return '<div class="vies">' + s + '<span>' + (reste > 1 ? t("{n} essais", { n: reste }) : reste === 1 ? t("Dernier essai") : t("Plus d'essai")) + '</span></div>';
   }
 
   // ---------- Navigation ----------
@@ -463,7 +519,7 @@
     clearInterval(timer);
     document.body.classList.toggle("en-serie", !!serie);
     if (AP) barreOnglets();
-    if (!EXPR.length) { app.innerHTML = enTete() + '<p class="vide">Aucune expression chargée.</p>'; return; }
+    if (!EXPR.length) { app.innerHTML = enTete() + '<p class="vide">' + t("Aucune expression chargée.") + '</p>'; return; }
     if (serie) return rendreSerie();
     if (onglet === "voyager") return paysOuvert ? rendrePays() : rendreVoyager();
     if (onglet === "carnet") return rendreCarnet();
@@ -482,13 +538,14 @@
     var nav = document.getElementById("onglets");
     if (!nav) {
       nav = document.createElement("nav");
-      nav.id = "onglets"; nav.className = "onglets"; nav.setAttribute("aria-label", "Navigation principale");
+      nav.id = "onglets"; nav.className = "onglets";
       document.body.appendChild(nav);
     }
+    nav.setAttribute("aria-label", t("Navigation principale"));
     var dus = aRevoir().length;
-    nav.innerHTML = [["jour", "Aujourd'hui"], ["voyager", "Voyager"], ["carnet", "Carnet"]].map(function (o) {
+    nav.innerHTML = [["jour", t("Aujourd'hui")], ["voyager", t("Voyager")], ["carnet", t("Carnet")]].map(function (o) {
       var actif = o[0] === onglet;
-      var badge = o[0] === "carnet" && dus ? '<span class="badge" aria-label="' + dus + ' mots à revoir">' + dus + '</span>' : '';
+      var badge = o[0] === "carnet" && dus ? '<span class="badge" aria-label="' + t("{n} mots à revoir", { n: dus }) + '">' + dus + '</span>' : '';
       return '<button data-onglet="' + o[0] + '"' + (actif ? ' aria-current="page" class="actif"' : '') + '>' + ICONES[o[0]] + '<span>' + o[1] + '</span>' + badge + '</button>';
     }).join("");
   }
@@ -498,16 +555,16 @@
     if (etat.fini) return rendreResultat();
     var h = enTete() + ligneDuJour();
     h += '<section class="card">' + mascotte("neutre") +
-         '<p class="question">' + (etat.sensFini ? 'Bonus · D\'où ça vient ?' : 'Ça veut dire quoi ?') + '</p>' +
+         '<p class="question">' + (etat.sensFini ? t("Bonus · D'où ça vient ?") : t("Ça veut dire quoi ?")) + '</p>' +
          '<h1 class="expression">«&nbsp;' + esc(P.e.expression) + '&nbsp;»</h1>' +
-         (etat.sensFini ? '<div class="vies"><span>' + (etat.sensOk ? 'Sens trouvé ✓ ' : 'Sens : ' + esc(P.e.sens)) + '</span></div>' : vies()) +
+         (etat.sensFini ? '<div class="vies"><span>' + (etat.sensOk ? t("Sens trouvé ✓") + ' ' : t("Sens :") + ' ' + esc(P.e.sens)) + '</span></div>' : vies()) +
          '</section>';
 
     if (!etat.sensFini) {
       var ouvert = etat.erreurs.length > 0;
-      h += '<div class="indice' + (ouvert ? ' ouvert' : '') + '"><b>Indice' + (ouvert ? '' : ' verrouillé') + '</b>' +
-           (ouvert ? esc(P.e.exemple) : 'Une phrase d\'exemple s\'ouvre si tu te trompes.') + '</div>';
-      h += '<div class="etape-titre"><h2>Choisis le bon sens</h2><span>' + (ouvert ? '1 point' : '3 points') + '</span></div>';
+      h += '<div class="indice' + (ouvert ? ' ouvert' : '') + '"><b>' + (ouvert ? t("Indice") : t("Indice verrouillé")) + '</b>' +
+           (ouvert ? esc(P.e.exemple) : t("Une phrase d'exemple s'ouvre si tu te trompes.")) + '</div>';
+      h += '<div class="etape-titre"><h2>' + t("Choisis le bon sens") + '</h2><span>' + (ouvert ? t("1 point") : t("3 points")) + '</span></div>';
       h += '<div class="options">';
       P.sens.forEach(function (txt, i) {
         var faux = etat.erreurs.indexOf(i) !== -1;
@@ -516,7 +573,7 @@
       });
       h += '</div>';
     } else {
-      h += '<div class="etape-titre"><h2>D\'où vient cette expression ?</h2><span>+1 point</span></div><div class="options">';
+      h += '<div class="etape-titre"><h2>' + t("D'où vient cette expression ?") + '</h2><span>' + t("+1 point") + '</span></div><div class="options">';
       P.pays.forEach(function (code, i) {
         var p = paysInfo(code);
         h += '<button class="option" data-pays="' + i + '">' + drapeau(code, "moyen") + '<span>' + esc(p.nom) + '</span></button>';
@@ -529,12 +586,12 @@
 
   function pied() {
     return jourAffiche !== jourReel
-      ? '<p class="pied">Partie d\'archive : elle ne compte pas dans ta série. <button data-act="aujourdhui">Revenir au tchip du jour</button></p>'
+      ? '<p class="pied">' + t("Partie d'archive : elle ne compte pas dans ta série.") + ' <button data-act="aujourdhui">' + t("Revenir au tchip du jour") + '</button></p>'
       : '';
   }
 
   function verdict(s) {
-    return ["Aïe, tchip… Demain tu te rattrapes.", "Pas évident celle-là !", "Pas mal du tout.", "T'es chaud aujourd'hui !", "Sans faute. Respect total."][s];
+    return t(["Aïe, tchip… Demain tu te rattrapes.", "Pas évident celle-là !", "Pas mal du tout.", "T'es chaud aujourd'hui !", "Sans faute. Respect total."][s]);
   }
 
   function grilleTexte() {
@@ -548,8 +605,8 @@
     return "Tchip #" + jourAffiche + " · " + s + "/4\n" +
       "💬 " + grilleTexte() + "\n" +
       "🌍 " + (etat.pays === P.e.pays ? "✅" : "❌") + "\n" +
-      (jourAffiche === jourReel && serie > 1 ? "🔥 Série : " + serie + " jours\n" : "") +
-      "Tu parles d'où ? " + ADRESSE_PARTAGE;
+      (jourAffiche === jourReel && serie > 1 ? "🔥 " + t("Série : {n} jours", { n: serie }) + "\n" : "") +
+      t("Tu parles d'où ?") + " " + ADRESSE_PARTAGE;
   }
 
   function rendreResultat() {
@@ -557,10 +614,10 @@
     var h = enTete() + ligneDuJour();
     h += '<section class="resultat">';
     h += '<div class="card score-card">' + mascotte(s >= 3 ? "joie" : "neutre") +
-         '<p class="question">Ton score</p>' +
+         '<p class="question">' + t("Ton score") + '</p>' +
          '<p class="score"><span data-compte="' + s + '">' + s + '</span><small>/4</small></p>' +
          '<p class="verdict">' + verdict(s) + '</p>' +
-         '<div class="grille" aria-label="Grille de partage">💬 ' + grilleTexte() + '&nbsp; 🌍 ' + (etat.pays === P.e.pays ? '✅' : '❌') + '</div>' +
+         '<div class="grille" aria-label="' + t("Grille de partage") + '">💬 ' + grilleTexte() + '&nbsp; 🌍 ' + (etat.pays === P.e.pays ? '✅' : '❌') + '</div>' +
          '</div>';
     h += motif();
     h += '<article class="card fiche">' +
@@ -570,17 +627,17 @@
          '</article>';
     // Le rappel se propose ici, une seule fois, après une partie : c'est là que la permission a du sens (règle Apple).
     var proposerRappel = jourAffiche === jourReel && plugin("LocalNotifications") && !reglages().rappel && !lire("tchip:rappel-propose", false);
-    h += '<div class="actions"><button class="btn" data-act="partager">' + ICONES.partager + 'Partager mon score</button>' +
-         (AP ? '<button class="btn secondaire" data-voyage="' + esc(P.e.pays) + '">' + ICONES.voyager + 'Plus de mots : ' + drapeau(P.e.pays) + ' ' + esc(p.nom) + '</button>' : '') +
-         (proposerRappel ? '<button class="btn secondaire" data-act="proposer-rappel">' + ICONES.cloche + 'Me rappeler le tchip chaque jour</button>' : '') +
-         '<button class="btn secondaire" data-act="archives">Jouer un jour précédent</button></div>';
+    h += '<div class="actions"><button class="btn" data-act="partager">' + ICONES.partager + t("Partager mon score") + '</button>' +
+         (AP ? '<button class="btn secondaire" data-voyage="' + esc(P.e.pays) + '">' + ICONES.voyager + t("Plus de mots :") + ' ' + drapeau(P.e.pays) + ' ' + esc(p.nom) + '</button>' : '') +
+         (proposerRappel ? '<button class="btn secondaire" data-act="proposer-rappel">' + ICONES.cloche + t("Me rappeler le tchip chaque jour") + '</button>' : '') +
+         '<button class="btn secondaire" data-act="archives">' + t("Jouer un jour précédent") + '</button></div>';
     h += '<section class="card proposer-carte">' +
-         '<h3>Chez toi, on dit quoi ?</h3>' +
-         '<p>Propose une expression de ton pays ou de ton quartier, avec un ou plusieurs sens. Les meilleures deviendront le tchip du jour.</p>' +
-         '<button class="btn secondaire" data-act="proposer">' + ICONES.bulle + 'Proposer une expression</button>' +
+         '<h3>' + t("Chez toi, on dit quoi ?") + '</h3>' +
+         '<p>' + t("Propose une expression de ton pays ou de ton quartier, avec un ou plusieurs sens. Les meilleures deviendront le tchip du jour.") + '</p>' +
+         '<button class="btn secondaire" data-act="proposer">' + ICONES.bulle + t("Proposer une expression") + '</button>' +
          '</section>';
     if (jourAffiche === jourReel) {
-      h += '<p class="prochain">Prochain tchip dans<strong id="compte">' + avantMinuit() + '</strong></p>';
+      h += '<p class="prochain">' + t("Prochain tchip dans") + '<strong id="compte">' + avantMinuit() + '</strong></p>';
     }
     h += '</section>' + pied();
     app.innerHTML = h;
@@ -617,20 +674,20 @@
       app.querySelectorAll("[data-sens]").forEach(function (x) { x.disabled = true; });
       animerMascotte("joie");
       confettis(b);
-      vibrer("succes");
-      toast(etat.erreurs.length ? "Bien rattrapé !" : "Direct ! +3");
+      son("juste"); vibrer("succes");
+      toast(etat.erreurs.length ? t("Bien rattrapé !") : t("Direct ! +3"));
       setTimeout(function () { entree = "place"; rendre(); }, 900);
     } else {
       etat.erreurs.push(i);
-      vibrer("erreur");
+      son("faux"); vibrer("erreur");
       if (etat.erreurs.length >= ESSAIS_SENS) {
         etat.sensFini = true; etat.optionsPays = P.pays; sauver();
         noterReponse(P.e, false);
         rendre(); animerMascotte("tchip");
-        toast("Tchip ! C'était : " + P.e.sens);
+        toast(t("Tchip ! C'était :") + " " + P.e.sens);
       } else {
         sauver(); rendre(); animerMascotte("tchip");
-        toast("Tchip ! Essaie encore");
+        toast(t("Tchip ! Essaie encore"));
       }
     }
   }
@@ -646,53 +703,54 @@
       else if (j === i) b.classList.add("faux");
       else b.classList.add("eteint");
     });
-    toast(ok ? "Bien vu ! +1" : "Raté, c'était " + paysInfo(P.e.pays).nom);
-    vibrer(ok ? "succes" : "erreur");
+    toast(ok ? t("Bien vu ! +1") : t("Raté, c'était {pays}", { pays: paysInfo(P.e.pays).nom }));
+    son(ok ? "juste" : "faux"); vibrer(ok ? "succes" : "erreur");
     if (ok) confettis(app.querySelector('[data-pays="' + i + '"]'));
     enregistrerStats();
     signal("Partie.finie", { score: score(etat, P.e), jour: jourAffiche, archive: jourAffiche !== jourReel });
     feterSerie = jourAffiche === jourReel;
-    setTimeout(function () { entree = "place"; rendre(); }, 1100);
+    var s = score(etat, P.e);
+    setTimeout(function () { entree = "place"; rendre(); if (s >= 3) son("fanfare"); }, 1100);
   }
 
   function partager() {
     signal("Partage");
-    partagerTexte(textePartage(), "Partager mon score");
+    partagerTexte(textePartage(), t("Partager mon score"));
   }
-  function partagerTexte(t, titre) {
-    var fini = function () { toast("Copié, colle-le où tu veux !"); };
+  function partagerTexte(texte, titre) {
+    var fini = function () { toast(t("Copié, colle-le où tu veux !")); };
     var natif = plugin("Share");
-    if (natif) { natif.share({ text: t, dialogTitle: titre }).catch(function () { /* partage annulé */ }); return; }
+    if (natif) { natif.share({ text: texte, dialogTitle: titre }).catch(function () { /* partage annulé */ }); return; }
     try {
       if (navigator.share) {
-        navigator.share({ text: t }).catch(function () { copier(t, fini); });
+        navigator.share({ text: texte }).catch(function () { copier(texte, fini); });
         return;
       }
     } catch (e) {}
-    copier(t, fini);
+    copier(texte, fini);
   }
-  function copier(t, ok) {
+  function copier(texte, ok) {
     try {
-      navigator.clipboard.writeText(t).then(ok, function () { secours(t); });
-    } catch (e) { secours(t); }
+      navigator.clipboard.writeText(texte).then(ok, function () { secours(texte); });
+    } catch (e) { secours(texte); }
   }
-  function secours(t) {
-    feuille('<header><h2>À partager</h2>' + boutonFermer() + '</header><p>Sélectionne le texte et copie-le :</p><textarea id="partage-texte" rows="6" style="width:100%;font:inherit;padding:10px;border-radius:12px;border:2.5px solid var(--encre);background:var(--surface);color:var(--encre)">' + esc(t) + '</textarea>');
+  function secours(texte) {
+    feuille('<header><h2>' + t("À partager") + '</h2>' + boutonFermer() + '</header><p>' + t("Sélectionne le texte et copie-le :") + '</p><textarea id="partage-texte" rows="6" style="width:100%;font:inherit;padding:10px;border-radius:12px;border:2.5px solid var(--encre);background:var(--surface);color:var(--encre)">' + esc(texte) + '</textarea>');
     var ta = document.getElementById("partage-texte"); if (ta) { ta.focus(); ta.select(); }
   }
 
   // ---------- Fiche d'une expression, prononciation et voix ----------
   function blocFiche(e) {
-    var h = '<dl><div><dt>Ça veut dire</dt><dd>' + esc(e.sens) + '</dd></div>' +
-      '<div><dt>Exemple</dt><dd class="exemple">«&nbsp;' + esc(e.exemple) + '&nbsp;»</dd></div>' +
-      '<div><dt>Le saviez-vous ?</dt><dd>' + esc(e.fiche) + '</dd></div>';
+    var h = '<dl><div><dt>' + t("Ça veut dire") + '</dt><dd>' + esc(e.sens) + '</dd></div>' +
+      '<div><dt>' + t("Exemple") + '</dt><dd class="exemple">«&nbsp;' + esc(e.exemple) + '&nbsp;»</dd></div>' +
+      '<div><dt>' + t("Le saviez-vous ?") + '</dt><dd>' + esc(e.fiche) + '</dd></div>';
     if (e.ailleurs && e.ailleurs.length) {
-      h += '<div><dt>Ailleurs, ça veut aussi dire</dt><dd>' + e.ailleurs.map(function (a) {
+      h += '<div><dt>' + t("Ailleurs, ça veut aussi dire") + '</dt><dd>' + e.ailleurs.map(function (a) {
         return esc(a.sens) + ' <span class="ou">(' + esc(a.ou) + ')</span>';
       }).join("<br>") + '</dd></div>';
     }
     if (e.aussi && e.aussi.length) {
-      h += '<div><dt>Aussi employé</dt><dd>' + e.aussi.map(function (c) { return drapeau(c) + " " + esc(paysInfo(c).nom); }).join(", ") + '</dd></div>';
+      h += '<div><dt>' + t("Aussi employé") + '</dt><dd>' + e.aussi.map(function (c) { return drapeau(c) + " " + esc(paysInfo(c).nom); }).join(", ") + '</dd></div>';
     }
     return h + '</dl>';
   }
@@ -702,9 +760,9 @@
     var h = "";
     if (e.audio) {
       h += '<button class="btn-son" data-son="' + EXPR.indexOf(e) + '">' + ICONES.son +
-        '<span>Écouter<small>Voix : ' + esc(e.audio.voix) + (e.audio.ville ? ", " + esc(e.audio.ville) : "") + '</small></span></button>';
+        '<span>' + t("Écouter") + '<small>' + t("Voix :") + ' ' + esc(e.audio.voix) + (e.audio.ville ? ", " + esc(e.audio.ville) : "") + '</small></span></button>';
     }
-    if (e.prononciation) h += '<p class="prononciation">Se dit&nbsp;: <i>' + esc(e.prononciation) + '</i></p>';
+    if (e.prononciation) h += '<p class="prononciation">' + t("Se dit&nbsp;:") + ' <i>' + esc(e.prononciation) + '</i></p>';
     return h ? '<div class="bloc-son">' + h + '</div>' : "";
   }
   var sonEnCours = null;
@@ -715,7 +773,7 @@
     a.onerror = function () {
       // fichier pas encore embarqué dans l'app (expression reçue en ligne) : on le prend sur le site
       if (!distant && CONTENU_URL) { distant = true; a.src = CONTENU_URL.replace(/data\/expressions\.json$/, "") + e.audio.fichier; a.play().catch(function () {}); }
-      else toast("Son indisponible pour le moment.");
+      else toast(t("Son indisponible pour le moment."));
     };
     sonEnCours = a;
     a.play().catch(function () {});
@@ -724,26 +782,28 @@
   function pastilles(f) {
     var n = f ? f.n : 0, h = "";
     for (var i = 1; i <= 4; i++) h += '<i' + (i <= n ? ' class="plein"' : '') + '></i>';
-    return '<span class="pastilles" role="img" aria-label="Niveau ' + n + ' sur 4">' + h + '</span>';
+    return '<span class="pastilles" role="img" aria-label="' + t("Niveau {n} sur 4", { n: n }) + '">' + h + '</span>';
   }
   function etatMot(f) {
-    if (!f) return "Nouveau mot";
-    if (!f.v) return "Découvert : il t'attend dans ta prochaine série";
-    var quand = f.d <= jourReel ? "à revoir aujourd'hui" : "à revoir dans " + (f.d - jourReel) + " j";
-    return (AP.estMaitrise(f) ? "Maîtrisé · " : "") + quand;
+    if (!f) return t("Nouveau mot");
+    if (!f.v) return t("Découvert : il t'attend dans ta prochaine série");
+    var quand = f.d <= jourReel ? t("à revoir aujourd'hui") : t("à revoir dans {n} j", { n: f.d - jourReel });
+    return (AP.estMaitrise(f) ? t("Maîtrisé") + " · " : "") + quand;
   }
 
   // ---------- Voyager ----------
   var ORDRE_REGIONS = ["Afrique de l'Ouest", "Afrique centrale", "Afrique du Nord", "Océan Indien", "Europe", "Amériques et Caraïbes"];
   function regions() {
     var r = {};
-    Object.keys(PAYS).forEach(function (c) { var nom = PAYS[c].region || "Ailleurs"; (r[nom] = r[nom] || []).push(c); });
+    // les régions restent en français dans les données (elles servent à trier) ; seul leur affichage est traduit
+    Object.keys(BASE.pays).forEach(function (c) { var nom = BASE.pays[c].region || "Ailleurs"; (r[nom] = r[nom] || []).push(c); });
     function rangRegion(nom) { var i = ORDRE_REGIONS.indexOf(nom); return i === -1 ? 99 : i; }
     return Object.keys(r).sort(function (a, b) { return rangRegion(a) - rangRegion(b); }).map(function (nom) {
-      return { nom: nom, codes: r[nom].sort(function (a, b) { return exprDuPays(b).length - exprDuPays(a).length; }) };
+      return { nom: t(nom), codes: r[nom].sort(function (a, b) { return exprDuPays(b).length - exprDuPays(a).length; }) };
     });
   }
-  function badgeRang(r) { return r ? '<span class="rang rang-' + r + '">' + AP.NOMS_RANGS[r] + '</span>' : ''; }
+  function nomRang(r) { return t(AP.NOMS_RANGS[r]); }
+  function badgeRang(r) { return r ? '<span class="rang rang-' + r + '">' + nomRang(r) + '</span>' : ''; }
   // Barre de mots maîtrisés, avec un repère à chaque palier de tampon (25, 50, 75 %).
   // opts.de : part maîtrisée avant la série (la barre se remplit depuis là) ; opts.eclat : rang qu'on vient de décrocher.
   function barreProgression(p, opts) {
@@ -752,27 +812,27 @@
     var reperes = AP.SEUILS.slice(1, -1).map(function (s, k) {
       return '<b' + (opts.eclat === k + 1 ? ' class="eclat"' : '') + ' style="left:' + Math.round(s * 100) + '%"></b>';
     }).join("");
-    return '<span class="barre-prog' + (opts.eclat === dernier ? ' complete' : '') + '" role="img" aria-label="' + p.maitrises + ' mots maîtrisés sur ' + p.total + ', ' + AP.pourcentage(p) + ' %">' +
+    return '<span class="barre-prog' + (opts.eclat === dernier ? ' complete' : '') + '" role="img" aria-label="' + t("{n} mots maîtrisés sur {total}, {pct} %", { n: p.maitrises, total: p.total, pct: AP.pourcentage(p) }) + '">' +
       '<i style="--p:' + part.toFixed(3) + (opts.de ? ';--de:' + opts.de.toFixed(3) : '') + '"></i>' + reperes + '</span>';
   }
   function phrasePalier(p) {
     var s = AP.prochainPalier(p);
-    if (!s) return "Tous les mots sont maîtrisés. Respect total !";
-    return "Encore <b>" + s.manque + " mot" + (s.manque > 1 ? "s" : "") + " maîtrisé" + (s.manque > 1 ? "s" : "") +
-      "</b> pour le tampon " + esc(s.nom) + " (" + s.seuil + " %).";
+    if (!s) return t("Tous les mots sont maîtrisés. Respect total !");
+    return t(s.manque > 1 ? "Encore <b>{n} mots maîtrisés</b> pour le tampon {rang} ({pct} %)." : "Encore <b>{n} mot maîtrisé</b> pour le tampon {rang} ({pct} %).",
+      { n: s.manque, rang: esc(nomRang(s.rang)), pct: s.seuil });
   }
   function carteRevision() {
     var n = aRevoir().length;
     if (!n) return "";
     return '<button class="carte-revision" data-act="reviser"><span class="ico" aria-hidden="true">🔁</span>' +
-      '<span><b>' + n + ' mot' + (n > 1 ? 's' : '') + ' à revoir</b><small>Une série rapide pour ne pas les oublier</small></span>' +
+      '<span><b>' + (n > 1 ? t("{n} mots à revoir", { n: n }) : t("1 mot à revoir")) + '</b><small>' + t("Une série rapide pour ne pas les oublier") + '</small></span>' +
       '<span class="fleche" aria-hidden="true">→</span></button>';
   }
   function rendreVoyager() {
     var prog = progressions(savoir());
     var h = enTete() +
-      '<section class="intro-page"><p class="question">Voyager</p><h1 class="titre-page">Tu pars où&nbsp;?</h1>' +
-      '<p>Apprends à parler comme là-bas avant d\'y aller. Joue autant que tu veux : chaque pays a ses séries et son lexique.</p></section>' +
+      '<section class="intro-page"><p class="question">' + t("Voyager") + '</p><h1 class="titre-page">' + t("Tu pars où&nbsp;?") + '</h1>' +
+      '<p>' + t("Apprends à parler comme là-bas avant d'y aller. Joue autant que tu veux : chaque pays a ses séries et son lexique.") + '</p></section>' +
       carteRevision();
     regions().forEach(function (reg) {
       h += '<h2 class="region">' + esc(reg.nom) + '</h2><div class="grille-pays">';
@@ -781,7 +841,7 @@
         h += '<button class="carte-pays" data-voyage="' + esc(c) + '">' +
           drapeau(c, "grand") +
           '<b>' + esc(p.nom) + '</b>' +
-          '<span class="compte">' + pr.total + ' mot' + (pr.total > 1 ? 's' : '') + (pr.vus ? ' · ' + AP.pourcentage(pr) + ' % maîtrisés' : '') + '</span>' +
+          '<span class="compte">' + (pr.total > 1 ? t("{n} mots", { n: pr.total }) : t("1 mot")) + (pr.vus ? ' · ' + t("{pct} % maîtrisés", { pct: AP.pourcentage(pr) }) : '') + '</span>' +
           barreProgression(pr) + badgeRang(AP.rang(pr)) + '</button>';
       });
       h += '</div>';
@@ -792,44 +852,44 @@
     var c = paysOuvert, p = paysInfo(c), s = savoir();
     var liste = exprDuPays(c), visibles = jouables(liste), pr = AP.progression(liste, s), r = AP.rang(pr);
     var h = enTete() +
-      '<button class="lien-retour" data-act="retour-voyager">' + ICONES.retour + 'Tous les pays</button>' +
+      '<button class="lien-retour" data-act="retour-voyager">' + ICONES.retour + t("Tous les pays") + '</button>' +
       '<section class="card entete-pays">' +
         drapeau(c, "tres-grand") +
         '<h1 class="titre-page">' + esc(p.nom) + '</h1>' +
         (p.intro ? '<p>' + esc(p.intro) + '</p>' : '') +
-        '<div class="niveau">' + (badgeRang(r) || '<span class="rang">Pas encore de tampon</span>') +
-        '<span><span data-compte="' + AP.pourcentage(pr) + '">' + AP.pourcentage(pr) + '</span> % · ' + pr.maitrises + '/' + pr.total + ' maîtrisés</span></div>' + barreProgression(pr) +
+        '<div class="niveau">' + (badgeRang(r) || '<span class="rang">' + nomRang(0) + '</span>') +
+        '<span>' + t("{pct} % · {n}/{total} maîtrisés", { pct: '<span data-compte="' + AP.pourcentage(pr) + '">' + AP.pourcentage(pr) + '</span>', n: pr.maitrises, total: pr.total }) + '</span></div>' + barreProgression(pr) +
         '<p class="palier">' + phrasePalier(pr) + '</p>' +
       '</section>' +
-      '<div class="actions"><button class="btn" data-act="serie-pays">' + ICONES.voyager + 'Jouer une série</button></div>' +
-      '<p class="vide centre">' + Math.min(TAILLE_SERIE, visibles.length) + ' mots par série. Un mot est maîtrisé quand tu l\'as trouvé 3 fois au bon moment : la première fois, le lendemain, puis 3 jours plus tard.</p>';
-    if (visibles.length < liste.length) h += '<p class="note-verrou">🔒 Une expression de ce pays est le tchip du jour : elle apparaîtra ici quand tu l\'auras jouée.</p>';
-    h += '<h2 class="region">Lexique</h2>';
-    Object.keys(THEMES).forEach(function (t) {
-      var mots = visibles.filter(function (e) { return e.theme === t; });
+      '<div class="actions"><button class="btn" data-act="serie-pays">' + ICONES.voyager + t("Jouer une série") + '</button></div>' +
+      '<p class="vide centre">' + t("{n} mots par série. Un mot est maîtrisé quand tu l'as trouvé 3 fois au bon moment : la première fois, le lendemain, puis 3 jours plus tard.", { n: Math.min(TAILLE_SERIE, visibles.length) }) + '</p>';
+    if (visibles.length < liste.length) h += '<p class="note-verrou">🔒 ' + t("Une expression de ce pays est le tchip du jour : elle apparaîtra ici quand tu l'auras jouée.") + '</p>';
+    h += '<h2 class="region">' + t("Lexique") + '</h2>';
+    Object.keys(THEMES).forEach(function (th) {
+      var mots = visibles.filter(function (e) { return e.theme === th; });
       if (!mots.length) return;
-      h += '<h3 class="theme"><span aria-hidden="true">' + esc(THEMES[t].emoji) + '</span> ' + esc(THEMES[t].nom) + '</h3><ul class="lexique">';
+      h += '<h3 class="theme"><span aria-hidden="true">' + esc(THEMES[th].emoji) + '</span> ' + esc(THEMES[th].nom) + '</h3><ul class="lexique">';
       mots.forEach(function (e) {
         var f = s[AP.cle(e)];
         h += '<li><button class="mot" data-mot="' + EXPR.indexOf(e) + '">' +
-          '<span class="mot-expr">' + esc(e.expression) + (e.audio ? ' <span aria-label="avec enregistrement">🔊</span>' : '') + '</span>' +
-          (f ? '<span class="mot-sens">' + esc(e.sens) + '</span>' : '<span class="mot-sens cache">Touche pour découvrir</span>') +
+          '<span class="mot-expr">' + esc(e.expression) + (e.audio ? ' <span aria-label="' + t("avec enregistrement") + '">🔊</span>' : '') + '</span>' +
+          (f ? '<span class="mot-sens">' + esc(e.sens) + '</span>' : '<span class="mot-sens cache">' + t("Touche pour découvrir") + '</span>') +
           pastilles(f) + '</button></li>';
       });
       h += '</ul>';
     });
-    h += '<section class="card proposer-carte"><h3>Il manque un mot&nbsp;?</h3>' +
-      '<p>Tu connais une expression de ' + esc(p.nom) + ' qui n\'est pas là ? Propose-la : elle sera relue par des gens du pays.</p>' +
-      '<button class="btn secondaire" data-act="proposer" data-code="' + esc(c) + '">' + ICONES.bulle + 'Proposer une expression</button></section>';
+    h += '<section class="card proposer-carte"><h3>' + t("Il manque un mot&nbsp;?") + '</h3>' +
+      '<p>' + t("Tu connais une expression de {pays} qui n'est pas là ? Propose-la : elle sera relue par des gens du pays.", { pays: esc(p.nom) }) + '</p>' +
+      '<button class="btn secondaire" data-act="proposer" data-code="' + esc(c) + '">' + ICONES.bulle + t("Proposer une expression") + '</button></section>';
     app.innerHTML = h;
   }
   function feuilleMot(e) {
     if (!e || cacheeAujourdhui(e)) return;
     decouvrirMot(e);
     if (onglet === "voyager" && paysOuvert && !serie) rendre(); // le sens apparaît dans le lexique, derrière la feuille
-    var p = paysInfo(e.pays), t = THEMES[e.theme], f = savoir()[AP.cle(e)];
+    var p = paysInfo(e.pays), th = THEMES[e.theme], f = savoir()[AP.cle(e)];
     feuille('<header><h2 class="titre-mot">«&nbsp;' + esc(e.expression) + '&nbsp;»</h2>' + boutonFermer() + '</header>' +
-      '<p class="origine">' + drapeau(e.pays) + ' ' + esc(p.nom) + (t ? ' · ' + esc(t.emoji) + ' ' + esc(t.nom) : '') + '</p>' +
+      '<p class="origine">' + drapeau(e.pays) + ' ' + esc(p.nom) + (th ? ' · ' + esc(th.emoji) + ' ' + esc(th.nom) : '') + '</p>' +
       blocSon(e) + '<div class="fiche">' + blocFiche(e) + '</div>' +
       '<div class="maitrise">' + pastilles(f) + '<span>' + etatMot(f) + '</span></div>', "mot");
   }
@@ -839,7 +899,7 @@
   function lancerSerie(liste, retour) {
     var s = savoir();
     var choix = AP.composerSerie(jouables(liste), s, jourReel, Math.random, TAILLE_SERIE);
-    if (!choix.length) { toast("Rien à revoir pour l'instant, reviens demain !"); return; }
+    if (!choix.length) { toast(t("Rien à revoir pour l'instant, reviens demain !")); return; }
     var rangs = {};
     Object.keys(PAYS).forEach(function (c) { rangs[c] = rangPays(c, s); });
     serie = {
@@ -868,7 +928,7 @@
     if (juste) serie.bonnes++;
     serie.resultats.push({ e: q.e, juste: juste });
     noterReponse(q.e, juste);
-    vibrer(juste ? "succes" : "erreur");
+    son(juste ? "juste" : "faux"); vibrer(juste ? "succes" : "erreur");
     rendre();
     if (juste) confettis(app.querySelector(".option.bon"));
   }
@@ -878,7 +938,7 @@
       serie.fini = true;
       var s = savoir();
       serie.tampons = Object.keys(serie.rangsAvant).map(function (c) { return { code: c, rang: rangPays(c, s) }; })
-        .filter(function (t) { return t.rang > serie.rangsAvant[t.code]; });
+        .filter(function (x) { return x.rang > serie.rangsAvant[x.code]; });
       signal("Serie.finie", { pays: serie.retour.code || "revision", bonnes: serie.bonnes, total: serie.questions.length });
     }
     entree = serie.fini ? "place" : "de-droite";
@@ -888,11 +948,11 @@
     if (serie.fini) return rendreFinSerie();
     var q = serie.questions[serie.i], e = q.e, p = paysInfo(e.pays), rep = serie.reponse, n = serie.questions.length;
     var inverse = q.type === "inverse";
-    var h = '<div class="serie-haut"><button class="icon-btn" data-act="quitter-serie" aria-label="Quitter la série">' + ICONES.fermer + '</button>' +
+    var h = '<div class="serie-haut"><button class="icon-btn" data-act="quitter-serie" aria-label="' + t("Quitter la série") + '">' + ICONES.fermer + '</button>' +
       '<span class="progression" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + serie.i + '"><i style="--p:' + (serie.i / n).toFixed(3) + ';--de:' + (Math.max(0, serie.i - 1) / n).toFixed(3) + '"></i></span>' +
       '<span class="compteur">' + (serie.i + 1) + '/' + n + '</span></div>';
     h += '<section class="card carte-question"><p class="question">' + drapeau(e.pays) + ' ' + esc(p.nom) + ' · ' +
-      (inverse ? "Comment dit-on…" : "Ça veut dire quoi ?") + '</p>' +
+      (inverse ? t("Comment dit-on…") : t("Ça veut dire quoi ?")) + '</p>' +
       '<h1 class="expression' + (inverse ? ' inverse' : '') + '">' + (inverse ? esc(e.sens) : '«&nbsp;' + esc(e.expression) + '&nbsp;»') + '</h1></section>';
     h += '<div class="options">';
     q.options.forEach(function (txt, k) {
@@ -905,13 +965,13 @@
     if (rep !== null) {
       var juste = rep === q.bonne;
       h += '<section class="card retour-reponse ' + (juste ? 'juste' : 'rate') + '">' +
-        '<p class="verdict-court">' + (juste ? 'Bien joué !' : 'Pas tout à fait…') + '</p>' +
-        (serie.tropTot ? '<p class="petit">Déjà vu récemment : ce mot progressera à sa prochaine révision, dans ' + serie.tropTot + ' j.</p>' : '') +
+        '<p class="verdict-court">' + (juste ? t("Bien joué !") : t("Pas tout à fait…")) + '</p>' +
+        (serie.tropTot ? '<p class="petit">' + t("Déjà vu récemment : ce mot progressera à sa prochaine révision, dans {n} j.", { n: serie.tropTot }) + '</p>' : '') +
         '<h3>«&nbsp;' + esc(e.expression) + '&nbsp;»</h3><p class="sens-rappel">' + esc(e.sens) + '</p>' +
         blocSon(e) +
         '<p class="exemple">«&nbsp;' + esc(e.exemple) + '&nbsp;»</p>' +
         '<p class="petit">' + esc(e.fiche) + '</p>' +
-        '<button class="btn" data-act="suivant">' + (serie.i + 1 < n ? 'Continuer' : 'Voir mon bilan') + '</button></section>';
+        '<button class="btn" data-act="suivant">' + (serie.i + 1 < n ? t("Continuer") : t("Voir mon bilan")) + '</button></section>';
     }
     app.innerHTML = h;
     if (rep !== null) {
@@ -921,97 +981,101 @@
   }
   function rendreFinSerie() {
     var n = serie.questions.length, b = serie.bonnes, part = b / n;
-    var msg = part === 1 ? "Sans faute, respect total !" : part >= 0.75 ? "Ça rentre, continue comme ça." :
-      part >= 0.5 ? "Pas mal. Les mots ratés reviendront demain." : "Courage : c'est en se trompant qu'on retient.";
+    var msg = t(part === 1 ? "Sans faute, respect total !" : part >= 0.75 ? "Ça rentre, continue comme ça." :
+      part >= 0.5 ? "Pas mal. Les mots ratés reviendront demain." : "Courage : c'est en se trompant qu'on retient.");
     var h = '<section class="resultat">' +
       '<div class="card score-card">' + mascotte(part >= 0.75 ? "joie" : "neutre") +
-      '<p class="question">Série terminée</p><p class="score"><span data-compte="' + b + '">' + b + '</span><small>/' + n + '</small></p><p class="verdict">' + msg + '</p></div>';
-    serie.tampons.forEach(function (t) {
-      h += '<div class="card nouveau-tampon">' + tampon(t.code, t.rang, false) +
-        '<p><b>Nouveau tampon !</b><br>' + esc(paysInfo(t.code).nom) + ' : ' + esc(AP.NOMS_RANGS[t.rang]) + '</p></div>';
+      '<p class="question">' + t("Série terminée") + '</p><p class="score"><span data-compte="' + b + '">' + b + '</span><small>/' + n + '</small></p><p class="verdict">' + msg + '</p></div>';
+    serie.tampons.forEach(function (x) {
+      h += '<div class="card nouveau-tampon">' + tampon(x.code, x.rang, false) +
+        '<p><b>' + t("Nouveau tampon !") + '</b><br>' + esc(paysInfo(x.code).nom) + ' : ' + esc(nomRang(x.rang)) + '</p></div>';
     });
     if (serie.retour.source === "pays") {
       var code = serie.retour.code, pr = AP.progression(exprDuPays(code), savoir()), av = serie.avant || pr;
-      var gagne = serie.tampons.filter(function (t) { return t.code === code; })[0];
+      var gagne = serie.tampons.filter(function (x) { return x.code === code; })[0];
       h += '<div class="card palier-carte"><p class="niveau"><span>' + drapeau(code) + ' ' + esc(paysInfo(code).nom) + '</span>' +
-        '<span><span data-compte="' + AP.pourcentage(pr) + '" data-de="' + AP.pourcentage(av) + '">' + AP.pourcentage(pr) + '</span> % maîtrisés</span></p>' +
+        '<span>' + t("{pct} % maîtrisés", { pct: '<span data-compte="' + AP.pourcentage(pr) + '" data-de="' + AP.pourcentage(av) + '">' + AP.pourcentage(pr) + '</span>' }) + '</span></p>' +
         barreProgression(pr, { de: av.total ? av.maitrises / av.total : 0, eclat: gagne ? gagne.rang : 0 }) +
         '<p class="palier">' + phrasePalier(pr) + '</p></div>';
     }
-    h += motif() + '<h2 class="region">Les mots de la série</h2><ul class="lexique bilan">' + serie.resultats.map(function (r) {
+    h += motif() + '<h2 class="region">' + t("Les mots de la série") + '</h2><ul class="lexique bilan">' + serie.resultats.map(function (r) {
       return '<li><button class="mot ' + (r.juste ? 'juste' : 'rate') + '" data-mot="' + EXPR.indexOf(r.e) + '">' +
         '<span class="mot-expr">' + (r.juste ? '✓ ' : '✕ ') + esc(r.e.expression) + '</span><span class="mot-sens">' + esc(r.e.sens) + '</span></button></li>';
     }).join("") + '</ul>';
-    h += '<div class="actions"><button class="btn" data-act="rejouer-serie">' + ICONES.voyager + 'Encore une série</button>' +
-      (serie.tampons.length ? '<button class="btn secondaire" data-act="partager-passeport">' + ICONES.partager + 'Partager mon passeport</button>' : '') +
-      '<button class="btn secondaire" data-act="quitter-serie">Terminer</button></div></section>';
+    h += '<div class="actions"><button class="btn" data-act="rejouer-serie">' + ICONES.voyager + t("Encore une série") + '</button>' +
+      (serie.tampons.length ? '<button class="btn secondaire" data-act="partager-passeport">' + ICONES.partager + t("Partager mon passeport") + '</button>' : '') +
+      '<button class="btn secondaire" data-act="quitter-serie">' + t("Terminer") + '</button></div></section>';
     app.innerHTML = h;
-    if (serie.tampons.length && !serie.tamponVibre) {
-      serie.tamponVibre = true;
-      setTimeout(function () { vibrer("tampon"); }, 550); // quand le tampon touche le papier
+    if (!serie.fete) {
+      serie.fete = true;
+      if (serie.tampons.length) setTimeout(function () { son("tampon"); vibrer("tampon"); son("fanfare"); }, 550); // quand le tampon touche le papier
+      else if (part >= 0.75) son("fanfare");
     }
   }
 
   // ---------- Carnet : passeport, accent, révisions ----------
   // pct : part de mots maîtrisés, affichée sous le tampon tant que le pays n'est pas complètement maîtrisé
   function tampon(code, rang, cliquable, pct) {
-    var p = paysInfo(code), nomRang = rang ? AP.NOMS_RANGS[rang] : (pct ? "En route" : "À visiter");
+    var p = paysInfo(code), titre = rang ? nomRang(rang) : (pct ? t("En route") : t("À visiter"));
     var contenu = drapeau(code, "moyen") +
-      '<span class="t-nom">' + esc(p.nom) + '</span><span class="t-rang">' + esc(nomRang) + '</span>' +
-      (pct && rang < 4 ? '<span class="t-pct">' + pct + ' %</span>' : '');
+      '<span class="t-nom">' + esc(p.nom) + '</span><span class="t-rang">' + esc(titre) + '</span>' +
+      (pct && rang < 4 ? '<span class="t-pct">' + t("{pct} %", { pct: pct }) + '</span>' : '');
     return cliquable
-      ? '<button class="tampon rang-' + rang + '" data-voyage="' + esc(code) + '" aria-label="' + esc(p.nom + " : " + nomRang) + '">' + contenu + '</button>'
+      ? '<button class="tampon rang-' + rang + '" data-voyage="' + esc(code) + '" aria-label="' + esc(p.nom + " : " + titre) + '">' + contenu + '</button>'
       : '<div class="tampon rang-' + rang + '">' + contenu + '</div>';
   }
   function rendreCarnet() {
     var s = savoir(), prog = progressions(s), acc = AP.accent(prog);
     var cles = Object.keys(s), maitrises = cles.filter(function (k) { return AP.estMaitrise(s[k]); }).length;
     var codes = Object.keys(PAYS), nbTampons = codes.filter(function (c) { return AP.rang(prog[c]) > 0; }).length;
-    var h = enTete() + '<section class="intro-page"><p class="question">Carnet</p><h1 class="titre-page">Ton passeport</h1></section>';
-    h += '<section class="card accent-card"><p class="question">Ton accent</p>';
+    var h = enTete() + '<section class="intro-page"><p class="question">' + t("Carnet") + '</p><h1 class="titre-page">' + t("Ton passeport") + '</h1></section>';
+    h += '<section class="card accent-card"><p class="question">' + t("Ton accent") + '</p>';
     if (acc) {
-      var p = paysInfo(acc.code);
-      h += '<p class="accent-phrase">' + drapeau(acc.code, "grand") +
-        'Tu parles ' + esc(acc.degre) + ' <b>' + esc(p.accent || p.nom) + '</b></p>';
+      h += '<p class="accent-phrase">' + drapeau(acc.code, "grand") + '<span>' + phraseAccent(acc, true) + '</span></p>';
     } else {
-      h += '<p class="accent-phrase">Pas encore d\'accent…</p><p class="vide">Maîtrise 3 mots d\'un même pays pour attraper ton premier accent.</p>';
+      h += '<p class="accent-phrase">' + t("Pas encore d'accent…") + '</p><p class="vide">' + t("Maîtrise 3 mots d'un même pays pour attraper ton premier accent.") + '</p>';
     }
     h += '</section><div class="stats-grid">' +
-      [[cles.length, "Mots découverts"], [maitrises, "Maîtrisés"], [nbTampons, "Tampons"], [aRevoir(s).length, "À revoir"]].map(function (x) {
+      [[cles.length, t("Mots découverts")], [maitrises, t("Maîtrisés")], [nbTampons, t("Tampons")], [aRevoir(s).length, t("À revoir")]].map(function (x) {
         return '<div class="stat"><b data-compte="' + x[0] + '">' + x[0] + '</b><span>' + x[1] + '</span></div>';
       }).join("") + '</div>';
-    h += carteRevision() + '<h2 class="region">Tampons</h2>' +
-      '<p class="legende-paliers">Pour chaque pays, maîtrise ' +
-      AP.SEUILS.slice(1).map(function (s, i) { return '<span class="rang rang-' + (i + 1) + '">' + Math.round(s * 100) + ' %</span> ' + AP.NOMS_RANGS[i + 1]; }).join(" · ") +
-      ' de ses mots.</p><div class="passeport">';
+    h += carteRevision() + '<h2 class="region">' + t("Tampons") + '</h2>' +
+      '<p class="legende-paliers">' + t("Pour chaque pays, maîtrise {paliers} de ses mots.", { paliers:
+      AP.SEUILS.slice(1).map(function (s, i) { return '<span class="rang rang-' + (i + 1) + '">' + t("{pct} %", { pct: Math.round(s * 100) }) + '</span> ' + nomRang(i + 1); }).join(" · ") }) +
+      '</p><div class="passeport">';
     codes.slice().sort(function (a, b) { return AP.rang(prog[b]) - AP.rang(prog[a]) || prog[b].maitrises - prog[a].maitrises; })
       .forEach(function (c) { h += tampon(c, AP.rang(prog[c]), true, AP.pourcentage(prog[c])); });
     h += '</div>';
     h += nbTampons
-      ? '<div class="actions"><button class="btn secondaire" data-act="partager-passeport">' + ICONES.partager + 'Partager mon passeport</button></div>'
-      : '<p class="vide centre">Maîtrise 25 % des mots d\'un pays pour décrocher ton premier tampon.</p>';
+      ? '<div class="actions"><button class="btn secondaire" data-act="partager-passeport">' + ICONES.partager + t("Partager mon passeport") + '</button></div>'
+      : '<p class="vide centre">' + t("Maîtrise 25 % des mots d'un pays pour décrocher ton premier tampon.") + '</p>';
     app.innerHTML = h;
+  }
+  // « Tu parles très ivoirien » ; degre vient d'apprentissage.js (un peu, pas mal, très, complètement)
+  function phraseAccent(acc, html) {
+    var p = paysInfo(acc.code), nom = esc(p.accent || p.nom);
+    return t("Tu parles " + acc.degre + " {a}", { a: html ? "<b>" + nom + "</b>" : nom });
   }
   function textePasseport() {
     var prog = progressions(savoir()), acc = AP.accent(prog);
     var lignes = Object.keys(PAYS).map(function (c) { return { c: c, r: AP.rang(prog[c]) }; })
       .filter(function (x) { return x.r > 0; })
       .sort(function (a, b) { return b.r - a.r; }).slice(0, 8)
-      .map(function (x) { return paysInfo(x.c).drapeau + " " + AP.NOMS_RANGS[x.r]; });
-    return "Mon passeport Tchip 🛂\n" + lignes.join("\n") +
-      (acc ? "\nMon accent : " + acc.degre + " " + (paysInfo(acc.code).accent || paysInfo(acc.code).nom) : "") +
-      "\nTu parles d'où ? " + ADRESSE_PARTAGE;
+      .map(function (x) { return paysInfo(x.c).drapeau + " " + nomRang(x.r); });
+    return t("Mon passeport Tchip") + " 🛂\n" + lignes.join("\n") +
+      (acc ? "\n" + phraseAccent(acc, false) : "") +
+      "\n" + t("Tu parles d'où ?") + " " + ADRESSE_PARTAGE;
   }
 
   // ---------- Proposer une expression (prépare un ticket GitHub, relu avant la mise en jeu) ----------
   var brouillon = null;
   function brouillonVide() { return { expression: "", pays: "", lieu: "", sens: [{ sens: "", ou: "" }], exemple: "", pseudo: "" }; }
   function choixPaysProposition(choisi) {
-    var codes = Object.keys(PAYS).sort(function (a, b) { return PAYS[a].nom.localeCompare(PAYS[b].nom, "fr"); });
+    var codes = Object.keys(PAYS).sort(function (a, b) { return PAYS[a].nom.localeCompare(PAYS[b].nom, L); });
     // pas d'emoji drapeau ici : une liste déroulante ne peut pas afficher d'image, et Windows montrerait « CI », « ML »
-    return '<option value="">Choisis…</option>' + codes.map(function (c) {
+    return '<option value="">' + t("Choisis…") + '</option>' + codes.map(function (c) {
       return '<option value="' + esc(c) + '"' + (c === choisi ? ' selected' : '') + '>' + esc(PAYS[c].nom) + '</option>';
-    }).join("") + '<option value="AUTRE"' + (choisi === "AUTRE" ? ' selected' : '') + '>Un autre pays (précise-le dessous)</option>';
+    }).join("") + '<option value="AUTRE"' + (choisi === "AUTRE" ? ' selected' : '') + '>' + t("Un autre pays (précise-le dessous)") + '</option>';
   }
   function lireFormulaire() {
     var f = document.getElementById("form-proposer");
@@ -1030,36 +1094,39 @@
     if (!brouillon) brouillon = lire("tchip:brouillon", null) || brouillonVide();
     if (codePays && !brouillon.pays && !brouillon.expression) brouillon.pays = codePays;
     var champsSens = brouillon.sens.map(function (s, i) {
-      return '<fieldset class="sens-bloc"><legend>Sens ' + (i + 1) + (i === 0 ? ' (le plus courant)' : '') + '</legend>' +
-        '<label for="p-sens-' + i + '">Ça veut dire…</label>' +
-        '<input id="p-sens-' + i + '" name="p-sens-' + i + '" maxlength="90" value="' + esc(s.sens) + '" placeholder="' + (i === 0 ? 'Ex. : une personne très diplômée' : 'Un autre sens') + '"' + (i === 0 ? ' required' : '') + '>' +
-        (i > 0 ? '<label for="p-ou-' + i + '">Où ou dans quel contexte ? <span class="opt">facultatif</span></label>' +
-          '<input id="p-ou-' + i + '" name="p-ou-' + i + '" maxlength="60" value="' + esc(s.ou) + '" placeholder="Ex. : chez les jeunes, au Gabon…">' +
-          '<button type="button" class="lien-retirer" data-act="retirer-sens" data-index="' + i + '">Retirer ce sens</button>' : '') +
+      var opt = ' <span class="opt">' + t("facultatif") + '</span>';
+      return '<fieldset class="sens-bloc"><legend>' + (i === 0 ? t("Sens 1 (le plus courant)") : t("Sens {n}", { n: i + 1 })) + '</legend>' +
+        '<label for="p-sens-' + i + '">' + t("Ça veut dire…") + '</label>' +
+        '<input id="p-sens-' + i + '" name="p-sens-' + i + '" maxlength="90" value="' + esc(s.sens) + '" placeholder="' + (i === 0 ? t("Ex. : une personne très diplômée") : t("Un autre sens")) + '"' + (i === 0 ? ' required' : '') + '>' +
+        (i > 0 ? '<label for="p-ou-' + i + '">' + t("Où ou dans quel contexte ?") + opt + '</label>' +
+          '<input id="p-ou-' + i + '" name="p-ou-' + i + '" maxlength="60" value="' + esc(s.ou) + '" placeholder="' + t("Ex. : chez les jeunes, au Gabon…") + '">' +
+          '<button type="button" class="lien-retirer" data-act="retirer-sens" data-index="' + i + '">' + t("Retirer ce sens") + '</button>' : '') +
         '</fieldset>';
     }).join("");
-    feuille('<header><h2>Propose ton expression</h2>' + boutonFermer() + '</header>' +
-      '<p class="vide">Une expression qu\'on dit chez toi et que tout le monde devrait connaître. Elle peut avoir plusieurs sens : ajoute-les tous.</p>' +
+    var opt = ' <span class="opt">' + t("facultatif") + '</span>';
+    feuille('<header><h2>' + t("Propose ton expression") + '</h2>' + boutonFermer() + '</header>' +
+      '<p class="vide">' + t("Une expression qu'on dit chez toi et que tout le monde devrait connaître. Elle peut avoir plusieurs sens : ajoute-les tous.") + '</p>' +
       '<form id="form-proposer" class="formulaire" novalidate>' +
-      '<label for="p-expression">L\'expression</label>' +
-      '<input id="p-expression" name="p-expression" maxlength="60" required value="' + esc(brouillon.expression) + '" placeholder="Ex. : Long crayon">' +
+      '<label for="p-expression">' + t("L'expression") + '</label>' +
+      '<input id="p-expression" name="p-expression" maxlength="60" required value="' + esc(brouillon.expression) + '" placeholder="' + t("Ex. : Long crayon") + '">' +
       '<div class="deux-colonnes">' +
-      '<div><label for="p-pays">Pays</label><select id="p-pays" name="p-pays" required>' + choixPaysProposition(brouillon.pays) + '</select></div>' +
-      '<div><label for="p-lieu">Ville ou région <span class="opt">facultatif</span></label><input id="p-lieu" name="p-lieu" maxlength="40" value="' + esc(brouillon.lieu) + '" placeholder="Ex. : Douala"></div>' +
+      '<div><label for="p-pays">' + t("Pays") + '</label><select id="p-pays" name="p-pays" required>' + choixPaysProposition(brouillon.pays) + '</select></div>' +
+      '<div><label for="p-lieu">' + t("Ville ou région") + opt + '</label><input id="p-lieu" name="p-lieu" maxlength="40" value="' + esc(brouillon.lieu) + '" placeholder="' + t("Ex. : Douala") + '"></div>' +
       '</div>' +
       champsSens +
-      (brouillon.sens.length < SENS_MAX ? '<button type="button" class="btn ajout" data-act="ajouter-sens">+ Ajouter un autre sens</button>' : '') +
-      '<label for="p-exemple">Une phrase d\'exemple <span class="opt">facultatif</span></label>' +
-      '<textarea id="p-exemple" name="p-exemple" maxlength="200" rows="2" placeholder="Comment on l\'emploie au quotidien">' + esc(brouillon.exemple) + '</textarea>' +
-      '<label for="p-pseudo">Ton pseudo, pour te citer <span class="opt">facultatif</span></label>' +
-      '<input id="p-pseudo" name="p-pseudo" maxlength="30" value="' + esc(brouillon.pseudo) + '" placeholder="Ex. : Aya de Yopougon">' +
+      (brouillon.sens.length < SENS_MAX ? '<button type="button" class="btn ajout" data-act="ajouter-sens">' + t("+ Ajouter un autre sens") + '</button>' : '') +
+      '<label for="p-exemple">' + t("Une phrase d'exemple") + opt + '</label>' +
+      '<textarea id="p-exemple" name="p-exemple" maxlength="200" rows="2" placeholder="' + t("Comment on l'emploie au quotidien") + '">' + esc(brouillon.exemple) + '</textarea>' +
+      '<label for="p-pseudo">' + t("Ton pseudo, pour te citer") + opt + '</label>' +
+      '<input id="p-pseudo" name="p-pseudo" maxlength="30" value="' + esc(brouillon.pseudo) + '" placeholder="' + t("Ex. : Aya de Yopougon") + '">' +
       '<p class="erreur-form" id="erreur-form" hidden></p>' +
-      '<button type="submit" class="btn">Préparer ma proposition</button>' +
+      '<button type="submit" class="btn">' + t("Préparer ma proposition") + '</button>' +
       '</form>', "proposer");
     var f = document.getElementById("form-proposer");
     f.addEventListener("input", lireFormulaire);
     f.addEventListener("submit", function (ev) { ev.preventDefault(); validerProposition(); });
   }
+  // Le ticket reste en français : c'est l'équipe qui le lit.
   function texteProposition() {
     var b = brouillon;
     var p = b.pays === "AUTRE" ? "Autre pays" : (PAYS[b.pays] ? PAYS[b.pays].drapeau + " " + PAYS[b.pays].nom : "");
@@ -1079,12 +1146,12 @@
     lireFormulaire();
     var err = document.getElementById("erreur-form");
     var manque = [];
-    if (!brouillon.expression.trim()) manque.push("l'expression");
-    if (!brouillon.pays) manque.push("le pays");
-    if (!brouillon.sens[0].sens.trim()) manque.push("au moins un sens");
-    if (brouillon.pays === "AUTRE" && !brouillon.lieu.trim()) manque.push("le nom du pays (dans « Ville ou région »)");
+    if (!brouillon.expression.trim()) manque.push(t("l'expression"));
+    if (!brouillon.pays) manque.push(t("le pays"));
+    if (!brouillon.sens[0].sens.trim()) manque.push(t("au moins un sens"));
+    if (brouillon.pays === "AUTRE" && !brouillon.lieu.trim()) manque.push(t("le nom du pays (dans « Ville ou région »)"));
     if (manque.length) {
-      err.textContent = "Il manque " + manque.join(", ") + ".";
+      err.textContent = t("Il manque {liste}.", { liste: manque.join(", ") });
       err.hidden = false;
       return;
     }
@@ -1093,19 +1160,27 @@
     var corps = texte + "\n\n---\nEnvoyé depuis le jeu Tchip.";
     var lien = DEPOT_PROPOSITIONS + "/issues/new?labels=proposition&title=" + encodeURIComponent(titre) + "&body=" + encodeURIComponent(corps);
     signal("Proposition.preparee", { pays: brouillon.pays });
-    feuille('<header><h2>Merci, c\'est prêt !</h2>' + boutonFermer() + '</header>' +
+    feuille('<header><h2>' + t("Merci, c'est prêt !") + '</h2>' + boutonFermer() + '</header>' +
       '<div class="exemple-grille">' + esc(texte) + '</div>' +
-      '<p>Envoie-la sur la page des propositions de Tchip. On la fait relire par des gens de ton pays avant de la mettre en jeu.</p>' +
-      '<a class="btn" href="' + esc(lien) + '" target="_blank" rel="noopener">Envoyer ma proposition</a>' +
-      '<p class="vide">L\'envoi passe par GitHub et demande un compte gratuit. Pas de compte ? Copie le texte et envoie-le-nous sur nos réseaux.</p>' +
-      '<button class="btn secondaire" data-act="copier-proposition">Copier le texte</button>' +
-      '<button class="btn secondaire" data-act="nouvelle-proposition">Proposer une autre expression</button>', "proposition-prete");
+      '<p>' + t("Envoie-la sur la page des propositions de Tchip. On la fait relire par des gens de ton pays avant de la mettre en jeu.") + '</p>' +
+      '<a class="btn" href="' + esc(lien) + '" target="_blank" rel="noopener">' + t("Envoyer ma proposition") + '</a>' +
+      '<p class="vide">' + t("L'envoi passe par GitHub et demande un compte gratuit. Pas de compte ? Copie le texte et envoie-le-nous sur nos réseaux.") + '</p>' +
+      '<button class="btn secondaire" data-act="copier-proposition">' + t("Copier le texte") + '</button>' +
+      '<button class="btn secondaire" data-act="nouvelle-proposition">' + t("Proposer une autre expression") + '</button>', "proposition-prete");
     feuilleProposer.texte = texte;
   }
 
   // ---------- Feuilles ----------
-  function boutonFermer() { return '<button class="icon-btn" data-act="fermer" aria-label="Fermer">' + ICONES.fermer + '</button>'; }
+  function boutonFermer() { return '<button class="icon-btn" data-act="fermer" aria-label="' + t("Fermer") + '">' + ICONES.fermer + '</button>'; }
+  // En-tête d'une feuille ; retour : ouverte depuis les réglages, on peut y revenir.
+  function enteteFeuille(titre, retour) {
+    return (retour ? '<button class="lien-retour" data-act="reglages">' + ICONES.retour + t("Réglages") + '</button>' : '') +
+      '<header><h2>' + titre + '</h2>' + boutonFermer() + '</header>';
+  }
   function feuille(contenu, nom) {
+    // la même feuille, mise à jour (un interrupteur, un champ ajouté) : on change son contenu sans la refaire monter
+    var ouverte = nom && feuilleOuverte(nom) && document.querySelector("#feuille .feuille");
+    if (ouverte) { ouverte.innerHTML = contenu; return; }
     fermerFeuille();
     var fond = document.createElement("div");
     fond.className = "feuille-fond"; fond.id = "feuille";
@@ -1134,7 +1209,7 @@
       return ln.schedule({ notifications: [{
         id: ID_RAPPEL,
         title: "Tchip",
-        body: "Ton expression du jour t'attend 🌶️ Tu sais ce qu'elle veut dire ?",
+        body: t("Ton expression du jour t'attend 🌶️ Tu sais ce qu'elle veut dire ?"),
         schedule: { on: { hour: heure, minute: 0 }, allowWhileIdle: true },
         isExactNotification: false // un rappel n'a pas besoin d'alarme exacte : aucune permission spéciale sur Android
       }] });
@@ -1146,16 +1221,16 @@
     return ln.requestPermissions().then(function (p) {
       if (p.display !== "granted") {
         changerReglage("rappel", false);
-        toast("Notifications refusées : tu peux les autoriser dans les réglages du téléphone.");
+        toast(t("Notifications refusées : tu peux les autoriser dans les réglages du téléphone."));
         return false;
       }
       return programmerRappel(heure).then(function () {
         changerReglage("rappel", true); changerReglage("heure", heure);
-        toast("Rappel activé : chaque jour à " + heure + " h");
+        toast(t("Rappel activé : chaque jour à {h} h", { h: heure }));
         signal("Rappel.active", { heure: heure });
         return true;
       });
-    }).catch(function () { toast("Impossible d'activer le rappel."); return false; });
+    }).catch(function () { toast(t("Impossible d'activer le rappel.")); return false; });
   }
   function desactiverRappel() {
     var ln = plugin("LocalNotifications");
@@ -1176,43 +1251,112 @@
     }).catch(function () {});
   }
 
-  // ---------- Réglages, confidentialité ----------
+  // ---------- Réglages ----------
+  // Général : sons, vibrations, affichage, rappel. Divers : langue, règles, invitations, à propos, confidentialité.
   function interrupteur(act, actif, titre, detail) {
     return '<div class="reglage"><div><b>' + titre + '</b><span>' + detail + '</span></div>' +
       '<button class="interrupteur" role="switch" aria-checked="' + (actif ? "true" : "false") + '" aria-label="' + titre + '" data-act="' + act + '"><span></span></button></div>';
   }
+  // Choix entre quelques valeurs (thème, langue) : des boutons côte à côte.
+  function segments(reglage, valeur, options, titre) {
+    return '<div class="reglage"><div><b>' + titre + '</b></div><div class="segments" role="radiogroup" aria-label="' + titre + '">' +
+      options.map(function (o) {
+        return '<button role="radio" aria-checked="' + (o[0] === valeur) + '" data-act="choix" data-reglage="' + reglage + '" data-valeur="' + o[0] + '"' +
+          (o[2] ? ' lang="' + o[2] + '"' : '') + '>' + o[1] + '</button>';
+      }).join("") + '</div></div>';
+  }
+  function ligneLien(act, icone, titre, detail) {
+    return '<button class="reglage lien" data-act="' + act + '"><span class="ico" aria-hidden="true">' + icone + '</span>' +
+      '<span class="texte"><b>' + titre + '</b>' + (detail ? '<span>' + detail + '</span>' : '') + '</span><span class="chevron" aria-hidden="true">›</span></button>';
+  }
+  function peutVibrer() { return !!(plugin("Haptics") || navigator.vibrate); }
   function feuilleReglages() {
     var r = reglages();
-    var h = '<header><h2>Réglages</h2>' + boutonFermer() + '</header>';
+    var h = enteteFeuille(t("Réglages")) + '<h3 class="groupe-titre">' + t("Général") + '</h3><div class="groupe">';
+    if (SONS && SONS.disponible) {
+      h += interrupteur("musique", r.musique, t("Musique"), t("Une petite boucle de balafon pendant que tu joues.")) +
+        interrupteur("bruitages", r.bruitages, t("Bruitages"), t("Bonne réponse, tchip, tampon…"));
+    }
+    if (peutVibrer()) h += interrupteur("vibrations", r.vibrations, t("Vibrations"), t("Un petit retour sous le doigt quand tu réponds."));
+    h += interrupteur("animations", r.animations, t("Animations"), t("Confettis, glissements, tampons qui s'impriment."));
+    h += segments("theme", r.theme, [["auto", t("Auto")], ["clair", t("Clair")], ["sombre", t("Sombre")]], t("Thème"));
     if (plugin("LocalNotifications")) {
-      h += interrupteur("rappel", r.rappel, "Rappel quotidien", "Une notification quand le tchip du jour est prêt.");
+      h += interrupteur("rappel", r.rappel, t("Rappel quotidien"), t("Une notification quand le tchip du jour est prêt."));
       if (r.rappel) {
-        h += '<label class="reglage"><div><b>Heure du rappel</b></div><select data-reglage="heure">' +
-          HEURES_RAPPEL.map(function (x) { return '<option value="' + x + '"' + (x === r.heure ? " selected" : "") + '>' + x + ' h</option>'; }).join("") +
+        h += '<label class="reglage"><div><b>' + t("Heure du rappel") + '</b></div><select data-reglage="heure">' +
+          HEURES_RAPPEL.map(function (x) { return '<option value="' + x + '"' + (x === r.heure ? " selected" : "") + '>' + t("{h} h", { h: x }) + '</option>'; }).join("") +
           '</select></label>';
       }
     }
     if (TELEMETRYDECK_APP_ID) {
-      h += interrupteur("stats-anonymes", r.statsAnonymes, "Statistiques anonymes", "Aide à améliorer le jeu. Sans pub ni traçage, rien qui t'identifie.");
+      h += interrupteur("stats-anonymes", r.statsAnonymes, t("Statistiques anonymes"), t("Aide à améliorer le jeu. Sans pub ni traçage, rien qui t'identifie."));
     }
-    h += '<div class="actions">' +
-      '<button class="btn secondaire" data-act="confidentialite">Confidentialité</button>' +
-      '<button class="btn secondaire" data-act="effacer">Effacer mes données</button></div>' +
-      '<p class="vide version">Tchip ' + esc(VERSION_APP) + ' · sans compte, ta progression reste sur cet appareil.</p>';
+    h += '</div><h3 class="groupe-titre">' + t("Divers") + '</h3><div class="groupe">' +
+      segments("langue", L, [["fr", "Français", "fr"], ["en", "English", "en"]], t("Langue")) +
+      ligneLien("regles", ICONES.aide, t("Règles du jeu")) +
+      ligneLien("inviter", ICONES.inviter, t("Inviter des amis"), t("Par message, WhatsApp, réseaux sociaux…")) +
+      ligneLien("a-propos", ICONES.info, t("À propos"), t("Version {v}", { v: esc(VERSION_APP) })) +
+      ligneLien("confidentialite", ICONES.cadenas, t("Confidentialité")) +
+      '</div><button class="btn danger" data-act="effacer">' + t("Effacer mes données") + '</button>' +
+      '<p class="vide version">' + t("Sans compte : ta progression reste sur cet appareil.") + '</p>';
     feuille(h, "reglages");
   }
+  // Un réglage a changé : on l'applique tout de suite, et la feuille se met à jour sur place.
+  function basculer(cle) {
+    var r = reglages();
+    changerReglage(cle, !r[cle]);
+    appliquerReglages();
+    if (cle === "bruitages" && !r.bruitages) son("juste");      // un aperçu de ce qu'on vient d'allumer
+    if (cle === "vibrations" && !r.vibrations) vibrer("succes");
+    feuilleReglages();
+  }
+  function choisirReglage(cle, valeur) {
+    changerReglage(cle, valeur);
+    if (cle === "langue") {
+      localiser();
+      chargerJour(jourAffiche); // même partie, textes dans la nouvelle langue
+      rendre();
+      if (reglages().rappel) programmerRappel(reglages().heure).catch(function () {}); // le texte de la notification aussi
+      signal("Langue", { langue: valeur });
+    }
+    appliquerReglages();
+  }
+  function inviter() {
+    signal("Invitation");
+    partagerTexte(t("Je joue à Tchip : chaque jour, une expression de la francophonie à deviner, d'Abidjan à Montréal. Tu parles d'où ? Viens jouer avec moi 👉 {lien}", { lien: LIEN_JEU }), t("Inviter des amis"));
+  }
+  function feuilleAPropos() {
+    var voix = EXPR.some(function (e) { return e.audio; });
+    var credits = [
+      t("Expressions : rassemblées à partir de dictionnaires, d'études et de propositions de joueurs."),
+      voix ? t("Voix : de vraies personnes du pays, créditées sur chaque mot.") : "",
+      t("Musique et bruitages : créés pour Tchip."),
+      t("Drapeaux : flag-icons (licence MIT)."),
+      t("Polices : Bricolage Grotesque et Figtree (licence SIL OFL).")
+    ].filter(Boolean);
+    feuille(enteteFeuille(t("À propos"), true) +
+      '<div class="a-propos">' + WORDMARK + '<p>' + t("Tu parles d'où ?") + '</p></div>' +
+      '<p>' + t("Le jeu des expressions de la francophonie : une à deviner chaque jour, et des centaines à apprendre avant de partir en voyage.") + '</p>' +
+      '<dl class="infos">' +
+      '<div><dt>' + t("Version") + '</dt><dd>' + esc(VERSION_APP) + '</dd></div>' +
+      '<div><dt>' + t("Contenu") + '</dt><dd>' + t("{n} expressions, {p} pays", { n: EXPR.length, p: Object.keys(PAYS).length }) + '</dd></div>' +
+      '</dl>' +
+      '<h3 class="groupe-titre">' + t("Crédits") + '</h3><ul class="credits">' + credits.map(function (c) { return '<li>' + c + '</li>'; }).join("") + '</ul>' +
+      '<div class="actions"><button class="btn secondaire" data-act="inviter">' + ICONES.inviter + t("Inviter des amis") + '</button>' +
+      '<a class="btn secondaire" href="' + DEPOT_PROPOSITIONS + '/issues/new" target="_blank" rel="noopener">' + t("Signaler un problème") + '</a></div>', "a-propos");
+  }
   function feuilleConfidentialite() {
-    feuille('<header><h2>Confidentialité</h2>' + boutonFermer() + '</header><div class="texte-legal">Chargement…</div>', "confidentialite");
+    feuille(enteteFeuille(t("Confidentialité"), true) + '<div class="texte-legal">' + t("Chargement…") + '</div>', "confidentialite");
     var zone = function () { return document.querySelector("#feuille .texte-legal"); };
-    fetch("confidentialite.html").then(function (r) { return r.text(); }).then(function (html) {
+    fetch(L === "en" ? "confidentialite-en.html" : "confidentialite.html").then(function (r) { return r.text(); }).then(function (html) {
       var main = new DOMParser().parseFromString(html, "text/html").querySelector("main");
       if (!main || !zone()) return;
       var titre = main.querySelector("h1"); if (titre) titre.remove();
       zone().innerHTML = main.innerHTML; // notre propre page, embarquée avec l'app
-    }).catch(function () { if (zone()) zone().textContent = "Page indisponible pour le moment."; });
+    }).catch(function () { if (zone()) zone().textContent = t("Page indisponible pour le moment."); });
   }
   function effacerDonnees() {
-    if (!window.confirm("Effacer ta série, tes stats et tes parties sur cet appareil ? C'est définitif.")) return;
+    if (!window.confirm(t("Effacer ta série, tes stats et tes parties sur cet appareil ? C'est définitif."))) return;
     var ln = plugin("LocalNotifications");
     if (ln) ln.cancel({ notifications: [{ id: ID_RAPPEL }] }).catch(function () {});
     clearTimeout(secoursEnAttente);
@@ -1228,42 +1372,44 @@
   // Accueil, affiché une seule fois au premier lancement : 3 lignes, une par onglet, avec les mêmes icônes.
   function feuilleBienvenue() {
     var etapes = [
-      ["jour", "p1", "Chaque jour, une expression", "Devine ce qu'elle veut dire, puis de quel pays elle vient."]
+      ["jour", "p1", t("Chaque jour, une expression"), t("Devine ce qu'elle veut dire, puis de quel pays elle vient.")]
     ];
     if (AP) etapes.push(
-      ["voyager", "p2", "Voyager", "Choisis un pays et apprends ses mots. Joue autant que tu veux."],
-      ["carnet", "p3", "Carnet", "Gagne un tampon pour chaque pays que tu apprends."]
+      ["voyager", "p2", t("Voyager"), t("Choisis un pays et apprends ses mots. Joue autant que tu veux.")],
+      ["carnet", "p3", t("Carnet"), t("Gagne un tampon pour chaque pays que tu apprends.")]
     );
-    feuille('<header><h2>Bienvenue sur Tchip&nbsp;!</h2>' + boutonFermer() + '</header>' +
-      '<p class="intro-aide">Le jeu des expressions de la francophonie, de Dakar à Montréal.</p>' +
+    feuille('<header><h2>' + t("Bienvenue sur Tchip&nbsp;!") + '</h2>' + boutonFermer() + '</header>' +
+      '<p class="intro-aide">' + t("Le jeu des expressions de la francophonie, de Dakar à Montréal.") + '</p>' +
       '<ol class="etapes-aide">' + etapes.map(function (x) {
         return '<li><span class="pastille ' + x[1] + '" aria-hidden="true">' + ICONES[x[0]] + '</span><div><b>' + x[2] + '</b><span>' + x[3] + '</span></div></li>';
       }).join("") + '</ol>' +
-      '<button class="btn" data-act="fermer">C\'est parti&nbsp;!</button>' +
-      '<p class="vide centre">Besoin d\'aide plus tard ? Touche le <b>?</b> en haut de l\'écran.</p>', "bienvenue");
+      segments("langue", L, [["fr", "Français", "fr"], ["en", "English", "en"]], t("Langue")) +
+      '<button class="btn" data-act="fermer">' + t("C'est parti&nbsp;!") + '</button>' +
+      '<p class="vide centre">' + t("Besoin d'aide plus tard ? Touche le <b>?</b> en haut de l'écran.") + '</p>', "bienvenue");
   }
 
-  // Aide complète (bouton « ? ») : courte, une partie par onglet, des phrases simples.
-  function feuilleAide() {
-    var h = '<header><h2>Comment jouer</h2>' + boutonFermer() + '</header>' +
-      '<section class="aide-bloc"><h3><span class="pastille p1" aria-hidden="true">' + ICONES.jour + '</span>Aujourd\'hui</h3><ul>' +
-      '<li>Une nouvelle expression chaque jour à minuit, la même pour tout le monde.</li>' +
-      '<li>Trouve ce qu\'elle veut dire. Tu as <b>2 essais</b> : du premier coup, <b>3 points</b> ; au deuxième, <b>1 point</b>.</li>' +
-      '<li>Si tu te trompes, un <b>indice</b> apparaît.</li>' +
-      '<li>Bonus : trouve le pays. <b>+1 point</b>.</li>' +
-      '<li>Partage ton score : la réponse reste secrète. Joue chaque jour pour faire monter ta série 🔥.</li>' +
+  // Aide complète (bouton « ? », ou « Règles du jeu » dans les réglages) : courte, une partie par onglet.
+  function feuilleAide(depuisReglages) {
+    var h = enteteFeuille(t("Comment jouer"), depuisReglages) +
+      '<section class="aide-bloc"><h3><span class="pastille p1" aria-hidden="true">' + ICONES.jour + '</span>' + t("Aujourd'hui") + '</h3><ul>' +
+      [t("Une nouvelle expression chaque jour à minuit, la même pour tout le monde."),
+        t("Trouve ce qu'elle veut dire. Tu as <b>2 essais</b> : du premier coup, <b>3 points</b> ; au deuxième, <b>1 point</b>."),
+        t("Si tu te trompes, un <b>indice</b> apparaît."),
+        t("Bonus : trouve le pays. <b>+1 point</b>."),
+        t("Partage ton score : la réponse reste secrète. Joue chaque jour pour faire monter ta série 🔥.")
+      ].map(function (x) { return '<li>' + x + '</li>'; }).join("") +
       '</ul></section>';
     if (AP) h +=
-      '<section class="aide-bloc"><h3><span class="pastille p2" aria-hidden="true">' + ICONES.voyager + '</span>Voyager</h3><ul>' +
-      '<li>Choisis un pays et joue des séries de 8 mots, autant que tu veux.</li>' +
-      '<li>Dans le lexique, touche un mot pour voir ce qu\'il veut dire.</li>' +
+      '<section class="aide-bloc"><h3><span class="pastille p2" aria-hidden="true">' + ICONES.voyager + '</span>' + t("Voyager") + '</h3><ul>' +
+      '<li>' + t("Choisis un pays et joue des séries de 8 mots, autant que tu veux.") + '</li>' +
+      '<li>' + t("Dans le lexique, touche un mot pour voir ce qu'il veut dire.") + '</li>' +
       '</ul></section>' +
-      '<section class="aide-bloc"><h3><span class="pastille p3" aria-hidden="true">' + ICONES.carnet + '</span>Carnet</h3><ul>' +
-      '<li>Un mot est <b>maîtrisé</b> quand tu l\'as trouvé 3 fois : la première fois, le lendemain, puis 3 jours après.</li>' +
-      '<li>Les mots à revoir t\'attendent ici. Le chiffre rouge te dit combien.</li>' +
-      '<li>Maîtrise les mots d\'un pays pour gagner ses tampons :</li>' +
+      '<section class="aide-bloc"><h3><span class="pastille p3" aria-hidden="true">' + ICONES.carnet + '</span>' + t("Carnet") + '</h3><ul>' +
+      '<li>' + t("Un mot est <b>maîtrisé</b> quand tu l'as trouvé 3 fois : la première fois, le lendemain, puis 3 jours après.") + '</li>' +
+      '<li>' + t("Les mots à revoir t'attendent ici. Le chiffre rouge te dit combien.") + '</li>' +
+      '<li>' + t("Maîtrise les mots d'un pays pour gagner ses tampons :") + '</li>' +
       '</ul><div class="paliers-aide">' + AP.SEUILS.slice(1).map(function (s, i) {
-        return '<span class="rang rang-' + (i + 1) + '">' + Math.round(s * 100) + ' %</span><span>' + AP.NOMS_RANGS[i + 1] + '</span>';
+        return '<span class="rang rang-' + (i + 1) + '">' + t("{pct} %", { pct: Math.round(s * 100) }) + '</span><span>' + nomRang(i + 1) + '</span>';
       }).join("") + '</div></section>';
     feuille(h, "aide");
   }
@@ -1279,29 +1425,29 @@
       var w = Math.max(8, Math.round((s.distrib[i] / max) * 100));
       lignes += '<div class="distrib-ligne"><span>' + i + '/4</span><div class="barre' + (i === scoreAuj ? ' actuelle' : '') + '" style="width:' + w + '%">' + s.distrib[i] + '</div></div>';
     }
-    feuille('<header><h2>Mes stats</h2>' + boutonFermer() + '</header>' +
+    feuille('<header><h2>' + t("Mes stats") + '</h2>' + boutonFermer() + '</header>' +
       '<div class="stats-grid">' +
-      '<div class="stat"><b>' + s.joues + '</b><span>Parties</span></div>' +
-      '<div class="stat"><b>' + pct + '%</b><span>Sens trouvés</span></div>' +
-      '<div class="stat"><b>' + serieActuelle() + '</b><span>Série</span></div>' +
-      '<div class="stat"><b>' + s.meilleure + '</b><span>Record</span></div>' +
-      '</div><h3 style="margin:0;font-family:var(--f-display);font-size:20px">Répartition des scores</h3>' +
+      '<div class="stat"><b>' + s.joues + '</b><span>' + t("Parties") + '</span></div>' +
+      '<div class="stat"><b>' + pct + '%</b><span>' + t("Sens trouvés") + '</span></div>' +
+      '<div class="stat"><b>' + serieActuelle() + '</b><span>' + t("Série") + '</span></div>' +
+      '<div class="stat"><b>' + s.meilleure + '</b><span>' + t("Record") + '</span></div>' +
+      '</div><h3 style="margin:0;font-family:var(--f-display);font-size:20px">' + t("Répartition des scores") + '</h3>' +
       '<div class="distrib">' + lignes + '</div>' +
-      (s.joues === 0 ? '<p class="vide">Joue ton premier tchip pour remplir tes stats.</p>' : ''));
+      (s.joues === 0 ? '<p class="vide">' + t("Joue ton premier tchip pour remplir tes stats.") + '</p>' : ''));
   }
 
   function feuilleArchives() {
     var items = "";
     for (var n = jourReel; n >= Math.max(1, jourReel - 59); n--) {
       var st = lire(cleJour(n), null);
-      var label = n === jourReel ? "Aujourd'hui" : esc(dateDuNumero(n));
-      var etatTxt = st && st.fini ? score(st, puzzle(n).e) + "/4" : (st ? "En cours" : "À jouer");
+      var label = n === jourReel ? t("Aujourd'hui") : esc(dateDuNumero(n));
+      var etatTxt = st && st.fini ? score(st, puzzle(n).e) + "/4" : (st ? t("En cours") : t("À jouer"));
       items += '<li><button data-jour="' + n + '"><span>#' + n + ' · ' + label + '</span><span class="etat">' + etatTxt + '</span></button></li>';
     }
-    feuille('<header><h2>Jours précédents</h2>' + boutonFermer() + '</header>' +
-      '<p class="vide">Rattrape les tchips que tu as ratés. Ils ne comptent pas dans ta série.</p>' +
+    feuille('<header><h2>' + t("Jours précédents") + '</h2>' + boutonFermer() + '</header>' +
+      '<p class="vide">' + t("Rattrape les tchips que tu as ratés. Ils ne comptent pas dans ta série.") + '</p>' +
       '<ul class="archives">' + items + '</ul>' +
-      (jourReel === 1 ? '<p class="vide">C\'est le premier jour de Tchip : les archives se rempliront dès demain.</p>' : ''));
+      (jourReel === 1 ? '<p class="vide">' + t("C'est le premier jour de Tchip : les archives se rempliront dès demain.") + '</p>' : ''));
   }
 
   // ---------- Événements ----------
@@ -1312,7 +1458,7 @@
     if (b.hasAttribute("data-sens")) return choisirSens(+b.getAttribute("data-sens"));
     if (b.hasAttribute("data-pays")) return choisirPays(+b.getAttribute("data-pays"));
     if (b.hasAttribute("data-jour")) { fermerFeuille(); onglet = "jour"; chargerJour(+b.getAttribute("data-jour")); entree = "place"; rendre(); window.scrollTo(0, 0); return; }
-    if (b.hasAttribute("data-onglet")) return allerA(b.getAttribute("data-onglet"));
+    if (b.hasAttribute("data-onglet")) { son("clic"); return allerA(b.getAttribute("data-onglet")); }
     if (b.hasAttribute("data-voyage")) return allerA("voyager", b.getAttribute("data-voyage"));
     if (b.hasAttribute("data-mot")) return feuilleMot(EXPR[+b.getAttribute("data-mot")]);
     if (b.hasAttribute("data-rep")) return repondre(+b.getAttribute("data-rep"));
@@ -1324,7 +1470,7 @@
       case "suivant": return suivant();
       case "quitter-serie": return quitterSerie();
       case "rejouer-serie": return rejouerSerie();
-      case "partager-passeport": signal("Passeport.partage"); return partagerTexte(textePasseport(), "Partager mon passeport");
+      case "partager-passeport": signal("Passeport.partage"); return partagerTexte(textePasseport(), t("Partager mon passeport"));
       case "proposer": return feuilleProposer(b.getAttribute("data-code"));
       case "ajouter-sens":
         lireFormulaire();
@@ -1340,7 +1486,7 @@
         ecrire("tchip:brouillon", brouillon);
         return feuilleProposer();
       case "copier-proposition":
-        return copier(feuilleProposer.texte || "", function () { toast("Texte copié !"); });
+        return copier(feuilleProposer.texte || "", function () { toast(t("Texte copié !")); });
       case "nouvelle-proposition":
         brouillon = brouillonVide();
         ecrire("tchip:brouillon", brouillon);
@@ -1352,6 +1498,13 @@
       case "partager": return partager();
       case "aujourdhui": onglet = "jour"; chargerJour(jourReel); entree = "place"; rendre(); window.scrollTo(0, 0); return;
       case "reglages": return feuilleReglages();
+      case "musique": case "bruitages": case "vibrations": case "animations": return basculer(b.getAttribute("data-act"));
+      case "choix":
+        choisirReglage(b.getAttribute("data-reglage"), b.getAttribute("data-valeur"));
+        return feuilleOuverte("bienvenue") ? feuilleBienvenue() : feuilleReglages();
+      case "regles": return feuilleAide(true);
+      case "inviter": return inviter();
+      case "a-propos": return feuilleAPropos();
       case "confidentialite": return feuilleConfidentialite();
       case "effacer": return effacerDonnees();
       case "rappel":
@@ -1371,7 +1524,7 @@
     if (ev.target.getAttribute("data-reglage") !== "heure") return;
     var heure = +ev.target.value;
     changerReglage("heure", heure);
-    programmerRappel(heure).then(function () { toast("Rappel déplacé à " + heure + " h"); }).catch(function () {});
+    programmerRappel(heure).then(function () { toast(t("Rappel déplacé à {h} h", { h: heure })); }).catch(function () {});
   });
   document.addEventListener("keydown", function (ev) {
     if (ev.key !== "Escape") return;
@@ -1406,6 +1559,8 @@
 
   // ---------- Démarrage ----------
   verifierDonnees();
+  localiser();
+  appliquerReglages();
   appliquerContenu(lire("tchip:contenu", null)); // expressions reçues lors d'une visite précédente
   // En local seulement : ?jour=N pour tester n'importe quel jour
   var apercu = null;

@@ -52,6 +52,49 @@
     return pbs;
   }
 
+  // Traduction (data/expressions-en.js) : complète, et aussi jouable que l'original.
+  function verifierTraduction(expressions, pays, themes, tr) {
+    if (!tr || typeof tr !== "object" || !tr.expressions || !tr.pays) return ["Traduction : format invalide."];
+    var pbs = [];
+    Object.keys(pays || {}).forEach(function (c) {
+      var p = tr.pays[c];
+      if (!p || !texte(p.nom) || !texte(p.accent) || !texte(p.intro)) pbs.push("Traduction du pays « " + c + " » : nom, accent ou intro manquant.");
+    });
+    Object.keys(themes || {}).forEach(function (k) {
+      if (!tr.themes || !tr.themes[k] || !texte(tr.themes[k].nom)) pbs.push("Traduction du thème « " + k + " » manquante.");
+    });
+    var sensFr = {}; // pays → sens anglais → sens français : deux sens différents ne doivent pas se confondre
+    (expressions || []).forEach(function (e, i) {
+      if (!e) return;
+      var num = "#" + (i + 1) + " « " + e.expression + " »", x = tr.expressions[e.pays + "|" + e.expression];
+      if (!x) { pbs.push(num + " : pas de traduction."); return; }
+      if (!texte(x.sens) || !texte(x.fiche)) { pbs.push(num + " : sens ou fiche manquant dans la traduction."); return; }
+      if (!Array.isArray(x.leurres) || x.leurres.length !== 3 || !x.leurres.every(texte)) { pbs.push(num + " : il faut 3 leurres traduits."); return; }
+      var opts = [x.sens].concat(x.leurres);
+      if (new Set(opts).size !== opts.length) pbs.push(num + " : deux propositions identiques dans la traduction.");
+      var nbAilleurs = (e.ailleurs || []).length;
+      if (nbAilleurs !== (x.ailleurs || []).length) pbs.push(num + " : traduire chacun des autres sens (« ailleurs »).");
+      else (x.ailleurs || []).forEach(function (a) {
+        if (!a || !texte(a.sens) || !texte(a.ou)) pbs.push(num + " : autre sens traduit incomplet.");
+        else if (x.leurres.indexOf(a.sens) !== -1) pbs.push(num + " : le leurre « " + a.sens + " » est un vrai sens ailleurs.");
+      });
+      var parPays = sensFr[e.pays] = sensFr[e.pays] || {};
+      if (parPays[x.sens] !== undefined && parPays[x.sens] !== e.sens) pbs.push(num + " : « " + x.sens + " » traduit déjà un autre sens de ce pays.");
+      parPays[x.sens] = e.sens;
+    });
+    // synonymes : même sens en français dans un pays → même sens en anglais
+    (expressions || []).forEach(function (e, i) {
+      var x = e && tr.expressions[e.pays + "|" + e.expression];
+      if (!x) return;
+      (expressions || []).slice(i + 1).forEach(function (f) {
+        var y = tr.expressions[f.pays + "|" + f.expression];
+        if (y && f.pays === e.pays && f.sens === e.sens && y.sens !== x.sens) pbs.push("« " + e.expression + " » et « " + f.expression + " » sont synonymes : même sens en anglais.");
+      });
+    });
+    return pbs;
+  }
+  verifier.traduction = verifierTraduction;
+
   if (typeof module !== "undefined" && module.exports) module.exports = verifier;
   else racine.TCHIP_VERIFIER = verifier;
 })(this);

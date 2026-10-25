@@ -12,6 +12,7 @@
   --piment: #FF4D2E;
   --mangue: #FFC233;
   --menthe: #19B38A;
+  --danger: #C2311A;                         /* texte d'action destructive, lisible sur le papier */
   --encre-fixe: #1D1B4F;
   --ombre: #1D1B4F;
 
@@ -34,13 +35,13 @@
   :root:not([data-theme="light"]) {
     --papier: #14122E; --surface: #221F4A; --sable: #2E2A5E; --encre: #FFF3DF;
     --encre-douce: #B9B5D9; --trait: #3A3670; --indigo: #4A45B8; --piment: #FF6B4D;
-    --menthe: #2FD3A5; --ombre: #05040F; color-scheme: dark;
+    --menthe: #2FD3A5; --ombre: #05040F; --danger: #FF8A73; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --papier: #14122E; --surface: #221F4A; --sable: #2E2A5E; --encre: #FFF3DF;
   --encre-douce: #B9B5D9; --trait: #3A3670; --indigo: #4A45B8; --piment: #FF6B4D;
-  --menthe: #2FD3A5; --ombre: #05040F; color-scheme: dark;
+  --menthe: #2FD3A5; --ombre: #05040F; --danger: #FF8A73; color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -337,6 +338,35 @@ button {
 }
 .interrupteur[aria-checked="true"] { background: var(--menthe); }
 .interrupteur[aria-checked="true"] span { transform: translateX(22px); }
+.groupe-titre {
+  margin: 6px 0 -6px; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--encre-douce);
+}
+.groupe { display: grid; gap: 8px; }
+/* Ligne de menu (règles, inviter, à propos…) : tout l'autocollant se touche */
+.reglage.lien { width: 100%; justify-content: flex-start; gap: 12px; text-align: left; font: inherit; color: inherit; box-shadow: var(--pop-sm); }
+.reglage.lien .ico svg { display: block; width: 22px; height: 22px; stroke: var(--encre); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.reglage.lien .texte { flex: 1; min-width: 0; }
+.reglage.lien .chevron { font-size: 26px; line-height: 1; font-weight: 800; color: var(--encre-douce); }
+.reglage.lien:active { transform: translateY(2px); box-shadow: none; }
+/* Choix entre quelques valeurs (thème, langue) */
+.segments { flex: none; display: inline-flex; gap: 2px; padding: 3px; border: 2px solid var(--encre); border-radius: var(--r-pill); background: var(--sable); }
+.segments button {
+  min-height: 38px; padding: 4px 12px; border: none; border-radius: var(--r-pill); background: transparent;
+  font-size: 14px; font-weight: 700; color: var(--encre-douce); transition: background .15s ease, color .15s ease;
+}
+.segments button[aria-checked="true"] { background: var(--surface); color: var(--encre); box-shadow: 0 0 0 2px var(--encre); }
+.btn.danger { background: transparent; color: var(--danger); border-color: var(--danger); box-shadow: none; min-height: 48px; font-size: 15px; }
+.feuille > .lien-retour { margin-bottom: -10px; }
+/* À propos */
+.a-propos { display: grid; justify-items: center; gap: 2px; padding: 4px 0; }
+.a-propos .wordmark { height: 52px; width: auto; }
+.a-propos .wordmark .ink { stroke: var(--encre); }
+.a-propos p { font-family: var(--f-display); font-weight: 800; font-size: 18px; }
+.infos { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.infos div { padding: 10px 12px; background: var(--surface); border: var(--bord); border-radius: var(--r-md); }
+.infos dt { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-douce); }
+.infos dd { margin: 0; font-weight: 700; }
+.credits { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 14px; color: var(--encre-douce); }
 .version { font-size: 13px; text-align: center; }
 .texte-legal { display: grid; gap: 10px; font-size: 15px; }
 .texte-legal h2 { font-family: var(--f-display); font-size: 19px; line-height: 1.2; margin: 8px 0 0; }
@@ -560,6 +590,8 @@ body:not(.en-serie) .toast { bottom: calc(var(--h-onglets) + 16px + env(safe-are
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+/* Réglages › Animations coupées */
+.sans-animation *, .sans-animation *::before, .sans-animation *::after { animation: none !important; transition: none !important; }
 
 /* ---------- Autres sens ---------- */
 .autres-sens { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }

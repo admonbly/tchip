@@ -8,7 +8,9 @@ Ce qui est déjà prêt dans le dépôt, puis ce qu'il reste à faire, dans l'or
 - **Fonctions natives** (elles comptent pour la règle Apple 4.2, « pas un simple site web emballé ») :
   rappel quotidien en notification locale, retour haptique, feuille de partage du téléphone, jeu 100 % hors ligne,
   bouton retour Android, copie de secours de la progression.
-- **iOS** : français comme langue de l'app, iPhone en portrait, icône 1024 sans transparence, écrans de lancement clair et sombre,
+- **Deux langues** : français et anglais (interface, sens et fiches traduits ; l'anglais est choisi d'office si le téléphone est en anglais).
+- **Réglages** : musique, bruitages, vibrations, animations, thème, langue, règles, invitation d'amis par le partage du téléphone (aucun accès aux contacts), à propos.
+- **iOS** : français (langue de développement) et anglais déclarés, iPhone en portrait, icône 1024 sans transparence, écrans de lancement clair et sombre,
   manifeste de confidentialité (`PrivacyInfo.xcprivacy`), déclaration de chiffrement (aucun chiffrement propriétaire).
 - **Android** : cible Android 16 (API 36), icône adaptative + monochrome (Android 13), icône de notification,
   écran de lancement clair et sombre, **aucune permission sensible** (l'alarme exacte est retirée).
@@ -24,8 +26,8 @@ Ce qui est déjà prêt dans le dépôt, puis ce qu'il reste à faire, dans l'or
    - jeu : `https://admonbly.github.io/tchip/`
    - confidentialité (URL à donner aux deux stores) : `https://admonbly.github.io/tchip/confidentialite.html`
    - expressions lues par les apps : `https://admonbly.github.io/tchip/data/expressions.json`
-2. **Compléter** les mentions `[À COMPLÉTER : …]` dans `confidentialite.html` (éditeur, adresse, e-mail de contact, directeur de publication).
-3. Si tu achètes un domaine plus tard (ex. `tchip.app`) : le brancher sur GitHub Pages, puis mettre à jour `CONTENU_URL` et `ADRESSE_PARTAGE` dans `app.js`.
+2. **Compléter** les mentions `[À COMPLÉTER : …]` dans `confidentialite.html` **et** `confidentialite-en.html` (éditeur, adresse, e-mail de contact, directeur de publication).
+3. Si tu achètes un domaine plus tard (ex. `tchip.app`) : le brancher sur GitHub Pages, puis mettre à jour `CONTENU_URL` et `ADRESSE_PARTAGE` dans `app.js`. `ADRESSE_PARTAGE` est aussi le lien des invitations (Réglages › Inviter des amis) : une fois les apps en ligne, une page avec les deux boutons des stores est l'idéal.
 
 ## 2. Comptes développeur
 
@@ -51,8 +53,9 @@ Il faut un **Mac avec Xcode** (ou un service de build dans le cloud).
      Pour éviter ça, passer l'app en iPhone seul : Xcode › cible *App* › *Supported Destinations* › retirer iPad.
    - **Classification par âge** : répondre au questionnaire honnêtement (quelques expressions évoquent l'argent, une maîtresse, un pot-de-vin : c'est léger).
    - **Confidentialité de l'app** (« étiquettes ») : **Données non collectées**, tant que les statistiques sont désactivées (voir § 6).
+   - **Langues de la fiche** : ajouter l'anglais (*App Store Connect › Informations sur l'app › Localisations*) avec son nom, sous-titre, description et captures en anglais, par ex. `Tchip – Where do you speak from?` · `Guess the expression of the day`.
    - **Notes pour la revue** (en anglais), à coller :
-     > Tchip is a daily French-language word game: guess what a francophone expression means, then where it comes from. No account, no ads, no tracking. Native features: optional daily local reminder (Settings), haptic feedback, native share sheet, full offline play. Player progress stays on the device.
+     > Tchip is a daily word game about expressions from the French-speaking world: guess what an expression means, then where it comes from. Available in French and English (Settings › Language). No account, no ads, no tracking. Native features: optional daily local reminder, haptic feedback, native share sheet (score sharing and friend invites, no contacts access), music and sound effects generated on device, full offline play. Player progress stays on the device.
 
 ## 4. Publier sur Android
 
@@ -60,7 +63,7 @@ Il faut un **Mac avec Xcode** (ou un service de build dans le cloud).
 2. Tester sur un téléphone (ou récupérer l'APK de test produit par la CI : onglet *Actions* › dernier run › *tchip-android-debug*).
 3. *Build* › *Generate Signed App Bundle* › **AAB**. Créer une clé de signature et la **sauvegarder en lieu sûr** (sans elle, plus de mises à jour). Activer *Play App Signing* dans la Play Console.
 4. Dans la Play Console :
-   - **Fiche** : description courte (80 car.), longue, icône 512 et bannière 1024×500 (dans `assets/store/`), au moins 2 captures de téléphone.
+   - **Fiche** : description courte (80 car.), longue, icône 512 et bannière 1024×500 (dans `assets/store/`), au moins 2 captures de téléphone. Ajouter une traduction anglaise de la fiche (*Présence sur le Store › Traductions*).
    - **Catégorie** : Jeux › Mots.
    - **Classification du contenu** : questionnaire IARC.
    - **Public cible** : 13 ans et plus (en dessous, le programme « Familles » de Google ajoute des obligations).

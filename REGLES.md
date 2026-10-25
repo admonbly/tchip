@@ -82,3 +82,7 @@ Le jeu du jour compte aussi : un sens trouvé du premier coup fait monter le mot
 ## Proposer une expression
 
 À la fin de chaque partie, le bouton **Proposer une expression** permet d'envoyer une expression de chez soi, avec jusqu'à 3 sens. Chaque proposition est relue par des personnes du pays avant d'entrer dans le jeu.
+
+## Réglages
+
+En haut à droite, les **Réglages** regroupent la musique, les bruitages, les vibrations, les animations et le thème (partie Général), puis la langue (français ou anglais), ces règles du jeu, l'invitation d'amis et la page À propos (partie Divers). En anglais, l'expression et sa phrase d'exemple restent en version originale : seuls les sens, les fiches et l'interface sont traduits.

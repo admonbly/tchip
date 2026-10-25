@@ -7,8 +7,17 @@ const verifier = require("../verification.js");
 const chargerDonnees = require("./charger-donnees.js");
 
 const racine = path.resolve(__dirname, "..");
-const { expressions, pays, themes } = chargerDonnees();
+const { expressions, pays, themes, en } = chargerDonnees();
 const problemes = verifier(expressions, pays, themes);
+
+// La version anglaise : toutes les expressions traduites, et tous les textes de l'interface.
+if (!en) problemes.push("data/expressions-en.js manquant.");
+else problemes.push(...verifier.traduction(expressions, pays, themes, en));
+const fenetre = {};
+require("vm").runInNewContext(fs.readFileSync(path.join(racine, "langues.js"), "utf8"), { window: fenetre });
+require("./cles-interface.js")(fs.readFileSync(path.join(racine, "app.js"), "utf8"))
+  .filter((k) => !fenetre.TCHIP_LANGUES.en[k])
+  .forEach((k) => problemes.push("Texte d'interface sans traduction anglaise (langues.js) : « " + k + " »."));
 
 // Chaque pays a son drapeau en image (npm run drapeaux).
 Object.keys(pays).forEach(function (code) {

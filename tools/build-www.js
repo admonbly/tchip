@@ -14,8 +14,8 @@ const pkg = require("../package.json");
 const racine = path.resolve(__dirname, "..");
 const sortie = path.join(racine, "www");
 const FICHIERS = [
-  "index.html", "app.js", "verification.js", "apprentissage.js", "styles.css", "sw.js",
-  "manifest.webmanifest", "confidentialite.html", "data/expressions.js"
+  "index.html", "app.js", "verification.js", "apprentissage.js", "sons.js", "langues.js", "styles.css", "sw.js",
+  "manifest.webmanifest", "confidentialite.html", "confidentialite-en.html", "data/expressions.js", "data/expressions-en.js"
 ];
 const DOSSIERS = ["assets", "audio"].filter((d) => fs.existsSync(path.join(racine, d)));
 
@@ -39,8 +39,9 @@ fs.copyFileSync(path.join(racine, "node_modules/@capacitor/core/dist/capacitor.j
 remplacer("index.html", '<script src="app.js"></script>', '<script src="capacitor.js"></script>\n<script src="app.js"></script>');
 
 // Contenu distant (même ordre que data/expressions.js : l'ordre = l'ordre des jours).
-const { expressions, pays, themes } = chargerDonnees();
-fs.writeFileSync(path.join(sortie, "data", "expressions.json"), JSON.stringify({ version: 2, themes, pays, expressions }));
+// « en » : la traduction anglaise ; les apps plus anciennes l'ignorent simplement.
+const { expressions, pays, themes, en } = chargerDonnees();
+fs.writeFileSync(path.join(sortie, "data", "expressions.json"), JSON.stringify({ version: 2, themes, pays, expressions, en }));
 
 // Versions : celle de l'app (affichée dans les réglages) et celle du cache hors ligne.
 remplacer("app.js", 'var VERSION_APP = "dev";', 'var VERSION_APP = "' + pkg.version + '";');

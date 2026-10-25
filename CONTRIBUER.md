@@ -23,7 +23,18 @@ Les expressions sont dans `data/expressions.js`. L'ordre du tableau donne l'ordr
 }
 ```
 
-Deux expressions synonymes du même pays doivent avoir **exactement le même sens** (ex. « Ya fohi » et « Y a pas drap » : « Il n'y a pas de problème »). Le jeu évite alors de les proposer ensemble dans une même question.
+## La version anglaise
+
+Chaque expression a aussi sa traduction dans `data/expressions-en.js`, sous la clé `"PAYS|Expression"` :
+
+```js
+"CI|Un woro-woro": { sens: "A shared taxi", leurres: ["A street vendor", "A drum", "A bridge"],
+  fiche: "Abidjan's local taxis, a different color in each district." },
+```
+
+On traduit le sens, les 3 leurres (dans le même ordre), la fiche et, s'il y en a, chaque autre sens (`ailleurs: [{ sens, ou }]`). L'expression et l'exemple ne se traduisent pas. Un nouveau pays ou un nouveau thème s'ajoute aussi dans ce fichier (`pays`, `themes`). Sans traduction, `npm run verifier` refuse la base. Un nouveau texte dans l'interface (`t("…")` dans `app.js`) se traduit dans `langues.js`.
+
+Deux expressions synonymes du même pays doivent avoir **exactement le même sens** (ex. « Ya fohi » et « Y a pas drap » : « Il n'y a pas de problème »), en français comme en anglais (« No problem »). Le jeu évite alors de les proposer ensemble dans une même question.
 
 ## Une expression, plusieurs sens
 

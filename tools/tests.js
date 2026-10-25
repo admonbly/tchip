@@ -47,6 +47,36 @@ test("« aussi » ne peut pas contenir le pays d'origine", () => {
   assert.ok(verifier(e, pays, themes).some((p) => p.includes("aussi")));
 });
 
+// ---------- Anglais ----------
+const { en } = chargerDonnees();
+test("la traduction anglaise couvre tout et reste jouable", () => {
+  assert.deepStrictEqual(verifier.traduction(expressions, pays, themes, en), []);
+});
+test("une expression sans traduction est signalée", () => {
+  const t = copie(en); delete t.expressions[expressions[5].pays + "|" + expressions[5].expression];
+  assert.ok(verifier.traduction(expressions, pays, themes, t).some((p) => p.includes("pas de traduction")));
+});
+test("deux sens différents d'un même pays ne se confondent pas en anglais", () => {
+  const t = copie(en), ci = expressions.filter((e) => e.pays === "CI");
+  const a = ci.find((e) => e.expression === "Gaou"), b = ci.find((e) => e.expression === "Brouteur");
+  t.expressions["CI|Brouteur"].sens = t.expressions["CI|Gaou"].sens;
+  assert.ok(a && b && verifier.traduction(expressions, pays, themes, t).some((p) => p.includes("traduit déjà")));
+});
+test("les synonymes gardent le même sens en anglais", () => {
+  const t = copie(en); t.expressions["CI|Y a pas drap"].sens = "No worries";
+  assert.ok(verifier.traduction(expressions, pays, themes, t).some((p) => p.includes("synonymes")));
+});
+test("chaque texte de l'interface a sa traduction anglaise", () => {
+  const fenetre = {};
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, "..", "langues.js"), "utf8"), { window: fenetre });
+  const dico = fenetre.TCHIP_LANGUES.en;
+  const cles = require("./cles-interface.js")(fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8"))
+    .concat(A.NOMS_RANGS, Object.keys(pays).map((c) => pays[c].region))
+    .concat(["un peu", "pas mal", "très", "complètement"].map((d) => "Tu parles " + d + " {a}"));
+  assert.ok(cles.length > 200);
+  assert.deepStrictEqual(cles.filter((k) => !dico[k]), []);
+});
+
 // ---------- Apprentissage ----------
 test("une bonne réponse fait monter le niveau et espace la révision", () => {
   let f = A.apresReponse(undefined, true, 10);

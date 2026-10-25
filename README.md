@@ -42,10 +42,14 @@ styles.css             identité visuelle (couleurs, typo, style « autocollant 
 app.js                 interface et logique : jeu du jour, Voyager, Carnet, partage, stats, archives,
                        réglages, rappel quotidien, contenu distant, statistiques anonymes
 apprentissage.js       moteur d'apprentissage : niveaux, révisions espacées, séries, passeport, accent
-verification.js        règles de la base d'expressions (partagées entre l'app, le build et la CI)
+verification.js        règles de la base d'expressions et de sa traduction (partagées entre l'app, le build et la CI)
+sons.js                musique (boucle de balafon) et bruitages, joués par le code : aucun fichier son
+langues.js             traduction anglaise de l'interface (la clé est le texte français d'app.js)
 data/expressions.js    la base : thèmes, pays, expressions (l'ordre = l'ordre des jours)
+data/expressions-en.js la même base en anglais : sens, leurres, fiches, noms des pays et des thèmes
 audio/                 voix enregistrées par des gens de chaque pays (voir CONTRIBUER.md)
-confidentialite.html   politique de confidentialité et mentions légales (affichée aussi dans l'app)
+confidentialite.html   politique de confidentialité et mentions légales (affichée aussi dans l'app),
+confidentialite-en.html  et sa version anglaise
 sw.js                  service worker : le site marche hors ligne
 assets/                logo, icônes, polices (assets/fonts), drapeaux (assets/drapeaux), visuels Google Play (assets/store)
 manifest.webmanifest   installation sur l'écran d'accueil (PWA)
@@ -55,7 +59,6 @@ tools/                 build, vérification, tests, icônes, polices, drapeaux, 
 .github/workflows/     CI : tests, vérification, compilation Android et iOS, publication GitHub Pages
 RELECTURE.md           liste de relecture des expressions par pays (⚠️ = à valider en priorité)
 REGLES.md              règles du jeu détaillées
-RELECTURE.md           les 120 expressions classées par pays, pour la relecture
 .github/ISSUE_TEMPLATE formulaire des propositions d'expressions
 CONTRIBUER.md          comment ajouter des expressions
 DEPLOIEMENT.md         publier sur l'App Store et Google Play, pas à pas
@@ -66,7 +69,7 @@ DEPLOIEMENT.md         publier sur l'App Store et Google Play, pas à pas
 En haut de `app.js` :
 
 - `LANCEMENT` : la date du Tchip #1. À caler sur le jour du lancement public.
-- `ADRESSE_PARTAGE` : le domaine affiché dans le texte partagé (`tchip.app` est provisoire).
+- `ADRESSE_PARTAGE` : le domaine affiché dans les textes partagés et le lien des invitations (`tchip.app`, à acheter et brancher avant le lancement).
 - `ESSAIS_SENS` : nombre d'essais pour trouver le sens (2 par défaut).
 - `CONTENU_URL` : où les apps vont chercher les nouvelles expressions (GitHub Pages par défaut). Elles n'acceptent qu'une liste valide qui ne retire aucune expression, pour que l'ordre des jours ne bouge jamais.
 - `TELEMETRYDECK_APP_ID` : vide = pas de statistiques. Voir `DEPLOIEMENT.md` pour les activer.
@@ -74,16 +77,28 @@ En haut de `app.js` :
 
 En local, ajoute `?jour=N` à l'adresse pour tester n'importe quel jour (désactivé une fois en ligne).
 
+## Réglages du joueur
+
+Le bouton en haut à droite ouvre les **Réglages** :
+
+- **Général** : musique (coupée par défaut), bruitages, vibrations, animations, thème (auto, clair, sombre), rappel quotidien (dans les apps).
+- **Divers** : langue (français ou anglais ; par défaut, l'anglais si le téléphone est en anglais, sinon le français), règles du jeu, inviter des amis (partage du téléphone : SMS, WhatsApp, réseaux… sans accès aux contacts), à propos (version, contenu, crédits), confidentialité, effacer mes données.
+
+## Langues
+
+Tout le texte du code est en français et passe par `t("…")`. `langues.js` donne la version anglaise de chaque texte ; `data/expressions-en.js` traduit le contenu (l'expression et sa phrase d'exemple restent dans leur langue d'origine, puisque c'est ce qu'on apprend). `npm run verifier` et `npm test` refusent un texte ou une expression sans traduction, et vérifient que la traduction reste jouable (3 leurres différents du sens, synonymes identiques, sens différents qui ne se confondent pas). `node tools/cles-interface.js` liste les textes d'interface qui n'ont pas encore leur traduction.
+
 ## Données du joueur
 
 Pas de compte. Les parties, la série, les stats, les mots appris et le passeport restent sur l'appareil (`localStorage`). Dans les apps, une copie de secours est gardée dans le stockage natif (au cas où iOS viderait celui de la WebView), et les sauvegardes iCloud / Google du téléphone la prennent normalement en charge. Le joueur peut tout effacer dans Réglages.
 
 ## Feuille de route
 
-**V1 (ce dépôt)** : jeu du jour, indice, bonus pays, partage, série, stats, archives ; mode Voyager (séries par pays, lexique par thème, prononciation, voix) ; Carnet (passeport, accent, révisions espacées) ; 314 expressions de 22 pays, dont certaines à plusieurs sens ; propositions des joueurs ; thème clair et sombre, site hors ligne, apps iOS et Android (rappel quotidien, retour haptique, partage natif), contenu mis à jour sans passer par les stores.
+**V1 (ce dépôt)** : jeu du jour, indice, bonus pays, partage, série, stats, archives ; mode Voyager (séries par pays, lexique par thème, prononciation, voix) ; Carnet (passeport, accent, révisions espacées) ; 314 expressions de 22 pays, dont certaines à plusieurs sens ; propositions des joueurs ; français et anglais ; musique, bruitages et effets animés réglables ; invitations ; thème clair et sombre, site hors ligne, apps iOS et Android (rappel quotidien, retour haptique, partage natif), contenu mis à jour sans passer par les stores.
 
 **V1.1 — avant le lancement**
 - Faire relire chaque expression par des locuteurs de chaque pays (`RELECTURE.md`), en priorité les ⚠️ et les brouillons à partir du #39.
+- Faire relire la traduction anglaise (`data/expressions-en.js`, `langues.js`) par un anglophone.
 - Enregistrer les premières voix, en commençant par les salutations de chaque pays (`CONTRIBUER.md`).
 - Acheter le domaine, le brancher dans `ADRESSE_PARTAGE` et sur GitHub Pages.
 - Image de partage générée (story TikTok / Instagram) en plus du texte.
