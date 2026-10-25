@@ -57,6 +57,15 @@ test("une bonne réponse fait monter le niveau et espace la révision", () => {
   f = A.apresReponse(f, true, 21); f = A.apresReponse(f, true, 42);
   assert.strictEqual(f.n, 4, "le niveau plafonne à 4");
 });
+test("trouver un mot avant sa date de révision ne le fait pas progresser", () => {
+  const f = { n: 1, d: 11, v: 1 };
+  assert.ok(!A.compteAujourdhui(f, 10));
+  const apres = A.apresReponse(f, true, 10);
+  assert.deepStrictEqual([apres.n, apres.d, apres.v], [1, 11, 2], "on ne maîtrise pas un mot en rejouant la même série");
+  assert.ok(A.compteAujourdhui(f, 11));
+  assert.strictEqual(A.apresReponse(f, true, 11).n, 2);
+  assert.ok(A.compteAujourdhui(A.decouvrir(undefined, 10), 10), "un mot juste lu dans le lexique compte");
+});
 test("une erreur ramène au niveau 0 et on revoit le mot demain", () => {
   const f = A.apresReponse({ n: 3, d: 30, v: 5 }, false, 30);
   assert.deepStrictEqual(f, { n: 0, d: 31, v: 6 });
@@ -113,16 +122,29 @@ test("synonymes du même pays : jamais deux bonnes réponses dans une question i
     assert.ok(!q.options.includes("Y a pas drap"), "« Y a pas drap » a le même sens que « Ya fohi »");
   }
 });
-test("rangs du passeport", () => {
-  assert.strictEqual(A.rang({ total: 10, vus: 0, maitrises: 0 }), 0);
-  assert.strictEqual(A.rang({ total: 10, vus: 1, maitrises: 0 }), 1);
-  assert.strictEqual(A.rang({ total: 10, vus: 5, maitrises: 3 }), 2);
-  assert.strictEqual(A.rang({ total: 10, vus: 9, maitrises: 6 }), 3);
-  assert.strictEqual(A.rang({ total: 10, vus: 10, maitrises: 10 }), 4);
+test("tampons : 25, 50, 75 et 100 % de mots maîtrisés, rien pour un mot simplement vu", () => {
+  const r = (total, maitrises) => A.rang({ total, vus: total, maitrises });
+  assert.strictEqual(A.rang({ total: 20, vus: 12, maitrises: 0 }), 0, "voir des mots ne suffit pas");
+  assert.strictEqual(r(20, 4), 0);
+  assert.strictEqual(r(20, 5), 1);   // 25 %
+  assert.strictEqual(r(20, 9), 1);
+  assert.strictEqual(r(20, 10), 2);  // 50 %
+  assert.strictEqual(r(20, 15), 3);  // 75 %
+  assert.strictEqual(r(20, 19), 3);
+  assert.strictEqual(r(20, 20), 4);  // 100 %
+  assert.strictEqual(r(23, 6), 1, "on arrondit au mot supérieur : 25 % de 23 = 6 mots");
+  assert.strictEqual(r(23, 5), 0);
+});
+test("prochain tampon : combien de mots il manque", () => {
+  const p = { total: 23, vus: 10, maitrises: 7 };
+  assert.deepStrictEqual(A.prochainPalier(p), { rang: 2, nom: "Voyageur", seuil: 50, requis: 12, manque: 5 });
+  assert.strictEqual(A.pourcentage(p), 30);
+  assert.strictEqual(A.prochainPalier({ total: 5, vus: 5, maitrises: 5 }), null);
+  assert.strictEqual(A.prochainPalier({ total: 2, vus: 0, maitrises: 0 }).requis, 1, "petit pays : au moins un mot");
 });
 test("l'accent suit le pays le mieux maîtrisé (3 mots minimum)", () => {
   assert.strictEqual(A.accent({ CI: { total: 20, vus: 5, maitrises: 2 } }), null);
-  const a = A.accent({ CI: { total: 20, vus: 10, maitrises: 4 }, TD: { total: 2, vus: 2, maitrises: 2 }, SN: { total: 10, vus: 8, maitrises: 7 } });
+  const a = A.accent({ CI: { total: 20, vus: 10, maitrises: 4 }, TD: { total: 2, vus: 2, maitrises: 2 }, SN: { total: 10, vus: 9, maitrises: 8 } });
   assert.strictEqual(a.code, "SN");
   assert.strictEqual(a.degre, "très");
 });

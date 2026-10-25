@@ -61,9 +61,12 @@ Pour ceux qui partent bientôt, ou qui ont la famille là-bas.
 
 ## Carnet : passeport, accent et révisions
 
-- Chaque mot a un niveau de 0 à 4. Une bonne réponse le fait monter et le fait revenir plus tard (1, 3, 7 puis 21 jours) ; une erreur le remet à 0 et il revient le lendemain. À partir du niveau 3, il est **maîtrisé**.
+- Chaque mot a un niveau de 0 à 4. Une bonne réponse **au bon moment** le fait monter et le fait revenir plus tard (1, 3, 7 puis 21 jours) ; une erreur le remet à 0 et il revient le lendemain.
+- Le bon moment, c'est la première fois qu'on le rencontre, puis le jour où il est à revoir. Le retrouver avant ne le fait pas progresser : on ne maîtrise pas un mot en rejouant dix fois la même série. Le jeu le signale (« Déjà vu récemment »).
+- À partir du niveau 3, le mot est **maîtrisé** : il faut donc au moins 3 bonnes réponses sur 5 jours (la première fois, le lendemain, puis 3 jours plus tard).
 - Les mots à revoir s'affichent sur l'onglet Carnet et forment une série de révision.
-- **Un tampon par pays** : Touriste (un premier mot), Voyageur (25 % maîtrisés), Habitué (60 %), Enfant du pays (tous).
+- **Un tampon par pays**, à mériter : il faut maîtriser **25 %** de ses mots pour être Touriste, **50 %** pour Voyageur, **75 %** pour Habitué et **100 %** pour Enfant du pays (arrondi au mot supérieur). Lire le lexique ou voir des mots ne suffit pas.
+- Chaque page pays affiche le pourcentage exact, la barre avec ses paliers et ce qu'il manque : « Encore 5 mots maîtrisés pour le tampon Voyageur (50 %) ».
 - **Ton accent** : le pays dont on maîtrise la plus grande part (3 mots minimum). « Tu parles pas mal ivoirien. »
 - Le passeport se partage en texte, comme le score du jour.
 

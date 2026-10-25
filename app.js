@@ -671,9 +671,18 @@
     });
   }
   function badgeRang(r) { return r ? '<span class="rang rang-' + r + '">' + AP.NOMS_RANGS[r] + '</span>' : ''; }
+  // Barre de mots maîtrisés, avec un repère à chaque palier de tampon (25, 50, 75 %).
   function barreProgression(p) {
     var pct = p.total ? Math.round(p.maitrises / p.total * 100) : 0;
-    return '<span class="barre-prog" role="img" aria-label="' + p.maitrises + ' mots maîtrisés sur ' + p.total + '"><i style="width:' + pct + '%"></i></span>';
+    var reperes = AP.SEUILS.slice(1, -1).map(function (s) { return '<b style="left:' + Math.round(s * 100) + '%"></b>'; }).join("");
+    return '<span class="barre-prog" role="img" aria-label="' + p.maitrises + ' mots maîtrisés sur ' + p.total + ', ' + AP.pourcentage(p) + ' %">' +
+      '<i style="width:' + pct + '%"></i>' + reperes + '</span>';
+  }
+  function phrasePalier(p) {
+    var s = AP.prochainPalier(p);
+    if (!s) return "Tous les mots sont maîtrisés. Respect total !";
+    return "Encore <b>" + s.manque + " mot" + (s.manque > 1 ? "s" : "") + " maîtrisé" + (s.manque > 1 ? "s" : "") +
+      "</b> pour le tampon " + esc(s.nom) + " (" + s.seuil + " %).";
   }
   function carteRevision() {
     var n = aRevoir().length;
@@ -695,7 +704,7 @@
         h += '<button class="carte-pays" data-voyage="' + esc(c) + '">' +
           drapeau(c, "grand") +
           '<b>' + esc(p.nom) + '</b>' +
-          '<span class="compte">' + pr.total + ' mot' + (pr.total > 1 ? 's' : '') + (pr.maitrises ? ' · ' + pr.maitrises + ' maîtrisé' + (pr.maitrises > 1 ? 's' : '') : '') + '</span>' +
+          '<span class="compte">' + pr.total + ' mot' + (pr.total > 1 ? 's' : '') + (pr.vus ? ' · ' + AP.pourcentage(pr) + ' % maîtrisés' : '') + '</span>' +
           barreProgression(pr) + badgeRang(AP.rang(pr)) + '</button>';
       });
       h += '</div>';
@@ -711,11 +720,12 @@
         drapeau(c, "tres-grand") +
         '<h1 class="titre-page">' + esc(p.nom) + '</h1>' +
         (p.intro ? '<p>' + esc(p.intro) + '</p>' : '') +
-        '<div class="niveau">' + (badgeRang(r) || '<span class="rang">Pas encore visité</span>') +
-        '<span>' + pr.maitrises + '/' + pr.total + ' maîtrisés</span></div>' + barreProgression(pr) +
+        '<div class="niveau">' + (badgeRang(r) || '<span class="rang">Pas encore de tampon</span>') +
+        '<span>' + AP.pourcentage(pr) + ' % · ' + pr.maitrises + '/' + pr.total + ' maîtrisés</span></div>' + barreProgression(pr) +
+        '<p class="palier">' + phrasePalier(pr) + '</p>' +
       '</section>' +
       '<div class="actions"><button class="btn" data-act="serie-pays">' + ICONES.voyager + 'Jouer une série</button></div>' +
-      '<p class="vide centre">' + Math.min(TAILLE_SERIE, visibles.length) + ' mots par série. Ceux que tu rates reviennent dans tes révisions.</p>';
+      '<p class="vide centre">' + Math.min(TAILLE_SERIE, visibles.length) + ' mots par série. Un mot est maîtrisé quand tu l\'as trouvé 3 fois au bon moment : la première fois, le lendemain, puis 3 jours plus tard.</p>';
     if (visibles.length < liste.length) h += '<p class="note-verrou">🔒 Une expression de ce pays est le tchip du jour : elle apparaîtra ici quand tu l\'auras jouée.</p>';
     h += '<h2 class="region">Lexique</h2>';
     Object.keys(THEMES).forEach(function (t) {
@@ -772,7 +782,10 @@
   function repondre(k) {
     if (!serie || serie.reponse !== null) return;
     var q = serie.questions[serie.i], juste = k === q.bonne;
+    var fiche = savoir()[AP.cle(q.e)];
     serie.reponse = k;
+    // trouvé avant sa date de révision : on le dit, pour que la règle du jeu soit claire
+    serie.tropTot = juste && !AP.compteAujourdhui(fiche, jourReel) ? fiche.d - jourReel : 0;
     if (juste) serie.bonnes++;
     serie.resultats.push({ e: q.e, juste: juste });
     noterReponse(q.e, juste);
@@ -812,6 +825,7 @@
       var juste = rep === q.bonne;
       h += '<section class="card retour-reponse ' + (juste ? 'juste' : 'rate') + '">' +
         '<p class="verdict-court">' + (juste ? 'Bien joué !' : 'Pas tout à fait…') + '</p>' +
+        (serie.tropTot ? '<p class="petit">Déjà vu récemment : ce mot progressera à sa prochaine révision, dans ' + serie.tropTot + ' j.</p>' : '') +
         '<h3>«&nbsp;' + esc(e.expression) + '&nbsp;»</h3><p class="sens-rappel">' + esc(e.sens) + '</p>' +
         blocSon(e) +
         '<p class="exemple">«&nbsp;' + esc(e.exemple) + '&nbsp;»</p>' +
@@ -835,6 +849,11 @@
       h += '<div class="card nouveau-tampon">' + tampon(t.code, t.rang, false) +
         '<p><b>Nouveau tampon !</b><br>' + esc(paysInfo(t.code).nom) + ' : ' + esc(AP.NOMS_RANGS[t.rang]) + '</p></div>';
     });
+    if (serie.retour.source === "pays") {
+      var pr = AP.progression(exprDuPays(serie.retour.code), savoir());
+      h += '<div class="card palier-carte"><p class="niveau"><span>' + drapeau(serie.retour.code) + ' ' + esc(paysInfo(serie.retour.code).nom) + '</span>' +
+        '<span>' + AP.pourcentage(pr) + ' % maîtrisés</span></p>' + barreProgression(pr) + '<p class="palier">' + phrasePalier(pr) + '</p></div>';
+    }
     h += motif() + '<h2 class="region">Les mots de la série</h2><ul class="lexique bilan">' + serie.resultats.map(function (r) {
       return '<li><button class="mot ' + (r.juste ? 'juste' : 'rate') + '" data-mot="' + EXPR.indexOf(r.e) + '">' +
         '<span class="mot-expr">' + (r.juste ? '✓ ' : '✕ ') + esc(r.e.expression) + '</span><span class="mot-sens">' + esc(r.e.sens) + '</span></button></li>';
@@ -846,10 +865,12 @@
   }
 
   // ---------- Carnet : passeport, accent, révisions ----------
-  function tampon(code, rang, cliquable) {
-    var p = paysInfo(code), nomRang = rang ? AP.NOMS_RANGS[rang] : "À visiter";
+  // pct : part de mots maîtrisés, affichée sous le tampon tant que le pays n'est pas complètement maîtrisé
+  function tampon(code, rang, cliquable, pct) {
+    var p = paysInfo(code), nomRang = rang ? AP.NOMS_RANGS[rang] : (pct ? "En route" : "À visiter");
     var contenu = drapeau(code, "moyen") +
-      '<span class="t-nom">' + esc(p.nom) + '</span><span class="t-rang">' + esc(nomRang) + '</span>';
+      '<span class="t-nom">' + esc(p.nom) + '</span><span class="t-rang">' + esc(nomRang) + '</span>' +
+      (pct && rang < 4 ? '<span class="t-pct">' + pct + ' %</span>' : '');
     return cliquable
       ? '<button class="tampon rang-' + rang + '" data-voyage="' + esc(code) + '" aria-label="' + esc(p.nom + " : " + nomRang) + '">' + contenu + '</button>'
       : '<div class="tampon rang-' + rang + '">' + contenu + '</div>';
@@ -872,13 +893,16 @@
       '<div class="stat"><b>' + maitrises + '</b><span>Maîtrisés</span></div>' +
       '<div class="stat"><b>' + nbTampons + '</b><span>Tampons</span></div>' +
       '<div class="stat"><b>' + aRevoir(s).length + '</b><span>À revoir</span></div></div>';
-    h += carteRevision() + '<h2 class="region">Tampons</h2><div class="passeport">';
+    h += carteRevision() + '<h2 class="region">Tampons</h2>' +
+      '<p class="legende-paliers">Pour chaque pays, maîtrise ' +
+      AP.SEUILS.slice(1).map(function (s, i) { return '<span class="rang rang-' + (i + 1) + '">' + Math.round(s * 100) + ' %</span> ' + AP.NOMS_RANGS[i + 1]; }).join(" · ") +
+      ' de ses mots.</p><div class="passeport">';
     codes.slice().sort(function (a, b) { return AP.rang(prog[b]) - AP.rang(prog[a]) || prog[b].maitrises - prog[a].maitrises; })
-      .forEach(function (c) { h += tampon(c, AP.rang(prog[c]), true); });
+      .forEach(function (c) { h += tampon(c, AP.rang(prog[c]), true, AP.pourcentage(prog[c])); });
     h += '</div>';
     h += nbTampons
       ? '<div class="actions"><button class="btn secondaire" data-act="partager-passeport">' + ICONES.partager + 'Partager mon passeport</button></div>'
-      : '<p class="vide centre">Joue une série dans Voyager pour obtenir ton premier tampon.</p>';
+      : '<p class="vide centre">Maîtrise 25 % des mots d\'un pays pour décrocher ton premier tampon.</p>';
     app.innerHTML = h;
   }
   function textePasseport() {

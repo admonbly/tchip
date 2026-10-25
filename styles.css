@@ -349,8 +349,16 @@ body:not(.en-serie) .toast { bottom: calc(var(--h-onglets) + 16px + env(safe-are
 .carte-pays .compte { font-size: 12px; font-weight: 600; color: var(--encre-douce); }
 .carte-pays .rang { margin-top: auto; }
 
-.barre-prog { display: block; width: 100%; height: 8px; border-radius: var(--r-pill); background: var(--trait); overflow: hidden; }
+.barre-prog { position: relative; display: block; width: 100%; height: 8px; border-radius: var(--r-pill); background: var(--trait); overflow: hidden; }
 .barre-prog i { display: block; height: 100%; background: var(--menthe); border-radius: inherit; }
+.barre-prog b { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--encre); opacity: .35; } /* paliers des tampons */
+.palier { margin: 0; font-size: 14px; color: var(--encre-douce); }
+.palier b { color: var(--encre); }
+.palier-carte { display: grid; gap: 8px; }
+.palier-carte .niveau { margin: 0; }
+.legende-paliers { margin: -4px 0 0; font-size: 13px; line-height: 1.9; color: var(--encre-douce); }
+.legende-paliers .rang { padding: 1px 6px; font-size: 10px; }
+.tampon .t-pct { font-size: 10px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .rang {
   display: inline-block; padding: 3px 8px; border-radius: var(--r-pill); border: 2px solid var(--encre); background: var(--surface);
   font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
