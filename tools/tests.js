@@ -87,8 +87,8 @@ test("une série met les révisions dues en premier, sans doublon", () => {
   assert.strictEqual(new Set(serie).size, serie.length);
 });
 test("une petite liste donne une série plus courte", () => {
-  const td = expressions.filter((e) => e.pays === "TD");
-  assert.strictEqual(A.composerSerie(td, {}, 1, aleaFixe(1), 8).length, td.length);
+  const petite = expressions.filter((e) => e.pays === "TD").slice(0, 3);
+  assert.strictEqual(A.composerSerie(petite, {}, 1, aleaFixe(1), 8).length, 3);
 });
 test("question « sens » : 4 propositions dont la bonne", () => {
   const e = expressions[0];

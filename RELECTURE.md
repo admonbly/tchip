@@ -186,29 +186,7 @@ Pour chaque entrée, vérifier : le sens, l'usage réel aujourd'hui, la phrase d
 - [ ] **#202 Le pondu** : Des feuilles de manioc pilées et mijotées
 - [ ] **#222 La chikwangue** : Un pain de manioc cuit dans des feuilles · se dit : *chi-kwan-gué*
 
-## 🇷🇪 La Réunion (8)
-
-- [ ] **#16 Zoreil** : Un métropolitain installé sur l'île
-- [ ] **#58 Gros-doigts** : Maladroit
-- [ ] **#98 Le marmay** : Les enfants
-- [ ] **#132 Ou lé bien ?** : Tu vas bien ?
-- [ ] **#153 Un dalon** : Un ami, un pote
-- [ ] **#173 Un cari** : Un plat mijoté aux épices
-- [ ] **#195 Un rougail saucisse** : Des saucisses à la tomate et au piment
-- [ ] **#216 Le zembrocal** : Du riz au curcuma et aux haricots
-
-## 🇧🇫 Burkina Faso (8)
-
-- [ ] **#50 C'est caillou** : C'est dur, c'est difficile
-- [ ] **#82 Mordre le carreau** ⚠️ : Être battu nettement
-- [ ] **#108 Le grin** : Le groupe d'amis qui se retrouve autour du thé
-- [ ] **#134 Barka** : Merci
-- [ ] **#155 Le dolo** : La bière de mil
-- [ ] **#175 Le tô** : Une pâte de mil ou de maïs
-- [ ] **#197 On est ensemble** : On se soutient, à bientôt
-- [ ] **#218 Yako !** : Courage, désolé pour toi
-
-## 🇭🇹 Haïti (8)
+## 🇭🇹 Haïti (13)
 
 - [ ] **#51 Être comme lait et citron** : Être fâchés l'un contre l'autre
 - [ ] **#77 Un tap-tap** : Un bus coloré de transport collectif
@@ -218,8 +196,73 @@ Pour chaque entrée, vérifier : le sens, l'usage réel aujourd'hui, la phrase d
 - [ ] **#174 Le griot** : Du porc frit mariné · autres sens : Un conteur et musicien de tradition orale (En Afrique de l'Ouest)
 - [ ] **#196 Le lakou** : La cour où vit la famille élargie
 - [ ] **#217 Le konpa** : La musique de danse haïtienne
+- [ ] **#243 Le clairin** : Un rhum blanc artisanal · [source](https://fr.wiktionary.org/wiki/clairin)
+- [ ] **#257 La soupe joumou** : La soupe au giraumon du 1er janvier · [source](https://fr.wiktionary.org/wiki/soupe_joumou)
+- [ ] **#275 Le coumbite** : Un travail collectif entre voisins · [source](https://fr.wiktionary.org/wiki/coumbite)
+- [ ] **#292 Télégueule** : Le bouche-à-oreille, la rumeur · [source](https://fr.wiktionary.org/wiki/t%C3%A9l%C3%A9gueule)
+- [ ] **#306 Le pikliz** : Un condiment de chou et piment au vinaigre · [source](https://fr.wiktionary.org/wiki/pikliz)
 
-## 🇲🇦 Maroc (7)
+## 🇷🇪 La Réunion (12)
+
+- [ ] **#16 Zoreil** : Un métropolitain installé sur l'île
+- [ ] **#58 Gros-doigts** : Maladroit
+- [ ] **#98 Le marmay** : Les enfants
+- [ ] **#132 Ou lé bien ?** : Tu vas bien ?
+- [ ] **#153 Un dalon** : Un ami, un pote
+- [ ] **#173 Un cari** : Un plat mijoté aux épices
+- [ ] **#195 Un rougail saucisse** : Des saucisses à la tomate et au piment
+- [ ] **#216 Le zembrocal** : Du riz au curcuma et aux haricots
+- [ ] **#246 Un gramoune** : Une personne âgée · [source](https://fr.wiktionary.org/wiki/gramoune)
+- [ ] **#264 Le maloya** : La musique et la danse nées des chants des esclaves · [source](https://fr.wiktionary.org/wiki/maloya)
+- [ ] **#285 En vavangue** : Sans but, au hasard · [source](https://fr.wiktionary.org/wiki/en_vavangue)
+- [ ] **#303 Un margouillat** : Un petit lézard, le gecko · [source](https://fr.wiktionary.org/wiki/margouillat)
+
+## 🇧🇫 Burkina Faso (12)
+
+- [ ] **#50 C'est caillou** : C'est dur, c'est difficile
+- [ ] **#82 Mordre le carreau** ⚠️ : Être battu nettement
+- [ ] **#108 Le grin** : Le groupe d'amis qui se retrouve autour du thé
+- [ ] **#134 Barka** : Merci
+- [ ] **#155 Le dolo** : La bière de mil
+- [ ] **#175 Le tô** : Une pâte de mil ou de maïs
+- [ ] **#197 On est ensemble** : On se soutient, à bientôt
+- [ ] **#218 Yako !** : Courage, désolé pour toi
+- [ ] **#247 Faire avion par terre** : Se dépêcher, foncer · [source](https://fr.wiktionary.org/wiki/faire_avion_par_terre)
+- [ ] **#265 Prendre amener** : Aller chercher quelqu'un ou quelque chose · [source](https://fr.wiktionary.org/wiki/prendre_amener)
+- [ ] **#286 Le chogobit** ⚠️ : Le français parlé comme un Français de France · [source](https://fr.wiktionary.org/wiki/chogobit)
+- [ ] **#304 Le chitoumou** : Des chenilles comestibles du karité · se dit : *chi-tou-mou* · [source](https://fr.wiktionary.org/wiki/chitoumou)
+
+## 🇨🇬 Congo-Brazzaville (12)
+
+- [ ] **#57 Au pas de caméléon** : Très lentement
+- [ ] **#100 Une diacre** ⚠️ : Une jolie jeune femme, une petite amie
+- [ ] **#151 Le saka-saka** : Des feuilles de manioc pilées et cuisinées
+- [ ] **#206 Mwana** : Un enfant · se dit : *mwa-na*
+- [ ] **#236 Voler une course** : Quitter son travail en douce pour faire autre chose · [source](https://fr.wiktionary.org/wiki/voler_une_course)
+- [ ] **#250 Insolencer** : Être insolent avec quelqu'un · [source](https://fr.wiktionary.org/wiki/insolencer)
+- [ ] **#260 Kolater** : Offrir la noix de kola pour se réconcilier · [source](https://fr.wiktionary.org/wiki/kolater)
+- [ ] **#272 Zibouler** ⚠️ : Décapsuler une bouteille · [source](https://fr.wiktionary.org/wiki/zibouler)
+- [ ] **#278 L'eau pamba** : L'eau plate, sans gaz · [source](https://fr.wiktionary.org/wiki/eau_pamba)
+- [ ] **#290 Pilipilisé** : Bien pimenté · [source](https://fr.wiktionary.org/wiki/pilipilis%C3%A9)
+- [ ] **#300 Un nganda** : Un petit bar, un resto populaire · [source](https://fr.wiktionary.org/wiki/nganda)
+- [ ] **#314 Le Beach** : Le port où l'on prend le bateau sur le fleuve · [source](https://fr.wiktionary.org/wiki/beach)
+
+## 🇲🇶 Martinique (12)
+
+- [ ] **#60 Doudou** : Chéri, personne aimée · autres sens : La peluche d'un enfant (En France)
+- [ ] **#156 Pani pwoblem** : Pas de problème · se dit : *pa-ni pwo-blèm*
+- [ ] **#198 Des accras** : Des beignets de morue
+- [ ] **#231 Le bèlè** : Une danse et musique traditionnelle au tambour · se dit : *bè-lè*
+- [ ] **#233 Sa ou fè ?** ⚠️ : Comment ça va ? · se dit : *sa ou fè*
+- [ ] **#237 Le matoutou** : Un plat de crabe au riz · autres sens : Une grosse araignée, une mygale (En Guyane) · [source](https://fr.wiktionary.org/wiki/matoutou)
+- [ ] **#251 Le chatrou** : Un petit poulpe, souvent en ragoût · [source](https://fr.wiktionary.org/wiki/chatrou)
+- [ ] **#261 Au temps de Robert** : Aux temps difficiles où tout manquait · [source](https://fr.wiktionary.org/wiki/au_temps_de_Robert)
+- [ ] **#273 Le laghia** : Une danse de combat au son du tambour · se dit : *la-guia* · [source](https://fr.wiktionary.org/wiki/laghia)
+- [ ] **#287 Le mabi** : Une boisson fermentée à base d'écorce · [source](https://fr.wiktionary.org/wiki/mabi)
+- [ ] **#297 Un manicou** : Un opossum · [source](https://fr.wiktionary.org/wiki/manicou)
+- [ ] **#311 Léler** : Mélanger, touiller une préparation · [source](https://fr.wiktionary.org/wiki/l%C3%A9ler)
+
+## 🇲🇦 Maroc (12)
 
 - [ ] **#79 La hchouma** : La honte, la gêne · se dit : *h'chou-ma*
 - [ ] **#126 Wakha** : D'accord · se dit : *wa-kha (kh comme la jota espagnole)*
@@ -228,8 +271,96 @@ Pour chaque entrée, vérifier : le sens, l'usage réel aujourd'hui, la phrase d
 - [ ] **#184 Un grand taxi** : Un taxi collectif entre deux villes
 - [ ] **#200 Zwin** : Beau, joli
 - [ ] **#220 Bssaha !** : Bon appétit ! À ta santé ! · se dit : *b'sa-ha*
+- [ ] **#242 La harira** : La soupe marocaine du ramadan · [source](https://fr.wiktionary.org/wiki/harira)
+- [ ] **#256 Un maâlem** : Un maître artisan · se dit : *ma-â-lem* · [source](https://fr.wiktionary.org/wiki/ma%C3%A2lem)
+- [ ] **#274 Le chergui** : Un vent chaud et sec venu de l'est · se dit : *chèr-gui* · [source](https://fr.wiktionary.org/wiki/chergui)
+- [ ] **#291 Les briouates** : De petits feuilletés frits en triangle · [source](https://fr.wiktionary.org/wiki/briouate)
+- [ ] **#305 Le petit taxi** : Un taxi qui roule seulement en ville · [source](https://fr.wiktionary.org/wiki/Petit_Taxi)
 
-## 🇹🇳 Tunisie (6)
+## 🇩🇿 Algérie (11)
+
+- [ ] **#10 Hittiste** : Un jeune sans emploi qui « tient les murs »
+- [ ] **#80 Trabendiste** : Un revendeur au marché noir
+- [ ] **#137 Khouya** : Mon frère (pour un ami aussi) · se dit : *khou-ya (kh comme la jota espagnole)*
+- [ ] **#177 Chouf !** : Regarde !
+- [ ] **#212 La hogra** : Le mépris, l'injustice des puissants
+- [ ] **#238 Balek !** : Attention, poussez-vous ! · autres sens : N'en avoir rien à faire (En France, en argot familier) · se dit : *ba-lèk* · [source](https://fr.wiktionary.org/wiki/balek)
+- [ ] **#252 Un taxieur** : Un chauffeur de taxi · [source](https://fr.wiktionary.org/wiki/taxieur)
+- [ ] **#266 Le dégoûtage** : L'ennui, le ras-le-bol · [source](https://fr.wiktionary.org/wiki/d%C3%A9go%C3%BBtage)
+- [ ] **#279 Le nif** : L'honneur, la fierté · [source](https://fr.wiktionary.org/wiki/nif)
+- [ ] **#293 Un parkingueur** : Un gardien de parking improvisé · [source](https://fr.wiktionary.org/wiki/parkingueur)
+- [ ] **#307 C'est la chorba** : C'est le bazar, la confusion · autres sens : Une soupe traditionnelle (Au Maghreb et ailleurs) · [source](https://fr.wiktionary.org/wiki/chorba)
+
+## 🇧🇯 Bénin (11)
+
+- [ ] **#59 Un jaguar** : Un homme beau et élégant
+- [ ] **#102 Un zémidjan** : Un moto-taxi · se dit : *zé-mi-djan*
+- [ ] **#138 Agoo !** : Pardon, je peux entrer ? Laissez passer ! · se dit : *a-gô*
+- [ ] **#178 Le kpayo** : L'essence de contrebande · se dit : *kpa-yo*
+- [ ] **#213 L'akassa** : Une pâte de maïs fermentée
+- [ ] **#239 Avoir la bouche sucrée** : Être bavard · [source](https://fr.wiktionary.org/wiki/avoir_la_bouche_sucr%C3%A9e)
+- [ ] **#253 Bonne arrivée !** : Bienvenue ! · [source](https://fr.wiktionary.org/wiki/bonne_arriv%C3%A9e)
+- [ ] **#267 Prendre à pied la route** : Partir à pied · [source](https://fr.wiktionary.org/wiki/prendre_%C3%A0_pied_la_route)
+- [ ] **#280 Un von** : Une petite rue non goudronnée · [source](https://fr.wiktionary.org/wiki/von)
+- [ ] **#294 L'abobo** : Une purée de haricots bouillis · [source](https://fr.wiktionary.org/wiki/abobo)
+- [ ] **#308 Le bata** : Un tambour traditionnel yoruba · [source](https://fr.wiktionary.org/wiki/bata)
+
+## 🇬🇵 Guadeloupe (11)
+
+- [ ] **#99 Un lolo** : Une petite épicerie de quartier
+- [ ] **#135 Sa ka maché ?** : Comment ça va ? · se dit : *sa ka ma-ché*
+- [ ] **#176 Un bokit** : Un sandwich frit guadeloupéen
+- [ ] **#219 Le zouk** : Une musique dansante des Antilles
+- [ ] **#232 Le gwoka** : La musique de tambour traditionnelle de Guadeloupe · se dit : *gwo-ka*
+- [ ] **#241 Un ti moune** : Un enfant · [source](https://fr.wiktionary.org/wiki/ti_moune)
+- [ ] **#255 Vaval** : Le roi du carnaval, brûlé à la fin de la fête · [source](https://fr.wiktionary.org/wiki/Vaval)
+- [ ] **#269 Le matété** : Un plat de crabe épicé au riz · [source](https://fr.wiktionary.org/wiki/mat%C3%A9t%C3%A9)
+- [ ] **#282 Un ouassou** : Une grosse crevette d'eau douce · [source](https://fr.wiktionary.org/wiki/ouassou)
+- [ ] **#296 Un soucougnan** : Un sorcier qui se change en animal la nuit · [source](https://fr.wiktionary.org/wiki/soucougnan)
+- [ ] **#310 Le lenbé** : Le chagrin d'amour · [source](https://fr.wiktionary.org/wiki/lenb%C3%A9)
+
+## 🇹🇬 Togo (11)
+
+- [ ] **#61 La pluie** ⚠️ : La bourse des étudiants
+- [ ] **#103 Yovo** : Un Blanc, un étranger · se dit : *yo-vo*
+- [ ] **#139 Akpé** : Merci · se dit : *ak-pé*
+- [ ] **#179 Woézon !** ⚠️ : Bienvenue ! · se dit : *wo-é-zon*
+- [ ] **#214 Le koliko** ⚠️ : Des frites d'igname
+- [ ] **#240 Les Nana Benz** : Les riches commerçantes de pagne de Lomé · [source](https://fr.wiktionary.org/wiki/nana_benz)
+- [ ] **#254 Gongonner** : Faire une annonce publique · [source](https://fr.wiktionary.org/wiki/gongonner)
+- [ ] **#268 L'akoumé** : Une pâte de maïs servie avec une sauce · se dit : *a-kou-mé* · [source](https://en.wikipedia.org/wiki/Togolese_cuisine)
+- [ ] **#281 L'ablo** : Une petite galette de maïs cuite à la vapeur · [source](https://en.wikipedia.org/wiki/Togolese_cuisine)
+- [ ] **#295 Le gboma déssi** ⚠️ : Une sauce aux épinards · se dit : *gbo-ma dé-ssi* · [source](https://en.wikipedia.org/wiki/Togolese_cuisine)
+- [ ] **#309 Le koklo mémé** ⚠️ : Du poulet grillé au piment · [source](https://en.wikipedia.org/wiki/Togolese_cuisine)
+
+## 🇲🇱 Mali (11)
+
+- [ ] **#75 Une sotrama** : Un minibus vert de Bamako · se dit : *so-tra-ma*
+- [ ] **#152 I ni ce** ⚠️ : Merci, bonjour (salutation) · se dit : *i ni tché*
+- [ ] **#207 Le bogolan** : Un tissu teint à la boue · se dit : *bo-go-lan*
+- [ ] **#235 Une bâchée** : Un petit camion bâché qui sert de taxi · [source](https://fr.wiktionary.org/wiki/b%C3%A2ch%C3%A9e)
+- [ ] **#249 Cokser** : Rabattre des clients, soutirer de l'argent · [source](https://fr.wiktionary.org/wiki/cokser)
+- [ ] **#259 Un diatigui** : Un logeur, l'hôte qui t'accueille · se dit : *dia-ti-gui* · [source](https://fr.wiktionary.org/wiki/diatigui)
+- [ ] **#271 Le garbal** : Le marché au bétail · [source](https://fr.wiktionary.org/wiki/garbal)
+- [ ] **#277 Être en état** : Être enceinte · [source](https://fr.wiktionary.org/wiki/%C3%AAtre_en_%C3%A9tat)
+- [ ] **#289 Un copiste** : Un élève qui copie sur son voisin · autres sens : Une personne qui recopie des textes (Partout) · [source](https://fr.wiktionary.org/wiki/copiste)
+- [ ] **#299 Une parqueuse** : Une personne qui garde les voitures garées · [source](https://fr.wiktionary.org/wiki/parqueuse)
+- [ ] **#313 Faubérer** : Passer la serpillière · [source](https://fr.wiktionary.org/wiki/faub%C3%A9rer)
+
+## 🇹🇩 Tchad (10)
+
+- [ ] **#76 Cadonner** : Offrir un cadeau
+- [ ] **#180 La boule** : Une pâte épaisse de céréales
+- [ ] **#234 Aba** : Un mot de respect pour une personne âgée · autres sens : La case principale où ont lieu les réunions (Au Cameroun) · [source](https://fr.wiktionary.org/wiki/aba)
+- [ ] **#248 L'abbatiré** : La petite somme qu'on garde pour soi en douce · [source](https://fr.wiktionary.org/wiki/abbatir%C3%A9)
+- [ ] **#258 Le bilibili** : La bière de mil · se dit : *bi-li-bi-li* · [source](https://fr.wiktionary.org/wiki/bilibili)
+- [ ] **#270 Un boukarou** : Une case ronde au toit de chaume · [source](https://fr.wiktionary.org/wiki/boukarou)
+- [ ] **#276 La rompée** : La fin de la journée de travail ou d'école · [source](https://fr.wiktionary.org/wiki/romp%C3%A9e)
+- [ ] **#288 Le kissar** : Une crêpe fine à la pâte fermentée · se dit : *ki-ssar* · [source](https://fr.wiktionary.org/wiki/kissar)
+- [ ] **#298 Le binga** : Un poisson de fleuve aux grandes dents · [source](https://fr.wiktionary.org/wiki/binga)
+- [ ] **#312 Le karkandji** ⚠️ : Le jus d'hibiscus · se dit : *kar-kan-dji* · [source](https://www.lalanguefrancaise.com/dictionnaire/definition/karkade)
+
+## 🇹🇳 Tunisie (10)
 
 - [ ] **#131 Barcha** : Beaucoup · se dit : *bar-cha*
 - [ ] **#150 Behi** : D'accord, c'est bien · se dit : *bé-hi*
@@ -237,8 +368,12 @@ Pour chaque entrée, vérifier : le sens, l'usage réel aujourd'hui, la phrase d
 - [ ] **#189 Aychek** ⚠️ : Merci · se dit : *aï-chek*
 - [ ] **#205 Un louage** : Un taxi collectif entre deux villes
 - [ ] **#225 Une brik** : Une feuille croustillante farcie à l'œuf
+- [ ] **#244 La bsissa** : Une farine d'orge grillée qu'on délaie · se dit : *b'si-ssa* · [source](https://fr.wiktionary.org/wiki/bsissa)
+- [ ] **#262 Les liali** : Les quarante nuits les plus longues de l'hiver · se dit : *lia-li* · [source](https://fr.wiktionary.org/wiki/liali)
+- [ ] **#283 Une ghorfa** : Un grenier voûté du Sud · [source](https://fr.wiktionary.org/wiki/rhorfa)
+- [ ] **#301 Une charfia** : Une pêcherie fixe faite de palmes · se dit : *char-fia* · [source](https://fr.wiktionary.org/wiki/charfia)
 
-## 🇲🇬 Madagascar (6)
+## 🇲🇬 Madagascar (10)
 
 - [ ] **#130 Vazaha** : Un étranger, souvent blanc · se dit : *va-za*
 - [ ] **#149 Mora mora** : Doucement, sans se presser · se dit : *mour-mour*
@@ -246,61 +381,7 @@ Pour chaque entrée, vérifier : le sens, l'usage réel aujourd'hui, la phrase d
 - [ ] **#188 Misaotra** : Merci · se dit : *mi-sôtr*
 - [ ] **#204 Salama** : Bonjour · se dit : *sa-la-m'*
 - [ ] **#224 Le romazava** : Un bouillon de viande aux brèdes · se dit : *rou-ma-zav'*
-
-## 🇩🇿 Algérie (5)
-
-- [ ] **#10 Hittiste** : Un jeune sans emploi qui « tient les murs »
-- [ ] **#80 Trabendiste** : Un revendeur au marché noir
-- [ ] **#137 Khouya** : Mon frère (pour un ami aussi) · se dit : *khou-ya (kh comme la jota espagnole)*
-- [ ] **#177 Chouf !** : Regarde !
-- [ ] **#212 La hogra** : Le mépris, l'injustice des puissants
-
-## 🇧🇯 Bénin (5)
-
-- [ ] **#59 Un jaguar** : Un homme beau et élégant
-- [ ] **#102 Un zémidjan** : Un moto-taxi · se dit : *zé-mi-djan*
-- [ ] **#138 Agoo !** : Pardon, je peux entrer ? Laissez passer ! · se dit : *a-gô*
-- [ ] **#178 Le kpayo** : L'essence de contrebande · se dit : *kpa-yo*
-- [ ] **#213 L'akassa** : Une pâte de maïs fermentée
-
-## 🇬🇵 Guadeloupe (5)
-
-- [ ] **#99 Un lolo** : Une petite épicerie de quartier
-- [ ] **#135 Sa ka maché ?** : Comment ça va ? · se dit : *sa ka ma-ché*
-- [ ] **#176 Un bokit** : Un sandwich frit guadeloupéen
-- [ ] **#219 Le zouk** : Une musique dansante des Antilles
-- [ ] **#232 Le gwoka** : La musique de tambour traditionnelle de Guadeloupe · se dit : *gwo-ka*
-
-## 🇲🇶 Martinique (5)
-
-- [ ] **#60 Doudou** : Chéri, personne aimée · autres sens : La peluche d'un enfant (En France)
-- [ ] **#156 Pani pwoblem** : Pas de problème · se dit : *pa-ni pwo-blèm*
-- [ ] **#198 Des accras** : Des beignets de morue
-- [ ] **#231 Le bèlè** : Une danse et musique traditionnelle au tambour · se dit : *bè-lè*
-- [ ] **#233 Sa ou fè ?** ⚠️ : Comment ça va ? · se dit : *sa ou fè*
-
-## 🇹🇬 Togo (5)
-
-- [ ] **#61 La pluie** ⚠️ : La bourse des étudiants
-- [ ] **#103 Yovo** : Un Blanc, un étranger · se dit : *yo-vo*
-- [ ] **#139 Akpé** : Merci · se dit : *ak-pé*
-- [ ] **#179 Woézon !** ⚠️ : Bienvenue ! · se dit : *wo-é-zon*
-- [ ] **#214 Le koliko** ⚠️ : Des frites d'igname
-
-## 🇨🇬 Congo-Brazzaville (4)
-
-- [ ] **#57 Au pas de caméléon** : Très lentement
-- [ ] **#100 Une diacre** ⚠️ : Une jolie jeune femme, une petite amie
-- [ ] **#151 Le saka-saka** : Des feuilles de manioc pilées et cuisinées
-- [ ] **#206 Mwana** : Un enfant · se dit : *mwa-na*
-
-## 🇲🇱 Mali (3)
-
-- [ ] **#75 Une sotrama** : Un minibus vert de Bamako · se dit : *so-tra-ma*
-- [ ] **#152 I ni ce** ⚠️ : Merci, bonjour (salutation) · se dit : *i ni tché*
-- [ ] **#207 Le bogolan** : Un tissu teint à la boue · se dit : *bo-go-lan*
-
-## 🇹🇩 Tchad (2)
-
-- [ ] **#76 Cadonner** : Offrir un cadeau
-- [ ] **#180 La boule** : Une pâte épaisse de céréales
+- [ ] **#245 Le fokontany** ⚠️ : Le quartier, la plus petite division du pays · se dit : *fou-koun-tan'* · [source](https://fr.wiktionary.org/wiki/fokontany)
+- [ ] **#263 Le zoma** ⚠️ : Le grand marché du vendredi à Tana · se dit : *zou-m'* · [source](https://fr.wiktionary.org/wiki/zouma)
+- [ ] **#284 Mada** : Madagascar, en abrégé · [source](https://fr.wiktionary.org/wiki/Mada)
+- [ ] **#302 Les hainteny** ⚠️ : Des poèmes courts et imagés de tradition orale · se dit : *haïn-tèn'* · [source](https://fr.wiktionary.org/wiki/hainteny)

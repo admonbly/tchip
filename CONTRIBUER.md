@@ -18,7 +18,8 @@ Les expressions sont dans `data/expressions.js`. L'ordre du tableau donne l'ordr
   ailleurs: [{ sens: "La peluche d'un enfant", ou: "En France" }],   // autres sens, et où
   aussi: ["BF"],                      // autres pays où elle s'emploie (jamais proposés au bonus)
   prononciation: "wo-ro wo-ro",       // en syllabes, à la française
-  audio: { fichier: "audio/ci/woro-woro.m4a", voix: "Aya", ville: "Abidjan" }
+  audio: { fichier: "audio/ci/woro-woro.m4a", voix: "Aya", ville: "Abidjan" },
+  source: "https://fr.wiktionary.org/wiki/woro-woro"   // d'où vient l'info (dictionnaire, étude…), pour la relecture
 }
 ```
 

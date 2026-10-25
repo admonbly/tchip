@@ -25,7 +25,8 @@ for (const code of codes) {
   for (const { e, n } of parPays[code]) {
     const autres = (e.ailleurs || []).map((a) => " · autres sens : " + a.sens + " (" + a.ou + ")").join("");
     const pron = e.prononciation ? " · se dit : *" + e.prononciation + "*" : "";
-    md += `- [${cochees.has(e.expression) ? "x" : " "}] **#${n} ${e.expression}**${alertes.has(e.expression) ? " ⚠️" : ""} : ${e.sens}${autres}${pron}\n`;
+    const src = e.source ? " · [source](" + e.source + ")" : "";
+    md += `- [${cochees.has(e.expression) ? "x" : " "}] **#${n} ${e.expression}**${alertes.has(e.expression) ? " ⚠️" : ""} : ${e.sens}${autres}${pron}${src}\n`;
   }
 }
 fs.writeFileSync(fichier, md);

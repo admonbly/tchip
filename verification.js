@@ -37,6 +37,7 @@
         pbs.push(num + " : « aussi » doit lister d'autres codes de TCHIP_PAYS.");
       }
       if (e.prononciation !== undefined && !texte(e.prononciation)) pbs.push(num + " : prononciation vide.");
+      if (e.source !== undefined && !/^https?:\/\/\S+$/.test(e.source)) pbs.push(num + " : la source doit être une adresse web.");
       if (e.audio !== undefined && (!e.audio || !texte(e.audio.fichier) || !texte(e.audio.voix))) pbs.push(num + " : audio incomplet (fichier et voix).");
       if (!Array.isArray(e.leurres) || e.leurres.length !== 3 || !e.leurres.every(texte)) { pbs.push(num + " : il faut exactement 3 leurres."); return; }
       var opts = [e.sens].concat(e.leurres);
