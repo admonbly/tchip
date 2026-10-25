@@ -1,0 +1,14 @@
+{
+  "name": "Tchip — Tu parles d'où ?",
+  "short_name": "Tchip",
+  "description": "Chaque jour, une expression de la francophonie à deviner.",
+  "lang": "fr",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FFF3DF",
+  "theme_color": "#FF4D2E",
+  "icons": [
+    { "src": "assets/favicon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "assets/app-icon-1024.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 0 232 100" role="img" aria-label="tchip">
+  <g fill="none" stroke="#1D1B4F" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 12V54q0 16 16 16"/>
+    <path d="M2 32H28"/>
+    <path d="M74 36A20 20 0 1 0 74 64"/>
+    <path d="M94 10V70M94 48A16 16 0 0 1 126 48V70"/>
+    <path d="M146 36V70"/>
+    <path d="M168 36V92"/>
+    <circle cx="186" cy="52" r="17"/>
+  </g>
+  <!-- le point du i est une petite bulle piment -->
+  <path d="M146 1c6.6 0 11 4.2 11 9.4s-4.4 9.4-11 9.4c-1.4 0-2.7-.2-3.9-.6L136 22l1.4-4.6c-1.6-1.8-2.4-4.2-2.4-7C135 5.2 139.4 1 146 1z" fill="#FF4D2E"/>
+</svg>
