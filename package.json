@@ -13,7 +13,8 @@
     "ios": "npm run sync && npx cap open ios",
     "serve": "node tools/serveur.js",
     "test": "node tools/tests.js",
-    "drapeaux": "node tools/copier-drapeaux.js"
+    "drapeaux": "node tools/copier-drapeaux.js",
+    "relecture": "node tools/relecture.js"
   },
   "engines": {
     "node": ">=22"

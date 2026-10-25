@@ -2,7 +2,7 @@
 
 **Tu parles d'où ?** Chaque jour, une expression de la francophonie à deviner : ce qu'elle veut dire, puis d'où elle vient. La même pour tout le monde, de Dakar à Montréal, avec un score à partager sans spoiler.
 
-Et quand on veut : **Voyager** pour apprendre les mots d'un pays avant d'y partir (séries sans limite, lexique par thème, prononciation), et le **Carnet** pour remplir son passeport, découvrir son accent et réviser au bon moment. 230 expressions de 21 pays.
+Et quand on veut : **Voyager** pour apprendre les mots d'un pays avant d'y partir (séries sans limite, lexique par thème, prononciation), et le **Carnet** pour remplir son passeport, découvrir son accent et réviser au bon moment. 233 expressions de 22 pays.
 
 ![Logo Tchip](assets/logo-wordmark.svg)
 
@@ -80,7 +80,7 @@ Pas de compte. Les parties, la série, les stats, les mots appris et le passepor
 
 ## Feuille de route
 
-**V1 (ce dépôt)** : jeu du jour, indice, bonus pays, partage, série, stats, archives ; mode Voyager (séries par pays, lexique par thème, prononciation, voix) ; Carnet (passeport, accent, révisions espacées) ; 230 expressions de 21 pays, dont certaines à plusieurs sens ; propositions des joueurs ; thème clair et sombre, site hors ligne, apps iOS et Android (rappel quotidien, retour haptique, partage natif), contenu mis à jour sans passer par les stores.
+**V1 (ce dépôt)** : jeu du jour, indice, bonus pays, partage, série, stats, archives ; mode Voyager (séries par pays, lexique par thème, prononciation, voix) ; Carnet (passeport, accent, révisions espacées) ; 233 expressions de 22 pays, dont certaines à plusieurs sens ; propositions des joueurs ; thème clair et sombre, site hors ligne, apps iOS et Android (rappel quotidien, retour haptique, partage natif), contenu mis à jour sans passer par les stores.
 
 **V1.1 — avant le lancement**
 - Faire relire chaque expression par des locuteurs de chaque pays (`RELECTURE.md`), en priorité les ⚠️ et les brouillons à partir du #39.

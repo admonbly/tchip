@@ -39,7 +39,8 @@ window.TCHIP_PAYS = {
   HT: { nom: "Haïti", drapeau: "🇭🇹", region: "Amériques et Caraïbes", accent: "haïtien", intro: "En Haïti, tout le monde parle créole, et le français se nourrit de ses images et de ses proverbes." },
   CG: { nom: "Congo-Brazzaville", drapeau: "🇨🇬", region: "Afrique centrale", accent: "congolais", intro: "À Brazzaville, juste en face de Kinshasa, on partage le lingala, la rumba et le goût de l'élégance." },
   BJ: { nom: "Bénin", drapeau: "🇧🇯", region: "Afrique de l'Ouest", accent: "béninois", intro: "Au Bénin, le français s'enrichit du fon et du yoruba, et la moto-taxi a un nom à elle : le zémidjan." },
-  GP: { nom: "Antilles", drapeau: "🇬🇵", region: "Amériques et Caraïbes", accent: "antillais", intro: "En Guadeloupe et en Martinique, le créole rythme le français, au marché comme sur la piste de danse." },
+  GP: { nom: "Guadeloupe", drapeau: "🇬🇵", region: "Amériques et Caraïbes", accent: "guadeloupéen", intro: "En Guadeloupe, le créole rythme le français, des marchés de Pointe-à-Pitre aux soirées gwoka." },
+  MQ: { nom: "Martinique", drapeau: "🇲🇶", region: "Amériques et Caraïbes", accent: "martiniquais", intro: "En Martinique, le créole se glisse partout dans le français, du marché de Fort-de-France aux veillées bèlè." },
   TG: { nom: "Togo", drapeau: "🇹🇬", region: "Afrique de l'Ouest", accent: "togolais", intro: "Au Togo, l'éwé et le mina se glissent dans le français de Lomé, entre le grand marché et la plage." },
   ML: { nom: "Mali", drapeau: "🇲🇱", region: "Afrique de l'Ouest", accent: "malien", intro: "Au Mali, le bambara est la langue de la rue, et le français lui emprunte volontiers des mots." },
   TD: { nom: "Tchad", drapeau: "🇹🇩", region: "Afrique centrale", accent: "tchadien", intro: "Au Tchad, on parle français et arabe tchadien, et le français local invente ses propres mots." },
@@ -595,13 +596,14 @@ window.TCHIP_EXPRESSIONS = [
   },
   {
     expression: "Doudou",
-    pays: "GP",
+    pays: "MQ",
     theme: "amour",
     sens: "Chéri, personne aimée",
     leurres: ["Un petit gâteau", "Un grand-père", "Un chapeau de paille"],
     exemple: "Viens danser, doudou, c'est notre chanson !",
     fiche: "Mot doux des Antilles, qu'on entend dans la chanson « Adieu foulards, adieu madras ». En métropole, le doudou est la peluche des enfants.",
-    ailleurs: [{ sens: "La peluche d'un enfant", ou: "En France" }]
+    ailleurs: [{ sens: "La peluche d'un enfant", ou: "En France" }],
+    aussi: ["GP"]
   },
   {
     expression: "La pluie",
@@ -968,7 +970,8 @@ window.TCHIP_EXPRESSIONS = [
     sens: "Une petite épicerie de quartier",
     leurres: ["Un bébé", "Un verre de rhum", "Une fête de famille"],
     exemple: "Va au lolo acheter du pain et de l'huile.",
-    fiche: "Aux Antilles, le lolo est la petite boutique où l'on trouve de tout, et où l'on prend des nouvelles du quartier."
+    fiche: "Aux Antilles, le lolo est la petite boutique où l'on trouve de tout, et où l'on prend des nouvelles du quartier.",
+    aussi: ["MQ"]
   },
   {
     expression: "Une diacre",
@@ -1319,6 +1322,7 @@ window.TCHIP_EXPRESSIONS = [
     leurres: ["Où tu vas ?", "Tu as marché ?", "C'est combien ?"],
     exemple: "Sa ka maché, ti moun ? Ou byen ?",
     fiche: "La salutation créole des Antilles. On répond souvent « Sa ka maché ! » ou « An la ».",
+    aussi: ["MQ"],
     prononciation: "sa ka ma-ché"
   },
   {
@@ -1519,12 +1523,13 @@ window.TCHIP_EXPRESSIONS = [
   },
   {
     expression: "Pani pwoblem",
-    pays: "GP",
+    pays: "MQ",
     theme: "emotions",
     sens: "Pas de problème",
     leurres: ["Plus de pain", "Pas maintenant", "Il pleut"],
     exemple: "Tu arrives plus tard ? Pani pwoblem, on t'attend.",
     fiche: "Créole antillais. « Pani », c'est « il n'y a pas ».",
+    aussi: ["GP"],
     prononciation: "pa-ni pwo-blèm"
   },
   {
@@ -1916,13 +1921,13 @@ window.TCHIP_EXPRESSIONS = [
   },
   {
     expression: "Des accras",
-    pays: "GP",
+    pays: "MQ",
     theme: "manger",
     sens: "Des beignets de morue",
     leurres: ["Des bananes frites", "Des boudins créoles", "Des crevettes grillées"],
     exemple: "Pour l'apéritif, des accras bien chauds et un jus de goyave.",
     fiche: "Petits beignets épicés, de morue le plus souvent, servis à toutes les fêtes antillaises.",
-    aussi: ["HT"]
+    aussi: ["GP", "HT"]
   },
   {
     expression: "Gâter le coin",
@@ -2124,7 +2129,8 @@ window.TCHIP_EXPRESSIONS = [
     sens: "Une musique dansante des Antilles",
     leurres: ["Un rhum agricole", "Un carnaval de rue", "Un tambour en bois"],
     exemple: "Au bal, dès que le zouk commence, la piste se remplit.",
-    fiche: "Né aux Antilles dans les années 1980, popularisé par le groupe Kassav'. « Zouk » voulait dire fête."
+    fiche: "Né aux Antilles dans les années 1980, popularisé par le groupe Kassav'. « Zouk » voulait dire fête.",
+    aussi: ["MQ"]
   },
   {
     expression: "Bssaha !",
@@ -2231,5 +2237,35 @@ window.TCHIP_EXPRESSIONS = [
     exemple: "L'apprenti est accroché à la portière et crie « Adjamé ! Adjamé ! ».",
     fiche: "Sur les gbakas d'Abidjan, l'apprenti fait tout : il rabat les passagers, encaisse et annonce les arrêts.",
     ailleurs: [{ sens: "Une personne qui apprend un métier", ou: "Partout" }]
+  },
+  {
+    expression: "Le bèlè",
+    pays: "MQ",
+    theme: "fete",
+    sens: "Une danse et musique traditionnelle au tambour",
+    leurres: ["Un plat de morue salée", "Une barque de pêche", "Un marché de nuit"],
+    exemple: "Le samedi soir, tout le quartier se retrouve pour un bèlè.",
+    fiche: "Héritage africain de la Martinique : autour du tambour bèlè, chanteurs et danseurs se répondent en cercle.",
+    prononciation: "bè-lè"
+  },
+  {
+    expression: "Le gwoka",
+    pays: "GP",
+    theme: "fete",
+    sens: "La musique de tambour traditionnelle de Guadeloupe",
+    leurres: ["Un gâteau à la noix de coco", "Un bateau de pêche", "Un rhum vieux"],
+    exemple: "Pendant le carnaval, les tambours gwoka font vibrer Pointe-à-Pitre.",
+    fiche: "Né au temps de l'esclavage, le gwoka réunit tambours, chants et danse. Il est inscrit au patrimoine culturel immatériel de l'UNESCO depuis 2014.",
+    prononciation: "gwo-ka"
+  },
+  {
+    expression: "Sa ou fè ?",
+    pays: "MQ",
+    theme: "salutations",
+    sens: "Comment ça va ?",
+    leurres: ["Tu viens d'où ?", "Tu as faim ?", "C'est combien ?"],
+    exemple: "Sa ou fè ? Sa fè lontan nou pa wè'w !",
+    fiche: "Salut créole de la Martinique. On répond souvent « Mwen la », je suis là.",
+    prononciation: "sa ou fè"
   }
 ];

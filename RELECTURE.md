@@ -219,16 +219,6 @@ Pour chaque entrée, vérifier : le sens, l'usage réel aujourd'hui, la phrase d
 - [ ] **#196 Le lakou** : La cour où vit la famille élargie
 - [ ] **#217 Le konpa** : La musique de danse haïtienne
 
-## 🇬🇵 Antilles (7)
-
-- [ ] **#60 Doudou** : Chéri, personne aimée · autres sens : La peluche d'un enfant (En France)
-- [ ] **#99 Un lolo** : Une petite épicerie de quartier
-- [ ] **#135 Sa ka maché ?** : Comment ça va ? · se dit : *sa ka ma-ché*
-- [ ] **#156 Pani pwoblem** : Pas de problème · se dit : *pa-ni pwo-blèm*
-- [ ] **#176 Un bokit** : Un sandwich frit guadeloupéen
-- [ ] **#198 Des accras** : Des beignets de morue
-- [ ] **#219 Le zouk** : Une musique dansante des Antilles
-
 ## 🇲🇦 Maroc (7)
 
 - [ ] **#79 La hchouma** : La honte, la gêne · se dit : *h'chou-ma*
@@ -272,6 +262,22 @@ Pour chaque entrée, vérifier : le sens, l'usage réel aujourd'hui, la phrase d
 - [ ] **#138 Agoo !** : Pardon, je peux entrer ? Laissez passer ! · se dit : *a-gô*
 - [ ] **#178 Le kpayo** : L'essence de contrebande · se dit : *kpa-yo*
 - [ ] **#213 L'akassa** : Une pâte de maïs fermentée
+
+## 🇬🇵 Guadeloupe (5)
+
+- [ ] **#99 Un lolo** : Une petite épicerie de quartier
+- [ ] **#135 Sa ka maché ?** : Comment ça va ? · se dit : *sa ka ma-ché*
+- [ ] **#176 Un bokit** : Un sandwich frit guadeloupéen
+- [ ] **#219 Le zouk** : Une musique dansante des Antilles
+- [ ] **#232 Le gwoka** : La musique de tambour traditionnelle de Guadeloupe · se dit : *gwo-ka*
+
+## 🇲🇶 Martinique (5)
+
+- [ ] **#60 Doudou** : Chéri, personne aimée · autres sens : La peluche d'un enfant (En France)
+- [ ] **#156 Pani pwoblem** : Pas de problème · se dit : *pa-ni pwo-blèm*
+- [ ] **#198 Des accras** : Des beignets de morue
+- [ ] **#231 Le bèlè** : Une danse et musique traditionnelle au tambour · se dit : *bè-lè*
+- [ ] **#233 Sa ou fè ?** ⚠️ : Comment ça va ? · se dit : *sa ou fè*
 
 ## 🇹🇬 Togo (5)
 
