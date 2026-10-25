@@ -219,7 +219,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
   width: 36px; height: 36px; border-radius: var(--r-pill); display: grid; place-items: center;
   font-family: var(--f-display); font-weight: 800; border: 2px solid var(--encre-fixe); color: var(--encre-fixe);
 }
-.p1 { background: var(--piment); } .p2 { background: var(--mangue); } .p3 { background: var(--menthe); } .p4 { background: var(--sable); }
+.p1 { background: var(--piment); } .p2 { background: var(--mangue); } .p3 { background: var(--menthe); } .p4 { background: var(--sable); color: var(--encre); border-color: var(--encre); }
 .exemple-grille { background: var(--surface); border: var(--bord); border-radius: var(--r-md); padding: 12px 14px; font-size: 15px; white-space: pre-line; }
 
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
