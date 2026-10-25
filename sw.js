@@ -7,7 +7,7 @@ var VERSION = "dev"; // remplacé au build par « version-empreinte »
 var CACHE = "tchip-" + VERSION;
 var DELAI_RESEAU = 4000;
 var COQUILLE = [
-  "./", "index.html", "app.js", "verification.js", "styles.css", "data/expressions.js",
+  "./", "index.html", "app.js", "verification.js", "apprentissage.js", "styles.css", "data/expressions.js",
   "manifest.webmanifest", "confidentialite.html",
   "assets/fonts/polices.css",
   "assets/fonts/bricolage-grotesque-latin-opsz-normal.woff2",

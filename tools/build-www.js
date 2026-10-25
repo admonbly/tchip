@@ -14,10 +14,10 @@ const pkg = require("../package.json");
 const racine = path.resolve(__dirname, "..");
 const sortie = path.join(racine, "www");
 const FICHIERS = [
-  "index.html", "app.js", "verification.js", "styles.css", "sw.js",
+  "index.html", "app.js", "verification.js", "apprentissage.js", "styles.css", "sw.js",
   "manifest.webmanifest", "confidentialite.html", "data/expressions.js"
 ];
-const DOSSIERS = ["assets"];
+const DOSSIERS = ["assets", "audio"].filter((d) => fs.existsSync(path.join(racine, d)));
 
 function copier(rel) {
   const dest = path.join(sortie, rel);
@@ -39,8 +39,8 @@ fs.copyFileSync(path.join(racine, "node_modules/@capacitor/core/dist/capacitor.j
 remplacer("index.html", '<script src="app.js"></script>', '<script src="capacitor.js"></script>\n<script src="app.js"></script>');
 
 // Contenu distant (même ordre que data/expressions.js : l'ordre = l'ordre des jours).
-const { expressions, pays } = chargerDonnees();
-fs.writeFileSync(path.join(sortie, "data", "expressions.json"), JSON.stringify({ version: 1, pays, expressions }));
+const { expressions, pays, themes } = chargerDonnees();
+fs.writeFileSync(path.join(sortie, "data", "expressions.json"), JSON.stringify({ version: 2, themes, pays, expressions }));
 
 // Versions : celle de l'app (affichée dans les réglages) et celle du cache hors ligne.
 remplacer("app.js", 'var VERSION_APP = "dev";', 'var VERSION_APP = "' + pkg.version + '";');

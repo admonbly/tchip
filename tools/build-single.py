@@ -8,6 +8,7 @@ fragment = "--fragment" in sys.argv
 css = (racine / "styles.css").read_text(encoding="utf-8")
 data = (racine / "data/expressions.js").read_text(encoding="utf-8")
 verif = (racine / "verification.js").read_text(encoding="utf-8")
+verif += "\n" + (racine / "apprentissage.js").read_text(encoding="utf-8")
 app = (racine / "app.js").read_text(encoding="utf-8")
 ico = base64.b64encode((racine / "assets/favicon-32.png").read_bytes()).decode()
 fonts = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600;700;800&display=swap">'

@@ -36,6 +36,19 @@ body:
     attributes:
       label: Une phrase d'exemple
   - type: input
+    id: prononciation
+    attributes:
+      label: Comment ça se prononce ? (facultatif)
+      placeholder: "Ex. : djè-rè-djèf"
+  - type: textarea
+    id: voix
+    attributes:
+      label: Ta voix (facultatif)
+      description: |
+        Tu peux joindre un court enregistrement (moins de 4 secondes) où tu dis l'expression comme dans la vie, glissé dans un .zip.
+        En le joignant, tu acceptes qu'il soit publié dans Tchip avec ton prénom ou pseudo et ta ville.
+      placeholder: "Prénom ou pseudo, ville"
+  - type: input
     id: pseudo
     attributes:
       label: Ton pseudo pour te citer (facultatif)

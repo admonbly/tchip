@@ -1,6 +1,6 @@
 # Tchip — intégration continue
 # À chaque push / pull request :
-#   1. vérifie la base d'expressions (un pays inconnu, un leurre en double… = échec) et construit www/ ;
+#   1. lance les tests, vérifie la base d'expressions (un pays inconnu, un leurre en double… = échec) et construit www/ ;
 #   2. compile l'app Android (APK de test téléchargeable dans l'onglet Actions) ;
 #   3. compile l'app iOS pour le simulateur (sans signature).
 # Sur main : publie www/ sur GitHub Pages → le jeu web, la page de confidentialité (URL demandée par les stores)
@@ -28,6 +28,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm test
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

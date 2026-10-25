@@ -75,7 +75,7 @@ Ajouter les nouvelles expressions **à la fin** de `data/expressions.js` (voir `
 La CI vérifie la base et la publie : les apps la récupèrent à l'ouverture suivante (au plus une fois par heure), **sans passer par les stores**.
 Elles refusent toute liste invalide ou plus courte que celle qu'elles embarquent : l'ordre des jours ne peut pas bouger.
 
-Aujourd'hui : 38 expressions, soit jusqu'au 1er décembre 2026 (`npm run verifier`). Au-delà, elles se répètent. Les 120 de `RELECTURE.md` sont à saisir.
+Aujourd'hui : 230 expressions de 21 pays, soit un tchip du jour différent jusqu'au 11 juin 2027 (`npm run verifier`). À partir du #39, les leurres, exemples, fiches et prononciations sont des brouillons à faire relire (`RELECTURE.md`). Les voix enregistrées s'ajoutent de la même façon (`audio/`, voir `CONTRIBUER.md`).
 
 ## 6. Activer les statistiques anonymes (recommandé)
 

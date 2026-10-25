@@ -11,7 +11,9 @@
     "sync": "npm run build && npx cap sync",
     "android": "npm run sync && npx cap open android",
     "ios": "npm run sync && npx cap open ios",
-    "serve": "node tools/serveur.js"
+    "serve": "node tools/serveur.js",
+    "test": "node tools/tests.js",
+    "drapeaux": "node tools/copier-drapeaux.js"
   },
   "engines": {
     "node": ">=22"
@@ -30,6 +32,7 @@
     "@capacitor/cli": "^8.5.3",
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@fontsource-variable/figtree": "^5.3.0",
+    "flag-icons": "^7.6.0",
     "sharp": "^0.35.5"
   }
 }

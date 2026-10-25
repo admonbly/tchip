@@ -9,5 +9,5 @@ module.exports = function chargerDonnees() {
   const fenetre = {};
   const code = fs.readFileSync(path.join(racine, "data", "expressions.js"), "utf8");
   vm.runInNewContext(code, { window: fenetre }, { filename: "data/expressions.js" });
-  return { expressions: fenetre.TCHIP_EXPRESSIONS, pays: fenetre.TCHIP_PAYS };
+  return { expressions: fenetre.TCHIP_EXPRESSIONS, pays: fenetre.TCHIP_PAYS, themes: fenetre.TCHIP_THEMES };
 };
