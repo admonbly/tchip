@@ -69,9 +69,9 @@ DEPLOIEMENT.md         publier sur l'App Store et Google Play, pas à pas
 En haut de `app.js` :
 
 - `LANCEMENT` : la date du Tchip #1. À caler sur le jour du lancement public.
-- `ADRESSE_PARTAGE` : le domaine affiché dans les textes partagés et le lien des invitations (`tchip.app`, à acheter et brancher avant le lancement).
+- `ADRESSE_PARTAGE` : le domaine affiché dans les textes partagés et le lien des invitations (`tchip.app`).
 - `ESSAIS_SENS` : nombre d'essais pour trouver le sens (2 par défaut).
-- `CONTENU_URL` : où les apps vont chercher les nouvelles expressions (GitHub Pages par défaut). Elles n'acceptent qu'une liste valide qui ne retire aucune expression, pour que l'ordre des jours ne bouge jamais.
+- `CONTENU_URL` : où les apps vont chercher les nouvelles expressions (`https://tchip.app/data/expressions.json`, publié par GitHub Pages). Elles n'acceptent qu'une liste valide qui ne retire aucune expression, pour que l'ordre des jours ne bouge jamais.
 - `TELEMETRYDECK_APP_ID` : vide = pas de statistiques. Voir `DEPLOIEMENT.md` pour les activer.
 - `DEPOT_PROPOSITIONS` : le dépôt GitHub où arrivent les propositions des joueurs, sous forme de tickets.
 
@@ -100,7 +100,6 @@ Pas de compte. Les parties, la série, les stats, les mots appris et le passepor
 - Faire relire chaque expression par des locuteurs de chaque pays (`RELECTURE.md`), en priorité les ⚠️ et les brouillons à partir du #39.
 - Faire relire la traduction anglaise (`data/expressions-en.js`, `langues.js`) par un anglophone.
 - Enregistrer les premières voix, en commençant par les salutations de chaque pays (`CONTRIBUER.md`).
-- Acheter le domaine, le brancher dans `ADRESSE_PARTAGE` et sur GitHub Pages.
 - Image de partage générée (story TikTok / Instagram) en plus du texte.
 
 **V2 — le moteur viral**

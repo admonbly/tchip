@@ -21,13 +21,15 @@ Ce qui est déjà prêt dans le dépôt, puis ce qu'il reste à faire, dans l'or
 
 ## 1. Une fois, sur GitHub (5 minutes)
 
-1. **Activer GitHub Pages** : dépôt › *Settings* › *Pages* › *Source* : **GitHub Actions**.
-   Au push suivant sur `main`, le site est en ligne :
-   - jeu : `https://admonbly.github.io/tchip/`
-   - confidentialité (URL à donner aux deux stores) : `https://admonbly.github.io/tchip/confidentialite.html`
-   - expressions lues par les apps : `https://admonbly.github.io/tchip/data/expressions.json`
-2. **Compléter** les mentions `[À COMPLÉTER : …]` dans `confidentialite.html` **et** `confidentialite-en.html` (éditeur, adresse, e-mail de contact, directeur de publication).
-3. Si tu achètes un domaine plus tard (ex. `tchip.app`) : le brancher sur GitHub Pages, puis mettre à jour `CONTENU_URL` et `ADRESSE_PARTAGE` dans `app.js`. `ADRESSE_PARTAGE` est aussi le lien des invitations (Réglages › Inviter des amis) : une fois les apps en ligne, une page avec les deux boutons des stores est l'idéal.
+1. **GitHub Pages** (fait) : dépôt › *Settings* › *Pages* › *Source* : **GitHub Actions**, *Custom domain* : `tchip.app`.
+   À chaque push sur `main`, le site est publié :
+   - jeu : `https://tchip.app/`
+   - confidentialité (URL à donner aux deux stores) : `https://tchip.app/confidentialite.html` (en anglais : `https://tchip.app/confidentialite-en.html`)
+   - expressions lues par les apps : `https://tchip.app/data/expressions.json` (`CONTENU_URL` dans `app.js`)
+   L'ancienne adresse `admonbly.github.io/tchip` redirige vers `tchip.app`.
+2. **Domaine `tchip.app`** (acheté chez Cloudflare) : les enregistrements DNS pointent vers GitHub Pages (4 A, 4 AAAA, et `www` en CNAME vers `admonbly.github.io`), en **« DNS only »** (nuage gris) pour que GitHub fournisse lui-même le certificat. Puis *Enforce HTTPS* coché dans les réglages Pages du dépôt. Le domaine est aussi vérifié dans les réglages GitHub du compte (*Settings › Pages*), pour que personne d'autre ne puisse l'utiliser.
+3. **Compléter** les mentions `[À COMPLÉTER : …]` dans `confidentialite.html` **et** `confidentialite-en.html` (éditeur, adresse, e-mail de contact, directeur de publication).
+4. `ADRESSE_PARTAGE` (`tchip.app`) est aussi le lien des invitations (Réglages › Inviter des amis) : une fois les apps en ligne, une page d'accueil avec les deux boutons des stores sera l'idéal.
 
 ## 2. Comptes développeur
 

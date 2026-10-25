@@ -20,7 +20,7 @@
   var ESSAIS_SENS = 2;
   var VERSION_APP = "dev";                          // remplacé par la version de package.json au build
   // Expressions publiées en ligne : les apps reçoivent les nouvelles sans mise à jour sur les stores. "" = désactivé.
-  var CONTENU_URL = "https://admonbly.github.io/tchip/data/expressions.json";
+  var CONTENU_URL = "https://tchip.app/data/expressions.json";
   // Statistiques anonymes (TelemetryDeck, hébergé en UE, sans traçage publicitaire). "" = désactivé.
   var TELEMETRYDECK_APP_ID = "";
   var HEURES_RAPPEL = [7, 9, 12, 18, 20];
