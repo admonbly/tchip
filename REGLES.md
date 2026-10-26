@@ -67,6 +67,7 @@ Pour ceux qui partent bientôt, ou qui ont la famille là-bas.
 - Les mots à revoir s'affichent sur l'onglet Carnet et forment une série de révision.
 - **Un tampon par pays**, à mériter : il faut maîtriser **25 %** de ses mots pour être Touriste, **50 %** pour Voyageur, **75 %** pour Habitué et **100 %** pour Enfant du pays (arrondi au mot supérieur). Lire le lexique ou voir des mots ne suffit pas.
 - Chaque page pays affiche le pourcentage exact, la barre avec ses paliers et ce qu'il manque : « Encore 5 mots maîtrisés pour le tampon Voyageur (50 %) ».
+- La progression se voit dès la première série : un anneau autour du tampon (et la partie claire de la barre) se remplit à chaque bonne réponse au bon moment, chaque mot comptant pour 3 crans jusqu'à sa maîtrise. Après un 8/8 sur 10 mots nouveaux, le tampon passe « En route » avec un anneau à 27 %, et le tampon Touriste arrive quand 3 mots sont maîtrisés.
 - **Ton accent** : le pays dont on maîtrise la plus grande part (3 mots minimum). « Tu parles pas mal ivoirien. »
 - Le passeport se partage en texte, comme le score du jour.
 

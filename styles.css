@@ -13,6 +13,7 @@
   --mangue: #FFC233;
   --menthe: #19B38A;
   --danger: #C2311A;                         /* texte d'action destructive, lisible sur le papier */
+  --anneau: #7FD8BB;                         /* menthe claire : mots qui avancent, pas encore maîtrisés */
   --encre-fixe: #1D1B4F;
   --ombre: #1D1B4F;
 
@@ -35,13 +36,13 @@
   :root:not([data-theme="light"]) {
     --papier: #14122E; --surface: #221F4A; --sable: #2E2A5E; --encre: #FFF3DF;
     --encre-douce: #B9B5D9; --trait: #3A3670; --indigo: #4A45B8; --piment: #FF6B4D;
-    --menthe: #2FD3A5; --ombre: #05040F; --danger: #FF8A73; color-scheme: dark;
+    --menthe: #2FD3A5; --ombre: #05040F; --danger: #FF8A73; --anneau: #1E6B57; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --papier: #14122E; --surface: #221F4A; --sable: #2E2A5E; --encre: #FFF3DF;
   --encre-douce: #B9B5D9; --trait: #3A3670; --indigo: #4A45B8; --piment: #FF6B4D;
-  --menthe: #2FD3A5; --ombre: #05040F; --danger: #FF8A73; color-scheme: dark;
+  --menthe: #2FD3A5; --ombre: #05040F; --danger: #FF8A73; --anneau: #1E6B57; color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
@@ -452,6 +453,8 @@ body:not(.en-serie) .toast { bottom: calc(var(--h-onglets) + 16px + env(safe-are
 .barre-prog { position: relative; display: block; width: 100%; height: 8px; border-radius: var(--r-pill); background: var(--trait); overflow: hidden; }
 /* le remplissage est une échelle (--p de 0 à 1) : ça s'anime sans recalculer la mise en page */
 .barre-prog i, .progression i { display: block; height: 100%; background: var(--menthe); transform-origin: left; transform: scaleX(var(--p, 0)); }
+.barre-prog i { position: absolute; inset: 0; }
+.barre-prog i.en-cours { background: var(--anneau); } /* chemin parcouru, derrière les mots maîtrisés */
 .barre-prog b { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--encre); opacity: .35; } /* paliers des tampons */
 .barre-prog b.eclat { animation: eclat .7s var(--ressort) .75s both; }   /* palier qu'on vient de passer */
 @keyframes eclat { 0% { opacity: .35; } 40% { opacity: 1; background: var(--mangue); transform: scaleX(4); } 100% { opacity: .9; background: var(--encre); } }
@@ -542,13 +545,24 @@ body:not(.en-serie) .toast { bottom: calc(var(--h-onglets) + 16px + env(safe-are
   display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 0;
   font-family: var(--f-display); font-size: 26px; font-weight: 800; line-height: 1.15;
 }
-.passeport { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.passeport { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding: 8px 4px; } /* place pour l'anneau */
 .tampon {
   aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 8px;
   text-align: center; overflow-wrap: anywhere; border-radius: 50%; border: 4px double var(--encre); background: var(--surface);
   transform: rotate(-6deg);
 }
 .passeport .tampon:nth-child(even) { transform: rotate(5deg); }
+/* Anneau de progression : plein = mots maîtrisés (--m %), clair = chemin parcouru (--a %), le reste en pointillé du papier */
+.tampon.avec-anneau { position: relative; }
+.tampon.avec-anneau::before {
+  content: ""; position: absolute; inset: -8px; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(var(--menthe) 0 calc(var(--m) * 1%), var(--anneau) 0 calc(var(--a) * 1%), var(--trait) 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4.5px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4.5px));
+}
+/* Pas encore de tampon, mais des mots qui avancent : on montre le pays en couleur */
+.tampon.rang-0.en-route { opacity: 1; filter: none; border: 2px dashed var(--encre); background: var(--surface); }
+.tampon.rang-0.en-route .drapeau-img { filter: none; }
 .tampon .drapeau-img { margin-bottom: 2px; }
 .tampon .t-nom { font-size: 11px; font-weight: 800; line-height: 1.1; }
 .tampon .t-rang { font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }

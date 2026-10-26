@@ -128,6 +128,12 @@ window.TCHIP_LANGUES = {
 
     // Carnet
     "En route": "On the way",
+    "{n} mots en cours": "{n} words in progress",
+    "1 mot en cours": "1 word in progress",
+    "{n} en cours": "{n} in progress",
+    "{n} mots avancent : retrouve-les les jours suivants pour qu'ils deviennent maîtrisés.": "{n} words are moving up: get them right again on the next days and they'll be mastered.",
+    "1 mot avance : retrouve-le les jours suivants pour qu'il devienne maîtrisé.": "1 word is moving up: get it right again on the next days and it'll be mastered.",
+    "Le cercle autour du tampon se remplit à chaque bonne réponse au bon moment.": "The ring around each stamp fills up with every right answer at the right time.",
     "À visiter": "To visit",
     "Ton passeport": "Your passport",
     "Ton accent": "Your accent",

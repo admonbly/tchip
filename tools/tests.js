@@ -178,6 +178,20 @@ test("tampons : 25, 50, 75 et 100 % de mots maîtrisés, rien pour un mot simple
   assert.strictEqual(r(23, 6), 1, "on arrondit au mot supérieur : 25 % de 23 = 6 mots");
   assert.strictEqual(r(23, 5), 0);
 });
+test("un 8/8 ne donne pas de tampon, mais la progression se voit", () => {
+  const td = expressions.filter((e) => e.pays === "TD"), s = {};
+  td.slice(0, 8).forEach((e) => { s[A.cle(e)] = A.apresReponse(undefined, true, 10); });
+  const p = A.progression(td, s);
+  assert.deepStrictEqual([p.vus, p.maitrises, p.enCours, A.rang(p)], [8, 0, 8, 0]);
+  assert.strictEqual(Math.round(A.avancement(p) * 100), 27);
+  // le lendemain, les mêmes mots retrouvés au bon moment avancent encore
+  td.slice(0, 8).forEach((e) => { s[A.cle(e)] = A.apresReponse(s[A.cle(e)], true, 11); });
+  assert.strictEqual(Math.round(A.avancement(A.progression(td, s)) * 100), 53);
+  // lu dans le lexique seulement : rencontré, mais rien de gagné
+  const lu = {}; lu[A.cle(td[9])] = A.decouvrir(undefined, 10);
+  const q = A.progression(td, lu);
+  assert.deepStrictEqual([q.vus, q.enCours, A.avancement(q)], [1, 0, 0]);
+});
 test("prochain tampon : combien de mots il manque", () => {
   const p = { total: 23, vus: 10, maitrises: 7 };
   assert.deepStrictEqual(A.prochainPalier(p), { rang: 2, nom: "Voyageur", seuil: 50, requis: 12, manque: 5 });

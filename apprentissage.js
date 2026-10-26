@@ -40,16 +40,23 @@
   function estMaitrise(f) { return !!f && f.n >= MAITRISE; }
   function aReviser(f, jour) { return !!f && f.v > 0 && f.d <= jour; }
 
+  // vus : mots rencontrés ; enCours : déjà joués mais pas encore maîtrisés ;
+  // points : niveaux gagnés vers la maîtrise (3 par mot au maximum), pour montrer le chemin parcouru avant le tampon.
   function progression(liste, savoir) {
-    var p = { total: liste.length, vus: 0, maitrises: 0 };
+    var p = { total: liste.length, vus: 0, maitrises: 0, enCours: 0, points: 0 };
     liste.forEach(function (e) {
       var f = savoir[cle(e)];
       if (f) p.vus++;
       if (estMaitrise(f)) p.maitrises++;
+      else if (f && f.v > 0) p.enCours++;
+      if (f) p.points += Math.min(f.n, MAITRISE);
     });
     return p;
   }
   function pourcentage(p) { return p.total ? Math.floor(p.maitrises / p.total * 100) : 0; }
+  // Part du chemin parcouru (0 à 1) : chaque bonne réponse au bon moment rapproche du tampon, même avant la maîtrise.
+  // Un 8/8 sur 10 mots nouveaux donne 8 × 1 niveau sur 30 : environ 27 %.
+  function avancement(p) { return p.total ? Math.min(1, (p.points || 0) / (MAITRISE * p.total)) : 0; }
   // Nombre de mots maîtrisés qu'il faut pour un tampon donné (au moins 1).
   function requis(p, r) { return Math.max(1, Math.ceil(SEUILS[r] * p.total)); }
   // 0 aucun tampon, 1 Touriste (25 % maîtrisés), 2 Voyageur (50 %), 3 Habitué (75 %), 4 Enfant du pays (100 %)
@@ -114,7 +121,7 @@
   var api = {
     INTERVALLES: INTERVALLES, NOMS_RANGS: NOMS_RANGS, MAITRISE: MAITRISE, SEUILS: SEUILS,
     cle: cle, melanger: melanger, apresReponse: apresReponse, compteAujourdhui: compteAujourdhui, decouvrir: decouvrir,
-    estMaitrise: estMaitrise, aReviser: aReviser, progression: progression, pourcentage: pourcentage,
+    estMaitrise: estMaitrise, aReviser: aReviser, progression: progression, pourcentage: pourcentage, avancement: avancement,
     rang: rang, prochainPalier: prochainPalier, accent: accent,
     composerSerie: composerSerie, question: question
   };
