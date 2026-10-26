@@ -28,7 +28,7 @@ Ce qui est déjà prêt dans le dépôt, puis ce qu'il reste à faire, dans l'or
    - expressions lues par les apps : `https://tchip.app/data/expressions.json` (`CONTENU_URL` dans `app.js`)
    L'ancienne adresse `admonbly.github.io/tchip` redirige vers `tchip.app`.
 2. **Domaine `tchip.app`** (acheté chez Cloudflare) : les enregistrements DNS pointent vers GitHub Pages (4 A, 4 AAAA, et `www` en CNAME vers `admonbly.github.io`), en **« DNS only »** (nuage gris) pour que GitHub fournisse lui-même le certificat. Puis *Enforce HTTPS* coché dans les réglages Pages du dépôt. Le domaine est aussi vérifié dans les réglages GitHub du compte (*Settings › Pages*), pour que personne d'autre ne puisse l'utiliser.
-3. **Compléter** les mentions `[À COMPLÉTER : …]` dans `confidentialite.html` **et** `confidentialite-en.html` (éditeur, adresse, e-mail de contact, directeur de publication).
+3. **Mentions légales** (fait) : éditeur et directeur de la publication Moussa Traore, contact `contact@tchip.app` (Cloudflare Email Routing), dans `confidentialite.html` et `confidentialite-en.html`. À mettre à jour ensemble si une société reprend l'édition.
 4. `ADRESSE_PARTAGE` (`tchip.app`) est aussi le lien des invitations (Réglages › Inviter des amis) : une fois les apps en ligne, une page d'accueil avec les deux boutons des stores sera l'idéal.
 
 ## 2. Comptes développeur
