@@ -7,6 +7,8 @@ body:
     attributes:
       value: |
         Merci ! Chaque proposition est relue par des personnes du pays avant d'entrer dans le jeu.
+
+        🔓 **Ce ticket est public** : tout le monde peut le lire. N'y mets ni ton nom complet, ni ton numéro, ni ton adresse.
   - type: input
     id: expression
     attributes:

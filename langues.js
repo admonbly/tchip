@@ -196,6 +196,8 @@ window.TCHIP_LANGUES = {
     "Copier le texte": "Copy the text",
     "Proposer une autre expression": "Suggest another expression",
     "Texte copié !": "Text copied!",
+    "Ta proposition sera publique sur GitHub : n'y mets ni ton nom complet, ni ton numéro, ni ton adresse.": "Your suggestion will be public on GitHub: don't include your full name, phone number or address.",
+    "Une fois envoyée, elle est visible par tous sur GitHub. Relis le texte ci-dessus avant d'envoyer.": "Once sent, anyone can see it on GitHub. Check the text above before sending.",
 
     // Feuilles, rappel
     "Fermer": "Close",

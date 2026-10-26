@@ -45,11 +45,16 @@
     return Object.prototype.hasOwnProperty.call(PAYS, code) ? PAYS[code] : { nom: String(code), drapeau: "🏳️" };
   }
   // Drapeau en image : Windows n'affiche pas les drapeaux emoji (il montre « CI », « ML »…).
-  // Si l'image manque (pays reçu en ligne, pas encore dans l'app), on retombe sur l'emoji, inséré comme texte.
+  // Si l'image manque (pays reçu en ligne, pas encore dans l'app), on retombe sur l'emoji, inséré comme texte
+  // (par un écouteur, pas un onerror dans le HTML : la politique de sécurité interdit tout script en ligne).
   function drapeau(code, taille) {
     return '<img class="drapeau-img' + (taille ? " " + taille : "") + '" src="assets/drapeaux/' + esc(String(code).toLowerCase()) + '.svg"' +
-      ' alt="" data-e="' + esc(paysInfo(code).drapeau) + '" onerror="this.replaceWith(this.dataset.e)">';
+      ' alt="" data-e="' + esc(paysInfo(code).drapeau) + '">';
   }
+  document.addEventListener("error", function (ev) {
+    var img = ev.target;
+    if (img && img.classList && img.classList.contains("drapeau-img")) img.replaceWith(img.getAttribute("data-e") || "");
+  }, true); // les erreurs d'image ne remontent pas : on les attrape à la descente
 
   // Contrôle des données au démarrage (silencieux pour le joueur, visible en console, bloquant au build).
   function verifierDonnees() {
@@ -1120,6 +1125,7 @@
       '<label for="p-pseudo">' + t("Ton pseudo, pour te citer") + opt + '</label>' +
       '<input id="p-pseudo" name="p-pseudo" maxlength="30" value="' + esc(brouillon.pseudo) + '" placeholder="' + t("Ex. : Aya de Yopougon") + '">' +
       '<p class="erreur-form" id="erreur-form" hidden></p>' +
+      '<p class="note-publique">🔓 ' + t("Ta proposition sera publique sur GitHub : n'y mets ni ton nom complet, ni ton numéro, ni ton adresse.") + '</p>' +
       '<button type="submit" class="btn">' + t("Préparer ma proposition") + '</button>' +
       '</form>', "proposer");
     var f = document.getElementById("form-proposer");
@@ -1163,6 +1169,7 @@
     feuille('<header><h2>' + t("Merci, c'est prêt !") + '</h2>' + boutonFermer() + '</header>' +
       '<div class="exemple-grille">' + esc(texte) + '</div>' +
       '<p>' + t("Envoie-la sur la page des propositions de Tchip. On la fait relire par des gens de ton pays avant de la mettre en jeu.") + '</p>' +
+      '<p class="note-publique">🔓 ' + t("Une fois envoyée, elle est visible par tous sur GitHub. Relis le texte ci-dessus avant d'envoyer.") + '</p>' +
       '<a class="btn" href="' + esc(lien) + '" target="_blank" rel="noopener">' + t("Envoyer ma proposition") + '</a>' +
       '<p class="vide">' + t("L'envoi passe par GitHub et demande un compte gratuit. Pas de compte ? Copie le texte et envoie-le-nous sur nos réseaux.") + '</p>' +
       '<button class="btn secondaire" data-act="copier-proposition">' + t("Copier le texte") + '</button>' +

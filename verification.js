@@ -7,6 +7,10 @@
   "use strict";
 
   function texte(v) { return typeof v === "string" && v.trim() !== ""; }
+  // Ce qui sert à fabriquer une adresse (drapeau, voix) reste strictement local : un contenu reçu en ligne
+  // ne doit jamais pouvoir faire charger un fichier ailleurs (fuite d'adresse IP, pistage).
+  var CODE_PAYS = /^[A-Z]{2}$/;
+  var FICHIER_AUDIO = /^audio\/[a-z]{2}\/[a-z0-9]+(-[a-z0-9]+)*\.(m4a|mp3)$/;
   function possede(obj, cle) { return !!obj && Object.prototype.hasOwnProperty.call(obj, cle); }
 
   // themes est facultatif (anciennes versions du contenu) ; s'il est fourni, chaque expression doit en avoir un valide.
@@ -18,6 +22,7 @@
     if (codes.length < 4) pbs.push("Il faut au moins 4 pays dans TCHIP_PAYS pour l'étape bonus.");
     codes.forEach(function (code) {
       var p = pays[code];
+      if (!CODE_PAYS.test(code)) pbs.push("Pays « " + code + " » : le code doit faire 2 lettres majuscules.");
       if (!p || !texte(p.nom) || !texte(p.drapeau)) pbs.push("Pays « " + code + " » : nom ou drapeau manquant.");
       else if (themes && (!texte(p.region) || !texte(p.accent) || !texte(p.intro))) pbs.push("Pays « " + code + " » : région, accent ou intro manquant.");
     });
@@ -39,6 +44,7 @@
       if (e.prononciation !== undefined && !texte(e.prononciation)) pbs.push(num + " : prononciation vide.");
       if (e.source !== undefined && !/^https?:\/\/\S+$/.test(e.source)) pbs.push(num + " : la source doit être une adresse web.");
       if (e.audio !== undefined && (!e.audio || !texte(e.audio.fichier) || !texte(e.audio.voix))) pbs.push(num + " : audio incomplet (fichier et voix).");
+      else if (e.audio && !FICHIER_AUDIO.test(e.audio.fichier)) pbs.push(num + " : le fichier audio doit être dans audio/<pays>/, en .m4a ou .mp3 (ex. audio/ci/woro-woro.m4a).");
       if (!Array.isArray(e.leurres) || e.leurres.length !== 3 || !e.leurres.every(texte)) { pbs.push(num + " : il faut exactement 3 leurres."); return; }
       var opts = [e.sens].concat(e.leurres);
       if (new Set(opts).size !== opts.length) pbs.push(num + " : deux propositions identiques (sens/leurres).");

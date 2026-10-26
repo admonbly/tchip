@@ -42,6 +42,19 @@ test("un thème inconnu est refusé", () => {
   const e = copie(expressions); e[0].theme = "inconnu";
   assert.ok(verifier(e, pays, themes).some((p) => p.includes("thème inconnu")));
 });
+test("une voix ne peut pas venir d'un autre site", () => {
+  const e = copie(expressions);
+  e[0].audio = { fichier: "https://pisteur.example/son.mp3", voix: "X" };
+  assert.ok(verifier(e, pays, themes).some((p) => p.includes("fichier audio")));
+  e[0].audio = { fichier: "audio/ci/../../secret.mp3", voix: "X" };
+  assert.ok(verifier(e, pays, themes).some((p) => p.includes("fichier audio")));
+  e[0].audio = { fichier: "audio/ci/woro-woro.m4a", voix: "Aya" };
+  assert.ok(!verifier(e, pays, themes).some((p) => p.includes("fichier audio")));
+});
+test("un code pays sert au chemin du drapeau : 2 lettres majuscules seulement", () => {
+  const p = copie(pays); p["../x"] = copie(p.CI);
+  assert.ok(verifier(expressions, p, themes).some((x) => x.includes("2 lettres")));
+});
 test("« aussi » ne peut pas contenir le pays d'origine", () => {
   const e = copie(expressions); e[0].aussi = [e[0].pays];
   assert.ok(verifier(e, pays, themes).some((p) => p.includes("aussi")));
