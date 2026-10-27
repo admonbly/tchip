@@ -16,7 +16,7 @@
   var ADRESSE_PARTAGE = "tchip.app";               // domaine affiché dans les partages et les invitations
   var LIEN_JEU = "https://" + ADRESSE_PARTAGE + "/";
   var API_PROPOSITIONS = "https://api.tchip.app/propositions"; // le Worker de api/ : propositions des joueurs, non publiques
-  var TURNSTILE_CLE = "";                           // clé publique Turnstile (Cloudflare › Turnstile › tchip) : à coller ici
+  var TURNSTILE_CLE = "0x4AAAAAAFokpn7_fpWGAq5P";   // clé publique Turnstile (Cloudflare › Turnstile › tchip)
   var SENS_MAX = 3;                                 // sens proposés au maximum pour une expression
   var ESSAIS_SENS = 2;
   var VERSION_APP = "dev";                          // remplacé par la version de package.json au build

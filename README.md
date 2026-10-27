@@ -59,7 +59,7 @@ tools/                 build, vérification, tests, icônes, polices, drapeaux, 
 .github/workflows/     CI : tests, vérification, compilation Android et iOS, publication GitHub Pages
 RELECTURE.md           liste de relecture des expressions par pays (⚠️ = à valider en priorité)
 REGLES.md              règles du jeu détaillées
-api/                   API des propositions (Cloudflare Worker + D1) et page de tri admin.tchip.app (voir api/README.md)
+api/                   API des propositions (Cloudflare Worker + base D1 dans l'UE) ; voir api/README.md
 CONTRIBUER.md          comment ajouter des expressions
 DEPLOIEMENT.md         publier sur l'App Store et Google Play, pas à pas
 ```
@@ -114,7 +114,7 @@ Pas de compte. Les parties, la série, les stats, les mots appris et le passepor
 
 ## Les propositions des joueurs
 
-À la fin de chaque partie (et sur chaque page pays), le joueur peut proposer une expression de chez lui, avec jusqu'à 3 sens (et pour chaque sens, où ou dans quel contexte on l'emploie), et s'il le veut sa voix. Pas de compte : la proposition part vers `api.tchip.app`, n'est pas publique, et se trie sur `https://admin.tchip.app` (accès réservé par Cloudflare Access). Une proposition acceptée donne un brouillon à coller dans `data/expressions.js`. Détails et mise en ligne : `api/README.md`.
+À la fin de chaque partie (et sur chaque page pays), le joueur peut proposer une expression de chez lui, avec jusqu'à 3 sens (et pour chaque sens, où ou dans quel contexte on l'emploie), et s'il le veut sa voix. Pas de compte : la proposition part vers `api.tchip.app` (Cloudflare Worker) et n'est pas publique. Elle est rangée dans la base D1 `tchip-propositions`, hébergée dans l'Union européenne, qu'on lit directement (dashboard Cloudflare, `wrangler`, ou l'API D1 depuis un agent). Détails et mise en ligne : `api/README.md`.
 
 ## Identité
 
