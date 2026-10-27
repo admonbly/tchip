@@ -1,0 +1,28 @@
+# Tchip — API des propositions (voir api/README.md pour la mise en ligne).
+name = "tchip-api"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# api.tchip.app reçoit les propositions ; admin.tchip.app sert la page de tri (protégée par Cloudflare Access).
+routes = [
+  { pattern = "api.tchip.app", custom_domain = true },
+  { pattern = "admin.tchip.app", custom_domain = true }
+]
+
+# Tous les jours à 3 h (UTC) : purge des refus de plus de 90 jours et des compteurs anti-abus.
+[triggers]
+crons = ["0 3 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tchip-propositions"
+database_id = "A_REMPLIR_APRES_wrangler_d1_create"   # donné par : npx wrangler d1 create tchip-propositions --jurisdiction=eu
+
+[vars]
+# D'où le formulaire peut envoyer : le site, et les apps (Capacitor iOS et Android).
+ORIGINES = "https://tchip.app,capacitor://localhost,https://localhost"
+# Cloudflare Access (Zero Trust › Access › Applications › admin.tchip.app) : domaine de l'équipe et « Audience (AUD) tag ».
+ACCESS_EQUIPE = "A_REMPLIR"   # ex. https://tchip.cloudflareaccess.com
+ACCESS_AUD = "A_REMPLIR"
+
+# Secrets (jamais dans ce fichier) : npx wrangler secret put TURNSTILE_SECRET  et  npx wrangler secret put SEL

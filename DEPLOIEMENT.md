@@ -29,6 +29,7 @@ Ce qui est déjà prêt dans le dépôt, puis ce qu'il reste à faire, dans l'or
    L'ancienne adresse `admonbly.github.io/tchip` redirige vers `tchip.app`.
 2. **Domaine `tchip.app`** (acheté chez Cloudflare) : les enregistrements DNS pointent vers GitHub Pages (4 A, 4 AAAA, et `www` en CNAME vers `admonbly.github.io`), en **« DNS only »** (nuage gris) pour que GitHub fournisse lui-même le certificat. Puis *Enforce HTTPS* coché dans les réglages Pages du dépôt. Le domaine est aussi vérifié dans les réglages GitHub du compte (*Settings › Pages*), pour que personne d'autre ne puisse l'utiliser.
 3. **Mentions légales** (fait) : éditeur et directeur de la publication Moussa Traore, contact `contact@tchip.app` (Cloudflare Email Routing), dans `confidentialite.html` et `confidentialite-en.html`. À mettre à jour ensemble si une société reprend l'édition.
+3 bis. **API des propositions** (`api/`, Cloudflare Worker + D1 + Turnstile + Access) : mise en ligne pas à pas dans `api/README.md`. Les joueurs proposent sans compte, rien n'est public, et le tri se fait sur `https://admin.tchip.app`.
 4. **Sécurité du dépôt** (à faire sur GitHub) : double authentification sur le compte, et protection de `main` (*Settings › Branches* : CI obligatoire avant de fusionner). Tout ce qui arrive sur `main` part en moins d'une heure dans toutes les apps installées. `.well-known/security.txt` (où signaler une faille) expire le 26 octobre 2027 : changer la date `Expires` avant.
 5. `ADRESSE_PARTAGE` (`tchip.app`) est aussi le lien des invitations (Réglages › Inviter des amis) : une fois les apps en ligne, une page d'accueil avec les deux boutons des stores sera l'idéal.
 
@@ -55,7 +56,7 @@ Il faut un **Mac avec Xcode** (ou un service de build dans le cloud).
    - **Captures d'écran** : iPhone 6,9 pouces (1320 × 2868) obligatoires. L'app tourne aussi sur iPad : il faut alors des captures iPad 13 pouces (2064 × 2752).
      Pour éviter ça, passer l'app en iPhone seul : Xcode › cible *App* › *Supported Destinations* › retirer iPad.
    - **Classification par âge** : répondre au questionnaire honnêtement (quelques expressions évoquent l'argent, une maîtresse, un pot-de-vin : c'est léger).
-   - **Confidentialité de l'app** (« étiquettes ») : **Données non collectées**, tant que les statistiques sont désactivées (voir § 6).
+   - **Confidentialité de l'app** (« étiquettes ») : *Contenu utilisateur › Autre contenu utilisateur* et *Contenu utilisateur › Données audio* (les propositions d'expressions et les voix jointes), **non liés à l'identité**, **pas de suivi**, finalité : *Fonctionnalités de l'app*. C'est tout, tant que les statistiques sont désactivées (voir § 6).
    - **Langues de la fiche** : ajouter l'anglais (*App Store Connect › Informations sur l'app › Localisations*) avec son nom, sous-titre, description et captures en anglais, par ex. `Tchip – Where do you speak from?` · `Guess the expression of the day`.
    - **Notes pour la revue** (en anglais), à coller :
      > Tchip is a daily word game about expressions from the French-speaking world: guess what an expression means, then where it comes from. Available in French and English (Settings › Language). No account, no ads, no tracking. Native features: optional daily local reminder, haptic feedback, native share sheet (score sharing and friend invites, no contacts access), music and sound effects generated on device, full offline play. Player progress stays on the device.
@@ -70,7 +71,7 @@ Il faut un **Mac avec Xcode** (ou un service de build dans le cloud).
    - **Catégorie** : Jeux › Mots.
    - **Classification du contenu** : questionnaire IARC.
    - **Public cible** : 13 ans et plus (en dessous, le programme « Familles » de Google ajoute des obligations).
-   - **Sécurité des données** : *Aucune donnée collectée ni partagée*, tant que les statistiques sont désactivées (voir § 6).
+   - **Sécurité des données** : *Contenu généré par l'utilisateur › Autre contenu généré par l'utilisateur* et *Audio › Enregistrements vocaux ou audio* : collectés, **non partagés** (Cloudflare est un sous-traitant, pas un tiers), **facultatifs**, chiffrés en transit, suppression sur demande (contact@tchip.app), finalité : *Fonctionnalités de l'appli*. C'est tout, tant que les statistiques sont désactivées (voir § 6).
    - **URL de confidentialité** : celle de GitHub Pages.
    - **Publicités** : « Non, mon app ne contient pas de publicité ».
 5. Test fermé (12 testeurs, 14 jours si compte personnel récent), puis production.

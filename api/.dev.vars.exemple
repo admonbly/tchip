@@ -1,0 +1,4 @@
+# Copier en .dev.vars pour npm run dev (jamais commité). Clés de test officielles de Turnstile : elles laissent tout passer.
+DEV=1
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+SEL=sel-de-test-local

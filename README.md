@@ -59,7 +59,7 @@ tools/                 build, vérification, tests, icônes, polices, drapeaux, 
 .github/workflows/     CI : tests, vérification, compilation Android et iOS, publication GitHub Pages
 RELECTURE.md           liste de relecture des expressions par pays (⚠️ = à valider en priorité)
 REGLES.md              règles du jeu détaillées
-.github/ISSUE_TEMPLATE formulaire des propositions d'expressions
+api/                   API des propositions (Cloudflare Worker + D1) et page de tri admin.tchip.app (voir api/README.md)
 CONTRIBUER.md          comment ajouter des expressions
 DEPLOIEMENT.md         publier sur l'App Store et Google Play, pas à pas
 ```
@@ -73,7 +73,7 @@ En haut de `app.js` :
 - `ESSAIS_SENS` : nombre d'essais pour trouver le sens (2 par défaut).
 - `CONTENU_URL` : où les apps vont chercher les nouvelles expressions (`https://tchip.app/data/expressions.json`, publié par GitHub Pages). Elles n'acceptent qu'une liste valide qui ne retire aucune expression, pour que l'ordre des jours ne bouge jamais.
 - `TELEMETRYDECK_APP_ID` : vide = pas de statistiques. Voir `DEPLOIEMENT.md` pour les activer.
-- `DEPOT_PROPOSITIONS` : le dépôt GitHub où arrivent les propositions des joueurs, sous forme de tickets.
+- `API_PROPOSITIONS` et `TURNSTILE_CLE` : où le formulaire envoie les propositions (`https://api.tchip.app/propositions`) et la clé publique de l'anti-robot Turnstile. En local, `?api=http://127.0.0.1:8787` les remplace par le Worker lancé avec `npm run dev` dans `api/`.
 
 En local, ajoute `?jour=N` à l'adresse pour tester n'importe quel jour (désactivé une fois en ligne).
 
@@ -105,7 +105,7 @@ Pas de compte. Les parties, la série, les stats, les mots appris et le passepor
 **V2 — le moteur viral**
 - Choix du pays au premier lancement et **duel des pays** du jour (classement par pays, puis par ville).
 - Packs « avant de partir » : les 20 mots indispensables d'une ville.
-- Propositions des joueurs directement dans l'appli (sans compte GitHub), voix comprises, et votes de la communauté sur les sens.
+- Votes de la communauté sur les sens proposés.
 - Petit serveur (Supabase ou Firebase) pour les classements.
 
 **V3 — monétisation**
@@ -114,7 +114,7 @@ Pas de compte. Les parties, la série, les stats, les mots appris et le passepor
 
 ## Les propositions des joueurs
 
-À la fin de chaque partie, le joueur peut proposer une expression de chez lui, avec jusqu'à 3 sens (et pour chaque sens, où ou dans quel contexte on l'emploie). Le jeu prépare un ticket GitHub prérempli avec l'étiquette `proposition`. Pense à créer cette étiquette dans *Issues → Labels*. Ceux qui n'ont pas de compte GitHub peuvent copier le texte et l'envoyer sur les réseaux.
+À la fin de chaque partie (et sur chaque page pays), le joueur peut proposer une expression de chez lui, avec jusqu'à 3 sens (et pour chaque sens, où ou dans quel contexte on l'emploie), et s'il le veut sa voix. Pas de compte : la proposition part vers `api.tchip.app`, n'est pas publique, et se trie sur `https://admin.tchip.app` (accès réservé par Cloudflare Access). Une proposition acceptée donne un brouillon à coller dans `data/expressions.js`. Détails et mise en ligne : `api/README.md`.
 
 ## Identité
 

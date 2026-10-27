@@ -44,12 +44,12 @@ Si l'expression s'emploie **avec le même sens** dans d'autres pays, liste-les d
 
 ## Traiter une proposition de joueur
 
-Les propositions arrivent en tickets GitHub avec l'étiquette `proposition` (formulaire « Proposer une expression » dans le jeu, ou directement sur GitHub).
-1. Faire confirmer le sens par au moins une personne du pays (en commentaire du ticket).
+Les propositions envoyées depuis le jeu arrivent sur **https://admin.tchip.app** (réservé à l'équipe), rangées par statut : nouvelles, en relecture, acceptées, refusées.
+1. Passer la proposition « En relecture » et faire confirmer le sens par au moins une personne du pays (noter qui a relu dans la note).
 2. Choisir le sens principal ; les autres vont dans `ailleurs`.
 3. Écrire 3 leurres plausibles, une phrase d'exemple, une fiche courte, choisir le thème et noter la prononciation.
 4. Si une voix est jointe et que la personne a donné son accord, suivre « Enregistrer une voix » ci-dessous.
-5. Ajouter l'entrée à la fin du tableau, citer le pseudo dans la fiche si la personne le souhaite, puis fermer le ticket.
+5. Cliquer sur « Accepter » : la page donne le brouillon à coller à la fin de `data/expressions.js` (et dans `data/expressions-en.js`). Compléter les « À ÉCRIRE », citer le pseudo dans la fiche si la personne le souhaite, puis `npm run verifier`. Une proposition refusée s'efface d'elle-même au bout de 90 jours.
 
 ## Ajouter un pays
 

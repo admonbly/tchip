@@ -206,6 +206,72 @@ test("l'accent suit le pays le mieux maîtrisé (3 mots minimum)", () => {
   assert.strictEqual(a.degre, "très");
 });
 
+// ---------- Propositions (api/src/regles.js, utilisé par le Worker) ----------
+const regles = () => import("../api/src/regles.js");
+const propositionOk = { expression: "Long crayon", pays: "CM", lieu: "Douala", sens: [{ sens: "Une personne très diplômée" }, { sens: "Un intello", ou: "chez les jeunes" }], exemple: "", pseudo: "Aya" };
+test("une proposition correcte est acceptée et nettoyée", async () => {
+  const R = await regles();
+  const r = R.verifierProposition(Object.assign({}, propositionOk, { expression: "  Long​   crayon\n" }));
+  assert.ok(r.ok, r.erreurs.join(", "));
+  assert.strictEqual(r.valeur.expression, "Long crayon");
+  assert.strictEqual(r.valeur.sens.length, 2);
+});
+test("le serveur refuse les propositions incomplètes, trop longues ou envoyées par un robot", async () => {
+  const R = await regles();
+  const pas = (x) => !R.verifierProposition(Object.assign({}, propositionOk, x)).ok;
+  assert.ok(pas({ expression: "" }));
+  assert.ok(pas({ expression: "x".repeat(61) }));
+  assert.ok(pas({ pays: "<script>" }));
+  assert.ok(pas({ pays: "AUTRE", lieu: "" }));
+  assert.ok(pas({ sens: [] }));
+  assert.ok(pas({ sens: [{ sens: "a" }, { sens: "b" }, { sens: "c" }, { sens: "d" }] }));
+  assert.ok(pas({ site: "https://spam.example" }), "le champ piège trahit les robots");
+  assert.ok(R.verifierProposition(Object.assign({}, propositionOk, { pays: "AUTRE", lieu: "Gabon" })).ok);
+});
+test("une voix demande l'accord de publication, un format audio et 1 Mo au plus", async () => {
+  const R = await regles();
+  assert.deepStrictEqual(R.verifierVoix("", 0, false), { ok: true, voix: false });
+  assert.strictEqual(R.verifierVoix("audio/mp4", 50000, false).erreur, "accord");
+  assert.strictEqual(R.verifierVoix("audio/mp4", 2 * 1024 * 1024, true).erreur, "voix trop lourde");
+  assert.strictEqual(R.verifierVoix("text/html", 500, true).erreur, "format de voix");
+  assert.ok(R.verifierVoix("audio/mpeg", 50000, true).ok);
+});
+test("une proposition acceptée donne un brouillon prêt à compléter", async () => {
+  const R = await regles();
+  const b = R.brouillonEntree(Object.assign({}, propositionOk, { sens: JSON.stringify(propositionOk.sens) }));
+  assert.ok(b.fr.includes('expression: "Long crayon"') && b.fr.includes("ailleurs:") && b.fr.includes("À ÉCRIRE"));
+  assert.ok(b.en.includes('"CM|Long crayon"'));
+  assert.strictEqual(b.credit, "Proposé par Aya (Douala)");
+});
+
+test("l'admin n'ouvre qu'avec un vrai jeton Cloudflare Access (signature, audience, expiration)", async () => {
+  const { accessValide } = await import("../api/src/index.js");
+  const { subtle } = globalThis.crypto;
+  const paire = await subtle.generateKey({ name: "RSASSA-PKCS1-v1_5", modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" }, true, ["sign", "verify"]);
+  const jwk = Object.assign(await subtle.exportKey("jwk", paire.publicKey), { kid: "cle1" });
+  const equipe = "https://tchip.cloudflareaccess.com", env = { ACCESS_EQUIPE: equipe, ACCESS_AUD: "aud-tchip" };
+  const b64 = (o) => Buffer.from(typeof o === "string" ? o : JSON.stringify(o)).toString("base64url");
+  async function jeton(charge, cle) {
+    const debut = b64({ alg: "RS256", kid: "cle1" }) + "." + b64(charge);
+    const sig = await subtle.sign("RSASSA-PKCS1-v1_5", cle || paire.privateKey, Buffer.from(debut));
+    return debut + "." + Buffer.from(sig).toString("base64url");
+  }
+  const req = (j) => ({ headers: { get: (n) => (n === "Cf-Access-Jwt-Assertion" ? j : null) } });
+  const fetchAvant = globalThis.fetch;
+  globalThis.fetch = async () => ({ json: async () => ({ keys: [jwk] }) });
+  try {
+    const maintenant = Math.floor(Date.now() / 1000), bon = { iss: equipe, aud: ["aud-tchip"], exp: maintenant + 600 };
+    assert.strictEqual(await accessValide(req(await jeton(bon)), env), true);
+    assert.strictEqual(await accessValide(req(null), env), false, "sans jeton");
+    assert.strictEqual(await accessValide(req(await jeton(Object.assign({}, bon, { aud: ["autre-app"] }))), env), false, "mauvaise audience");
+    assert.strictEqual(await accessValide(req(await jeton(Object.assign({}, bon, { exp: maintenant - 10 }))), env), false, "expiré");
+    assert.strictEqual(await accessValide(req(await jeton(Object.assign({}, bon, { iss: "https://pirate.cloudflareaccess.com" }))), env), false, "autre équipe");
+    const autre = await subtle.generateKey({ name: "RSASSA-PKCS1-v1_5", modulusLength: 2048, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" }, true, ["sign", "verify"]);
+    assert.strictEqual(await accessValide(req(await jeton(bon, autre.privateKey)), env), false, "signé par une autre clé");
+    assert.strictEqual(await accessValide(req(await jeton(bon)), { ACCESS_EQUIPE: equipe, ACCESS_AUD: "A_REMPLIR" }), false, "Access pas configuré : tout est refusé");
+  } finally { globalThis.fetch = fetchAvant; }
+});
+
 // ---------- Service worker ----------
 function mondeSw(reseau) {
   const code = fs.readFileSync(path.join(__dirname, "..", "sw.js"), "utf8").replace("var DELAI_RESEAU = 4000;", "var DELAI_RESEAU = 50;");

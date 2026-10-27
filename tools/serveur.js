@@ -21,6 +21,10 @@ http.createServer(function (req, res) {
   if (!fichier.startsWith(racine)) { res.writeHead(403); res.end(); return; }
   fs.readFile(fichier, function (err, donnees) {
     if (err) { res.writeHead(404); res.end("Introuvable"); return; }
+    // En local seulement : la politique de sécurité autorise aussi le Worker de test (api/, npm run dev).
+    if (path.basename(fichier) === "index.html") {
+      donnees = Buffer.from(String(donnees).replace("connect-src 'self'", "connect-src 'self' http://127.0.0.1:8787 http://localhost:8787"));
+    }
     res.writeHead(200, { "Content-Type": TYPES[path.extname(fichier)] || "application/octet-stream", "Cache-Control": "no-cache" });
     res.end(donnees);
   });

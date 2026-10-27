@@ -15,7 +15,8 @@
   var LANCEMENT = { a: 2026, m: 10, j: 25 };      // jour #1 (année, mois 1-12, jour)
   var ADRESSE_PARTAGE = "tchip.app";               // domaine affiché dans les partages et les invitations
   var LIEN_JEU = "https://" + ADRESSE_PARTAGE + "/";
-  var DEPOT_PROPOSITIONS = "https://github.com/admonbly/tchip"; // les propositions arrivent en tickets ici
+  var API_PROPOSITIONS = "https://api.tchip.app/propositions"; // le Worker de api/ : propositions des joueurs, non publiques
+  var TURNSTILE_CLE = "";                           // clé publique Turnstile (Cloudflare › Turnstile › tchip) : à coller ici
   var SENS_MAX = 3;                                 // sens proposés au maximum pour une expression
   var ESSAIS_SENS = 2;
   var VERSION_APP = "dev";                          // remplacé par la version de package.json au build
@@ -1093,8 +1094,10 @@
       "\n" + t("Tu parles d'où ?") + " " + ADRESSE_PARTAGE;
   }
 
-  // ---------- Proposer une expression (prépare un ticket GitHub, relu avant la mise en jeu) ----------
-  var brouillon = null;
+  // ---------- Proposer une expression ----------
+  // Envoyée à api.tchip.app (Cloudflare, voir api/) : rien de public, triée par l'équipe et relue par des gens du pays.
+  // Turnstile vérifie qu'un humain envoie ; un champ piège invisible attrape les robots les plus simples.
+  var brouillon = null, voixChoisie = null, jetonTurnstile = "", widgetTurnstile = null;
   function brouillonVide() { return { expression: "", pays: "", lieu: "", sens: [{ sens: "", ou: "" }], exemple: "", pseudo: "" }; }
   function choixPaysProposition(choisi) {
     var codes = Object.keys(PAYS).sort(function (a, b) { return PAYS[a].nom.localeCompare(PAYS[b].nom, L); });
@@ -1145,57 +1148,122 @@
       '<textarea id="p-exemple" name="p-exemple" maxlength="200" rows="2" placeholder="' + t("Comment on l'emploie au quotidien") + '">' + esc(brouillon.exemple) + '</textarea>' +
       '<label for="p-pseudo">' + t("Ton pseudo, pour te citer") + opt + '</label>' +
       '<input id="p-pseudo" name="p-pseudo" maxlength="30" value="' + esc(brouillon.pseudo) + '" placeholder="' + t("Ex. : Aya de Yopougon") + '">' +
-      '<p class="erreur-form" id="erreur-form" hidden></p>' +
-      '<p class="note-publique">🔓 ' + t("Ta proposition sera publique sur GitHub : n'y mets ni ton nom complet, ni ton numéro, ni ton adresse.") + '</p>' +
-      '<button type="submit" class="btn">' + t("Préparer ma proposition") + '</button>' +
+      blocVoix() +
+      // piège à robots : invisible et ignoré par les humains (et par les lecteurs d'écran)
+      '<div class="piege" aria-hidden="true"><label for="p-site">Site</label><input id="p-site" name="p-site" tabindex="-1" autocomplete="off"></div>' +
+      '<div id="zone-turnstile" class="turnstile"></div>' + // pas id="turnstile" : il masquerait window.turnstile
+      '<p class="erreur-form" id="erreur-form" role="alert" hidden></p>' +
+      '<p class="note-publique">🔒 ' + t("Ta proposition arrive directement chez l'équipe Tchip : elle n'est pas publique. N'y mets ni ton nom complet, ni ton numéro, ni ton adresse.") + '</p>' +
+      '<button type="submit" class="btn" id="envoyer-proposition">' + t("Envoyer ma proposition") + '</button>' +
       '</form>', "proposer");
     var f = document.getElementById("form-proposer");
     f.addEventListener("input", lireFormulaire);
-    f.addEventListener("submit", function (ev) { ev.preventDefault(); validerProposition(); });
+    f.addEventListener("change", function (ev) { if (ev.target.id === "p-voix") choisirVoix(ev.target.files && ev.target.files[0]); });
+    f.addEventListener("submit", function (ev) { ev.preventDefault(); envoyerProposition(); });
+    monterTurnstile();
   }
-  // Le ticket reste en français : c'est l'équipe qui le lit.
-  function texteProposition() {
-    var b = brouillon;
-    var p = b.pays === "AUTRE" ? "Autre pays" : (PAYS[b.pays] ? PAYS[b.pays].drapeau + " " + PAYS[b.pays].nom : "");
-    var lignes = [
-      "Expression : " + b.expression.trim(),
-      "Pays : " + p + (b.lieu.trim() ? " (" + b.lieu.trim() + ")" : "")
-    ];
-    b.sens.forEach(function (s, i) {
-      if (!s.sens.trim()) return;
-      lignes.push("Sens " + (i + 1) + " : " + s.sens.trim() + (s.ou && s.ou.trim() ? " — " + s.ou.trim() : ""));
-    });
-    if (b.exemple.trim()) lignes.push("Exemple : " + b.exemple.trim());
-    if (b.pseudo.trim()) lignes.push("Proposé par : " + b.pseudo.trim());
-    return lignes.join("\n");
+  // Voix facultative : un fichier audio court, avec l'accord de publication.
+  function blocVoix() {
+    var opt = ' <span class="opt">' + t("facultatif") + '</span>';
+    if (!voixChoisie) {
+      return '<label for="p-voix">' + t("Ta voix qui dit l'expression") + opt + '</label>' +
+        '<input id="p-voix" name="p-voix" type="file" accept="audio/*">' +
+        '<p class="aide-champ">' + t("Un enregistrement de moins de 5 secondes (1 Mo au plus), dit comme dans la vie.") + '</p>';
+    }
+    return '<div class="voix-jointe"><span>🎙️ ' + esc(voixChoisie.name) + ' · ' + Math.max(1, Math.round(voixChoisie.size / 1024)) + ' Ko</span>' +
+      '<button type="button" class="lien-retirer" data-act="retirer-voix">' + t("Retirer") + '</button></div>' +
+      '<label class="accord"><input type="checkbox" id="p-accord">' +
+      t("J'accepte que ma voix soit publiée dans Tchip, avec mon pseudo et ma ville.") + '</label>';
   }
-  function validerProposition() {
-    lireFormulaire();
+  function choisirVoix(fichier) {
     var err = document.getElementById("erreur-form");
+    if (!fichier) return;
+    if (fichier.size > 1024 * 1024 || !/^audio\//.test(fichier.type || "")) {
+      err.textContent = t("Ce fichier ne va pas : il faut un son de 1 Mo au plus.");
+      err.hidden = false;
+      return;
+    }
+    voixChoisie = fichier;
+    feuilleProposer();
+  }
+  // Turnstile (Cloudflare) se charge seulement quand on ouvre le formulaire.
+  function monterTurnstile() {
+    var zone = document.getElementById("zone-turnstile");
+    if (!zone || !TURNSTILE_CLE) return;
+    jetonTurnstile = "";
+    function rendre() {
+      try {
+        widgetTurnstile = window.turnstile.render(zone, {
+          sitekey: TURNSTILE_CLE, language: L, theme: "auto", size: "flexible",
+          callback: function (j) { jetonTurnstile = j; },
+          "expired-callback": function () { jetonTurnstile = ""; },
+          "error-callback": function () { jetonTurnstile = ""; }
+        });
+      } catch (e) { /* le widget réapparaîtra à la prochaine ouverture */ }
+    }
+    if (window.turnstile) return rendre();
+    if (monterTurnstile.enCours) { monterTurnstile.enCours.push(rendre); return; }
+    monterTurnstile.enCours = [rendre];
+    var s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    s.async = true;
+    s.onload = function () { var a = monterTurnstile.enCours; monterTurnstile.enCours = null; a.forEach(function (f) { f(); }); };
+    s.onerror = function () { monterTurnstile.enCours = null; };
+    document.head.appendChild(s);
+  }
+  function envoyerProposition() {
+    lireFormulaire();
+    var err = document.getElementById("erreur-form"), bouton = document.getElementById("envoyer-proposition");
+    function erreur(msg) { err.textContent = msg; err.hidden = false; }
     var manque = [];
     if (!brouillon.expression.trim()) manque.push(t("l'expression"));
     if (!brouillon.pays) manque.push(t("le pays"));
     if (!brouillon.sens[0].sens.trim()) manque.push(t("au moins un sens"));
     if (brouillon.pays === "AUTRE" && !brouillon.lieu.trim()) manque.push(t("le nom du pays (dans « Ville ou région »)"));
-    if (manque.length) {
-      err.textContent = t("Il manque {liste}.", { liste: manque.join(", ") });
-      err.hidden = false;
-      return;
+    if (manque.length) return erreur(t("Il manque {liste}.", { liste: manque.join(", ") }));
+    var accord = document.getElementById("p-accord");
+    if (voixChoisie && !(accord && accord.checked)) return erreur(t("Coche l'accord pour envoyer ta voix, ou retire-la."));
+    if (!jetonTurnstile) return erreur(t("Vérification anti-robot en cours : attends une seconde, puis réessaie."));
+
+    var donnees = {
+      expression: brouillon.expression, pays: brouillon.pays, lieu: brouillon.lieu, exemple: brouillon.exemple, pseudo: brouillon.pseudo,
+      sens: brouillon.sens.filter(function (s) { return s.sens.trim(); }), langue: L,
+      site: (document.getElementById("p-site") || {}).value || ""
+    };
+    var corps = new FormData();
+    corps.append("donnees", JSON.stringify(donnees));
+    corps.append("turnstile", jetonTurnstile);
+    if (voixChoisie) { corps.append("voix", voixChoisie, voixChoisie.name); corps.append("accord", "1"); }
+    err.hidden = true; bouton.disabled = true; bouton.textContent = t("Envoi…");
+    fetch(API_PROPOSITIONS, { method: "POST", body: corps }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (d) { return { statut: r.status, d: d }; });
+    }).then(function (rep) {
+      if (rep.statut === 201) {
+        signal("Proposition.envoyee", { pays: brouillon.pays, voix: !!voixChoisie });
+        var exp = brouillon.expression.trim();
+        brouillon = brouillonVide(); voixChoisie = null; ecrire("tchip:brouillon", brouillon);
+        son("fanfare");
+        return feuille('<header><h2>' + t("Merci, c'est envoyé !") + '</h2>' + boutonFermer() + '</header>' +
+          '<p>' + t("« {exp} » est bien arrivée chez l'équipe Tchip. On la fait relire par des gens du pays avant de la mettre en jeu.", { exp: esc(exp) }) + '</p>' +
+          '<button class="btn" data-act="fermer">' + t("Retour au jeu") + '</button>' +
+          '<button class="btn secondaire" data-act="nouvelle-proposition">' + t("Proposer une autre expression") + '</button>', "proposition-envoyee");
+      }
+      var e = rep.d.erreur;
+      erreur(e === "limite" ? t("Tu as envoyé beaucoup de propositions : réessaie dans une heure.")
+        : e === "robot" ? t("La vérification anti-robot a échoué. Réessaie.")
+        : e === "accord" ? t("Coche l'accord pour envoyer ta voix, ou retire-la.")
+        : e === "voix trop lourde" || e === "format de voix" || e === "trop lourd" ? t("Ce fichier ne va pas : il faut un son de 1 Mo au plus.")
+        : t("Ta proposition n'a pas pu être envoyée. Vérifie les champs et réessaie."));
+      remettreBouton();
+    }).catch(function () {
+      erreur(t("Pas de connexion : ta proposition est gardée ici, réessaie quand tu auras du réseau."));
+      remettreBouton();
+    });
+    function remettreBouton() {
+      bouton.disabled = false; bouton.textContent = t("Envoyer ma proposition");
+      if (window.turnstile && widgetTurnstile !== null) { try { window.turnstile.reset(widgetTurnstile); } catch (x) {} } // un jeton ne sert qu'une fois
+      jetonTurnstile = "";
     }
-    var texte = texteProposition();
-    var titre = "Proposition : " + brouillon.expression.trim();
-    var corps = texte + "\n\n---\nEnvoyé depuis le jeu Tchip.";
-    var lien = DEPOT_PROPOSITIONS + "/issues/new?labels=proposition&title=" + encodeURIComponent(titre) + "&body=" + encodeURIComponent(corps);
-    signal("Proposition.preparee", { pays: brouillon.pays });
-    feuille('<header><h2>' + t("Merci, c'est prêt !") + '</h2>' + boutonFermer() + '</header>' +
-      '<div class="exemple-grille">' + esc(texte) + '</div>' +
-      '<p>' + t("Envoie-la sur la page des propositions de Tchip. On la fait relire par des gens de ton pays avant de la mettre en jeu.") + '</p>' +
-      '<p class="note-publique">🔓 ' + t("Une fois envoyée, elle est visible par tous sur GitHub. Relis le texte ci-dessus avant d'envoyer.") + '</p>' +
-      '<a class="btn" href="' + esc(lien) + '" target="_blank" rel="noopener">' + t("Envoyer ma proposition") + '</a>' +
-      '<p class="vide">' + t("L'envoi passe par GitHub et demande un compte gratuit. Pas de compte ? Copie le texte et envoie-le-nous sur nos réseaux.") + '</p>' +
-      '<button class="btn secondaire" data-act="copier-proposition">' + t("Copier le texte") + '</button>' +
-      '<button class="btn secondaire" data-act="nouvelle-proposition">' + t("Proposer une autre expression") + '</button>', "proposition-prete");
-    feuilleProposer.texte = texte;
   }
 
   // ---------- Feuilles ----------
@@ -1371,7 +1439,7 @@
       '</dl>' +
       '<h3 class="groupe-titre">' + t("Crédits") + '</h3><ul class="credits">' + credits.map(function (c) { return '<li>' + c + '</li>'; }).join("") + '</ul>' +
       '<div class="actions"><button class="btn secondaire" data-act="inviter">' + ICONES.inviter + t("Inviter des amis") + '</button>' +
-      '<a class="btn secondaire" href="' + DEPOT_PROPOSITIONS + '/issues/new" target="_blank" rel="noopener">' + t("Signaler un problème") + '</a></div>', "a-propos");
+      '<a class="btn secondaire" href="mailto:contact@tchip.app">' + t("Signaler un problème") + '</a></div>', "a-propos");
   }
   function feuilleConfidentialite() {
     feuille(enteteFeuille(t("Confidentialité"), true) + '<div class="texte-legal">' + t("Chargement…") + '</div>', "confidentialite");
@@ -1513,10 +1581,11 @@
         brouillon.sens.splice(+b.getAttribute("data-index"), 1);
         ecrire("tchip:brouillon", brouillon);
         return feuilleProposer();
-      case "copier-proposition":
-        return copier(feuilleProposer.texte || "", function () { toast(t("Texte copié !")); });
+      case "retirer-voix":
+        voixChoisie = null;
+        return feuilleProposer();
       case "nouvelle-proposition":
-        brouillon = brouillonVide();
+        brouillon = brouillonVide(); voixChoisie = null;
         ecrire("tchip:brouillon", brouillon);
         return feuilleProposer();
       case "aide": return feuilleAide();
@@ -1596,6 +1665,12 @@
     var local = location.protocol === "file:" || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
     var q = new URLSearchParams(location.search).get("jour");
     if (local && !estNatif() && q && +q >= 1) apercu = Math.floor(+q);
+    // En local aussi : ?api=http://127.0.0.1:8787 pour essayer le Worker de api/ (npm run dev), avec la clé de test de Turnstile
+    var api = new URLSearchParams(location.search).get("api");
+    if (local && !estNatif() && api && /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(api)) {
+      API_PROPOSITIONS = api + "/propositions";
+      TURNSTILE_CLE = "1x00000000000000000000AA";
+    }
   } catch (e) {}
   chargerJour(apercu || jourReel);
   entree = "place";

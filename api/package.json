@@ -1,0 +1,16 @@
+{
+  "name": "tchip-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tchip — réception et tri des propositions d'expressions (Cloudflare Worker + D1).",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "base:locale": "wrangler d1 execute tchip-propositions --local --file=schema.sql",
+    "base:distante": "wrangler d1 execute tchip-propositions --remote --file=schema.sql",
+    "deployer": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.153.0"
+  }
+}

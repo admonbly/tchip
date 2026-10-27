@@ -3,3 +3,8 @@ www/
 .DS_Store
 *.log
 node_modules/
+
+# API (Cloudflare Worker) : dépendances, état local et secrets de développement
+api/node_modules/
+api/.wrangler/
+api/.dev.vars
