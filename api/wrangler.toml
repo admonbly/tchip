@@ -11,9 +11,11 @@ routes = [
   { pattern = "api.tchip.app", custom_domain = true }
 ]
 
-# Tous les jours à 3 h (UTC) : purge des refus de plus de 90 jours et des compteurs anti-abus.
-[triggers]
-crons = ["0 3 * * *"]
+# Pas de cron : le ménage (refus de +90 jours, compteurs anti-abus de +2 jours) se fait tout seul,
+# de temps en temps après une proposition (voir purger() dans src/index.js). Pour le passer en tâche de
+# nuit, décommenter ci-dessous (demande un sous-domaine workers.dev, créé en ouvrant le menu Workers du dashboard).
+# [triggers]
+# crons = ["0 3 * * *"]
 
 [[d1_databases]]
 binding = "DB"

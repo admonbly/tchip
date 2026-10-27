@@ -4,8 +4,8 @@
   Manifeste de confidentialité de Tchip (exigé par l'App Store).
   - Aucun traçage, aucun domaine de traçage.
   - UserDefaults : sauvegarde de la progression du joueur (plugin Preferences), lue uniquement par l'app (raison CA92.1).
-  - Données collectées : seulement ce que le joueur envoie lui-même en proposant une expression (texte, et sa voix
-    s'il le souhaite), non lié à son identité, pour faire vivre le jeu (App Functionality).
+  - Données collectées : seulement le texte que le joueur envoie lui-même en proposant une expression,
+    non lié à son identité, pour faire vivre le jeu (App Functionality).
     Si tu actives les statistiques anonymes (TELEMETRYDECK_APP_ID), ajoute aussi les deux entrées indiquées dans DEPLOIEMENT.md.
 -->
 <plist version="1.0">
@@ -19,18 +19,6 @@
 		<dict>
 			<key>NSPrivacyCollectedDataType</key>
 			<string>NSPrivacyCollectedDataTypeOtherUserContent</string>
-			<key>NSPrivacyCollectedDataTypeLinked</key>
-			<false/>
-			<key>NSPrivacyCollectedDataTypeTracking</key>
-			<false/>
-			<key>NSPrivacyCollectedDataTypePurposes</key>
-			<array>
-				<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
-			</array>
-		</dict>
-		<dict>
-			<key>NSPrivacyCollectedDataType</key>
-			<string>NSPrivacyCollectedDataTypeAudioData</string>
 			<key>NSPrivacyCollectedDataTypeLinked</key>
 			<false/>
 			<key>NSPrivacyCollectedDataTypeTracking</key>

@@ -837,6 +837,25 @@
     return t(s.manque > 1 ? "Encore <b>{n} mots maîtrisés</b> pour le tampon {rang} ({pct} %)." : "Encore <b>{n} mot maîtrisé</b> pour le tampon {rang} ({pct} %).",
       { n: s.manque, rang: esc(nomRang(s.rang)), pct: s.seuil });
   }
+  // Le parcours des 4 tampons, comme un circuit : ce qui est atteint (✓), la prochaine étape visée, et ce qui reste.
+  function jalons(p) {
+    var r = AP.rang(p);
+    var items = AP.SEUILS.slice(1).map(function (seuil, i) {
+      var rang = i + 1, etat = rang <= r ? "atteint" : rang === r + 1 ? "cible" : "a-venir";
+      return '<li class="jalon rang-' + rang + ' ' + etat + '">' +
+        '<span class="rond" aria-hidden="true">' + (rang <= r ? "✓" : t("{pct} %", { pct: Math.round(seuil * 100) })) + '</span>' +
+        '<span class="etiquette">' + nomRang(rang) + '</span></li>';
+    }).join("");
+    return '<ol class="jalons" aria-label="' + t("Parcours des tampons") + '">' + items + '</ol>';
+  }
+  // Pourcentage du chemin parcouru (jamais 0 dès qu'on a joué) : plus motivant que « 0 % maîtrisés ».
+  function teteParcours(p, de) {
+    if (!p.vus) return '<span class="part-parcours">' + t("À découvrir") + '</span>';
+    var a = Math.round(AP.avancement(p) * 100);
+    return '<span class="part-parcours">' + t("{pct} % du parcours", {
+      pct: '<span data-compte="' + a + '"' + (de !== undefined ? ' data-de="' + Math.round(de * 100) + '"' : '') + '>' + a + '</span>'
+    }) + '</span>';
+  }
   function carteRevision() {
     var n = aRevoir().length;
     if (!n) return "";
@@ -875,7 +894,7 @@
         '<h1 class="titre-page">' + esc(p.nom) + '</h1>' +
         (p.intro ? '<p>' + esc(p.intro) + '</p>' : '') +
         '<div class="niveau">' + (badgeRang(r) || '<span class="rang">' + nomRang(0) + '</span>') +
-        '<span>' + t("{pct} % · {n}/{total} maîtrisés", { pct: '<span data-compte="' + AP.pourcentage(pr) + '">' + AP.pourcentage(pr) + '</span>', n: pr.maitrises, total: pr.total }) + '</span></div>' + barreProgression(pr) +
+        teteParcours(pr) + '</div>' + barreProgression(pr) + jalons(pr) +
         '<p class="palier">' + phrasePalier(pr) + '</p>' + phraseEnCours(pr) +
       '</section>' +
       '<div class="actions"><button class="btn" data-act="serie-pays">' + ICONES.voyager + t("Jouer une série") + '</button></div>' +
@@ -1011,9 +1030,9 @@
       var code = serie.retour.code, pr = AP.progression(exprDuPays(code), savoir()), av = serie.avant || pr;
       var gagne = serie.tampons.filter(function (x) { return x.code === code; })[0];
       h += '<div class="card palier-carte"><p class="niveau"><span>' + drapeau(code) + ' ' + esc(paysInfo(code).nom) + '</span>' +
-        '<span>' + t("{pct} % maîtrisés", { pct: '<span data-compte="' + AP.pourcentage(pr) + '" data-de="' + AP.pourcentage(av) + '">' + AP.pourcentage(pr) + '</span>' }) + '</span></p>' +
+        teteParcours(pr, AP.avancement(av)) + '</p>' +
         barreProgression(pr, { de: av.total ? av.maitrises / av.total : 0, deA: AP.avancement(av), eclat: gagne ? gagne.rang : 0 }) +
-        '<p class="palier">' + phrasePalier(pr) + '</p>' + phraseEnCours(pr) + '</div>';
+        jalons(pr) + '<p class="palier">' + phrasePalier(pr) + '</p>' + phraseEnCours(pr) + '</div>';
     }
     h += motif() + '<h2 class="region">' + t("Les mots de la série") + '</h2><ul class="lexique bilan">' + serie.resultats.map(function (r) {
       return '<li><button class="mot ' + (r.juste ? 'juste' : 'rate') + '" data-mot="' + EXPR.indexOf(r.e) + '">' +
@@ -1097,7 +1116,7 @@
   // ---------- Proposer une expression ----------
   // Envoyée à api.tchip.app (Cloudflare, voir api/) : rien de public, triée par l'équipe et relue par des gens du pays.
   // Turnstile vérifie qu'un humain envoie ; un champ piège invisible attrape les robots les plus simples.
-  var brouillon = null, voixChoisie = null, jetonTurnstile = "", widgetTurnstile = null;
+  var brouillon = null, jetonTurnstile = "", widgetTurnstile = null;
   function brouillonVide() { return { expression: "", pays: "", lieu: "", sens: [{ sens: "", ou: "" }], exemple: "", pseudo: "" }; }
   function choixPaysProposition(choisi) {
     var codes = Object.keys(PAYS).sort(function (a, b) { return PAYS[a].nom.localeCompare(PAYS[b].nom, L); });
@@ -1148,7 +1167,6 @@
       '<textarea id="p-exemple" name="p-exemple" maxlength="200" rows="2" placeholder="' + t("Comment on l'emploie au quotidien") + '">' + esc(brouillon.exemple) + '</textarea>' +
       '<label for="p-pseudo">' + t("Ton pseudo, pour te citer") + opt + '</label>' +
       '<input id="p-pseudo" name="p-pseudo" maxlength="30" value="' + esc(brouillon.pseudo) + '" placeholder="' + t("Ex. : Aya de Yopougon") + '">' +
-      blocVoix() +
       // piège à robots : invisible et ignoré par les humains (et par les lecteurs d'écran)
       '<div class="piege" aria-hidden="true"><label for="p-site">Site</label><input id="p-site" name="p-site" tabindex="-1" autocomplete="off"></div>' +
       '<div id="zone-turnstile" class="turnstile"></div>' + // pas id="turnstile" : il masquerait window.turnstile
@@ -1158,33 +1176,8 @@
       '</form>', "proposer");
     var f = document.getElementById("form-proposer");
     f.addEventListener("input", lireFormulaire);
-    f.addEventListener("change", function (ev) { if (ev.target.id === "p-voix") choisirVoix(ev.target.files && ev.target.files[0]); });
     f.addEventListener("submit", function (ev) { ev.preventDefault(); envoyerProposition(); });
     monterTurnstile();
-  }
-  // Voix facultative : un fichier audio court, avec l'accord de publication.
-  function blocVoix() {
-    var opt = ' <span class="opt">' + t("facultatif") + '</span>';
-    if (!voixChoisie) {
-      return '<label for="p-voix">' + t("Ta voix qui dit l'expression") + opt + '</label>' +
-        '<input id="p-voix" name="p-voix" type="file" accept="audio/*">' +
-        '<p class="aide-champ">' + t("Un enregistrement de moins de 5 secondes (1 Mo au plus), dit comme dans la vie.") + '</p>';
-    }
-    return '<div class="voix-jointe"><span>🎙️ ' + esc(voixChoisie.name) + ' · ' + Math.max(1, Math.round(voixChoisie.size / 1024)) + ' Ko</span>' +
-      '<button type="button" class="lien-retirer" data-act="retirer-voix">' + t("Retirer") + '</button></div>' +
-      '<label class="accord"><input type="checkbox" id="p-accord">' +
-      t("J'accepte que ma voix soit publiée dans Tchip, avec mon pseudo et ma ville.") + '</label>';
-  }
-  function choisirVoix(fichier) {
-    var err = document.getElementById("erreur-form");
-    if (!fichier) return;
-    if (fichier.size > 1024 * 1024 || !/^audio\//.test(fichier.type || "")) {
-      err.textContent = t("Ce fichier ne va pas : il faut un son de 1 Mo au plus.");
-      err.hidden = false;
-      return;
-    }
-    voixChoisie = fichier;
-    feuilleProposer();
   }
   // Turnstile (Cloudflare) se charge seulement quand on ouvre le formulaire.
   function monterTurnstile() {
@@ -1221,8 +1214,6 @@
     if (!brouillon.sens[0].sens.trim()) manque.push(t("au moins un sens"));
     if (brouillon.pays === "AUTRE" && !brouillon.lieu.trim()) manque.push(t("le nom du pays (dans « Ville ou région »)"));
     if (manque.length) return erreur(t("Il manque {liste}.", { liste: manque.join(", ") }));
-    var accord = document.getElementById("p-accord");
-    if (voixChoisie && !(accord && accord.checked)) return erreur(t("Coche l'accord pour envoyer ta voix, ou retire-la."));
     if (!jetonTurnstile) return erreur(t("Vérification anti-robot en cours : attends une seconde, puis réessaie."));
 
     var donnees = {
@@ -1233,15 +1224,14 @@
     var corps = new FormData();
     corps.append("donnees", JSON.stringify(donnees));
     corps.append("turnstile", jetonTurnstile);
-    if (voixChoisie) { corps.append("voix", voixChoisie, voixChoisie.name); corps.append("accord", "1"); }
     err.hidden = true; bouton.disabled = true; bouton.textContent = t("Envoi…");
     fetch(API_PROPOSITIONS, { method: "POST", body: corps }).then(function (r) {
       return r.json().catch(function () { return {}; }).then(function (d) { return { statut: r.status, d: d }; });
     }).then(function (rep) {
       if (rep.statut === 201) {
-        signal("Proposition.envoyee", { pays: brouillon.pays, voix: !!voixChoisie });
+        signal("Proposition.envoyee", { pays: brouillon.pays });
         var exp = brouillon.expression.trim();
-        brouillon = brouillonVide(); voixChoisie = null; ecrire("tchip:brouillon", brouillon);
+        brouillon = brouillonVide(); ecrire("tchip:brouillon", brouillon);
         son("fanfare");
         return feuille('<header><h2>' + t("Merci, c'est envoyé !") + '</h2>' + boutonFermer() + '</header>' +
           '<p>' + t("« {exp} » est bien arrivée chez l'équipe Tchip. On la fait relire par des gens du pays avant de la mettre en jeu.", { exp: esc(exp) }) + '</p>' +
@@ -1251,8 +1241,6 @@
       var e = rep.d.erreur;
       erreur(e === "limite" ? t("Tu as envoyé beaucoup de propositions : réessaie dans une heure.")
         : e === "robot" ? t("La vérification anti-robot a échoué. Réessaie.")
-        : e === "accord" ? t("Coche l'accord pour envoyer ta voix, ou retire-la.")
-        : e === "voix trop lourde" || e === "format de voix" || e === "trop lourd" ? t("Ce fichier ne va pas : il faut un son de 1 Mo au plus.")
         : t("Ta proposition n'a pas pu être envoyée. Vérifie les champs et réessaie."));
       remettreBouton();
     }).catch(function () {
@@ -1581,11 +1569,8 @@
         brouillon.sens.splice(+b.getAttribute("data-index"), 1);
         ecrire("tchip:brouillon", brouillon);
         return feuilleProposer();
-      case "retirer-voix":
-        voixChoisie = null;
-        return feuilleProposer();
       case "nouvelle-proposition":
-        brouillon = brouillonVide(); voixChoisie = null;
+        brouillon = brouillonVide();
         ecrire("tchip:brouillon", brouillon);
         return feuilleProposer();
       case "aide": return feuilleAide();

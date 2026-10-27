@@ -15,14 +15,18 @@ import { PAGE_ADMIN, SCRIPT_ADMIN } from "./admin.js";
 const JOUR = 86400000;
 
 export default {
-  async fetch(requete, env) {
+  async fetch(requete, env, ctx) {
     const url = new URL(requete.url);
     const dev = env.DEV === "1";
     try {
       if (dev && url.pathname === "/admin") return Response.redirect(url.origin + "/admin/", 302);
       const admin = url.hostname.startsWith("admin.") || (dev && url.pathname.startsWith("/admin"));
       if (admin) return await routeAdmin(requete, env, dev ? url.pathname.replace(/^\/admin/, "") || "/" : url.pathname);
-      if (url.pathname === "/propositions") return await routePublique(requete, env);
+      if (url.pathname === "/propositions") {
+        // Nettoyage intégré (pas de cron) : de temps en temps, après avoir répondu, on efface ce qui est trop vieux.
+        if (ctx && ctx.waitUntil && Math.random() < 0.05) ctx.waitUntil(purger(env));
+        return await routePublique(requete, env);
+      }
       return texte("Tchip API", 200);
     } catch (e) {
       console.error(e && e.stack || e);
@@ -30,13 +34,19 @@ export default {
     }
   },
 
-  async scheduled(evt, env) {
-    const maintenant = Date.now();
-    const vieux = await env.DB.prepare("SELECT id FROM propositions WHERE statut = 'refusee' AND maj < ?").bind(maintenant - 90 * JOUR).all();
-    for (const p of vieux.results) await supprimer(env, p.id);
-    await env.DB.prepare("DELETE FROM limites WHERE cree < ?").bind(maintenant - 2 * JOUR).run();
-  }
+  // Appelé aussi par un cron si on en remet un dans wrangler.toml ; sinon, déclenché depuis fetch.
+  async scheduled(evt, env) { await purger(env); }
 };
+
+// Efface les refus de plus de 90 jours (promesse de la page de confidentialité) et les compteurs anti-abus de plus de 2 jours.
+async function purger(env) {
+  const seuil = Date.now() - 90 * JOUR;
+  await env.DB.batch([
+    env.DB.prepare("DELETE FROM voix WHERE proposition IN (SELECT id FROM propositions WHERE statut = 'refusee' AND maj < ?)").bind(seuil),
+    env.DB.prepare("DELETE FROM propositions WHERE statut = 'refusee' AND maj < ?").bind(seuil),
+    env.DB.prepare("DELETE FROM limites WHERE cree < ?").bind(Date.now() - 2 * JOUR)
+  ]);
+}
 
 // ---------- Réponses ----------
 function json(corps, statut, entetes) {

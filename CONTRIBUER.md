@@ -48,8 +48,7 @@ Les propositions envoyées depuis le jeu arrivent dans la base **D1 `tchip-propo
 1. Faire confirmer le sens par au moins une personne du pays (et noter qui a relu dans la colonne `note`).
 2. Choisir le sens principal ; les autres vont dans `ailleurs`.
 3. Écrire 3 leurres plausibles, une phrase d'exemple, une fiche courte, choisir le thème et noter la prononciation.
-4. Si une voix est jointe et que la personne a donné son accord, suivre « Enregistrer une voix » ci-dessous.
-5. Ajouter l'entrée à la fin de `data/expressions.js` (et sa traduction dans `data/expressions-en.js`), citer le pseudo dans la fiche si la personne le souhaite, puis `npm run verifier`. Passer la ligne en `statut = 'acceptee'` (ou `refusee`). Une proposition refusée s'efface d'elle-même au bout de 90 jours.
+4. Ajouter l'entrée à la fin de `data/expressions.js` (et sa traduction dans `data/expressions-en.js`), citer le pseudo dans la fiche si la personne le souhaite, puis `npm run verifier`. Passer la ligne en `statut = 'acceptee'` (ou `refusee`). Une proposition refusée s'efface d'elle-même au bout de 90 jours.
 
 `src/regles.js` dans `api/` sait fabriquer le brouillon à coller (`brouillonEntree`), pratique pour un agent qui traite la base automatiquement.
 

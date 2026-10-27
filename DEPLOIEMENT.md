@@ -56,7 +56,7 @@ Il faut un **Mac avec Xcode** (ou un service de build dans le cloud).
    - **Captures d'écran** : iPhone 6,9 pouces (1320 × 2868) obligatoires. L'app tourne aussi sur iPad : il faut alors des captures iPad 13 pouces (2064 × 2752).
      Pour éviter ça, passer l'app en iPhone seul : Xcode › cible *App* › *Supported Destinations* › retirer iPad.
    - **Classification par âge** : répondre au questionnaire honnêtement (quelques expressions évoquent l'argent, une maîtresse, un pot-de-vin : c'est léger).
-   - **Confidentialité de l'app** (« étiquettes ») : *Contenu utilisateur › Autre contenu utilisateur* et *Contenu utilisateur › Données audio* (les propositions d'expressions et les voix jointes), **non liés à l'identité**, **pas de suivi**, finalité : *Fonctionnalités de l'app*. C'est tout, tant que les statistiques sont désactivées (voir § 6).
+   - **Confidentialité de l'app** (« étiquettes ») : *Contenu utilisateur › Autre contenu utilisateur* (les propositions d'expressions), **non lié à l'identité**, **pas de suivi**, finalité : *Fonctionnalités de l'app*. C'est tout, tant que les statistiques sont désactivées (voir § 6).
    - **Langues de la fiche** : ajouter l'anglais (*App Store Connect › Informations sur l'app › Localisations*) avec son nom, sous-titre, description et captures en anglais, par ex. `Tchip – Where do you speak from?` · `Guess the expression of the day`.
    - **Notes pour la revue** (en anglais), à coller :
      > Tchip is a daily word game about expressions from the French-speaking world: guess what an expression means, then where it comes from. Available in French and English (Settings › Language). No account, no ads, no tracking. Native features: optional daily local reminder, haptic feedback, native share sheet (score sharing and friend invites, no contacts access), music and sound effects generated on device, full offline play. Player progress stays on the device.
@@ -71,7 +71,7 @@ Il faut un **Mac avec Xcode** (ou un service de build dans le cloud).
    - **Catégorie** : Jeux › Mots.
    - **Classification du contenu** : questionnaire IARC.
    - **Public cible** : 13 ans et plus (en dessous, le programme « Familles » de Google ajoute des obligations).
-   - **Sécurité des données** : *Contenu généré par l'utilisateur › Autre contenu généré par l'utilisateur* et *Audio › Enregistrements vocaux ou audio* : collectés, **non partagés** (Cloudflare est un sous-traitant, pas un tiers), **facultatifs**, chiffrés en transit, suppression sur demande (contact@tchip.app), finalité : *Fonctionnalités de l'appli*. C'est tout, tant que les statistiques sont désactivées (voir § 6).
+   - **Sécurité des données** : *Contenu généré par l'utilisateur › Autre contenu généré par l'utilisateur* : collecté, **non partagé** (Cloudflare est un sous-traitant, pas un tiers), **facultatif**, chiffré en transit, suppression sur demande (contact@tchip.app), finalité : *Fonctionnalités de l'appli*. C'est tout, tant que les statistiques sont désactivées (voir § 6).
    - **URL de confidentialité** : celle de GitHub Pages.
    - **Publicités** : « Non, mon app ne contient pas de publicité ».
 5. Test fermé (12 testeurs, 14 jours si compte personnel récent), puis production.
