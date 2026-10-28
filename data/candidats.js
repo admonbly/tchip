@@ -3937,6 +3937,450 @@
       leurres: ["Un saint patron", "Un chanteur vedette", "Un pêcheur légendaire"],
       exemple: "On brûle Vaval le mercredi des Cendres.",
       fiche: "Antilles. « Vaval » : le roi du carnaval, une effigie géante brûlée pour clore les festivités."
+    },
+
+    // ---------- Haïti (créole haïtien, vodou, cuisine) ----------
+    {
+      expression: "Bonjou",
+      pays: "HT", theme: "salutations",
+      sens: "Bonjour",
+      leurres: ["Au revoir", "Merci", "Bonne nuit"],
+      exemple: "Bonjou ! Kijan ou ye ?",
+      fiche: "Créole haïtien. « Bonjou » : bonjour."
+    },
+    {
+      expression: "Mèsi",
+      pays: "HT", theme: "salutations",
+      sens: "Merci",
+      leurres: ["Pardon", "Bonjour", "S'il te plaît"],
+      exemple: "Mèsi anpil ! (merci beaucoup)",
+      fiche: "Créole haïtien. « Mèsi » : merci."
+    },
+    {
+      expression: "Souple",
+      pays: "HT", theme: "salutations",
+      sens: "S'il te plaît",
+      leurres: ["Merci", "Pardon", "Au revoir"],
+      exemple: "Yon vè dlo, souple.",
+      fiche: "Créole haïtien. « Souple » (silvouplè) : s'il te plaît."
+    },
+    {
+      expression: "Orevwa",
+      pays: "HT", theme: "salutations",
+      sens: "Au revoir",
+      leurres: ["Bonjour", "Bienvenue", "Merci"],
+      exemple: "N a wè demen, orevwa !",
+      fiche: "Créole haïtien. « Orevwa » : au revoir."
+    },
+    {
+      expression: "Pa gen pwoblem",
+      pays: "HT", theme: "quotidien",
+      sens: "Pas de problème",
+      leurres: ["C'est impossible", "Je ne sais pas", "C'est trop cher"],
+      exemple: "Ou bezwen èd ? Pa gen pwoblem.",
+      fiche: "Créole haïtien. « Pa gen pwoblem » : pas de problème, pas de souci."
+    },
+    {
+      expression: "Degaje",
+      pays: "HT", theme: "quotidien",
+      sens: "Se débrouiller, trouver une solution",
+      leurres: ["Abandonner", "Se reposer", "Attendre les bras croisés"],
+      exemple: "Nan lavi, fòk ou degaje w.",
+      fiche: "Créole haïtien. « Degaje » : se débrouiller — tout un art de vivre (« degaje pa peche »)."
+    },
+    {
+      expression: "Lougawou",
+      pays: "HT", theme: "quotidien",
+      sens: "Un être maléfique qui rôde la nuit",
+      leurres: ["Un gardien de nuit", "Un conteur", "Un oiseau rare"],
+      exemple: "Granmoun yo pale de lougawou.",
+      fiche: "Créole haïtien. Un « lougawou » : une créature maléfique nocturne, proche du loup-garou."
+    },
+    {
+      expression: "Le vodou",
+      pays: "HT", theme: "quotidien",
+      sens: "La religion traditionnelle haïtienne",
+      leurres: ["Une danse de carnaval", "Un plat de fête", "Un conte pour enfants"],
+      exemple: "Le vodou honore les ancêtres et les lwa.",
+      fiche: "Le « vodou » : la religion haïtienne, qui rend hommage aux esprits (les lwa) et aux ancêtres."
+    },
+    {
+      expression: "Un lwa",
+      pays: "HT", theme: "quotidien",
+      sens: "Un esprit, une divinité du vodou",
+      leurres: ["Un prêtre", "Un tambour", "Un ancêtre mortel"],
+      exemple: "Chak lwa gen koulè l ak chante l.",
+      fiche: "Créole haïtien. Un « lwa » : un esprit du vodou, qu'on honore par des chants et des offrandes."
+    },
+    {
+      expression: "Le mòn",
+      pays: "HT", theme: "quotidien",
+      sens: "Une montagne",
+      leurres: ["Une plage", "Une rivière", "Une grotte"],
+      exemple: "Dèyè mòn, gen mòn (après les montagnes, d'autres montagnes).",
+      fiche: "Créole haïtien. Le « mòn » : la montagne ; « dèyè mòn, gen mòn » dit qu'après une épreuve en vient une autre."
+    },
+    {
+      expression: "Grangou",
+      pays: "HT", theme: "quotidien",
+      sens: "La faim",
+      leurres: ["La soif", "La fatigue", "La peur"],
+      exemple: "Timoun yo gen grangou.",
+      fiche: "Créole haïtien. « Grangou » : la faim (« gwo grangou » : la grande faim)."
+    },
+    {
+      expression: "Anmwe !",
+      pays: "HT", theme: "emotions",
+      sens: "Au secours !",
+      leurres: ["Bravo !", "Bonjour !", "Doucement !"],
+      exemple: "Anmwe ! Vin ede m !",
+      fiche: "Créole haïtien. « Anmwe ! » : au secours ! — un cri de détresse."
+    },
+    {
+      expression: "Mezanmi !",
+      pays: "HT", theme: "emotions",
+      sens: "Oh là là ! Mon Dieu !",
+      leurres: ["Au revoir !", "Tant pis !", "D'accord !"],
+      exemple: "Mezanmi, gade sa !",
+      fiche: "Créole haïtien. « Mezanmi ! » (« mes amis ») : une exclamation de surprise ou d'exaspération."
+    },
+    {
+      expression: "Blan",
+      pays: "HT", theme: "gens",
+      sens: "Un Blanc, un étranger",
+      leurres: ["Un pêcheur local", "Un enfant", "Un paysan"],
+      exemple: "Yon blan vin vizite lakou a.",
+      fiche: "Créole haïtien. « Blan » : un Blanc, et plus largement un étranger."
+    },
+    {
+      expression: "Un houngan",
+      pays: "HT", theme: "gens",
+      sens: "Un prêtre du vodou",
+      leurres: ["Un maire", "Un instituteur", "Un médecin"],
+      exemple: "Le houngan dirige la cérémonie.",
+      fiche: "Un « houngan » : un prêtre du vodou (la prêtresse est une « mambo »)."
+    },
+    {
+      expression: "Une mambo",
+      pays: "HT", theme: "gens",
+      sens: "Une prêtresse du vodou",
+      leurres: ["Une danseuse", "Une chanteuse", "Une marchande"],
+      exemple: "La mambo entonne le chant pour les lwa.",
+      fiche: "Une « mambo » : une prêtresse du vodou."
+    },
+    {
+      expression: "Un ti machann",
+      pays: "HT", theme: "gens",
+      sens: "Une petite marchande ambulante",
+      leurres: ["Une riche commerçante", "Une écolière", "Une infirmière"],
+      exemple: "Yon ti machann ap vann fritay nan kwen an.",
+      fiche: "Créole haïtien. Un(e) « ti machann » : une petite marchande de rue."
+    },
+    {
+      expression: "Le rara",
+      pays: "HT", theme: "fete",
+      sens: "Une musique de rue et procession",
+      leurres: ["Un bal de salon", "Une messe", "Un concert de piano"],
+      exemple: "Le rara défile pendant le carême.",
+      fiche: "Le « rara » : une musique de rue festive et sa procession, surtout pendant le carême."
+    },
+    {
+      expression: "Le twoubadou",
+      pays: "HT", theme: "fete",
+      sens: "Une musique acoustique de troubadours",
+      leurres: ["Une fanfare militaire", "Un opéra", "Une musique techno"],
+      exemple: "Un groupe twoubadou joue sur la terrasse.",
+      fiche: "Le « twoubadou » : une musique acoustique, guitare et voix, héritière des troubadours."
+    },
+    {
+      expression: "Le diri kole",
+      pays: "HT", theme: "manger",
+      sens: "Du riz collé aux haricots rouges",
+      leurres: ["Des pâtes à la tomate", "Une soupe claire", "Un gratin"],
+      exemple: "Diri kole ak sòs pwa.",
+      fiche: "Créole haïtien. Le « diri kole » : du riz cuit avec des haricots rouges."
+    },
+    {
+      expression: "La banane pesée",
+      pays: "HT", theme: "manger",
+      sens: "Des bananes plantain frites et écrasées",
+      leurres: ["Une compote sucrée", "Un gâteau à la banane", "Une purée de patate"],
+      exemple: "Banane pesée ak pikliz.",
+      fiche: "Haïti. La « banane pesée » : des rondelles de banane plantain frites, écrasées puis refrites."
+    },
+    {
+      expression: "Le lambi",
+      pays: "HT", theme: "manger",
+      sens: "Un gros coquillage mangé en sauce",
+      leurres: ["Un petit poisson", "Un crabe de terre", "Une algue"],
+      exemple: "Un lambi en sauce créole.",
+      fiche: "Antilles/Haïti. Le « lambi » : un gros mollusque marin (la conque), cuisiné en sauce."
+    },
+    {
+      expression: "Le tasso",
+      pays: "HT", theme: "manger",
+      sens: "De la viande frite marinée",
+      leurres: ["Un ragoût mijoté", "Une soupe de poisson", "Une salade verte"],
+      exemple: "Tasso kabrit bien croustillant.",
+      fiche: "Haïti. Le « tasso » : de la viande (cabri, dinde) marinée puis frite."
+    },
+    {
+      expression: "Les marinades",
+      pays: "HT", theme: "manger",
+      sens: "Des beignets salés frits",
+      leurres: ["Des bonbons", "Des chips sucrées", "Des crêpes"],
+      exemple: "Des marinades chaudes à la morue.",
+      fiche: "Haïti. Les « marinades » : des beignets de pâte frits, souvent à la morue ou au hareng."
+    },
+    {
+      expression: "Le labouyi",
+      pays: "HT", theme: "manger",
+      sens: "Une bouillie épaisse",
+      leurres: ["Une grillade", "Un jus de fruit", "Une salade"],
+      exemple: "Yon bòl labouyi bannann nan maten.",
+      fiche: "Créole haïtien. Le « labouyi » : une bouillie épaisse (banane, maïs, avoine), prise au petit matin."
+    },
+    {
+      expression: "Le kremas",
+      pays: "HT", theme: "manger",
+      sens: "Une liqueur crémeuse au coco et rhum",
+      leurres: ["Un jus d'orange", "Un café noir", "Une bière blonde"],
+      exemple: "Un verre de kremas pour les fêtes.",
+      fiche: "Haïti. Le « kremas » (cremas) : une liqueur crémeuse de lait de coco, lait concentré et rhum, bue à Noël."
+    },
+    {
+      expression: "Zanmi",
+      pays: "HT", theme: "amour",
+      sens: "Un ami",
+      leurres: ["Un ennemi", "Un inconnu", "Un cousin"],
+      exemple: "Se bon zanmi nou ye.",
+      fiche: "Créole haïtien. « Zanmi » : un ami."
+    },
+
+    // ---------- La Réunion (créole réunionnais, société, cuisine) ----------
+    {
+      expression: "Bonzour",
+      pays: "RE", theme: "salutations",
+      sens: "Bonjour",
+      leurres: ["Au revoir", "Merci", "Bonsoir"],
+      exemple: "Bonzour ! Komon i lé ?",
+      fiche: "Créole réunionnais. « Bonzour » : bonjour."
+    },
+    {
+      expression: "Mersi",
+      pays: "RE", theme: "salutations",
+      sens: "Merci",
+      leurres: ["Pardon", "Bonjour", "S'il te plaît"],
+      exemple: "Mersi bokou pou out èd.",
+      fiche: "Créole réunionnais. « Mersi » : merci."
+    },
+    {
+      expression: "Nou artrouv",
+      pays: "RE", theme: "salutations",
+      sens: "Au revoir, à bientôt",
+      leurres: ["Bonjour", "Bienvenue", "Bon appétit"],
+      exemple: "Alé, nou artrouv !",
+      fiche: "Créole réunionnais. « Nou artrouv » : on se retrouve, au revoir."
+    },
+    {
+      expression: "La kaz",
+      pays: "RE", theme: "quotidien",
+      sens: "La maison",
+      leurres: ["Le jardin", "La rue", "Le marché"],
+      exemple: "Mi rant la kaz.",
+      fiche: "Créole réunionnais. « La kaz » : la maison."
+    },
+    {
+      expression: "Zordi",
+      pays: "RE", theme: "quotidien",
+      sens: "Aujourd'hui",
+      leurres: ["Hier", "Demain", "Bientôt"],
+      exemple: "Zordi i fé cho.",
+      fiche: "Créole réunionnais. « Zordi » : aujourd'hui."
+    },
+    {
+      expression: "Néna",
+      pays: "RE", theme: "quotidien",
+      sens: "Il y a (il existe)",
+      leurres: ["Il n'y a rien", "C'est fini", "C'est loin"],
+      exemple: "Néna in bon cari zordi.",
+      fiche: "Créole réunionnais. « Néna » : il y a, il existe."
+    },
+    {
+      expression: "Akoz ?",
+      pays: "RE", theme: "quotidien",
+      sens: "Pourquoi ?",
+      leurres: ["Comment ?", "Quand ?", "Combien ?"],
+      exemple: "Akoz ou lé pa là ?",
+      fiche: "Créole réunionnais. « Akoz ? » : pourquoi ?"
+    },
+    {
+      expression: "Un cirque",
+      pays: "RE", theme: "quotidien",
+      sens: "Un grand cirque naturel de montagne",
+      leurres: ["Un spectacle d'acrobates", "Une plage abritée", "Une place de village"],
+      exemple: "On randonne dans le cirque de Mafate.",
+      fiche: "La Réunion. Un « cirque » : un grand amphithéâtre naturel entouré de remparts (Mafate, Salazie, Cilaos)."
+    },
+    {
+      expression: "Les hauts",
+      pays: "RE", theme: "quotidien",
+      sens: "Les hauteurs de l'île",
+      leurres: ["Le bord de mer", "Le centre-ville", "Le port"],
+      exemple: "Il fait frais dans les hauts.",
+      fiche: "La Réunion. « Les hauts » : les hauteurs de l'île, par opposition aux « bas » du littoral."
+    },
+    {
+      expression: "Le piton",
+      pays: "RE", theme: "quotidien",
+      sens: "Un sommet volcanique",
+      leurres: ["Une rivière", "Une grotte", "Un lagon"],
+      exemple: "Le Piton de la Fournaise est en éruption.",
+      fiche: "La Réunion. Un « piton » : un sommet volcanique (le Piton des Neiges, le Piton de la Fournaise)."
+    },
+    {
+      expression: "Un kaf",
+      pays: "RE", theme: "gens",
+      sens: "Un Réunionnais d'origine africaine",
+      leurres: ["Un touriste", "Un pêcheur européen", "Un marin asiatique"],
+      exemple: "La Réunion mélange kaf, malbar, zarabe et yab.",
+      fiche: "La Réunion. Un « kaf » : un Réunionnais d'ascendance africaine ou malgache."
+    },
+    {
+      expression: "Un malbar",
+      pays: "RE", theme: "gens",
+      sens: "Un Réunionnais d'origine tamoule",
+      leurres: ["Un Réunionnais d'origine chinoise", "Un métropolitain", "Un marin arabe"],
+      exemple: "La fête malbar illumine le temple.",
+      fiche: "La Réunion. Un « malbar » : un Réunionnais d'origine indienne, tamoule (de culture hindoue)."
+    },
+    {
+      expression: "Un zarabe",
+      pays: "RE", theme: "gens",
+      sens: "Un Réunionnais d'origine indo-musulmane",
+      leurres: ["Un Réunionnais d'origine africaine", "Un Chinois", "Un Européen"],
+      exemple: "Les zarabes tiennent souvent le commerce du textile.",
+      fiche: "La Réunion. Un « zarabe » : un Réunionnais d'origine indienne musulmane (souvent du Gujarat)."
+    },
+    {
+      expression: "Un yab",
+      pays: "RE", theme: "gens",
+      sens: "Un Blanc créole des hauts",
+      leurres: ["Un métropolitain récent", "Un pêcheur du littoral", "Un marin étranger"],
+      exemple: "Les yab vivent traditionnellement dans les hauts.",
+      fiche: "La Réunion. Un « yab » (« p'tit blanc des hauts ») : un Blanc créole des hauteurs de l'île."
+    },
+    {
+      expression: "Un boug",
+      pays: "RE", theme: "gens",
+      sens: "Un gars, un type",
+      leurres: ["Une femme", "Un enfant", "Un vieillard"],
+      exemple: "Sa boug-là, li lé sinpa.",
+      fiche: "Créole réunionnais. Un « boug » : un gars, un type (la « fanm », la femme)."
+    },
+    {
+      expression: "Le séga",
+      pays: "RE", theme: "fete",
+      sens: "Une musique et danse créole festive",
+      leurres: ["Une danse de combat", "Un chant religieux", "Une berceuse"],
+      exemple: "Un séga endiablé anime la soirée.",
+      fiche: "La Réunion (et Maurice). Le « séga » : une musique et une danse créoles, légères et festives."
+    },
+    {
+      expression: "Un kabar",
+      pays: "RE", theme: "fete",
+      sens: "Une fête nocturne de maloya",
+      leurres: ["Un marché de nuit", "Un match de foot", "Un repas silencieux"],
+      exemple: "On va au kabar écouter le maloya.",
+      fiche: "La Réunion. Un « kabar » : une veillée festive et de recueillement, rythmée par le maloya."
+    },
+    {
+      expression: "Un bouchon",
+      pays: "RE", theme: "manger",
+      sens: "Une bouchée de porc à la vapeur",
+      leurres: ["Un bouchon de liège", "Un embouteillage", "Un gâteau sucré"],
+      exemple: "Des bouchons chauds au marché.",
+      fiche: "La Réunion. Un « bouchon » : une petite bouchée de porc cuite à la vapeur, d'influence chinoise."
+    },
+    {
+      expression: "Le bonbon piment",
+      pays: "RE", theme: "manger",
+      sens: "Un beignet de pois pimenté",
+      leurres: ["Un bonbon sucré", "Un piment farci", "Une sauce rouge"],
+      exemple: "Des bonbons piment à l'apéro.",
+      fiche: "La Réunion. Le « bonbon piment » : un beignet de pois du Cap, épicé et pimenté."
+    },
+    {
+      expression: "Le rougail",
+      pays: "RE", theme: "manger",
+      sens: "Un condiment cru et pimenté",
+      leurres: ["Une sauce sucrée", "Une soupe chaude", "Un gâteau"],
+      exemple: "Un rougail tomate bien relevé.",
+      fiche: "La Réunion. Le « rougail » : un condiment cru et pimenté (tomate, mangue, morue…), à distinguer du « rougail saucisse », qui est un plat."
+    },
+    {
+      expression: "Le grain",
+      pays: "RE", theme: "manger",
+      sens: "Les légumineuses qui accompagnent le riz",
+      leurres: ["Des grains de café", "Des épices en poudre", "Des graines à planter"],
+      exemple: "Riz, cari et grain : le trio du midi.",
+      fiche: "La Réunion. Le « grain » : les lentilles ou haricots qui accompagnent le riz et le cari."
+    },
+    {
+      expression: "Les achards",
+      pays: "RE", theme: "manger",
+      sens: "Des légumes croquants marinés",
+      leurres: ["Des fruits confits", "Une purée de légumes", "Un bouillon"],
+      exemple: "Des achards de légumes avec le cari.",
+      fiche: "La Réunion. Les « achards » : des légumes émincés, marinés aux épices et au curcuma."
+    },
+    {
+      expression: "Le samoussa",
+      pays: "RE", theme: "manger",
+      sens: "Un feuilleté triangulaire frit",
+      leurres: ["Une crêpe roulée", "Un gâteau rond", "Une soupe"],
+      exemple: "Des samoussas à la sortie du bureau.",
+      fiche: "La Réunion. Le « samoussa » : un petit triangle de pâte frit, farci (poulet, légumes, thon)."
+    },
+    {
+      expression: "Le gâteau patate",
+      pays: "RE", theme: "manger",
+      sens: "Un gâteau à la patate douce",
+      leurres: ["Une tarte aux pommes", "Un flan nature", "Un gâteau au chocolat"],
+      exemple: "Un gâteau patate moelleux au goûter.",
+      fiche: "La Réunion. Le « gâteau patate » : un gâteau fondant à base de patate douce."
+    },
+    {
+      expression: "Le ti-jacques",
+      pays: "RE", theme: "manger",
+      sens: "Le jeune fruit du jacquier, en cari",
+      leurres: ["Un petit poisson", "Un fromage frais", "Un fruit sucré"],
+      exemple: "Un cari ti-jacques boucané.",
+      fiche: "La Réunion. Le « ti-jacques » : le jeune fruit du jacquier, cuisiné en cari, souvent avec du porc boucané."
+    },
+    {
+      expression: "Le rhum arrangé",
+      pays: "RE", theme: "manger",
+      sens: "Du rhum macéré avec fruits et épices",
+      leurres: ["Un jus de canne", "Un vin doux", "Une bière locale"],
+      exemple: "Un rhum arrangé vanille-letchi.",
+      fiche: "La Réunion. Le « rhum arrangé » : du rhum dans lequel on fait macérer fruits, épices et plantes."
+    },
+    {
+      expression: "Les brèdes",
+      pays: "RE", theme: "manger",
+      sens: "Des feuilles vertes cuisinées",
+      leurres: ["Des fruits secs", "Des racines crues", "Des champignons"],
+      exemple: "Des brèdes chouchou sautées.",
+      fiche: "La Réunion. Les « brèdes » : diverses feuilles vertes (chouchou, morelle…) sautées ou en bouillon."
+    },
+    {
+      expression: "Un letchi",
+      pays: "RE", theme: "manger",
+      sens: "Un litchi, fruit rouge sucré de l'été",
+      leurres: ["Une noix de coco", "Un ananas", "Une mangue verte"],
+      exemple: "On achète les letchis en décembre.",
+      fiche: "La Réunion. Un « letchi » : le litchi, fruit rouge et sucré de l'été austral, star des fêtes de fin d'année."
     }
 
   ];
