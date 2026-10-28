@@ -42,7 +42,8 @@ window.TCHIP_EN = {
     TD: { nom: "Chad", accent: "Chadian", intro: "In Chad, people speak French and Chadian Arabic, and local French invents words of its own." },
     MA: { nom: "Morocco", accent: "Moroccan", intro: "In Morocco, Darija, Moroccan Arabic, slips into everyday French." },
     TN: { nom: "Tunisia", accent: "Tunisian", intro: "In Tunisia, people switch from French to Derja, Tunisian Arabic, often in the middle of a sentence." },
-    MG: { nom: "Madagascar", accent: "Malagasy", intro: "In Madagascar, Malagasy is everyone's language: a few words become a must the moment you land in Tana." }
+    MG: { nom: "Madagascar", accent: "Malagasy", intro: "In Madagascar, Malagasy is everyone's language: a few words become a must the moment you land in Tana." },
+    GA: { nom: "Gabon", accent: "Gabonese", intro: "In Gabon, French is everyone's language, blended with Fang and the Libreville street slang known as “toli bangando”." }
   },
 
   expressions: {

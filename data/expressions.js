@@ -47,7 +47,8 @@ window.TCHIP_PAYS = {
   TD: { nom: "Tchad", drapeau: "🇹🇩", region: "Afrique centrale", accent: "tchadien", intro: "Au Tchad, on parle français et arabe tchadien, et le français local invente ses propres mots." },
   MA: { nom: "Maroc", drapeau: "🇲🇦", region: "Afrique du Nord", accent: "marocain", intro: "Au Maroc, la darija, l'arabe marocain, se glisse dans le français de tous les jours." },
   TN: { nom: "Tunisie", drapeau: "🇹🇳", region: "Afrique du Nord", accent: "tunisien", intro: "En Tunisie, on passe du français au derja, l'arabe tunisien, souvent au milieu de la même phrase." },
-  MG: { nom: "Madagascar", drapeau: "🇲🇬", region: "Océan Indien", accent: "malgache", intro: "À Madagascar, le malgache est la langue de tous : quelques mots s'imposent dès qu'on pose le pied à Tana." }
+  MG: { nom: "Madagascar", drapeau: "🇲🇬", region: "Océan Indien", accent: "malgache", intro: "À Madagascar, le malgache est la langue de tous : quelques mots s'imposent dès qu'on pose le pied à Tana." },
+  GA: { nom: "Gabon", drapeau: "🇬🇦", region: "Afrique centrale", accent: "gabonais", intro: "Au Gabon, le français est la langue de tous, mêlé au fang et au parler de Libreville, le « toli bangando »." }
 };
 
 window.TCHIP_EXPRESSIONS = [

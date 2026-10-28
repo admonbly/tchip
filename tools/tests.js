@@ -29,9 +29,14 @@ test("un pays inconnu est refusé", () => {
   const e = copie(expressions); e[3].pays = "XX";
   assert.ok(verifier(e, pays, themes).some((p) => p.includes("pays inconnu")));
 });
-test("une expression en double est refusée", () => {
+test("une expression en double dans le même pays est refusée", () => {
   const e = copie(expressions); e.push(copie(e[0]));
   assert.ok(verifier(e, pays, themes).some((p) => p.includes("déjà présente")));
+});
+test("un même mot est permis dans un autre pays (sens ajusté)", () => {
+  const e = copie(expressions); const autre = copie(e[0]); autre.pays = "BE";
+  e.push(autre);
+  assert.ok(!verifier(e, pays, themes).some((p) => p.includes("déjà présente")));
 });
 test("un leurre qui est un vrai sens ailleurs est refusé", () => {
   const e = copie(expressions); const i = e.findIndex((x) => x.ailleurs);

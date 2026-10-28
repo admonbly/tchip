@@ -883,6 +883,378 @@
       leurres: ["Une soupe de légumes", "Une galette salée", "Un ragoût de viande"],
       exemple: "Après le repas, un bon dèguè bien frais.",
       fiche: "Le « dèguè » (ou « dégué ») : de petites billes de mil mêlées à du lait caillé sucré, un dessert très apprécié."
+    },
+
+    // ---------- Mali (bambara / français de Bamako) ----------
+    {
+      expression: "I ni sogoma",
+      pays: "ML", theme: "salutations",
+      sens: "Bonjour (le matin)",
+      leurres: ["Bonne nuit", "Bon appétit", "Au revoir"],
+      exemple: "I ni sogoma ! Bien dormi ?",
+      fiche: "Bambara. « I ni sɔgɔma » : bonjour, le salut du matin."
+    },
+    {
+      expression: "K'an bɛn",
+      pays: "ML", theme: "salutations",
+      sens: "Au revoir, à bientôt",
+      leurres: ["Bonjour", "Merci beaucoup", "Bon voyage"],
+      exemple: "K'an bɛn, à demain !",
+      fiche: "Bambara. « K'an bɛn » : au revoir, à bientôt (« qu'on se retrouve »)."
+    },
+    {
+      expression: "Ça va un peu",
+      pays: "ML", theme: "salutations",
+      sens: "Ça va plus ou moins, moyennement",
+      leurres: ["Ça va très bien", "Ça ne va pas du tout", "Au revoir"],
+      exemple: "— Ça va ? — Ça va un peu, le travail est dur.",
+      fiche: "Français de Bamako. « Ça va un peu » : couci-couça, moyennement."
+    },
+    {
+      expression: "Doni doni",
+      pays: "ML", theme: "quotidien",
+      sens: "Doucement, petit à petit",
+      leurres: ["Très vite", "Tout de suite", "Encore une fois"],
+      exemple: "Doni doni, on va y arriver.",
+      fiche: "Bambara. « Dɔɔni dɔɔni » : doucement, petit à petit."
+    },
+    {
+      expression: "Toubabou",
+      pays: "ML", theme: "gens",
+      sens: "Un Blanc, un étranger",
+      leurres: ["Un chef de village", "Un commerçant", "Un musicien"],
+      exemple: "Le toubabou visite le marché de Bamako.",
+      fiche: "Bambara. « Toubabou » : un Blanc, un Européen (mot répandu dans toute la région)."
+    },
+    {
+      expression: "Un djeli",
+      pays: "ML", theme: "gens",
+      sens: "Un griot, gardien de la parole",
+      leurres: ["Un forgeron", "Un chasseur", "Un chef de quartier"],
+      exemple: "Le djeli chante l'histoire des grandes familles.",
+      fiche: "Bambara. Un « djeli » : un griot, dépositaire de la mémoire et de la parole."
+    },
+    {
+      expression: "Un fama",
+      pays: "ML", theme: "gens",
+      sens: "Un chef, un homme puissant",
+      leurres: ["Un mendiant", "Un enfant", "Un étranger de passage"],
+      exemple: "Il se comporte comme un fama dans le quartier.",
+      fiche: "Bambara. Un « fama » : un roi, un chef, un homme de pouvoir."
+    },
+    {
+      expression: "Un dugutigi",
+      pays: "ML", theme: "gens",
+      sens: "Le chef de village",
+      leurres: ["Le plus jeune du village", "Un voyageur", "Un commerçant riche"],
+      exemple: "On salue le dugutigi avant de s'installer.",
+      fiche: "Bambara. Le « dugutigi » : le chef du village (« le maître de la terre »)."
+    },
+    {
+      expression: "Un bozo",
+      pays: "ML", theme: "gens",
+      sens: "Un pêcheur du fleuve (peuple bozo)",
+      leurres: ["Un éleveur de bétail", "Un forgeron", "Un marchand de tissus"],
+      exemple: "Les Bozos remontent le Niger en pirogue.",
+      fiche: "Les « Bozos » sont le peuple de pêcheurs du fleuve Niger."
+    },
+    {
+      expression: "Le djatiguiya",
+      pays: "ML", theme: "gens",
+      sens: "L'hospitalité, l'accueil de l'hôte",
+      leurres: ["La méfiance", "La richesse", "Le départ en voyage"],
+      exemple: "Au Mali, le djatiguiya est sacré.",
+      fiche: "Bambara. Le « djatiguiya » : le devoir d'hospitalité entre l'hôte et son logeur (le « diatigui »)."
+    },
+    {
+      expression: "Le wari",
+      pays: "ML", theme: "argent",
+      sens: "L'argent",
+      leurres: ["Le temps", "La nourriture", "La route"],
+      exemple: "Sans wari, pas de marché.",
+      fiche: "Bambara. « Wari » : l'argent."
+    },
+    {
+      expression: "Le balani show",
+      pays: "ML", theme: "fete",
+      sens: "Une fête de quartier avec sono et musique",
+      leurres: ["Un match de football", "Un marché de nuit", "Une réunion de famille"],
+      exemple: "Tout le quartier danse au balani show du week-end.",
+      fiche: "À Bamako, le « balani show » est une fête de rue avec DJ et balafon électrifié."
+    },
+    {
+      expression: "Le wassoulou",
+      pays: "ML", theme: "fete",
+      sens: "Une musique du sud du Mali",
+      leurres: ["Une danse masquée", "Un plat de fête", "Un tissu traditionnel"],
+      exemple: "Les chanteuses de wassoulou enflamment la scène.",
+      fiche: "Le « wassoulou » : un style musical du sud du Mali, porté par de grandes voix de femmes."
+    },
+    {
+      expression: "Le djembé",
+      pays: "ML", theme: "fete",
+      sens: "Un tambour à mains mandingue",
+      leurres: ["Une flûte", "Une guitare", "Une trompette"],
+      exemple: "Les mains courent sur le djembé.",
+      fiche: "Le « djembé » : un tambour en bois et peau de chèvre, emblème de la musique mandingue."
+    },
+    {
+      expression: "La kora",
+      pays: "ML", theme: "fete",
+      sens: "Une harpe-luth des griots",
+      leurres: ["Un tambour", "Une danse", "Un chant religieux"],
+      exemple: "La kora accompagne les récits du griot.",
+      fiche: "La « kora » : une harpe-luth à 21 cordes, l'instrument des griots mandingues."
+    },
+    {
+      expression: "Le sumu",
+      pays: "ML", theme: "fete",
+      sens: "Une fête, une soirée joyeuse",
+      leurres: ["Un enterrement", "Un jour de jeûne", "Un long voyage"],
+      exemple: "Il y a un sumu chez les voisins ce soir.",
+      fiche: "Bambara. Un « sumu » : une fête, une soirée de réjouissances."
+    },
+    {
+      expression: "Le fonio",
+      pays: "ML", theme: "manger",
+      sens: "Une petite céréale fine du Sahel",
+      leurres: ["Un poisson séché", "Une racine sucrée", "Une viande fumée"],
+      exemple: "Un bon fonio bien léger avec la sauce.",
+      fiche: "Le « fonio » : une toute petite céréale ancienne, cuite comme une semoule."
+    },
+    {
+      expression: "Le capitaine",
+      pays: "ML", theme: "manger",
+      sens: "Un gros poisson du fleuve Niger",
+      leurres: ["Un pain de mil", "Un fruit acide", "Un fromage frais"],
+      exemple: "Capitaine braisé au bord du fleuve.",
+      fiche: "Le « capitaine » : un gros poisson d'eau douce (la perche du Nil), très prisé grillé."
+    },
+    {
+      expression: "Le tô",
+      pays: "ML", theme: "manger",
+      sens: "Une pâte de mil ou de maïs",
+      leurres: ["Une boisson sucrée", "Un beignet", "Une grillade"],
+      exemple: "Le tô se mange avec une sauce gluante.",
+      fiche: "Le « tô » : une pâte ferme de mil ou de maïs, base des repas, mangée avec la sauce."
+    },
+    {
+      expression: "Le tigadèguèna",
+      pays: "ML", theme: "manger",
+      sens: "Un plat en sauce d'arachide",
+      leurres: ["Une soupe de poisson", "Un riz au gras", "Une salade de crudités"],
+      exemple: "Le tigadèguèna mijote avec de la viande.",
+      fiche: "Bambara. Le « tigadèguèna » (« sauce d'arachide ») : le mafé malien, servi avec du riz."
+    },
+    {
+      expression: "Une djakarta",
+      pays: "ML", theme: "transport",
+      sens: "Une moto bon marché",
+      leurres: ["Un vieux car", "Un vélo", "Une charrette"],
+      exemple: "Il fait le taxi avec sa djakarta.",
+      fiche: "Au Mali, une « djakarta » est une moto chinoise bon marché, du nom d'une marque."
+    },
+    {
+      expression: "Benkadi",
+      pays: "ML", theme: "emotions",
+      sens: "L'entente, la bonne harmonie",
+      leurres: ["La dispute", "La peur", "La fatigue"],
+      exemple: "Dans la famille, c'est le benkadi.",
+      fiche: "Bambara. « Bɛnkadi » : l'entente, la concorde (« l'accord est doux »)."
+    },
+    {
+      expression: "Le badenya",
+      pays: "ML", theme: "emotions",
+      sens: "La solidarité fraternelle",
+      leurres: ["La rivalité", "La solitude", "La richesse"],
+      exemple: "Le badenya unit les enfants d'une même mère.",
+      fiche: "Bambara. Le « badenya » : l'esprit de solidarité entre enfants de la même mère."
+    },
+    {
+      expression: "Le fadenya",
+      pays: "ML", theme: "emotions",
+      sens: "La rivalité entre demi-frères",
+      leurres: ["L'amour maternel", "L'amitié d'enfance", "La paix du foyer"],
+      exemple: "Le fadenya pousse chacun à se dépasser.",
+      fiche: "Bambara. Le « fadenya » : la rivalité entre enfants d'un même père, moteur d'ambition."
+    },
+    {
+      expression: "Un fatô",
+      pays: "ML", theme: "gens",
+      sens: "Un fou, un insensé",
+      leurres: ["Un sage", "Un riche", "Un grand sportif"],
+      exemple: "Ne conduis pas comme un fatô !",
+      fiche: "Bambara. Un « fatɔ » : un fou, quelqu'un qui agit sans raison."
+    },
+    {
+      expression: "Den",
+      pays: "ML", theme: "gens",
+      sens: "Un enfant",
+      leurres: ["Un vieux", "Un chef", "Un mari"],
+      exemple: "Les den jouent devant la concession.",
+      fiche: "Bambara. « Den » : un enfant."
+    },
+    {
+      expression: "Muso",
+      pays: "ML", theme: "gens",
+      sens: "Une femme",
+      leurres: ["Un homme", "Une marmite", "Une maison"],
+      exemple: "La muso prépare le tô.",
+      fiche: "Bambara. « Muso » : une femme."
+    },
+    {
+      expression: "Baara",
+      pays: "ML", theme: "ecole",
+      sens: "Le travail",
+      leurres: ["Le repos", "Le jeu", "La fête"],
+      exemple: "Le baara commence tôt le matin.",
+      fiche: "Bambara. « Baara » : le travail."
+    },
+    {
+      expression: "Jamana",
+      pays: "ML", theme: "quotidien",
+      sens: "Le pays, la contrée",
+      leurres: ["La maison", "Le marché", "La rivière"],
+      exemple: "Il est fier de son jamana.",
+      fiche: "Bambara. « Jamana » : le pays, la contrée, la nation."
+    },
+
+    // ---------- Gabon (fang, parler de Libreville, culture) ----------
+    {
+      expression: "Mbolo",
+      pays: "GA", theme: "salutations",
+      sens: "Bonjour",
+      leurres: ["Au revoir", "Bonne nuit", "Merci"],
+      exemple: "Mbolo ! Comment ça va ce matin ?",
+      fiche: "Fang. « Mbolo » : bonjour, le salut le plus courant au Gabon."
+    },
+    {
+      expression: "Mbolani",
+      pays: "GA", theme: "salutations",
+      sens: "Bonjour à tous (à plusieurs personnes)",
+      leurres: ["Bienvenue chez moi", "Félicitations", "Bon appétit"],
+      exemple: "Mbolani ! Bonjour à toute la famille.",
+      fiche: "Fang. « Mbolani » : bonjour à vous, quand on salue plusieurs personnes."
+    },
+    {
+      expression: "Akiba",
+      pays: "GA", theme: "salutations",
+      sens: "Merci",
+      leurres: ["Pardon", "Bonjour", "D'accord"],
+      exemple: "Akiba beaucoup pour ton aide.",
+      fiche: "Du myènè. « Akiba » : merci, employé dans tout le Gabon."
+    },
+    {
+      expression: "Le toli bangando",
+      pays: "GA", theme: "quotidien",
+      sens: "L'argot de la rue à Libreville",
+      leurres: ["Un quartier chic", "Un plat de fête", "Une danse ancienne"],
+      exemple: "Il balance deux mots de toli bangando et tout le monde rit.",
+      fiche: "Le « toli bangando » : l'argot des jeunes de Libreville, mêlant français et langues locales."
+    },
+    {
+      expression: "Le mapane",
+      pays: "GA", theme: "quotidien",
+      sens: "Le quartier populaire, la rue",
+      leurres: ["Le centre des affaires", "Le bord de mer", "Le marché couvert"],
+      exemple: "Il a grandi dans le mapane, il connaît la débrouille.",
+      fiche: "Argot de Libreville. Le « mapane » : le quartier populaire, la rue."
+    },
+    {
+      expression: "Le matanga",
+      pays: "GA", theme: "quotidien",
+      sens: "Une veillée funèbre",
+      leurres: ["Un mariage", "Un baptême", "Une remise de diplôme"],
+      exemple: "Tout le village est venu au matanga.",
+      fiche: "Le « matanga » : la veillée et les cérémonies qui suivent un décès, en Afrique centrale."
+    },
+    {
+      expression: "Le bwiti",
+      pays: "GA", theme: "quotidien",
+      sens: "Un rite initiatique traditionnel",
+      leurres: ["Un sport de combat", "Un marché de nuit", "Un conte pour enfants"],
+      exemple: "Le bwiti se transmet de génération en génération.",
+      fiche: "Le « bwiti » : un rite initiatique et spirituel gabonais, tourné vers les ancêtres."
+    },
+    {
+      expression: "L'iboga",
+      pays: "GA", theme: "quotidien",
+      sens: "Une plante sacrée du bwiti",
+      leurres: ["Un fruit sucré", "Un tissu brodé", "Un tambour"],
+      exemple: "L'iboga est au cœur de la cérémonie du bwiti.",
+      fiche: "L'« iboga » : une plante sacrée aux vertus puissantes, utilisée dans le rite bwiti."
+    },
+    {
+      expression: "Le kaba",
+      pays: "GA", theme: "quotidien",
+      sens: "Une robe ample en pagne",
+      leurres: ["Un chapeau de paille", "Un panier tressé", "Une paire de sandales"],
+      exemple: "Elle a sorti son plus beau kaba pour la fête.",
+      fiche: "Le « kaba » : une longue robe ample en pagne, portée en Afrique centrale."
+    },
+    {
+      expression: "Le nyembwe",
+      pays: "GA", theme: "manger",
+      sens: "Une sauce de noix de palme",
+      leurres: ["Une soupe de légumes", "Un jus de gingembre", "Une pâte sucrée"],
+      exemple: "Poulet au nyembwe, le plat préféré des Gabonais.",
+      fiche: "Le « nyembwe » : une sauce onctueuse à la pulpe de noix de palme, souvent avec du poulet ou du poisson."
+    },
+    {
+      expression: "L'odika",
+      pays: "GA", theme: "manger",
+      sens: "Une pâte de mangue sauvage pour les sauces",
+      leurres: ["Un fromage fermenté", "Une farine de blé", "Un sirop de canne"],
+      exemple: "L'odika épaissit et parfume la sauce.",
+      fiche: "L'« odika » (« chocolat du Gabon ») : une pâte de noix de mangue sauvage, pour lier les sauces."
+    },
+    {
+      expression: "Le folong",
+      pays: "GA", theme: "manger",
+      sens: "Des feuilles vertes (sorte d'épinard)",
+      leurres: ["Des frites d'igname", "Un poisson fumé", "Un gâteau de maïs"],
+      exemple: "Du folong mijoté avec de l'arachide.",
+      fiche: "Le « folong » : des feuilles vertes comestibles, cuisinées comme des épinards."
+    },
+    {
+      expression: "L'atanga",
+      pays: "GA", theme: "manger",
+      sens: "Le safou, un fruit violet qu'on mange cuit",
+      leurres: ["Une noix de coco", "Une banane plantain", "Un piment rouge"],
+      exemple: "On fait ramollir les atanga au feu.",
+      fiche: "L'« atanga » (le safou) : un fruit violet à la chair grasse, mangé chaud, ramolli à l'eau ou au feu."
+    },
+    {
+      expression: "Le bâton de manioc",
+      pays: "GA", theme: "manger",
+      sens: "Du manioc cuit dans des feuilles",
+      leurres: ["Un pain sucré", "Une canne à sucre", "Une racine crue"],
+      exemple: "Un bâton de manioc avec le poisson braisé.",
+      fiche: "Le « bâton de manioc » : de la pâte de manioc fermentée, roulée et cuite dans des feuilles."
+    },
+    {
+      expression: "Le ngombi",
+      pays: "GA", theme: "fete",
+      sens: "Une harpe sacrée du bwiti",
+      leurres: ["Un tambour d'appel", "Une flûte en bambou", "Une cloche"],
+      exemple: "Le ngombi guide les chants de la cérémonie.",
+      fiche: "Le « ngombi » : une harpe sacrée à huit cordes, jouée pendant le rite bwiti."
+    },
+    {
+      expression: "Le mvett",
+      pays: "GA", theme: "fete",
+      sens: "Une épopée chantée fang",
+      leurres: ["Une danse de mariage", "Un proverbe", "Un jeu de société"],
+      exemple: "Le conteur récite le mvett toute la nuit.",
+      fiche: "Le « mvett » : une longue épopée chantée des Fang, et la harpe-cithare qui l'accompagne."
+    },
+    {
+      expression: "Le kongossa",
+      pays: "GA", theme: "gens",
+      sens: "Les ragots, les commérages",
+      leurres: ["Un conseil de sages", "Une bonne nouvelle", "Un discours officiel"],
+      exemple: "Au salon de coiffure, c'est le kongossa permanent.",
+      fiche: "Le « kongossa » : les ragots, les potins — un mot partagé avec le Cameroun voisin."
     }
 
   ];

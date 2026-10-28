@@ -33,8 +33,8 @@
     expressions.forEach(function (e, i) {
       var num = "#" + (i + 1) + " « " + ((e && e.expression) || "?") + " »";
       if (!e || !texte(e.expression) || !texte(e.sens) || !texte(e.exemple) || !texte(e.fiche)) { pbs.push(num + " : champ obligatoire manquant."); return; }
-      var cle = e.expression.toLowerCase();
-      if (vues[cle]) pbs.push(num + " : déjà présente au " + vues[cle] + " (une expression ne doit avoir qu'un pays d'origine).");
+      var cle = e.pays + "|" + e.expression.toLowerCase();
+      if (vues[cle]) pbs.push(num + " : « " + e.expression + " » déjà présente au " + vues[cle] + " pour ce pays (un même mot peut servir dans plusieurs pays avec un sens propre, mais pas deux fois dans le même pays).");
       vues[cle] = "#" + (i + 1);
       if (!possede(pays, e.pays)) pbs.push(num + " : pays inconnu « " + e.pays + " » (à ajouter dans TCHIP_PAYS).");
       if (themes && !possede(themes, e.theme)) pbs.push(num + " : thème inconnu « " + e.theme + " ».");
