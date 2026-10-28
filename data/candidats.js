@@ -1505,6 +1505,466 @@
       leurres: ["Une purée de carottes", "Un gâteau au chocolat", "Une soupe claire"],
       exemple: "Le tchinkoumè se fait avec du maïs grillé.",
       fiche: "Le « tchinkoumè » : une pâte de maïs noircie (maïs grillé), typique de la région de Porto-Novo."
+    },
+
+    // ---------- Togo (éwé, mina, cuisine, culture) ----------
+    {
+      expression: "Miawézon",
+      pays: "TG", theme: "salutations",
+      sens: "Bienvenue à vous (à plusieurs)",
+      leurres: ["Au revoir à tous", "Merci beaucoup", "Bon voyage"],
+      exemple: "Miawézon ! Entrez, soyez les bienvenus.",
+      fiche: "Éwé. « Miawézon » : bienvenue à vous (« woézon » pour une seule personne)."
+    },
+    {
+      expression: "Agoo",
+      pays: "TG", theme: "salutations",
+      sens: "Pardon, laissez passer, je peux ?",
+      leurres: ["Au revoir", "Merci", "Félicitations"],
+      exemple: "Agoo ! Je peux entrer ?",
+      fiche: "Éwé/akan. « Agoo » : pour s'annoncer, demander la parole ou le passage (partagé avec le Bénin et le Ghana)."
+    },
+    {
+      expression: "Yoo",
+      pays: "TG", theme: "quotidien",
+      sens: "D'accord, OK",
+      leurres: ["Non", "Peut-être", "Jamais"],
+      exemple: "On se voit demain ? — Yoo !",
+      fiche: "Éwé. « Yoo » : d'accord, entendu."
+    },
+    {
+      expression: "Blewu",
+      pays: "TG", theme: "quotidien",
+      sens: "Doucement, lentement",
+      leurres: ["Très vite", "Tout de suite", "Fort"],
+      exemple: "Blewu, ne casse rien !",
+      fiche: "Éwé. « Blewu(u) » : doucement, lentement, avec précaution."
+    },
+    {
+      expression: "Le gongon",
+      pays: "TG", theme: "quotidien",
+      sens: "La cloche du crieur public",
+      leurres: ["Une horloge de ville", "Un tambour de fête", "Une sirène d'usine"],
+      exemple: "Au son du gongon, tout le quartier écoute l'annonce.",
+      fiche: "Le « gongon » : la cloche que frappe le crieur public pour annoncer les nouvelles ; de là, « gongonner »."
+    },
+    {
+      expression: "Un apatam",
+      pays: "TG", theme: "quotidien",
+      sens: "Un hangar, une paillote",
+      leurres: ["Un grenier à mil", "Une pirogue", "Un four à pain"],
+      exemple: "On boit un verre à l'apatam du coin.",
+      fiche: "Un « apatam » : un hangar ou une paillote ouverte, où l'on s'abrite, se repose ou boit un verre."
+    },
+    {
+      expression: "Lonlon",
+      pays: "TG", theme: "amour",
+      sens: "L'amour",
+      leurres: ["La colère", "La peur", "La fatigue"],
+      exemple: "Entre eux, c'est le grand lonlon.",
+      fiche: "Éwé. « Lɔlɔ̃ » : l'amour, l'affection."
+    },
+    {
+      expression: "Nɔvi",
+      pays: "TG", theme: "amour",
+      sens: "Un frère, un proche",
+      leurres: ["Un ennemi", "Un inconnu", "Un patron"],
+      exemple: "C'est mon nɔvi, on a grandi ensemble.",
+      fiche: "Éwé. « Nɔvi » : un frère, une sœur, un proche."
+    },
+    {
+      expression: "Un éwé",
+      pays: "TG", theme: "gens",
+      sens: "Un Éwé (peuple du sud)",
+      leurres: ["Un habitant du désert", "Un pêcheur étranger", "Un marchand nomade"],
+      exemple: "Les Éwé vivent surtout dans le sud du Togo.",
+      fiche: "Les « Éwé » : le principal peuple du sud du Togo (et du Ghana voisin)."
+    },
+    {
+      expression: "Un kabyè",
+      pays: "TG", theme: "gens",
+      sens: "Un Kabyè (peuple du nord)",
+      leurres: ["Un pêcheur du littoral", "Un prince du sud", "Un commerçant libanais"],
+      exemple: "Les Kabyè sont réputés pour leurs luttes, les Evala.",
+      fiche: "Les « Kabyè » : un grand peuple du nord du Togo."
+    },
+    {
+      expression: "Dada",
+      pays: "TG", theme: "gens",
+      sens: "Grande sœur, maman (respect)",
+      leurres: ["Un bébé", "Un chef d'État", "Un étranger"],
+      exemple: "Dada, merci pour le repas !",
+      fiche: "Éwé. « Dada » : grande sœur, mère — un mot de respect et d'affection."
+    },
+    {
+      expression: "Fofo",
+      pays: "TG", theme: "gens",
+      sens: "Grand frère (respect)",
+      leurres: ["Un petit enfant", "Un policier", "Un rival"],
+      exemple: "Fofo, tu peux m'aider ?",
+      fiche: "Éwé. « Fofo » : grand frère, aîné — un mot de respect."
+    },
+    {
+      expression: "Un amega",
+      pays: "TG", theme: "gens",
+      sens: "Un notable, un chef",
+      leurres: ["Un apprenti", "Un mendiant", "Un voyageur de passage"],
+      exemple: "L'amega préside la réunion du quartier.",
+      fiche: "Éwé. Un « amega » : une personne importante, un notable, un chef."
+    },
+    {
+      expression: "Un togbé",
+      pays: "TG", theme: "gens",
+      sens: "Un aïeul, un chef traditionnel",
+      leurres: ["Un nouveau-né", "Un touriste", "Un apprenti"],
+      exemple: "Le togbé bénit l'assemblée.",
+      fiche: "Éwé. « Togbui / Togbé » : un grand-père, un chef traditionnel vénéré."
+    },
+    {
+      expression: "Le vodoun",
+      pays: "TG", theme: "quotidien",
+      sens: "La religion traditionnelle",
+      leurres: ["Une danse de mariage", "Un sport de lutte", "Un grand marché"],
+      exemple: "Le vodoun est très présent sur la côte togolaise.",
+      fiche: "Le « vodoun » : la religion traditionnelle des divinités, partagée avec le Bénin voisin."
+    },
+    {
+      expression: "Le Koutammakou",
+      pays: "TG", theme: "quotidien",
+      sens: "Le pays des maisons-tours du nord",
+      leurres: ["Un parc national d'éléphants", "Un lac sacré", "Un grand marché"],
+      exemple: "Le Koutammakou et ses tatas sont classés à l'UNESCO.",
+      fiche: "Le « Koutammakou » : le paysage des Batammariba, avec ses maisons-tours en terre (UNESCO)."
+    },
+    {
+      expression: "Une tata",
+      pays: "TG", theme: "quotidien",
+      sens: "Une maison-forteresse en terre",
+      leurres: ["Une case ronde en paille", "Une tente de nomade", "Un immeuble moderne"],
+      exemple: "La tata se visite comme un petit château de terre.",
+      fiche: "Une « tata » (tata somba) : une maison-forteresse en terre à étage, dans le nord."
+    },
+    {
+      expression: "Le marché aux fétiches",
+      pays: "TG", theme: "quotidien",
+      sens: "Le grand marché aux fétiches de Lomé",
+      leurres: ["Un marché aux poissons", "Un marché aux fleurs", "Une brocante de meubles"],
+      exemple: "Au marché aux fétiches d'Akodessewa, on trouve des remèdes traditionnels.",
+      fiche: "Le « marché aux fétiches » d'Akodessewa, à Lomé : le plus grand marché de la médecine vodoun."
+    },
+    {
+      expression: "Le kente",
+      pays: "TG", theme: "quotidien",
+      sens: "Un pagne tissé aux motifs colorés",
+      leurres: ["Un chapeau de paille", "Un bijou en or", "Un masque sculpté"],
+      exemple: "Il porte un kente éclatant pour la cérémonie.",
+      fiche: "Le « kenté » : un pagne tissé à bandes, aux motifs vifs, chez les Éwé (et les Ashanti du Ghana)."
+    },
+    {
+      expression: "L'agbadza",
+      pays: "TG", theme: "fete",
+      sens: "Une danse traditionnelle éwé",
+      leurres: ["Un plat de fête", "Un tissu royal", "Un chant religieux"],
+      exemple: "Les tam-tams lancent l'agbadza et tout le monde danse.",
+      fiche: "L'« agbadza » : une danse éwé rythmée, née chez les guerriers."
+    },
+    {
+      expression: "L'Epe-Ekpe",
+      pays: "TG", theme: "fete",
+      sens: "Le Nouvel An traditionnel guin",
+      leurres: ["Une fête des récoltes", "Un carnaval de rue", "Un festival de cinéma"],
+      exemple: "À Glidji, l'Epe-Ekpe révèle la pierre sacrée de l'année.",
+      fiche: "L'« Epe-Ekpe » : le Nouvel An des Guin-Mina, marqué par la prise de la pierre sacrée à Glidji."
+    },
+    {
+      expression: "L'Evala",
+      pays: "TG", theme: "fete",
+      sens: "Les luttes initiatiques des Kabyè",
+      leurres: ["Une course de pirogues", "Un concours de chant", "Une fête de mariage"],
+      exemple: "Pendant les Evala, les jeunes Kabyè s'affrontent à la lutte.",
+      fiche: "Les « Evala » : les luttes initiatiques des jeunes Kabyè, chaque juillet dans le nord."
+    },
+    {
+      expression: "Le fetri détsi",
+      pays: "TG", theme: "manger",
+      sens: "Une sauce gombo gluante",
+      leurres: ["Une soupe de poisson claire", "Un riz sucré", "Une purée de banane"],
+      exemple: "L'akoumé se mange avec le fetri détsi.",
+      fiche: "Le « fétri détsi » : une sauce de gombo, filante, servie avec la pâte."
+    },
+    {
+      expression: "L'ademe",
+      pays: "TG", theme: "manger",
+      sens: "Une sauce de feuilles (corète)",
+      leurres: ["Une sauce tomate", "Un bouillon de viande", "Une crème dessert"],
+      exemple: "L'ademe gluant accompagne la pâte de maïs.",
+      fiche: "L'« adémè » : une sauce de feuilles de corète potagère, douce et gluante."
+    },
+    {
+      expression: "L'agbeli kaklo",
+      pays: "TG", theme: "manger",
+      sens: "Des galettes de manioc frites",
+      leurres: ["Des beignets sucrés", "Des chips de banane", "Des brochettes de viande"],
+      exemple: "Des agbeli kaklo croustillants en snack.",
+      fiche: "L'« agbeli kaklo » : des galettes de manioc râpé, frites, croustillantes."
+    },
+    {
+      expression: "Le wagashi",
+      pays: "TG", theme: "manger",
+      sens: "Un fromage peul frit",
+      leurres: ["Un yaourt sucré", "Un beurre de karité", "Un poisson fumé"],
+      exemple: "Du wagashi doré à la poêle avec du piment.",
+      fiche: "Le « wagashi » : un fromage frais d'origine peule, souvent frit, du nord Togo-Bénin."
+    },
+    {
+      expression: "Le djenkoumè",
+      pays: "TG", theme: "manger",
+      sens: "Une pâte de maïs rouge à la sauce",
+      leurres: ["Une pâte blanche nature", "Un gâteau au chocolat", "Une semoule sucrée"],
+      exemple: "Djenkoumè et poulet, un régal.",
+      fiche: "Le « djenkoumè » (ou « dêkoumè ») : une pâte de maïs cuite dans une sauce tomate, rouge et parfumée."
+    },
+    {
+      expression: "Le riz djollof",
+      pays: "TG", theme: "manger",
+      sens: "Du riz épicé cuit dans une sauce tomate",
+      leurres: ["Du riz au lait", "Du riz blanc nature", "Des pâtes à l'huile"],
+      exemple: "Le riz djollof fait toujours débat entre voisins.",
+      fiche: "Le « riz djollof » : du riz coloré et épicé, mijoté dans une sauce tomate, star de toute l'Afrique de l'Ouest."
+    },
+    {
+      expression: "Le sodabi",
+      pays: "TG", theme: "manger",
+      sens: "Un alcool de vin de palme",
+      leurres: ["Un jus de fruit", "Une bière blonde", "Un thé glacé"],
+      exemple: "Un petit verre de sodabi pour la route.",
+      fiche: "Le « sodabi » : un alcool fort de vin de palme, partagé avec le Bénin voisin."
+    },
+
+    // ---------- Congo-Brazzaville (lingala, kituba, la Sape) ----------
+    {
+      expression: "La Sape",
+      pays: "CG", theme: "quotidien",
+      sens: "Le culte de l'élégance vestimentaire",
+      leurres: ["Un style de musique", "Un quartier riche", "Une danse de rue"],
+      exemple: "À Bacongo, la Sape est un art de vivre.",
+      fiche: "La « Sape » (Société des Ambianceurs et des Personnes Élégantes) : le culte de l'élégance, dont Brazzaville est un berceau."
+    },
+    {
+      expression: "Un parisien",
+      pays: "CG", theme: "gens",
+      sens: "Un sapeur rentré de Paris",
+      leurres: ["Un touriste français", "Un employé de mairie", "Un étudiant étranger"],
+      exemple: "Le parisien est descendu de l'avion en costume trois pièces.",
+      fiche: "Dans la Sape, un « parisien » est un sapeur de retour d'Europe, tiré à quatre épingles."
+    },
+    {
+      expression: "Le mbongui",
+      pays: "CG", theme: "quotidien",
+      sens: "La case des palabres",
+      leurres: ["Le marché central", "Le bord du fleuve", "Un terrain de foot"],
+      exemple: "Les anciens se réunissent au mbongui pour régler l'affaire.",
+      fiche: "Le « mbongui » : la case ou la place des palabres, où l'on discute et tranche les différends."
+    },
+    {
+      expression: "Ambiancer",
+      pays: "CG", theme: "fete",
+      sens: "Mettre l'ambiance, animer",
+      leurres: ["Se taire", "Se reposer", "Se fâcher"],
+      exemple: "Le DJ ambiance toute la salle.",
+      fiche: "« Ambiancer » : mettre l'ambiance, chauffer la fête (l'« ambianceur » en est le roi)."
+    },
+    {
+      expression: "Le moambé",
+      pays: "CG", theme: "manger",
+      sens: "Un poulet à la sauce de noix de palme",
+      leurres: ["Un riz au poisson", "Une soupe de légumes", "Une brochette grillée"],
+      exemple: "Le poulet moambé, c'est le plat du dimanche.",
+      fiche: "Le « moambé » : poulet ou poisson mijoté dans la pulpe de noix de palme, plat national des deux Congos."
+    },
+    {
+      expression: "Le fumbwa",
+      pays: "CG", theme: "manger",
+      sens: "Un plat de feuilles sauvages à l'arachide",
+      leurres: ["Un gâteau de manioc", "Un jus de gingembre", "Un ragoût de bœuf"],
+      exemple: "Le fumbwa mijote avec du poisson fumé.",
+      fiche: "Le « fumbwa » : des feuilles sauvages cuisinées à l'arachide et au poisson fumé."
+    },
+    {
+      expression: "Le safou",
+      pays: "CG", theme: "manger",
+      sens: "La prune, un fruit violet mangé cuit",
+      leurres: ["Une mangue sucrée", "Une noix de coco", "Un piment fort"],
+      exemple: "On ramollit le safou à l'eau chaude avant de le manger.",
+      fiche: "Le « safou » (la « prune ») : un fruit violet à la chair grasse, mangé chaud (l'atanga au Gabon)."
+    },
+    {
+      expression: "Le munukutuba",
+      pays: "CG", theme: "quotidien",
+      sens: "La langue véhiculaire du sud du Congo",
+      leurres: ["Un plat de fête", "Une danse ancienne", "Un quartier de Brazzaville"],
+      exemple: "Au marché, on négocie en munukutuba.",
+      fiche: "Le « munukutuba » (kituba) : une langue véhiculaire du sud du Congo, à côté du lingala."
+    },
+    {
+      expression: "Un ndoki",
+      pays: "CG", theme: "gens",
+      sens: "Un sorcier, un jeteur de sorts",
+      leurres: ["Un guérisseur bienveillant", "Un chef de village", "Un pêcheur"],
+      exemple: "On accuse parfois les vieux d'être des ndoki.",
+      fiche: "Lingala/kikongo. Un « ndoki » : un sorcier, celui qui lance de mauvais sorts."
+    },
+    {
+      expression: "Mobali",
+      pays: "CG", theme: "gens",
+      sens: "Un homme",
+      leurres: ["Une femme", "Un enfant", "Un vieillard"],
+      exemple: "C'est un vrai mobali, courageux.",
+      fiche: "Lingala. « Mobali » : un homme (aussi un mari, un petit ami)."
+    },
+    {
+      expression: "Mwasi",
+      pays: "CG", theme: "gens",
+      sens: "Une femme",
+      leurres: ["Un homme", "Un bébé", "Un chef"],
+      exemple: "La mwasi tient le commerce de la famille.",
+      fiche: "Lingala. « Mwasi » : une femme (aussi une épouse)."
+    },
+    {
+      expression: "Koko",
+      pays: "CG", theme: "gens",
+      sens: "Un grand-parent, un aïeul",
+      leurres: ["Un nourrisson", "Un voisin", "Un patron"],
+      exemple: "Koko raconte les histoires d'avant.",
+      fiche: "Lingala. « Koko » : un grand-parent, un ancêtre."
+    },
+    {
+      expression: "Yaya",
+      pays: "CG", theme: "gens",
+      sens: "Grand frère, aîné (respect)",
+      leurres: ["Un tout-petit", "Un étranger", "Un chef d'entreprise"],
+      exemple: "Demande à yaya, il est plus âgé.",
+      fiche: "Lingala. « Yaya » : le grand frère, l'aîné (mot partagé avec Kinshasa, sur l'autre rive)."
+    },
+    {
+      expression: "Mopaya",
+      pays: "CG", theme: "gens",
+      sens: "Un étranger, quelqu'un d'ailleurs",
+      leurres: ["Un cousin", "Un enfant du quartier", "Un ancien"],
+      exemple: "On voit tout de suite que c'est un mopaya.",
+      fiche: "Lingala. « Mopaya » : un étranger, quelqu'un venu d'ailleurs."
+    },
+    {
+      expression: "Mbongo",
+      pays: "CG", theme: "argent",
+      sens: "L'argent",
+      leurres: ["La nourriture", "Le temps", "La route"],
+      exemple: "Pas de mbongo, pas de taxi.",
+      fiche: "Lingala. « Mbongo » : l'argent."
+    },
+    {
+      expression: "Kobeta libanga",
+      pays: "CG", theme: "argent",
+      sens: "Se débrouiller pour percer, surtout à l'étranger",
+      leurres: ["Casser des cailloux au chantier", "Jouer de la musique pour s'amuser", "Se disputer fort"],
+      exemple: "À l'étranger, il kobeta libanga pour y arriver.",
+      fiche: "Lingala, « frapper la pierre » : se démener pour réussir, loin du pays (dit des deux côtés du fleuve)."
+    },
+    {
+      expression: "Kitoko",
+      pays: "CG", theme: "quotidien",
+      sens: "Beau, joli, élégant",
+      leurres: ["Laid", "Cassé", "Fatigué"],
+      exemple: "Brazza by night, c'est kitoko !",
+      fiche: "Lingala. « Kitoko » : beau, joli, élégant."
+    },
+    {
+      expression: "Makasi",
+      pays: "CG", theme: "quotidien",
+      sens: "Fort, puissant, solide",
+      leurres: ["Faible", "Doux", "Lent"],
+      exemple: "Ce vin de palme est makasi.",
+      fiche: "Lingala. « Makasi » : fort, puissant, solide."
+    },
+    {
+      expression: "Likambo",
+      pays: "CG", theme: "quotidien",
+      sens: "Un problème, une affaire",
+      leurres: ["Une bonne nouvelle", "Un cadeau", "Une fête"],
+      exemple: "Likambo te — pas de souci.",
+      fiche: "Lingala. « Likambo » : un problème, une affaire ; « likambo te » : pas de problème."
+    },
+    {
+      expression: "Tika",
+      pays: "CG", theme: "quotidien",
+      sens: "Laisse, arrête",
+      leurres: ["Viens", "Donne", "Regarde"],
+      exemple: "Tika, ça suffit !",
+      fiche: "Lingala. « Tika » : laisse, arrête."
+    },
+    {
+      expression: "Nganga",
+      pays: "CG", theme: "quotidien",
+      sens: "Un guérisseur traditionnel",
+      leurres: ["Un pharmacien", "Un professeur", "Un chef de quartier"],
+      exemple: "Le nganga prépare des remèdes à base de plantes.",
+      fiche: "Lingala/kikongo. Un « nganga » : un guérisseur traditionnel."
+    },
+    {
+      expression: "Esengo",
+      pays: "CG", theme: "emotions",
+      sens: "La joie, le bonheur",
+      leurres: ["La tristesse", "La colère", "La peur"],
+      exemple: "Quelle esengo de se retrouver !",
+      fiche: "Lingala. « Esengo » : la joie, le bonheur."
+    },
+    {
+      expression: "Mabe",
+      pays: "CG", theme: "emotions",
+      sens: "Mauvais, méchant",
+      leurres: ["Gentil", "Beau", "Riche"],
+      exemple: "Ne sois pas mabe avec ta sœur.",
+      fiche: "Lingala. « Mabe » : mauvais, méchant."
+    },
+    {
+      expression: "Liboma",
+      pays: "CG", theme: "emotions",
+      sens: "De la folie, un acte insensé",
+      leurres: ["Une bonne idée", "Un grand calme", "Une belle fête"],
+      exemple: "Traverser le fleuve à la nage, c'est du liboma.",
+      fiche: "Lingala. « Liboma » : la folie, un comportement insensé."
+    },
+    {
+      expression: "Kobina",
+      pays: "CG", theme: "fete",
+      sens: "Danser",
+      leurres: ["Chanter faux", "Dormir", "Cuisiner"],
+      exemple: "On a kobina jusqu'au matin.",
+      fiche: "Lingala. « Kobina » : danser."
+    },
+    {
+      expression: "La rumba",
+      pays: "CG", theme: "fete",
+      sens: "La rumba congolaise",
+      leurres: ["Une lutte traditionnelle", "Un plat de fête", "Un marché de nuit"],
+      exemple: "La rumba de Brazza et de Kinshasa, un seul cœur.",
+      fiche: "La rumba congolaise, née sur les deux rives du fleuve, classée à l'UNESCO."
+    },
+    {
+      expression: "Le ndombolo",
+      pays: "CG", theme: "fete",
+      sens: "Une danse congolaise endiablée",
+      leurres: ["Un tambour", "Un chanteur célèbre", "Une boisson de fête"],
+      exemple: "Le ndombolo a fait danser tout le continent.",
+      fiche: "Le « ndombolo » : une danse très rythmée des deux Congos, et son style musical."
+    },
+    {
+      expression: "Motuka",
+      pays: "CG", theme: "transport",
+      sens: "Une voiture",
+      leurres: ["Un vélo", "Une pirogue", "Un avion"],
+      exemple: "Il a lavé le motuka avant la fête.",
+      fiche: "Lingala. « Motuka » : une voiture."
     }
 
   ];
