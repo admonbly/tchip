@@ -2116,13 +2116,13 @@ window.TCHIP_EXPRESSIONS = [
   },
   {
     expression: "Yako !",
-    pays: "BF",
+    pays: "CI",
     theme: "emotions",
     sens: "Courage, désolé pour toi",
     leurres: ["Bravo !", "Dépêche-toi !", "Bon appétit !"],
     exemple: "Tu t'es fait voler ton vélo ? Yako, mon frère.",
-    fiche: "Mot de compassion pour un petit malheur comme pour un deuil, au Burkina et en Côte d'Ivoire.",
-    aussi: ["CI"]
+    fiche: "Mot de compassion d'origine ivoirienne, repris au Burkina ; pour un petit malheur comme pour un deuil.",
+    aussi: ["BF"]
   },
   {
     expression: "Le zouk",

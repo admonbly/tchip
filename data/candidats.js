@@ -125,14 +125,6 @@
       fiche: "Nouchi. « Faroter » (ou « farot »), c'est frimer, jeter de l'argent pour épater."
     },
     {
-      expression: "Un fanico",
-      pays: "CI", theme: "ecole",
-      sens: "Un blanchisseur, un laveur de linge",
-      leurres: ["Un gardien d'immeuble", "Un vendeur de journaux", "Un cireur de chaussures"],
-      exemple: "Le fanico récupère le linge le lundi et le rend propre le jeudi.",
-      fiche: "Nouchi d'Abidjan. Les « fanico » sont les blanchisseurs qui lavent le linge à la main au bord de l'eau."
-    },
-    {
       expression: "Être kpê",
       pays: "CI", theme: "argent",
       sens: "Être fauché, sans un sou",
@@ -439,6 +431,458 @@
       leurres: ["Un professeur", "Un directeur", "Un parent d'élève"],
       exemple: "Les ndongos récitent le Coran à la daara.",
       fiche: "Wolof. Un « ndongo » : un élève, un disciple (par ex. d'une école coranique, la daara)."
+    },
+
+    // ---------- RD Congo (lingala / français de Kinshasa) ----------
+    {
+      expression: "Yaya",
+      pays: "CD", theme: "gens",
+      sens: "Grand frère, aîné (terme de respect)",
+      leurres: ["Un tout petit bébé", "Un chef d'entreprise", "Un voisin inconnu"],
+      exemple: "Salue ton yaya, c'est l'aîné de la famille.",
+      fiche: "Lingala. « Yaya » : le grand frère, l'aîné ; un mot de respect pour quelqu'un de plus âgé."
+    },
+    {
+      expression: "Cadavéré",
+      pays: "CD", theme: "quotidien",
+      sens: "Épuisé, mort de fatigue",
+      leurres: ["En pleine forme", "Très en colère", "Complètement ivre"],
+      exemple: "Après le double service, je suis cadavéré.",
+      fiche: "Français de Kinshasa. « Cadavéré » : complètement épuisé, à bout de forces."
+    },
+    {
+      expression: "Un Kinois",
+      pays: "CD", theme: "gens",
+      sens: "Un habitant de Kinshasa",
+      leurres: ["Un habitant de Lubumbashi", "Un touriste étranger", "Un pêcheur du fleuve"],
+      exemple: "Les Kinois adorent la rumba.",
+      fiche: "Un « Kinois » est un habitant de Kinshasa, la capitale."
+    },
+    {
+      expression: "Un kuluna",
+      pays: "CD", theme: "gens",
+      sens: "Un jeune délinquant d'un gang de rue",
+      leurres: ["Un agent de la circulation", "Un vendeur du marché", "Un musicien"],
+      exemple: "Le quartier se méfie des kuluna la nuit.",
+      fiche: "À Kinshasa, les « kuluna » sont de jeunes délinquants violents, souvent en bande."
+    },
+    {
+      expression: "Un shege",
+      pays: "CD", theme: "gens",
+      sens: "Un enfant des rues",
+      leurres: ["Un élève modèle", "Un jeune marié", "Un chauffeur de bus"],
+      exemple: "Des shege demandent quelques pièces au carrefour.",
+      fiche: "À Kinshasa, un « shege » est un enfant des rues."
+    },
+    {
+      expression: "Un mopaya",
+      pays: "CD", theme: "gens",
+      sens: "Un étranger, quelqu'un d'ailleurs",
+      leurres: ["Un membre de la famille", "Un enfant du quartier", "Un vieux du village"],
+      exemple: "Il parle comme un mopaya, il n'est pas d'ici.",
+      fiche: "Lingala. « Mopaya » : un étranger, quelqu'un venu d'ailleurs."
+    },
+    {
+      expression: "Un mundele",
+      pays: "CD", theme: "gens",
+      sens: "Un Blanc, un Européen",
+      leurres: ["Un chef coutumier", "Un sportif célèbre", "Un marchand ambulant"],
+      exemple: "Les enfants crient « mundele ! » quand passe un Européen.",
+      fiche: "Lingala. « Mundele » : un Blanc, un Européen."
+    },
+    {
+      expression: "Liboma",
+      pays: "CD", theme: "emotions",
+      sens: "De la folie, un acte insensé",
+      leurres: ["Une bonne affaire", "Un grand calme", "Une belle fête"],
+      exemple: "Conduire si vite, c'est du liboma !",
+      fiche: "Lingala. « Liboma » : la folie, un comportement insensé."
+    },
+    {
+      expression: "Mabe",
+      pays: "CD", theme: "emotions",
+      sens: "Mauvais, méchant",
+      leurres: ["Beau, agréable", "Riche", "Drôle"],
+      exemple: "Ne sois pas mabe avec ton petit frère.",
+      fiche: "Lingala. « Mabe » : mauvais, méchant."
+    },
+    {
+      expression: "Esengo",
+      pays: "CD", theme: "emotions",
+      sens: "La joie, le bonheur",
+      leurres: ["La fatigue", "La colère", "La peur"],
+      exemple: "Quelle esengo de vous revoir tous !",
+      fiche: "Lingala. « Esengo » : la joie, le bonheur."
+    },
+    {
+      expression: "Kobeta libanga",
+      pays: "CD", theme: "argent",
+      sens: "Se débrouiller pour percer, surtout à l'étranger",
+      leurres: ["Casser des pierres au chantier", "Jouer de la musique pour s'amuser", "Se disputer violemment"],
+      exemple: "À l'étranger, il kobeta libanga pour se faire un nom.",
+      fiche: "Lingala, littéralement « frapper la pierre » : se démener pour percer, souvent loin du pays."
+    },
+    {
+      expression: "Mbongo",
+      pays: "CD", theme: "argent",
+      sens: "L'argent",
+      leurres: ["Le temps", "La nourriture", "La chance"],
+      exemple: "Sans mbongo, pas de taxi.",
+      fiche: "Lingala. « Mbongo » : l'argent."
+    },
+    {
+      expression: "Maboko pamba",
+      pays: "CD", theme: "argent",
+      sens: "Les mains vides, sans rien",
+      leurres: ["Les mains sales", "Les bras musclés", "Les poches pleines"],
+      exemple: "Il est revenu du marché maboko pamba, il n'a rien trouvé.",
+      fiche: "Lingala, « les mains vides » : sans argent, sans rien."
+    },
+    {
+      expression: "Kitoko",
+      pays: "CD", theme: "quotidien",
+      sens: "Beau, joli, élégant",
+      leurres: ["Laid", "Fatigué", "Cassé"],
+      exemple: "Ta robe est vraiment kitoko !",
+      fiche: "Lingala. « Kitoko » : beau, joli, élégant."
+    },
+    {
+      expression: "Likambo",
+      pays: "CD", theme: "quotidien",
+      sens: "Un problème, une affaire",
+      leurres: ["Une bonne nouvelle", "Un cadeau", "Un repas de fête"],
+      exemple: "Likambo te — pas de problème, on gère.",
+      fiche: "Lingala. « Likambo » : un problème, une affaire ; « likambo te » : pas de souci."
+    },
+    {
+      expression: "Le molato",
+      pays: "CD", theme: "quotidien",
+      sens: "Les habits, la tenue",
+      leurres: ["La nourriture", "La maison", "La monnaie"],
+      exemple: "Le sapeur soigne son molato des pieds à la tête.",
+      fiche: "Lingala. « Molato » : les habits, la tenue."
+    },
+    {
+      expression: "Tika",
+      pays: "CD", theme: "quotidien",
+      sens: "Laisse, arrête",
+      leurres: ["Viens", "Donne", "Regarde"],
+      exemple: "Tika ngai — laisse-moi tranquille.",
+      fiche: "Lingala. « Tika » : laisse, arrête."
+    },
+    {
+      expression: "Un nganga",
+      pays: "CD", theme: "quotidien",
+      sens: "Un guérisseur traditionnel, un féticheur",
+      leurres: ["Un médecin d'hôpital", "Un professeur", "Un chef de quartier"],
+      exemple: "Certains vont voir le nganga pour des plantes.",
+      fiche: "Lingala. Un « nganga » : un guérisseur traditionnel, un féticheur."
+    },
+    {
+      expression: "Makasi",
+      pays: "CD", theme: "quotidien",
+      sens: "Fort, puissant, solide",
+      leurres: ["Faible", "Doux", "Lent"],
+      exemple: "Ce café est makasi, bien fort !",
+      fiche: "Lingala. « Makasi » : fort, puissant, solide."
+    },
+    {
+      expression: "Kobina",
+      pays: "CD", theme: "fete",
+      sens: "Danser",
+      leurres: ["Chanter faux", "Dormir", "Cuisiner"],
+      exemple: "On a kobina toute la nuit sur la rumba.",
+      fiche: "Lingala. « Kobina » : danser."
+    },
+    {
+      expression: "La rumba",
+      pays: "CD", theme: "fete",
+      sens: "La rumba congolaise",
+      leurres: ["Un plat de fête", "Une lutte traditionnelle", "Un marché de nuit"],
+      exemple: "La rumba congolaise fait danser tout le continent.",
+      fiche: "La rumba, née des deux Congo, est la musique et la danse reines de Kinshasa (classée à l'UNESCO)."
+    },
+    {
+      expression: "Le ndombolo",
+      pays: "CD", theme: "fete",
+      sens: "Une danse congolaise endiablée",
+      leurres: ["Un tambour", "Un chanteur célèbre", "Une boisson de fête"],
+      exemple: "Le ndombolo a enflammé toute l'Afrique dans les années 2000.",
+      fiche: "Le « ndombolo » est une danse congolaise très rythmée, et le style de musique qui va avec."
+    },
+    {
+      expression: "Mbanda",
+      pays: "CD", theme: "amour",
+      sens: "Un(e) rival(e) en amour",
+      leurres: ["Un ami d'enfance", "Un cousin", "Un témoin de mariage"],
+      exemple: "Les deux mbanda se disputent l'attention du même homme.",
+      fiche: "Lingala. « Mbanda » : un(e) rival(e) en amour (ou une belle-sœur)."
+    },
+    {
+      expression: "Le madesu",
+      pays: "CD", theme: "manger",
+      sens: "Des haricots (plat populaire)",
+      leurres: ["Du riz au poisson", "Une soupe de légumes", "Un gâteau sucré"],
+      exemple: "Madesu ya bana : des haricots pour toute la famille.",
+      fiche: "Lingala. « Madesu » : des haricots, un plat très courant à Kinshasa."
+    },
+    {
+      expression: "Le fufu",
+      pays: "CD", theme: "manger",
+      sens: "Une pâte de manioc ou de maïs",
+      leurres: ["Une boisson sucrée", "Une grillade", "Une salade de crudités"],
+      exemple: "On trempe le fufu dans la sauce.",
+      fiche: "Le « fufu » (foufou) : une pâte de farine de manioc ou de maïs, qu'on mange avec la sauce."
+    },
+    {
+      expression: "Le liboke",
+      pays: "CD", theme: "manger",
+      sens: "Du poisson ou de la viande en papillote de feuilles",
+      leurres: ["Un pain sucré", "Un jus de fruit", "Une purée de pomme de terre"],
+      exemple: "Le liboke de poisson cuit doucement dans les feuilles.",
+      fiche: "Lingala. Un « liboke » (ou maboke) : du poisson ou de la viande cuit en papillote de feuilles."
+    },
+    {
+      expression: "Motuka",
+      pays: "CD", theme: "transport",
+      sens: "Une voiture",
+      leurres: ["Un vélo", "Un bateau", "Un avion"],
+      exemple: "Il a garé le motuka devant la parcelle.",
+      fiche: "Lingala. « Motuka » : une voiture."
+    },
+
+    // ---------- Burkina Faso (mooré, dioula, culture) ----------
+    {
+      expression: "Laafi",
+      pays: "BF", theme: "salutations",
+      sens: "La santé, « ça va »",
+      leurres: ["La fatigue", "La richesse", "La pluie"],
+      exemple: "Laafi bala — ça va, tout va bien.",
+      fiche: "Mooré. « Laafi » : la santé ; dans les salutations, « laafi bala » veut dire « ça va, la paix »."
+    },
+    {
+      expression: "Kibaré ?",
+      pays: "BF", theme: "salutations",
+      sens: "Quoi de neuf ? Quelles nouvelles ?",
+      leurres: ["Combien ça coûte ?", "Où vas-tu ?", "Quelle heure est-il ?"],
+      exemple: "Kibaré ? — Quoi de neuf aujourd'hui ?",
+      fiche: "Mooré. « Kibaré ? » : quoi de neuf ? quelles nouvelles ?"
+    },
+    {
+      expression: "Le gonré",
+      pays: "BF", theme: "manger",
+      sens: "Des beignets de haricot (niébé)",
+      leurres: ["Des frites de pomme de terre", "Un gâteau au chocolat", "Des chips de banane"],
+      exemple: "Le matin, on achète des gonré au coin de la rue.",
+      fiche: "Le « gonré » (ou « samsa ») : des beignets vapeur de pâte de haricot, un classique du petit matin à Ouaga."
+    },
+    {
+      expression: "Le Faso",
+      pays: "BF", theme: "quotidien",
+      sens: "La patrie, le pays",
+      leurres: ["La capitale", "Le fleuve", "Le marché central"],
+      exemple: "Fier d'être un fils du Faso.",
+      fiche: "Mooré. « Faso » : la patrie, le pays — on le retrouve dans « Burkina Faso », le pays des hommes intègres."
+    },
+    {
+      expression: "Zaka",
+      pays: "BF", theme: "quotidien",
+      sens: "La cour, la concession familiale",
+      leurres: ["Le champ", "La route", "Le marché"],
+      exemple: "Toute la famille se réunit dans la zaka le soir.",
+      fiche: "Mooré. La « zaka » : la cour, la concession où vit la famille."
+    },
+    {
+      expression: "Le faso dan fani",
+      pays: "BF", theme: "quotidien",
+      sens: "Le pagne tissé, tissu national",
+      leurres: ["Un plat de fête", "Une danse de mariage", "Un proverbe"],
+      exemple: "Elle a cousu une tenue dans du faso dan fani.",
+      fiche: "Le « Faso Dan Fani » est le pagne tissé à la main, tissu emblématique du Burkina."
+    },
+    {
+      expression: "Le karité",
+      pays: "BF", theme: "quotidien",
+      sens: "Le beurre tiré des noix de karité",
+      leurres: ["Un fruit sucré", "Une céréale", "Un poisson séché"],
+      exemple: "On se protège la peau avec le beurre de karité.",
+      fiche: "Le « karité » : les noix d'un arbre dont on tire un beurre pour la cuisine et la peau, une richesse du Burkina."
+    },
+    {
+      expression: "La cola",
+      pays: "BF", theme: "quotidien",
+      sens: "La noix de cola, offerte en signe de respect",
+      leurres: ["Une boisson gazeuse", "Un bijou", "Un instrument"],
+      exemple: "On offre la cola au vieux en signe de respect.",
+      fiche: "La noix de « cola » se partage lors des salutations et des cérémonies, en signe de respect."
+    },
+    {
+      expression: "Un moaga",
+      pays: "BF", theme: "gens",
+      sens: "Un Mossi (le principal peuple du Burkina)",
+      leurres: ["Un étranger", "Un enfant", "Un commerçant riche"],
+      exemple: "Les Moose (pluriel de moaga) sont le plus grand peuple du pays.",
+      fiche: "Mooré. Un « moaga » (pluriel « Moose ») : un Mossi, le principal peuple du Burkina."
+    },
+    {
+      expression: "Le Moogho Naaba",
+      pays: "BF", theme: "gens",
+      sens: "Le roi des Mossi",
+      leurres: ["Le maire de Ouagadougou", "Un chanteur célèbre", "Un riche commerçant"],
+      exemple: "Chaque vendredi, le Moogho Naaba tient une cérémonie à Ouaga.",
+      fiche: "Le « Moogho Naaba » est le roi des Mossi, une autorité traditionnelle très respectée."
+    },
+    {
+      expression: "Les hommes intègres",
+      pays: "BF", theme: "gens",
+      sens: "Les Burkinabè",
+      leurres: ["Les habitants de la capitale", "Les anciens combattants", "Les artisans du marché"],
+      exemple: "Les Étalons, l'équipe des hommes intègres, jouent ce soir.",
+      fiche: "Les Burkinabè sont « les hommes intègres » : « Burkina Faso » signifie « le pays des hommes intègres »."
+    },
+    {
+      expression: "Un griot",
+      pays: "BF", theme: "gens",
+      sens: "Un conteur et musicien, gardien de la tradition",
+      leurres: ["Un chef de village", "Un forgeron", "Un guerrier"],
+      exemple: "Le griot raconte l'histoire de la famille depuis des générations.",
+      fiche: "Un « griot » est un conteur, musicien et gardien de la mémoire, très présent chez les Mossi et les Mandingues."
+    },
+    {
+      expression: "Toubabou",
+      pays: "BF", theme: "gens",
+      sens: "Un Blanc, un Européen",
+      leurres: ["Un chef traditionnel", "Un marchand ambulant", "Un jeune de la ville"],
+      exemple: "Le toubabou a du mal avec la chaleur.",
+      fiche: "Dioula. « Toubabou » : un Blanc, un Européen."
+    },
+    {
+      expression: "Le benga",
+      pays: "BF", theme: "manger",
+      sens: "Des haricots (plat quotidien)",
+      leurres: ["Du riz au gras", "Une soupe de poisson", "Un gâteau de mil"],
+      exemple: "À midi, benga avec un peu d'huile.",
+      fiche: "Mooré. Le « benga » : des haricots, un plat quotidien très répandu."
+    },
+    {
+      expression: "Le zoom-koom",
+      pays: "BF", theme: "manger",
+      sens: "Une boisson à la farine de mil",
+      leurres: ["Une bière de mil", "Un thé sucré", "Un jus d'orange"],
+      exemple: "Par la chaleur, rien de mieux qu'un zoom-koom bien frais.",
+      fiche: "Le « zoom-koom » (« eau de farine » en mooré) : une boisson rafraîchissante de farine de mil, tamarin et gingembre."
+    },
+    {
+      expression: "Le riz gras",
+      pays: "BF", theme: "manger",
+      sens: "Du riz cuit dans une sauce tomate huilée",
+      leurres: ["Du riz au lait", "Une purée blanche", "Une galette sèche"],
+      exemple: "Le dimanche, c'est riz gras pour toute la famille.",
+      fiche: "Le « riz gras » : du riz cuit directement dans une sauce tomate bien huilée, un classique des grandes tablées."
+    },
+    {
+      expression: "Le soumbala",
+      pays: "BF", theme: "manger",
+      sens: "Un condiment de graines de néré fermentées",
+      leurres: ["Un fruit acide", "Un fromage frais", "Une pâte sucrée"],
+      exemple: "Une cuillère de soumbala relève toute la sauce.",
+      fiche: "Le « soumbala » : un condiment fort de graines de néré fermentées, l'âme de beaucoup de sauces."
+    },
+    {
+      expression: "Le poulet bicyclette",
+      pays: "BF", theme: "manger",
+      sens: "Un poulet de ferme, maigre et savoureux",
+      leurres: ["Un poulet en plastique pour enfant", "Un jouet à pédales", "Un plat de pâtes"],
+      exemple: "Au maquis, on commande le poulet bicyclette braisé.",
+      fiche: "Le « poulet bicyclette » : un poulet de ferme élevé en liberté, maigre et savoureux (on dit qu'il court autant qu'un vélo)."
+    },
+    {
+      expression: "Le bissap",
+      pays: "BF", theme: "manger",
+      sens: "Un jus de fleurs d'hibiscus",
+      leurres: ["Un pain grillé", "Une soupe épicée", "Un alcool fort"],
+      exemple: "Un grand verre de bissap bien glacé.",
+      fiche: "Le « bissap » : un jus rouge et acidulé, fait avec des fleurs d'hibiscus séchées."
+    },
+    {
+      expression: "Le babenda",
+      pays: "BF", theme: "manger",
+      sens: "Un plat de feuilles vertes mijotées",
+      leurres: ["Un dessert au chocolat", "Une brochette de viande", "Une boisson chaude"],
+      exemple: "Le babenda mijote avec du soumbala et des arachides.",
+      fiche: "Le « babenda » : un plat de feuilles vertes variées, mijotées, typiquement burkinabè."
+    },
+    {
+      expression: "Le warba",
+      pays: "BF", theme: "fete",
+      sens: "Une danse traditionnelle mossi",
+      leurres: ["Un tambour", "Un plat de fête", "Un marché de nuit"],
+      exemple: "Les danseurs de warba font vibrer la place.",
+      fiche: "Le « warba » : une danse traditionnelle mossi, rythmée et spectaculaire."
+    },
+    {
+      expression: "Le bendré",
+      pays: "BF", theme: "fete",
+      sens: "Un tambour-calebasse des griots",
+      leurres: ["Une danse de mariage", "Un chant religieux", "Un jeu d'enfants"],
+      exemple: "Le griot fait parler le bendré pour annoncer la fête.",
+      fiche: "Le « bendré » : un tambour fait d'une calebasse, l'instrument des griots mossi."
+    },
+    {
+      expression: "Le balafon",
+      pays: "BF", theme: "fete",
+      sens: "Un xylophone de bois sur calebasses",
+      leurres: ["Un tambour en peau", "Une flûte en roseau", "Une guitare moderne"],
+      exemple: "Les notes du balafon résonnent dans tout le village.",
+      fiche: "Le « balafon » : un xylophone de lames de bois posées sur des calebasses ; celui des Sambla est classé à l'UNESCO."
+    },
+    {
+      expression: "Le FESPACO",
+      pays: "BF", theme: "fete",
+      sens: "Le grand festival du cinéma africain de Ouagadougou",
+      leurres: ["Un marché d'artisanat", "Un championnat de lutte", "Une fête religieuse"],
+      exemple: "Tous les deux ans, le FESPACO transforme Ouaga en capitale du cinéma.",
+      fiche: "Le « FESPACO » : le plus grand festival de cinéma d'Afrique, à Ouagadougou."
+    },
+    {
+      expression: "Gagner petit",
+      pays: "BF", theme: "argent",
+      sens: "Se débrouiller avec de modestes revenus",
+      leurres: ["Dépenser sans compter", "Perdre son travail", "Hériter d'une fortune"],
+      exemple: "Il gagne petit avec sa boutique, mais il s'en sort.",
+      fiche: "Français populaire. « Gagner petit » : vivre et se débrouiller avec de petits moyens."
+    },
+    {
+      expression: "C'est doux",
+      pays: "BF", theme: "emotions",
+      sens: "C'est agréable, c'est bon",
+      leurres: ["C'est difficile", "C'est dangereux", "C'est trop cher"],
+      exemple: "La sauce est bien relevée, c'est doux !",
+      fiche: "Français populaire ouest-africain. « C'est doux » : c'est agréable, c'est bon, c'est réussi."
+    },
+    {
+      expression: "Faire force",
+      pays: "BF", theme: "ecole",
+      sens: "Faire un gros effort, se donner à fond",
+      leurres: ["Abandonner", "Se reposer", "Tricher"],
+      exemple: "Fais force pour tes examens, tu es presque au bout.",
+      fiche: "Français populaire. « Faire force » : faire un gros effort, se donner à fond."
+    },
+    {
+      expression: "An ka taa",
+      pays: "BF", theme: "quotidien",
+      sens: "Allons-y, on y va",
+      leurres: ["Assieds-toi", "Attends-moi", "Reviens demain"],
+      exemple: "Il est tard, an ka taa — on y va !",
+      fiche: "Dioula. « An ka taa » : allons-y, on y va."
+    },
+    {
+      expression: "Le dèguè",
+      pays: "BF", theme: "manger",
+      sens: "Un dessert de mil et de lait caillé",
+      leurres: ["Une soupe de légumes", "Une galette salée", "Un ragoût de viande"],
+      exemple: "Après le repas, un bon dèguè bien frais.",
+      fiche: "Le « dèguè » (ou « dégué ») : de petites billes de mil mêlées à du lait caillé sucré, un dessert très apprécié."
     }
 
   ];
