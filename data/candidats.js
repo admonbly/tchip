@@ -2313,6 +2313,482 @@
       leurres: ["Une ceinture de cuir", "Un manteau de laine", "Un collier"],
       exemple: "Il enroule sa chèche pour se protéger du sable.",
       fiche: "La « chèche » : le long foulard-turban qui protège la tête et le visage du soleil et du sable."
+    },
+
+    // ---------- Algérie (darija, raï, cuisine, culture) ----------
+    {
+      expression: "Wesh",
+      pays: "DZ", theme: "salutations",
+      sens: "Salut, quoi de neuf ?",
+      leurres: ["Au revoir", "Merci", "Attention"],
+      exemple: "Wesh, ça va ou quoi ?",
+      fiche: "Darija algérienne. « Wesh » : salut, et aussi « quoi ? »."
+    },
+    {
+      expression: "Labès",
+      pays: "DZ", theme: "salutations",
+      sens: "Ça va, pas de mal",
+      leurres: ["Au revoir", "Bon appétit", "Félicitations"],
+      exemple: "Labès ? — Labès, hamdoullah.",
+      fiche: "« Labès » : ça va, pas de mal (à la fois la question et la réponse)."
+    },
+    {
+      expression: "Saha",
+      pays: "DZ", theme: "salutations",
+      sens: "Merci, bravo (et à ta santé)",
+      leurres: ["Pardon", "Au revoir", "Attention"],
+      exemple: "Saha ! Tu as bien travaillé.",
+      fiche: "Darija. « Saha » : merci, bravo, à ta santé — selon le contexte."
+    },
+    {
+      expression: "Hamdoullah",
+      pays: "DZ", theme: "salutations",
+      sens: "Dieu merci, ça va bien",
+      leurres: ["Hélas", "Peut-être", "À demain"],
+      exemple: "Ça va ? — Hamdoullah.",
+      fiche: "« Hamdoullah » : Dieu merci — pour dire que tout va bien."
+    },
+    {
+      expression: "Inchallah",
+      pays: "DZ", theme: "quotidien",
+      sens: "Si Dieu le veut",
+      leurres: ["Sûrement pas", "Tout de suite", "Comme toujours"],
+      exemple: "On se voit demain, inchallah.",
+      fiche: "« Inchallah » : si Dieu le veut, pour parler de l'avenir."
+    },
+    {
+      expression: "Makache",
+      pays: "DZ", theme: "quotidien",
+      sens: "Il n'y a pas, il n'y en a plus",
+      leurres: ["Il y en a beaucoup", "C'est gratuit", "C'est fini"],
+      exemple: "Makache de pain ce matin.",
+      fiche: "Darija algérienne. « Makache » : il n'y a pas, il n'y en a point."
+    },
+    {
+      expression: "Bezzef",
+      pays: "DZ", theme: "quotidien",
+      sens: "Beaucoup, trop",
+      leurres: ["Un peu", "Pas du tout", "Parfois"],
+      exemple: "Il y a bezzef de monde au marché.",
+      fiche: "Darija. « Bezzef » : beaucoup, trop."
+    },
+    {
+      expression: "Walou",
+      pays: "DZ", theme: "quotidien",
+      sens: "Rien du tout",
+      leurres: ["Tout", "Beaucoup", "Peut-être"],
+      exemple: "J'ai cherché, mais walou.",
+      fiche: "Darija. « Walou » : rien, que dalle."
+    },
+    {
+      expression: "Aya",
+      pays: "DZ", theme: "quotidien",
+      sens: "Allez, allons-y",
+      leurres: ["Attends", "Doucement", "Reste ici"],
+      exemple: "Aya, on y va !",
+      fiche: "Darija algérienne. « Aya » : allez, allons, dépêche."
+    },
+    {
+      expression: "Mlih",
+      pays: "DZ", theme: "emotions",
+      sens: "Bien, bon",
+      leurres: ["Mauvais", "Cassé", "Triste"],
+      exemple: "C'est mlih, continue comme ça.",
+      fiche: "Darija. « Mlih » : bien, bon, de qualité."
+    },
+    {
+      expression: "Zawali",
+      pays: "DZ", theme: "gens",
+      sens: "Un pauvre, quelqu'un qui galère",
+      leurres: ["Un riche", "Un chef", "Un chanceux"],
+      exemple: "Le zawali trime du matin au soir.",
+      fiche: "Darija algérienne. Un « zawali » : un pauvre, un démuni."
+    },
+    {
+      expression: "Un flen",
+      pays: "DZ", theme: "gens",
+      sens: "Untel, un type quelconque",
+      leurres: ["Un ami proche", "Un chef connu", "Un parent"],
+      exemple: "Flen a dit, flen a fait… les rumeurs !",
+      fiche: "Darija. « Flen » : untel, monsieur Untel (une personne indéterminée)."
+    },
+    {
+      expression: "Un sahbi",
+      pays: "DZ", theme: "amour",
+      sens: "Un ami, un pote",
+      leurres: ["Un ennemi", "Un patron", "Un inconnu"],
+      exemple: "Je sors avec les sahbi ce soir.",
+      fiche: "Darija. « Sahbi » : mon ami, mon pote."
+    },
+    {
+      expression: "Le trabendo",
+      pays: "DZ", theme: "argent",
+      sens: "Le marché noir, la contrebande",
+      leurres: ["Le marché aux fleurs", "La bourse", "Une coopérative"],
+      exemple: "Il vend des portables au trabendo.",
+      fiche: "Darija algérienne. Le « trabendo » : le commerce informel, le marché noir (le « trabendiste » le pratique)."
+    },
+    {
+      expression: "Le raï",
+      pays: "DZ", theme: "fete",
+      sens: "La musique populaire née à Oran",
+      leurres: ["Une danse de mariage berbère", "Un plat de fête", "Un chant religieux"],
+      exemple: "Le raï d'Oran a conquis le monde.",
+      fiche: "Le « raï » : une musique populaire née à Oran, portée par les cheb et chabas."
+    },
+    {
+      expression: "Le chaâbi",
+      pays: "DZ", theme: "fete",
+      sens: "La musique populaire d'Alger",
+      leurres: ["Une danse du désert", "Un style de poésie écrite", "Un instrument à cordes"],
+      exemple: "Une soirée chaâbi dure jusqu'au matin.",
+      fiche: "Le « chaâbi » algérois : une musique populaire chantée, née dans la Casbah."
+    },
+    {
+      expression: "La casbah",
+      pays: "DZ", theme: "quotidien",
+      sens: "La vieille ville fortifiée (d'Alger)",
+      leurres: ["Le quartier des affaires", "Le port de commerce", "La plage"],
+      exemple: "On grimpe les ruelles de la Casbah d'Alger.",
+      fiche: "La « casbah » : la vieille ville fortifiée ; celle d'Alger est classée à l'UNESCO."
+    },
+    {
+      expression: "El-Bahdja",
+      pays: "DZ", theme: "quotidien",
+      sens: "Alger, « la Joyeuse »",
+      leurres: ["Le Sahara", "La mer Méditerranée", "Un palais royal"],
+      exemple: "Bienvenue à El-Bahdja, la blanche Alger.",
+      fiche: "« El-Bahdja » (« la Joyeuse ») : le surnom affectueux d'Alger."
+    },
+    {
+      expression: "Le burnous",
+      pays: "DZ", theme: "quotidien",
+      sens: "Une grande cape de laine à capuche",
+      leurres: ["Un tapis tissé", "Une paire de babouches", "Un plateau à thé"],
+      exemple: "Le vieux s'enveloppe dans son burnous.",
+      fiche: "Le « burnous » : une grande cape de laine à capuche, portée par les hommes."
+    },
+    {
+      expression: "Le couscous",
+      pays: "DZ", theme: "manger",
+      sens: "La semoule vapeur aux légumes et viande",
+      leurres: ["Un riz au lait", "Une soupe claire", "Un pain plat"],
+      exemple: "Le couscous du vendredi réunit la famille.",
+      fiche: "Le « couscous » : la semoule roulée, cuite à la vapeur, servie avec légumes et viande — plat emblématique du Maghreb."
+    },
+    {
+      expression: "La chorba",
+      pays: "DZ", theme: "manger",
+      sens: "Une soupe épaisse, surtout au ramadan",
+      leurres: ["Une salade fraîche", "Un gâteau au miel", "Une grillade"],
+      exemple: "On rompt le jeûne avec une chorba bien chaude.",
+      fiche: "La « chorba » : une soupe nourrissante (légumes, viande, vermicelle), reine des tables de ramadan."
+    },
+    {
+      expression: "La chakchouka",
+      pays: "DZ", theme: "manger",
+      sens: "Une poêlée de tomates, poivrons et œufs",
+      leurres: ["Une pâtisserie feuilletée", "Un ragoût de poisson", "Une purée sucrée"],
+      exemple: "Une chakchouka avec du bon pain.",
+      fiche: "La « chakchouka » : une poêlée de poivrons et tomates mijotés, souvent avec des œufs."
+    },
+    {
+      expression: "Le bourek",
+      pays: "DZ", theme: "manger",
+      sens: "Un rouleau frit farci",
+      leurres: ["Un bonbon", "Une boisson chaude", "Une salade verte"],
+      exemple: "Des bourek à la viande hachée pour le ftour.",
+      fiche: "Le « bourek » : une fine feuille roulée et frite, farcie à la viande, à l'œuf ou au fromage."
+    },
+    {
+      expression: "La dolma",
+      pays: "DZ", theme: "manger",
+      sens: "Des légumes farcis à la viande",
+      leurres: ["Une soupe froide", "Un pain sucré", "Un jus de fruit"],
+      exemple: "Dolma de courgettes et de pommes de terre.",
+      fiche: "La « dolma » : des légumes (ou feuilles) farcis de viande et de riz, mijotés en sauce."
+    },
+    {
+      expression: "Le makroud",
+      pays: "DZ", theme: "manger",
+      sens: "Un gâteau de semoule aux dattes",
+      leurres: ["Un biscuit salé", "Une crêpe fine", "Un bonbon acidulé"],
+      exemple: "Des makroud bien collants au miel.",
+      fiche: "Le « makroud » : un gâteau de semoule fourré de pâte de dattes, frit et trempé dans le miel."
+    },
+    {
+      expression: "La kesra",
+      pays: "DZ", theme: "manger",
+      sens: "Une galette de semoule",
+      leurres: ["Une boisson lactée", "Un gâteau sucré", "Une sauce piquante"],
+      exemple: "On déchire la kesra pour saucer le plat.",
+      fiche: "La « kesra » : une galette de semoule, le pain du quotidien dans beaucoup de foyers."
+    },
+    {
+      expression: "La garantita",
+      pays: "DZ", theme: "manger",
+      sens: "Un flan de pois chiches (spécialité d'Oran)",
+      leurres: ["Une tarte aux pommes", "Un beignet sucré", "Une soupe de lentilles"],
+      exemple: "Une part de garantita au cumin et à l'harissa.",
+      fiche: "La « garantita » (calentica) : un flan de farine de pois chiches cuit au four, emblème d'Oran."
+    },
+    {
+      expression: "Le mhadjeb",
+      pays: "DZ", theme: "manger",
+      sens: "Une crêpe feuilletée farcie",
+      leurres: ["Un gâteau au chocolat", "Une glace", "Une salade composée"],
+      exemple: "Des mhadjeb farcis à la tomate et à l'oignon.",
+      fiche: "Le « mhadjeb » : une crêpe feuilletée de semoule, fourrée d'une sauce tomate-poivron."
+    },
+    {
+      expression: "Dziri",
+      pays: "DZ", theme: "gens",
+      sens: "Un Algérois, un Algérien",
+      leurres: ["Un Marocain", "Un Tunisien", "Un étranger de passage"],
+      exemple: "Fier d'être dziri, de la capitale.",
+      fiche: "Darija. « Dziri » : un Algérois, un Algérien (de « Dzaïr », le nom d'Alger et de l'Algérie)."
+    },
+
+    // ---------- Tunisie (darija, cuisine, culture) ----------
+    {
+      expression: "Aslema",
+      pays: "TN", theme: "salutations",
+      sens: "Bonjour, salut",
+      leurres: ["Au revoir", "Merci", "Bon appétit"],
+      exemple: "Aslema ! Comment vas-tu ?",
+      fiche: "Darija tunisienne. « Aslema » (« 3aslema ») : bonjour, salut."
+    },
+    {
+      expression: "Labès",
+      pays: "TN", theme: "salutations",
+      sens: "Ça va, pas de mal",
+      leurres: ["Au revoir", "Félicitations", "Bon voyage"],
+      exemple: "Labès ? — Labès, hamdoullah.",
+      fiche: "« Labès » : ça va, pas de mal."
+    },
+    {
+      expression: "Hamdoullah",
+      pays: "TN", theme: "salutations",
+      sens: "Dieu merci, ça va bien",
+      leurres: ["Hélas", "Peut-être", "À bientôt"],
+      exemple: "Ça va ? — Hamdoullah.",
+      fiche: "« Hamdoullah » : Dieu merci — pour dire que tout va bien."
+    },
+    {
+      expression: "Inchallah",
+      pays: "TN", theme: "quotidien",
+      sens: "Si Dieu le veut",
+      leurres: ["Jamais", "Tout de suite", "Comme toujours"],
+      exemple: "On part demain, inchallah.",
+      fiche: "« Inchallah » : si Dieu le veut."
+    },
+    {
+      expression: "Famma",
+      pays: "TN", theme: "quotidien",
+      sens: "Il y a (il existe)",
+      leurres: ["Il n'y a rien", "C'est fini", "C'est loin"],
+      exemple: "Famma un bon café au coin.",
+      fiche: "Darija tunisienne. « Famma » : il y a, il existe."
+    },
+    {
+      expression: "Famache",
+      pays: "TN", theme: "quotidien",
+      sens: "Il n'y a pas",
+      leurres: ["Il y en a beaucoup", "C'est gratuit", "C'est prêt"],
+      exemple: "Famache de place dans le louage.",
+      fiche: "Darija tunisienne. « Famache » : il n'y a pas, il n'y en a plus."
+    },
+    {
+      expression: "Chwaya",
+      pays: "TN", theme: "quotidien",
+      sens: "Un peu, un petit peu",
+      leurres: ["Beaucoup", "Jamais", "Très vite"],
+      exemple: "Attends chwaya.",
+      fiche: "Darija tunisienne. « Chwaya » : un peu, un petit peu."
+    },
+    {
+      expression: "Taw",
+      pays: "TN", theme: "quotidien",
+      sens: "Maintenant, là",
+      leurres: ["Hier", "Plus tard", "Jamais"],
+      exemple: "Taw j'arrive, deux minutes.",
+      fiche: "Darija tunisienne. « Taw » (tawa) : maintenant, à l'instant."
+    },
+    {
+      expression: "Yalla",
+      pays: "TN", theme: "quotidien",
+      sens: "Allez, allons-y",
+      leurres: ["Attends", "Doucement", "Reste"],
+      exemple: "Yalla, on est en retard !",
+      fiche: "« Yalla » : allez, allons-y, dépêche."
+    },
+    {
+      expression: "Le machmoum",
+      pays: "TN", theme: "quotidien",
+      sens: "Un petit bouquet de jasmin",
+      leurres: ["Un plateau de thé", "Un chapeau de paille", "Un éventail"],
+      exemple: "Il porte un machmoum de jasmin à l'oreille.",
+      fiche: "Le « machmoum » : un petit bouquet de fleurs (surtout de jasmin), qu'on offre ou qu'on porte à l'oreille."
+    },
+    {
+      expression: "La fouta",
+      pays: "TN", theme: "quotidien",
+      sens: "Une étoffe rayée de hammam",
+      leurres: ["Un tapis de prière", "Un plat en cuivre", "Un collier"],
+      exemple: "Au hammam, on s'enroule dans la fouta.",
+      fiche: "La « fouta » : une étoffe de coton rayée, utilisée au hammam et aujourd'hui en paréo ou serviette de plage."
+    },
+    {
+      expression: "Sidi Bou Saïd",
+      pays: "TN", theme: "quotidien",
+      sens: "Le village bleu et blanc au-dessus de la mer",
+      leurres: ["Un grand marché couvert", "Un désert de dunes", "Un port de pêche du Sud"],
+      exemple: "On prend un thé aux pignons à Sidi Bou Saïd.",
+      fiche: "« Sidi Bou Saïd » : le célèbre village aux maisons blanches et bleues, perché au-dessus de la Méditerranée."
+    },
+    {
+      expression: "La chéchia",
+      pays: "TN", theme: "quotidien",
+      sens: "Une calotte de feutre rouge",
+      leurres: ["Une paire de babouches", "Une ceinture brodée", "Un éventail de paille"],
+      exemple: "Le vieux porte fièrement sa chéchia rouge.",
+      fiche: "La « chéchia » : la calotte de feutre rouge, un emblème de l'artisanat tunisien."
+    },
+    {
+      expression: "Ya hasra",
+      pays: "TN", theme: "emotions",
+      sens: "Hélas, quel dommage (nostalgie)",
+      leurres: ["Quelle joie", "Quelle chance", "Quelle surprise"],
+      exemple: "Ya hasra, le bon vieux temps…",
+      fiche: "Darija tunisienne. « Ya hasra » : hélas, quel dommage — souvent teinté de nostalgie."
+    },
+    {
+      expression: "Sahbi",
+      pays: "TN", theme: "amour",
+      sens: "Un ami, un pote",
+      leurres: ["Un ennemi", "Un patron", "Un inconnu"],
+      exemple: "Je vais au café avec sahbi.",
+      fiche: "Darija. « Sahbi » : mon ami, mon pote."
+    },
+    {
+      expression: "Le malouf",
+      pays: "TN", theme: "fete",
+      sens: "La musique classique andalouse de Tunisie",
+      leurres: ["Une danse de mariage", "Un chant de pêcheurs", "Une musique de rue moderne"],
+      exemple: "Un concert de malouf à la médina.",
+      fiche: "Le « malouf » : la musique classique d'héritage arabo-andalou, raffinée, de Tunisie."
+    },
+    {
+      expression: "Le mezoued",
+      pays: "TN", theme: "fete",
+      sens: "Une musique populaire à la cornemuse",
+      leurres: ["Un chant religieux", "Une berceuse", "Un hymne national"],
+      exemple: "Au mariage, le mezoued met le feu.",
+      fiche: "Le « mezoued » : une musique populaire festive, jouée à la cornemuse du même nom."
+    },
+    {
+      expression: "Le lablabi",
+      pays: "TN", theme: "manger",
+      sens: "Une soupe de pois chiches sur pain",
+      leurres: ["Une salade de fruits", "Un gâteau au miel", "Une grillade"],
+      exemple: "Un lablabi bien relevé le matin d'hiver.",
+      fiche: "Le « lablabi » : une soupe de pois chiches versée sur du pain rassis, avec harissa, cumin, œuf et câpres."
+    },
+    {
+      expression: "La ojja",
+      pays: "TN", theme: "manger",
+      sens: "Une poêlée épicée de tomates et d'œufs",
+      leurres: ["Une tarte sucrée", "Une soupe froide", "Un riz au lait"],
+      exemple: "Une ojja aux merguez, bien piquante.",
+      fiche: "L'« ojja » : une poêlée de tomates et poivrons à la harissa, où l'on casse des œufs."
+    },
+    {
+      expression: "Le kafteji",
+      pays: "TN", theme: "manger",
+      sens: "Des légumes frits hachés aux œufs",
+      leurres: ["Une pâtisserie feuilletée", "Un couscous sucré", "Une soupe de poisson"],
+      exemple: "Un kafteji bien haché avec du pain.",
+      fiche: "Le « kafteji » : un mélange de légumes frits puis hachés (poivrons, courge, pomme de terre) avec des œufs."
+    },
+    {
+      expression: "Le fricassé",
+      pays: "TN", theme: "manger",
+      sens: "Un petit pain frit garni",
+      leurres: ["Une salade composée", "Un plat de pâtes", "Une brochette grillée"],
+      exemple: "Un fricassé thon-harissa-olives, un délice.",
+      fiche: "Le « fricassé » tunisien : un petit pain frit garni de thon, d'œuf, d'olives et de harissa."
+    },
+    {
+      expression: "La mloukhiya",
+      pays: "TN", theme: "manger",
+      sens: "Un ragoût vert sombre mijoté longtemps",
+      leurres: ["Une salade verte crue", "Un jus d'herbes", "Une pâte à tartiner"],
+      exemple: "La mloukhiya a mijoté toute la journée.",
+      fiche: "La « mloukhiya » : un ragoût fait de poudre de corète, d'un vert très sombre, mijoté des heures avec de la viande."
+    },
+    {
+      expression: "La harissa",
+      pays: "TN", theme: "manger",
+      sens: "Une purée de piment relevée",
+      leurres: ["Une sauce sucrée", "Une crème dessert", "Une soupe douce"],
+      exemple: "Une pointe de harissa dans le couscous.",
+      fiche: "La « harissa » : une purée de piments rouges à l'ail et aux épices, incontournable de la table tunisienne."
+    },
+    {
+      expression: "Le tajine tunisien",
+      pays: "TN", theme: "manger",
+      sens: "Une omelette épaisse cuite au four",
+      leurres: ["Un ragoût en plat de terre", "Une tourte sucrée", "Une soupe de légumes"],
+      exemple: "Le tajine tunisien se coupe en parts comme un gâteau.",
+      fiche: "Le « tajine tunisien » : une sorte d'omelette épaisse au four (rien à voir avec le tajine marocain mijoté)."
+    },
+    {
+      expression: "Les makroudh",
+      pays: "TN", theme: "manger",
+      sens: "Un gâteau de semoule aux dattes",
+      leurres: ["Un biscuit salé", "Une crêpe fine", "Un bonbon acidulé"],
+      exemple: "Les makroudh de Kairouan, les plus réputés.",
+      fiche: "Les « makroudh » : des losanges de semoule fourrés de dattes, spécialité de Kairouan."
+    },
+    {
+      expression: "La bambalouni",
+      pays: "TN", theme: "manger",
+      sens: "Un beignet rond sucré",
+      leurres: ["Une galette salée", "Une soupe chaude", "Un sandwich"],
+      exemple: "Une bambalouni chaude saupoudrée de sucre.",
+      fiche: "La « bambalouni » : un beignet rond et moelleux, saupoudré de sucre, vendu dans la rue."
+    },
+    {
+      expression: "Le mesfouf",
+      pays: "TN", theme: "manger",
+      sens: "Un couscous sucré",
+      leurres: ["Un couscous au poisson", "Une soupe épaisse", "Un pain grillé"],
+      exemple: "Un mesfouf aux raisins secs et aux dattes.",
+      fiche: "Le « mesfouf » : un couscous fin et sucré, aux raisins secs, fruits secs et parfois lait caillé."
+    },
+    {
+      expression: "La slata méchouia",
+      pays: "TN", theme: "manger",
+      sens: "Une salade de légumes grillés",
+      leurres: ["Une salade de fruits", "Une purée sucrée", "Un bouillon clair"],
+      exemple: "Une slata méchouia avec du thon et des œufs.",
+      fiche: "La « slata méchouia » : une salade de poivrons et tomates grillés puis hachés, à l'huile d'olive."
+    },
+    {
+      expression: "Le tabouna",
+      pays: "TN", theme: "manger",
+      sens: "Un pain rond cuit au four en terre",
+      leurres: ["Un gâteau feuilleté", "Une crêpe sucrée", "Une boisson chaude"],
+      exemple: "Le tabouna tout chaud à la sortie du four.",
+      fiche: "Le « tabouna » : un pain rond cuit contre la paroi d'un four en terre du même nom."
+    },
+    {
+      expression: "La zlabia",
+      pays: "TN", theme: "manger",
+      sens: "Une pâtisserie frite en spirale au sirop",
+      leurres: ["Une galette salée", "Un flan nature", "Une soupe sucrée"],
+      exemple: "Des zlabia dorées pendant le ramadan.",
+      fiche: "La « zlabia » : une pâtisserie frite en entrelacs, trempée dans un sirop sucré, très prisée au ramadan."
     }
 
   ];
