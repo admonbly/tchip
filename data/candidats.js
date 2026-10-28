@@ -4381,6 +4381,248 @@
       leurres: ["Une noix de coco", "Un ananas", "Une mangue verte"],
       exemple: "On achète les letchis en décembre.",
       fiche: "La Réunion. Un « letchi » : le litchi, fruit rouge et sucré de l'été austral, star des fêtes de fin d'année."
+    },
+
+    // ---------- Madagascar (malgache, culture, cuisine) ----------
+    {
+      expression: "Veloma",
+      pays: "MG", theme: "salutations",
+      sens: "Au revoir",
+      leurres: ["Bonjour", "Merci", "Bienvenue"],
+      exemple: "Veloma ! À bientôt.",
+      fiche: "Malgache. « Veloma » : au revoir."
+    },
+    {
+      expression: "Azafady",
+      pays: "MG", theme: "salutations",
+      sens: "Excusez-moi, s'il te plaît",
+      leurres: ["Merci", "Félicitations", "Au revoir"],
+      exemple: "Azafady, où est le marché ?",
+      fiche: "Malgache. « Azafady » : pardon, excusez-moi, et aussi « s'il vous plaît »."
+    },
+    {
+      expression: "Manao ahoana",
+      pays: "MG", theme: "salutations",
+      sens: "Bonjour, comment allez-vous ?",
+      leurres: ["Bon appétit", "Bonne nuit", "Au revoir"],
+      exemple: "Manao ahoana ! Ça va ?",
+      fiche: "Malgache. « Manao ahoana » : bonjour, comment ça va ?"
+    },
+    {
+      expression: "Tompoko",
+      pays: "MG", theme: "salutations",
+      sens: "Monsieur, Madame (marque de respect)",
+      leurres: ["Camarade", "Petit", "Patron"],
+      exemple: "Misaotra tompoko (merci, monsieur/madame).",
+      fiche: "Malgache. « Tompoko » : une formule de respect, comme « monsieur » ou « madame »."
+    },
+    {
+      expression: "Tsy misy",
+      pays: "MG", theme: "quotidien",
+      sens: "Il n'y a pas, de rien",
+      leurres: ["Il y en a beaucoup", "C'est cher", "C'est fini"],
+      exemple: "Misaotra ! — Tsy misy (de rien).",
+      fiche: "Malgache. « Tsy misy » : il n'y a pas — sert aussi à répondre « de rien »."
+    },
+    {
+      expression: "Tsia",
+      pays: "MG", theme: "quotidien",
+      sens: "Non",
+      leurres: ["Oui", "Peut-être", "Merci"],
+      exemple: "Tsia, tsy izany (non, ce n'est pas ça).",
+      fiche: "Malgache. « Tsia » : non."
+    },
+    {
+      expression: "Eny",
+      pays: "MG", theme: "quotidien",
+      sens: "Oui",
+      leurres: ["Non", "Jamais", "Pourquoi"],
+      exemple: "Eny, marina izany (oui, c'est vrai).",
+      fiche: "Malgache. « Eny » (ou « èka ») : oui."
+    },
+    {
+      expression: "Tsara",
+      pays: "MG", theme: "emotions",
+      sens: "Bien, bon",
+      leurres: ["Mauvais", "Cassé", "Triste"],
+      exemple: "Tsara be ! (très bien !)",
+      fiche: "Malgache. « Tsara » : bien, bon, beau."
+    },
+    {
+      expression: "Le fihavanana",
+      pays: "MG", theme: "gens",
+      sens: "La solidarité, l'entraide",
+      leurres: ["La richesse", "La compétition", "La solitude"],
+      exemple: "Le fihavanana passe avant l'argent.",
+      fiche: "Malgache. Le « fihavanana » : les liens de parenté, d'amitié et d'entraide — une valeur centrale (« ny fihavanana no taloha ny vola »)."
+    },
+    {
+      expression: "Le razana",
+      pays: "MG", theme: "gens",
+      sens: "Les ancêtres",
+      leurres: ["Les enfants", "Les voisins", "Les étrangers"],
+      exemple: "On honore le razana lors des cérémonies.",
+      fiche: "Malgache. Le « razana » : les ancêtres, omniprésents dans la vie et les rites."
+    },
+    {
+      expression: "Le fady",
+      pays: "MG", theme: "quotidien",
+      sens: "Un tabou, un interdit",
+      leurres: ["Une fête", "Un marché", "Un cadeau"],
+      exemple: "Ici, c'est fady de montrer du doigt les tombeaux.",
+      fiche: "Malgache. Le « fady » : un interdit, un tabou hérité des ancêtres, variable d'un lieu à l'autre."
+    },
+    {
+      expression: "Les ohabolana",
+      pays: "MG", theme: "quotidien",
+      sens: "Les proverbes",
+      leurres: ["Les chansons d'amour", "Les recettes", "Les devinettes pour enfants"],
+      exemple: "Un discours fleuri d'ohabolana.",
+      fiche: "Malgache. Les « ohabolana » : les proverbes, piliers de la sagesse et de l'art oratoire."
+    },
+    {
+      expression: "Le kabary",
+      pays: "MG", theme: "quotidien",
+      sens: "L'art du discours traditionnel",
+      leurres: ["Un chant religieux", "Une danse", "Un plat de fête"],
+      exemple: "L'orateur maîtrise le kabary au mariage.",
+      fiche: "Malgache. Le « kabary » : l'art oratoire codifié, essentiel aux grandes occasions."
+    },
+    {
+      expression: "Le tanindrazana",
+      pays: "MG", theme: "quotidien",
+      sens: "La terre des ancêtres, la patrie",
+      leurres: ["La capitale", "Le marché central", "La côte"],
+      exemple: "Revenir au tanindrazana pour la fête.",
+      fiche: "Malgache. Le « tanindrazana » : la terre des ancêtres, le pays natal."
+    },
+    {
+      expression: "Le lamba",
+      pays: "MG", theme: "quotidien",
+      sens: "L'étole traditionnelle",
+      leurres: ["Un chapeau de paille", "Un panier tressé", "Une paire de sandales"],
+      exemple: "Les anciens portent le lamba sur les épaules.",
+      fiche: "Malgache. Le « lamba » : une étoffe portée en étole, chargée de sens dans la vie et les rites."
+    },
+    {
+      expression: "Le famadihana",
+      pays: "MG", theme: "fete",
+      sens: "Le retournement des morts",
+      leurres: ["Un mariage", "Une récolte", "Un baptême"],
+      exemple: "La famille se réunit pour le famadihana.",
+      fiche: "Malgache. Le « famadihana » (« retournement des morts ») : une cérémonie festive où l'on ré-enveloppe les ancêtres dans un lamba neuf."
+    },
+    {
+      expression: "Le hira gasy",
+      pays: "MG", theme: "fete",
+      sens: "Un spectacle de chant, danse et discours",
+      leurres: ["Un match de lutte", "Un marché de nuit", "Un conte du soir"],
+      exemple: "Les troupes de hira gasy rivalisent toute la journée.",
+      fiche: "Malgache. Le « hira gasy » : un spectacle populaire des hautes terres, mêlant chant, danse et joutes oratoires."
+    },
+    {
+      expression: "La valiha",
+      pays: "MG", theme: "fete",
+      sens: "Une cithare en bambou",
+      leurres: ["Un tambour", "Une flûte", "Une trompette"],
+      exemple: "Les notes de la valiha accompagnent le chant.",
+      fiche: "Malgache. La « valiha » : une cithare tubulaire en bambou, l'instrument emblématique de l'île."
+    },
+    {
+      expression: "Le vary",
+      pays: "MG", theme: "manger",
+      sens: "Le riz",
+      leurres: ["Le pain", "La viande", "Le sel"],
+      exemple: "Pas de repas sans vary à Madagascar.",
+      fiche: "Malgache. Le « vary » : le riz, base de chaque repas (on le mange matin, midi et soir)."
+    },
+    {
+      expression: "Le ravitoto",
+      pays: "MG", theme: "manger",
+      sens: "Des feuilles de manioc pilées au porc",
+      leurres: ["Un riz au lait", "Une soupe de poisson", "Une salade de fruits"],
+      exemple: "Ravitoto sy henakisoa (ravitoto au porc).",
+      fiche: "Malgache. Le « ravitoto » : des feuilles de manioc pilées et mijotées, souvent avec du porc."
+    },
+    {
+      expression: "Le koba",
+      pays: "MG", theme: "manger",
+      sens: "Un gâteau de riz, arachide et banane",
+      leurres: ["Un pain salé", "Une brochette", "Un fromage"],
+      exemple: "Une tranche de koba au marché.",
+      fiche: "Malgache. Le « koba » : une pâte sucrée de riz, d'arachides et de banane, cuite enveloppée."
+    },
+    {
+      expression: "Le mofo gasy",
+      pays: "MG", theme: "manger",
+      sens: "Un beignet de riz (« pain malgache »)",
+      leurres: ["Une galette de maïs", "Un croissant", "Une crêpe salée"],
+      exemple: "Du mofo gasy chaud au petit matin.",
+      fiche: "Malgache. Le « mofo gasy » (« pain malgache ») : un petit beignet rond de farine de riz, vendu dans la rue."
+    },
+    {
+      expression: "Le ranonapango",
+      pays: "MG", theme: "manger",
+      sens: "De l'eau de riz grillé",
+      leurres: ["Un thé à la menthe", "Un jus de fruits", "Un lait fermenté"],
+      exemple: "Un bol de ranonapango après le repas.",
+      fiche: "Malgache. Le « ranonapango » (ranovola) : l'eau bouillie sur le riz grillé au fond de la marmite, bue comme boisson."
+    },
+    {
+      expression: "Le lasary",
+      pays: "MG", theme: "manger",
+      sens: "Des crudités assaisonnées",
+      leurres: ["Un gâteau sucré", "Une soupe chaude", "Un ragoût de viande"],
+      exemple: "Un lasary de mangue verte bien relevé.",
+      fiche: "Malgache. Le « lasary » : des crudités ou légumes assaisonnés (mangue verte, haricots, piment)."
+    },
+    {
+      expression: "Les anana",
+      pays: "MG", theme: "manger",
+      sens: "Des feuilles vertes cuisinées",
+      leurres: ["Des fruits secs", "Des racines crues", "Des champignons"],
+      exemple: "Du riz avec des anana sautés.",
+      fiche: "Malgache. Les « anana » : diverses feuilles vertes (brèdes) sautées ou en bouillon."
+    },
+    {
+      expression: "Le zébu",
+      pays: "MG", theme: "quotidien",
+      sens: "Le bœuf à bosse, symbole de l'île",
+      leurres: ["Un mouton", "Un cheval", "Une chèvre"],
+      exemple: "Le zébu, c'est la fierté et la richesse d'une famille.",
+      fiche: "Malgache. Le « zébu » (omby) : le bœuf à bosse, au cœur de l'économie, des rites et des repas de fête."
+    },
+    {
+      expression: "Un taxi-brousse",
+      pays: "MG", theme: "transport",
+      sens: "Un minibus interurbain",
+      leurres: ["Un vélo-taxi", "Un bateau", "Un train de nuit"],
+      exemple: "On rejoint la côte en taxi-brousse.",
+      fiche: "Madagascar. Un « taxi-brousse » : le minibus bondé qui relie les villes (le « taxi-be » reste en ville)."
+    },
+    {
+      expression: "Le baobab",
+      pays: "MG", theme: "quotidien",
+      sens: "L'arbre emblème au tronc massif",
+      leurres: ["Un palmier", "Un cactus géant", "Une liane"],
+      exemple: "L'allée des Baobabs au coucher du soleil.",
+      fiche: "Madagascar abrite plusieurs espèces de « baobabs » endémiques, dont la célèbre allée près de Morondava."
+    },
+    {
+      expression: "Un lémurien",
+      pays: "MG", theme: "quotidien",
+      sens: "Un primate endémique de l'île",
+      leurres: ["Un grand singe", "Un oiseau rare", "Un reptile"],
+      exemple: "Le maki catta est un lémurien à queue rayée.",
+      fiche: "Les « lémuriens » (maki, indri, sifaka…) : des primates qu'on ne trouve qu'à Madagascar."
+    },
+    {
+      expression: "Le lakana",
+      pays: "MG", theme: "transport",
+      sens: "Une pirogue à balancier",
+      leurres: ["Un radeau", "Un grand voilier", "Un ferry"],
+      exemple: "Les pêcheurs partent en lakana à l'aube.",
+      fiche: "Malgache. Le « lakana » : une pirogue à balancier, taillée dans un tronc, pour la pêche et le transport."
     }
 
   ];
