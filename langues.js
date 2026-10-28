@@ -64,7 +64,8 @@ window.TCHIP_LANGUES = {
     "Raté, c'était {pays}": "Missed, it was {pays}",
     "Copié, colle-le où tu veux !": "Copied, paste it anywhere!",
     "À partager": "To share",
-    "Sélectionne le texte et copie-le :": "Select the text and copy it:",
+    "Copie ce texte et colle-le où tu veux :": "Copy this text and paste it wherever you like:",
+    "Copier": "Copy",
 
     // Fiche d'une expression
     "Ça veut dire": "It means",

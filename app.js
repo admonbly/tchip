@@ -722,30 +722,51 @@
     setTimeout(function () { entree = "place"; rendre(); if (s >= 3) son("fanfare"); }, 1100);
   }
 
+  var partageEnCours = false; // un seul partage à la fois : les double-taps n'empilent pas d'appels
+  var texteSecours = "";      // mémorisé pour le bouton « Copier » de la fenêtre de secours
   function partager() {
     signal("Partage");
     partagerTexte(textePartage(), t("Partager mon score"));
   }
   function partagerTexte(texte, titre) {
-    var fini = function () { toast(t("Copié, colle-le où tu veux !")); };
+    if (partageEnCours) return;
+    partageEnCours = true;
+    // La feuille de partage (native ou navigateur) recouvre la page : rien d'autre n'est cliquable tant
+    // qu'elle est ouverte. On relâche après un court délai — ce qui débloque aussi si un partage ne répond
+    // jamais, comme dans les navigateurs intégrés de certains réseaux sociaux.
+    var relache = function () { partageEnCours = false; };
+    setTimeout(relache, 2000);
+    var charge = { title: titre, text: texte, url: LIEN_JEU };
     var natif = plugin("Share");
-    if (natif) { natif.share({ text: texte, dialogTitle: titre }).catch(function () { /* partage annulé */ }); return; }
+    if (natif) { natif.share({ text: texte, url: LIEN_JEU, dialogTitle: titre }).then(relache, relache); return; }
     try {
-      if (navigator.share) {
-        navigator.share({ text: texte }).catch(function () { copier(texte, fini); });
+      if (navigator.share && (!navigator.canShare || navigator.canShare(charge))) {
+        navigator.share(charge).then(relache, function () { copier(texte); });
         return;
       }
     } catch (e) {}
-    copier(texte, fini);
+    copier(texte);
   }
-  function copier(texte, ok) {
+  function copier(texte) {
     try {
-      navigator.clipboard.writeText(texte).then(ok, function () { secours(texte); });
+      navigator.clipboard.writeText(texte).then(
+        function () { partageEnCours = false; toast(t("Copié, colle-le où tu veux !")); },
+        function () { secours(texte); });
     } catch (e) { secours(texte); }
   }
+  // Dernier recours : une fenêtre avec le texte et un bouton « Copier ». Pas de focus automatique sur le
+  // champ : sur mobile, cela ferait surgir le clavier et donnerait l'impression d'un écran bloqué.
   function secours(texte) {
-    feuille('<header><h2>' + t("À partager") + '</h2>' + boutonFermer() + '</header><p>' + t("Sélectionne le texte et copie-le :") + '</p><textarea id="partage-texte" rows="6" style="width:100%;font:inherit;padding:10px;border-radius:12px;border:2.5px solid var(--encre);background:var(--surface);color:var(--encre)">' + esc(texte) + '</textarea>');
-    var ta = document.getElementById("partage-texte"); if (ta) { ta.focus(); ta.select(); }
+    partageEnCours = false;
+    texteSecours = texte;
+    feuille('<header><h2>' + t("À partager") + '</h2>' + boutonFermer() + '</header><p>' + t("Copie ce texte et colle-le où tu veux :") + '</p><textarea id="partage-texte" rows="5" readonly style="width:100%;font:inherit;padding:10px;border-radius:12px;border:2.5px solid var(--encre);background:var(--surface);color:var(--encre)">' + esc(texte) + '</textarea><div class="actions"><button class="btn" data-act="copier-partage">' + t("Copier") + '</button></div>');
+  }
+  function copierSecours() {
+    var ta = document.getElementById("partage-texte");
+    var manuel = function () { if (ta) { ta.focus(); ta.select(); } }; // le navigateur refuse : à copier à la main
+    try {
+      navigator.clipboard.writeText(texteSecours).then(function () { toast(t("Copié, colle-le où tu veux !")); }, manuel);
+    } catch (e) { manuel(); }
   }
 
   // ---------- Fiche d'une expression, prononciation et voix ----------
@@ -1585,6 +1606,7 @@
       case "stats": return feuilleStats();
       case "archives": return feuilleArchives();
       case "fermer": return fermerFeuille(true);
+      case "copier-partage": return copierSecours();
       case "partager": return partager();
       case "aujourdhui": onglet = "jour"; chargerJour(jourReel); entree = "place"; rendre(); window.scrollTo(0, 0); return;
       case "reglages": return feuilleReglages();
