@@ -197,10 +197,11 @@ test("un 8/8 ne donne pas de tampon, mais la progression se voit", () => {
   td.slice(0, 8).forEach((e) => { s[A.cle(e)] = A.apresReponse(undefined, true, 10); });
   const p = A.progression(td, s);
   assert.deepStrictEqual([p.vus, p.maitrises, p.enCours, A.rang(p)], [8, 0, 8, 0]);
-  assert.strictEqual(Math.round(A.avancement(p) * 100), 27);
-  // le lendemain, les mêmes mots retrouvés au bon moment avancent encore
+  // avancement = points / (MAITRISE × total) ; 8 mots à 1 point, calculé sur le nombre réel du pays
+  assert.strictEqual(Math.round(A.avancement(p) * 100), Math.round(8 / (3 * td.length) * 100));
+  // le lendemain, les mêmes mots retrouvés au bon moment avancent encore (8 mots à 2 points)
   td.slice(0, 8).forEach((e) => { s[A.cle(e)] = A.apresReponse(s[A.cle(e)], true, 11); });
-  assert.strictEqual(Math.round(A.avancement(A.progression(td, s)) * 100), 53);
+  assert.strictEqual(Math.round(A.avancement(A.progression(td, s)) * 100), Math.round(16 / (3 * td.length) * 100));
   // lu dans le lexique seulement : rencontré, mais rien de gagné
   const lu = {}; lu[A.cle(td[9])] = A.decouvrir(undefined, 10);
   const q = A.progression(td, lu);

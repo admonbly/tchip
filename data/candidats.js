@@ -1965,6 +1965,354 @@
       leurres: ["Un vélo", "Une pirogue", "Un avion"],
       exemple: "Il a lavé le motuka avant la fête.",
       fiche: "Lingala. « Motuka » : une voiture."
+    },
+
+    // ---------- Maroc (darija, cuisine, culture) ----------
+    {
+      expression: "Labas",
+      pays: "MA", theme: "salutations",
+      sens: "Ça va, pas de mal",
+      leurres: ["Au revoir", "Merci beaucoup", "Bon voyage"],
+      exemple: "Labas ? — Labas, hamdoullah.",
+      fiche: "Darija. « Labas » : ça va, pas de mal (à la fois la question et la réponse)."
+    },
+    {
+      expression: "Hamdoullah",
+      pays: "MA", theme: "salutations",
+      sens: "Dieu merci, ça va bien",
+      leurres: ["Hélas, non", "Peut-être", "À demain"],
+      exemple: "Comment ça va ? — Hamdoullah, tout va bien.",
+      fiche: "« Hamdoullah » : Dieu merci — réponse courante pour dire que tout va bien."
+    },
+    {
+      expression: "Choukran",
+      pays: "MA", theme: "salutations",
+      sens: "Merci",
+      leurres: ["Pardon", "Bonjour", "S'il te plaît"],
+      exemple: "Choukran pour ton aide !",
+      fiche: "« Choukran » : merci."
+    },
+    {
+      expression: "Afak",
+      pays: "MA", theme: "salutations",
+      sens: "S'il te plaît",
+      leurres: ["Merci", "Désolé", "Au revoir"],
+      exemple: "Un café, afak.",
+      fiche: "Darija. « 3afak » : s'il te plaît."
+    },
+    {
+      expression: "Smahli",
+      pays: "MA", theme: "salutations",
+      sens: "Pardon, excuse-moi",
+      leurres: ["Félicitations", "Bienvenue", "D'accord"],
+      exemple: "Smahli, je suis en retard.",
+      fiche: "Darija. « Smah liya » : pardonne-moi, excuse-moi."
+    },
+    {
+      expression: "Yallah",
+      pays: "MA", theme: "quotidien",
+      sens: "Allons-y, dépêche",
+      leurres: ["Attends", "Doucement", "Reste ici"],
+      exemple: "Yallah, on est en retard !",
+      fiche: "« Yallah » : allons-y, vite (de l'arabe)."
+    },
+    {
+      expression: "Inchallah",
+      pays: "MA", theme: "quotidien",
+      sens: "Si Dieu le veut",
+      leurres: ["Sûrement pas", "Tout de suite", "Comme d'habitude"],
+      exemple: "On se voit demain, inchallah.",
+      fiche: "« Inchallah » : si Dieu le veut — pour parler de l'avenir."
+    },
+    {
+      expression: "Bzaf",
+      pays: "MA", theme: "quotidien",
+      sens: "Beaucoup, trop",
+      leurres: ["Un peu", "Pas du tout", "Parfois"],
+      exemple: "C'est bzaf cher pour moi.",
+      fiche: "Darija. « Bzaf » (bezzef) : beaucoup, trop."
+    },
+    {
+      expression: "Chwiya",
+      pays: "MA", theme: "quotidien",
+      sens: "Un peu, un petit peu",
+      leurres: ["Énormément", "Jamais", "Très vite"],
+      exemple: "Ajoute chwiya de sel.",
+      fiche: "Darija. « Chwiya » : un peu, un petit peu."
+    },
+    {
+      expression: "Mezyan",
+      pays: "MA", theme: "emotions",
+      sens: "Bien, bon, réussi",
+      leurres: ["Mauvais", "Cassé", "Ennuyeux"],
+      exemple: "Le travail est mezyan, bravo.",
+      fiche: "Darija. « Mezyan » : bien, bon, de qualité."
+    },
+    {
+      expression: "Un sahbi",
+      pays: "MA", theme: "amour",
+      sens: "Un ami, un pote",
+      leurres: ["Un ennemi", "Un patron", "Un inconnu"],
+      exemple: "C'est mon sahbi depuis l'enfance.",
+      fiche: "Darija. « Sahbi » : mon ami, mon pote."
+    },
+    {
+      expression: "Khoya",
+      pays: "MA", theme: "amour",
+      sens: "Mon frère (ami proche)",
+      leurres: ["Mon voisin", "Mon rival", "Mon client"],
+      exemple: "Khoya, viens m'aider !",
+      fiche: "Darija. « Khoya » : mon frère — aussi pour un ami très proche."
+    },
+    {
+      expression: "Un 3ami",
+      pays: "MA", theme: "gens",
+      sens: "Monsieur, le vieux (respect)",
+      leurres: ["Un enfant", "Un étranger", "Un apprenti"],
+      exemple: "3ami, vous avez l'heure ?",
+      fiche: "Darija. « 3ami » (« ammi ») : « mon oncle », pour s'adresser avec respect à un homme plus âgé."
+    },
+    {
+      expression: "Miskine",
+      pays: "MA", theme: "gens",
+      sens: "Le pauvre (par compassion)",
+      leurres: ["Le riche", "Le chanceux", "Le menteur"],
+      exemple: "Miskine, il a tout perdu.",
+      fiche: "« Miskine » : le pauvre, le malheureux — dit avec compassion."
+    },
+    {
+      expression: "Flouss",
+      pays: "MA", theme: "argent",
+      sens: "L'argent",
+      leurres: ["Le temps", "La nourriture", "La chance"],
+      exemple: "Je n'ai pas de flouss cette semaine.",
+      fiche: "Darija. « Flouss » : l'argent."
+    },
+    {
+      expression: "Le souk",
+      pays: "MA", theme: "argent",
+      sens: "Le marché traditionnel",
+      leurres: ["La banque", "La gare", "La mairie"],
+      exemple: "On achète les épices au souk.",
+      fiche: "Le « souk » : le marché traditionnel, dédale d'échoppes."
+    },
+    {
+      expression: "Le tajine",
+      pays: "MA", theme: "manger",
+      sens: "Un plat mijoté en plat de terre",
+      leurres: ["Une soupe froide", "Un gâteau sec", "Une salade crue"],
+      exemple: "Un tajine de poulet aux olives et citron confit.",
+      fiche: "Le « tajine » : à la fois le plat de terre conique et le ragoût qui mijote dedans."
+    },
+    {
+      expression: "La pastilla",
+      pays: "MA", theme: "manger",
+      sens: "Une tourte feuilletée sucrée-salée",
+      leurres: ["Une tarte aux fruits", "Une pizza", "Un sandwich"],
+      exemple: "La pastilla au poulet, saupoudrée de sucre et de cannelle.",
+      fiche: "La « pastilla » (bastilla) : une tourte en fines feuilles, mêlant salé (volaille) et sucré (amandes, cannelle)."
+    },
+    {
+      expression: "Le msemen",
+      pays: "MA", theme: "manger",
+      sens: "Une crêpe feuilletée carrée",
+      leurres: ["Un pain rond", "Une soupe chaude", "Une glace"],
+      exemple: "Msemen au petit-déjeuner avec du thé.",
+      fiche: "Le « msemen » : une crêpe feuilletée pliée en carré, dorée à la poêle."
+    },
+    {
+      expression: "Les cornes de gazelle",
+      pays: "MA", theme: "manger",
+      sens: "Une pâtisserie en croissant à l'amande",
+      leurres: ["Des frites", "Un plat de viande", "Une boisson chaude"],
+      exemple: "Des cornes de gazelle avec le thé à la menthe.",
+      fiche: "Les « cornes de gazelle » (kaab el ghzal) : des croissants de pâte fine fourrés de pâte d'amande."
+    },
+    {
+      expression: "Le ras el hanout",
+      pays: "MA", theme: "manger",
+      sens: "Un mélange d'épices parfumé",
+      leurres: ["Un piment fort unique", "Un dessert au miel", "Une herbe fraîche"],
+      exemple: "Une pincée de ras el hanout dans le tajine.",
+      fiche: "Le « ras el hanout » : un mélange de nombreuses épices, le « meilleur de la boutique »."
+    },
+    {
+      expression: "L'amlou",
+      pays: "MA", theme: "manger",
+      sens: "Une pâte d'amande, d'argan et de miel",
+      leurres: ["Une confiture de fraises", "Un beurre salé", "Une sauce piquante"],
+      exemple: "On trempe le pain dans l'amlou.",
+      fiche: "L'« amlou » : une pâte onctueuse d'amandes, d'huile d'argan et de miel, du Sud marocain."
+    },
+    {
+      expression: "La médina",
+      pays: "MA", theme: "quotidien",
+      sens: "La vieille ville",
+      leurres: ["La plage", "Le quartier d'affaires", "La gare"],
+      exemple: "On se perd avec plaisir dans la médina.",
+      fiche: "La « médina » : la vieille ville historique, souvent entourée de remparts."
+    },
+    {
+      expression: "Le riad",
+      pays: "MA", theme: "quotidien",
+      sens: "Une maison traditionnelle à patio",
+      leurres: ["Un immeuble moderne", "Une tente", "Une ferme"],
+      exemple: "Ils ont restauré un riad dans la médina.",
+      fiche: "Le « riad » : une maison traditionnelle organisée autour d'un patio ou d'un jardin intérieur."
+    },
+    {
+      expression: "Le hammam",
+      pays: "MA", theme: "quotidien",
+      sens: "Le bain de vapeur traditionnel",
+      leurres: ["Une piscine", "Un salon de coiffure", "Une bibliothèque"],
+      exemple: "On va au hammam le vendredi.",
+      fiche: "Le « hammam » : le bain de vapeur public, moment de détente et de soins."
+    },
+    {
+      expression: "La djellaba",
+      pays: "MA", theme: "quotidien",
+      sens: "Une longue robe à capuche",
+      leurres: ["Un chapeau de paille", "Des sandales", "Une ceinture"],
+      exemple: "Il enfile sa djellaba pour sortir.",
+      fiche: "La « djellaba » : une longue robe ample à capuche, portée par les hommes et les femmes."
+    },
+    {
+      expression: "Le gnaoua",
+      pays: "MA", theme: "fete",
+      sens: "Une musique afro-marocaine spirituelle",
+      leurres: ["Une danse de mariage", "Un plat de fête", "Un conte pour enfants"],
+      exemple: "Le festival gnaoua d'Essaouira attire le monde entier.",
+      fiche: "Le « gnaoua » : une musique et une confrérie spirituelles, héritées des esclaves d'Afrique subsaharienne."
+    },
+    {
+      expression: "Le chaabi",
+      pays: "MA", theme: "fete",
+      sens: "La musique populaire marocaine",
+      leurres: ["Un chant religieux", "Une berceuse", "Un hymne national"],
+      exemple: "Au mariage, le chaabi fait danser tout le monde.",
+      fiche: "Le « chaabi » : la musique populaire festive, reine des mariages."
+    },
+
+    // ---------- Tchad (arabe tchadien, français du Tchad) — lot partiel, à compléter ----------
+    {
+      expression: "Nassara",
+      pays: "TD", theme: "gens",
+      sens: "Un Blanc, un Occidental",
+      leurres: ["Un chef de village", "Un commerçant arabe", "Un éleveur nomade"],
+      exemple: "Les enfants saluent le nassara dans la rue.",
+      fiche: "Arabe tchadien. « Nassara » : un Blanc, un Européen (des « Nazaréens »)."
+    },
+    {
+      expression: "Salam",
+      pays: "TD", theme: "salutations",
+      sens: "Bonjour, salut",
+      leurres: ["Au revoir", "Merci", "Bon appétit"],
+      exemple: "Salam ! Comment va la famille ?",
+      fiche: "Arabe tchadien. « Salam » (salamaleikoum) : le salut, bonjour."
+    },
+    {
+      expression: "Inchallah",
+      pays: "TD", theme: "quotidien",
+      sens: "Si Dieu le veut",
+      leurres: ["Sûrement pas", "Tout de suite", "Comme toujours"],
+      exemple: "On se verra demain, inchallah.",
+      fiche: "« Inchallah » : si Dieu le veut, pour parler de l'avenir."
+    },
+    {
+      expression: "Wallah",
+      pays: "TD", theme: "emotions",
+      sens: "Je te jure, c'est vrai",
+      leurres: ["Peut-être", "Je ne sais pas", "Tant pis"],
+      exemple: "Wallah, je dis la vérité !",
+      fiche: "Arabe. « Wallah » : je le jure (« par Dieu »), pour appuyer ses propos."
+    },
+    {
+      expression: "Hamdoulilah",
+      pays: "TD", theme: "emotions",
+      sens: "Dieu merci, ça va",
+      leurres: ["Hélas", "Peut-être", "Au revoir"],
+      exemple: "— Comment ça va ? — Hamdoulilah.",
+      fiche: "« El hamdoulilah » : Dieu merci — on l'emploie pour dire que ça va."
+    },
+    {
+      expression: "La daraba",
+      pays: "TD", theme: "manger",
+      sens: "Une sauce gluante (gombo)",
+      leurres: ["Une viande grillée", "Un jus sucré", "Un pain plat"],
+      exemple: "La boule se mange avec la daraba.",
+      fiche: "Arabe tchadien. La « daraba » : une sauce gluante, souvent au gombo, servie avec la boule."
+    },
+    {
+      expression: "Un feki",
+      pays: "TD", theme: "gens",
+      sens: "Un marabout, un lettré coranique",
+      leurres: ["Un chef de guerre", "Un éleveur", "Un forgeron"],
+      exemple: "On va voir le feki pour une bénédiction.",
+      fiche: "Arabe tchadien. Un « feki » (faki) : un marabout, un lettré de l'école coranique."
+    },
+    {
+      expression: "Le gala",
+      pays: "TD", theme: "manger",
+      sens: "La bière locale",
+      leurres: ["Un thé sucré", "Un jus de fruit", "De l'eau minérale"],
+      exemple: "On partage un gala bien frais le soir.",
+      fiche: "Au Tchad, le « gala » est la bière la plus populaire, du nom de la marque nationale."
+    },
+    {
+      expression: "Toumaï",
+      pays: "TD", theme: "quotidien",
+      sens: "Le célèbre fossile d'hominidé du Tchad",
+      leurres: ["Un grand lac", "Une montagne sacrée", "Un ancien roi"],
+      exemple: "Toumaï, trouvé au Tchad, a près de 7 millions d'années.",
+      fiche: "« Toumaï » (« espoir de vie ») : le crâne d'hominidé découvert au Tchad, un des plus anciens connus."
+    },
+    {
+      expression: "Piscinier",
+      pays: "TD", theme: "gens",
+      sens: "Un maître nageur",
+      leurres: ["Un plombier", "Un pêcheur", "Un vendeur d'eau"],
+      exemple: "Le piscinier surveille les baigneurs.",
+      fiche: "Français du Tchad. Un « piscinier » : un maître nageur."
+    },
+    {
+      expression: "Un sultan",
+      pays: "TD", theme: "gens",
+      sens: "Un chef traditionnel",
+      leurres: ["Un maire élu", "Un commerçant riche", "Un jeune marié"],
+      exemple: "Le sultan règle les litiges de la région.",
+      fiche: "Au Tchad, un « sultan » est un chef traditionnel à la tête d'une communauté."
+    },
+    {
+      expression: "Un clando",
+      pays: "TD", theme: "transport",
+      sens: "Un taxi-moto clandestin",
+      leurres: ["Un grand bus", "Un vélo", "Une charrette"],
+      exemple: "Je prends un clando pour traverser la ville.",
+      fiche: "Un « clando » : une moto-taxi informelle, courante à N'Djamena."
+    },
+    {
+      expression: "Un méhari",
+      pays: "TD", theme: "transport",
+      sens: "Un chameau de selle rapide",
+      leurres: ["Un cheval de course", "Une barque", "Un âne de charge"],
+      exemple: "Les nomades filent sur leurs méharis.",
+      fiche: "Un « méhari » : un dromadaire de selle, rapide, monté dans le désert."
+    },
+    {
+      expression: "La gandoura",
+      pays: "TD", theme: "quotidien",
+      sens: "Une longue tunique ample",
+      leurres: ["Un turban", "Une paire de sandales", "Un chapeau de paille"],
+      exemple: "Il porte une gandoura blanche pour la fête.",
+      fiche: "La « gandoura » : une longue tunique ample, portée dans tout le Sahel."
+    },
+    {
+      expression: "La chèche",
+      pays: "TD", theme: "quotidien",
+      sens: "Le long turban du désert",
+      leurres: ["Une ceinture de cuir", "Un manteau de laine", "Un collier"],
+      exemple: "Il enroule sa chèche pour se protéger du sable.",
+      fiche: "La « chèche » : le long foulard-turban qui protège la tête et le visage du soleil et du sable."
     }
 
   ];
