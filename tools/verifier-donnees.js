@@ -39,12 +39,17 @@ if (problemes.length) {
 }
 
 // Jusqu'à quand la base tient-elle ? (au-delà, les expressions du jour se répètent)
+// Seules les expressions confirmées alimentent le tchip du jour ; les candidats (data/candidats.js)
+// ne servent qu'à l'entraînement libre de Voyager.
+const confirmees = expressions.filter((e) => !e.candidat);
+const candidats = expressions.length - confirmees.length;
 const app = fs.readFileSync(path.join(racine, "app.js"), "utf8");
 const m = app.match(/LANCEMENT\s*=\s*{\s*a:\s*(\d+),\s*m:\s*(\d+),\s*j:\s*(\d+)/);
 let couverture = "";
 if (m) {
-  const fin = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + expressions.length - 1));
-  couverture = " — couvre jusqu'au " + fin.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }) + " (ensuite, les expressions se répètent)";
+  const fin = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + confirmees.length - 1));
+  couverture = " — le jour couvre jusqu'au " + fin.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }) + " (ensuite, les expressions se répètent)";
 }
 const avecAudio = expressions.filter((e) => e.audio).length;
-console.log("✓ " + expressions.length + " expressions, " + Object.keys(pays).length + " pays, " + avecAudio + " enregistrement(s)" + couverture);
+console.log("✓ " + confirmees.length + " expressions confirmées" + (candidats ? " + " + candidats + " candidats (Voyager)" : "") +
+  ", " + Object.keys(pays).length + " pays, " + avecAudio + " enregistrement(s)" + couverture);

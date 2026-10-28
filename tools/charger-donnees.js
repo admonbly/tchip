@@ -8,7 +8,7 @@ const racine = path.resolve(__dirname, "..");
 
 module.exports = function chargerDonnees() {
   const fenetre = {};
-  for (const f of ["expressions.js", "expressions-en.js"]) {
+  for (const f of ["expressions.js", "candidats.js", "expressions-en.js"]) {
     const fichier = path.join(racine, "data", f);
     if (fs.existsSync(fichier)) vm.runInNewContext(fs.readFileSync(fichier, "utf8"), { window: fenetre }, { filename: "data/" + f });
   }

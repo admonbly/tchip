@@ -15,7 +15,7 @@ const racine = path.resolve(__dirname, "..");
 const sortie = path.join(racine, "www");
 const FICHIERS = [
   "index.html", "app.js", "verification.js", "apprentissage.js", "sons.js", "langues.js", "styles.css", "sw.js",
-  "manifest.webmanifest", "confidentialite.html", "confidentialite-en.html", "data/expressions.js", "data/expressions-en.js"
+  "manifest.webmanifest", "confidentialite.html", "confidentialite-en.html", "data/expressions.js", "data/candidats.js", "data/expressions-en.js"
 ];
 // .well-known/security.txt : où signaler une faille (https://tchip.app/.well-known/security.txt)
 const DOSSIERS = ["assets", "audio", ".well-known"].filter((d) => fs.existsSync(path.join(racine, d)));

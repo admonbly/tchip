@@ -59,6 +59,15 @@ test("« aussi » ne peut pas contenir le pays d'origine", () => {
   const e = copie(expressions); e[0].aussi = [e[0].pays];
   assert.ok(verifier(e, pays, themes).some((p) => p.includes("aussi")));
 });
+test("« synonymes » doit être une liste de textes", () => {
+  const e = copie(expressions);
+  e[0].synonymes = [];
+  assert.ok(verifier(e, pays, themes).some((p) => p.includes("synonymes")));
+  e[0].synonymes = ["", "x"];
+  assert.ok(verifier(e, pays, themes).some((p) => p.includes("synonymes")));
+  e[0].synonymes = ["s'enjailler", "enjaillement"];
+  assert.ok(!verifier(e, pays, themes).some((p) => p.includes("synonymes")));
+});
 
 // ---------- Anglais ----------
 const { en } = chargerDonnees();

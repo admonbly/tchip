@@ -42,6 +42,9 @@
         pbs.push(num + " : « aussi » doit lister d'autres codes de TCHIP_PAYS.");
       }
       if (e.prononciation !== undefined && !texte(e.prononciation)) pbs.push(num + " : prononciation vide.");
+      if (e.synonymes !== undefined && (!Array.isArray(e.synonymes) || !e.synonymes.length || !e.synonymes.every(texte))) {
+        pbs.push(num + " : « synonymes » doit lister au moins une autre façon de le dire (du texte).");
+      }
       if (e.source !== undefined && !/^https?:\/\/\S+$/.test(e.source)) pbs.push(num + " : la source doit être une adresse web.");
       if (e.audio !== undefined && (!e.audio || !texte(e.audio.fichier) || !texte(e.audio.voix))) pbs.push(num + " : audio incomplet (fichier et voix).");
       else if (e.audio && !FICHIER_AUDIO.test(e.audio.fichier)) pbs.push(num + " : le fichier audio doit être dans audio/<pays>/, en .m4a ou .mp3 (ex. audio/ci/woro-woro.m4a).");
@@ -71,7 +74,7 @@
     });
     var sensFr = {}; // pays → sens anglais → sens français : deux sens différents ne doivent pas se confondre
     (expressions || []).forEach(function (e, i) {
-      if (!e) return;
+      if (!e || e.candidat) return; // les candidats (data/candidats.js) sont relus avant d'être traduits
       var num = "#" + (i + 1) + " « " + e.expression + " »", x = tr.expressions[e.pays + "|" + e.expression];
       if (!x) { pbs.push(num + " : pas de traduction."); return; }
       if (!texte(x.sens) || !texte(x.fiche)) { pbs.push(num + " : sens ou fiche manquant dans la traduction."); return; }
@@ -90,6 +93,7 @@
     });
     // synonymes : même sens en français dans un pays → même sens en anglais
     (expressions || []).forEach(function (e, i) {
+      if (e && e.candidat) return;
       var x = e && tr.expressions[e.pays + "|" + e.expression];
       if (!x) return;
       (expressions || []).slice(i + 1).forEach(function (f) {

@@ -267,8 +267,11 @@
     return a;
   }
 
+  // Le tchip du jour ne pioche que dans les expressions confirmées : les candidats (data/candidats.js,
+  // relus par des gens du pays avant validation) n'alimentent que l'entraînement libre de Voyager.
+  function confirmees() { return EXPR.filter(function (e) { return !e.candidat; }); }
   function puzzle(n) {
-    var e = EXPR[(n - 1) % EXPR.length];
+    var jours = confirmees(), e = jours[(n - 1) % jours.length];
     var alea = aleaSeed(n * 7919);
     var sens = melanger([e.sens].concat(e.leurres), alea);
     // jamais un pays où l'expression s'emploie aussi : la question serait injuste
@@ -750,6 +753,11 @@
     var h = '<dl><div><dt>' + t("Ça veut dire") + '</dt><dd>' + esc(e.sens) + '</dd></div>' +
       '<div><dt>' + t("Exemple") + '</dt><dd class="exemple">«&nbsp;' + esc(e.exemple) + '&nbsp;»</dd></div>' +
       '<div><dt>' + t("Le saviez-vous ?") + '</dt><dd>' + esc(e.fiche) + '</dd></div>';
+    if (e.synonymes && e.synonymes.length) {
+      h += '<div><dt>' + t("On dit aussi") + '</dt><dd>' + e.synonymes.map(function (s) {
+        return '«&nbsp;' + esc(s) + '&nbsp;»';
+      }).join(", ") + '</dd></div>';
+    }
     if (e.ailleurs && e.ailleurs.length) {
       h += '<div><dt>' + t("Ailleurs, ça veut aussi dire") + '</dt><dd>' + e.ailleurs.map(function (a) {
         return esc(a.sens) + ' <span class="ou">(' + esc(a.ou) + ')</span>';

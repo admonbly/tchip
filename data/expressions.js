@@ -6,6 +6,7 @@
  *   sens (la bonne réponse), leurres (3 mauvaises réponses plausibles), exemple, fiche (contexte court).
  * Facultatif :
  *   ailleurs      autres sens, et où on les emploie : [{ sens, ou }]
+ *   synonymes     autres façons de dire la même chose dans le pays : ["s'enjailler", "enjaillement"]
  *   aussi         autres pays où l'expression s'emploie (jamais proposés comme mauvaise réponse au bonus)
  *   prononciation guide simple, en syllabes à la française
  *   audio         enregistrement d'une vraie voix : { fichier: "audio/ci/garba.m4a", voix: "Aya", ville: "Abidjan" }
@@ -57,7 +58,8 @@ window.TCHIP_EXPRESSIONS = [
     sens: "Être tout excité, s'éclater",
     leurres: ["Être épuisé après le travail", "Être en retard", "Être coincé dans les embouteillages"],
     exemple: "Le DJ a lancé le son, tout le monde était enjaillé.",
-    fiche: "Mot du français ivoirien, tiré de l'anglais « enjoy ». On dit aussi « s'enjailler » et « enjaillement »."
+    fiche: "Mot du français ivoirien, tiré de l'anglais « enjoy ».",
+    synonymes: ["s'enjailler", "enjaillement", "être dans l'enjaillement"]
   },
   {
     expression: "Une drache",

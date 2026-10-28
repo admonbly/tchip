@@ -70,6 +70,7 @@ window.TCHIP_LANGUES = {
     "Ça veut dire": "It means",
     "Exemple": "Example",
     "Le saviez-vous ?": "Did you know?",
+    "On dit aussi": "Also said",
     "Ailleurs, ça veut aussi dire": "Elsewhere, it also means",
     "Aussi employé": "Also used in",
     "Écouter": "Listen",
