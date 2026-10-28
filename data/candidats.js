@@ -2789,6 +2789,314 @@
       leurres: ["Une galette salée", "Un flan nature", "Une soupe sucrée"],
       exemple: "Des zlabia dorées pendant le ramadan.",
       fiche: "La « zlabia » : une pâtisserie frite en entrelacs, trempée dans un sirop sucré, très prisée au ramadan."
+    },
+
+    // ---------- France (régionalismes et argot) ----------
+    {
+      expression: "Être à la bourre",
+      pays: "FR", theme: "quotidien",
+      sens: "Être en retard",
+      leurres: ["Être en avance", "Être fatigué", "Être très occupé"],
+      exemple: "Désolé, je suis à la bourre ce matin.",
+      fiche: "Familier. « Être à la bourre » : être en retard, pressé par le temps."
+    },
+    {
+      expression: "Ça caille",
+      pays: "FR", theme: "quotidien",
+      sens: "Il fait très froid",
+      leurres: ["Il fait très chaud", "Il pleut", "Il y a du vent"],
+      exemple: "Mets ton manteau, ça caille dehors !",
+      fiche: "Familier. « Ça caille » : il fait un froid de canard."
+    },
+    {
+      expression: "Dracher",
+      pays: "FR", theme: "quotidien",
+      sens: "Pleuvoir très fort",
+      leurres: ["Faire très chaud", "Neiger", "Faire du brouillard"],
+      exemple: "Prends un parapluie, ça drache dans le Nord.",
+      fiche: "Nord de la France (et Belgique). « Dracher » : pleuvoir à verse."
+    },
+    {
+      expression: "Le cagnard",
+      pays: "FR", theme: "quotidien",
+      sens: "Le soleil de plomb",
+      leurres: ["L'ombre fraîche", "Un vent froid", "Une averse"],
+      exemple: "À midi, on fuit le cagnard.",
+      fiche: "Sud de la France. « Le cagnard » : le soleil écrasant, la grosse chaleur."
+    },
+    {
+      expression: "Le mistral",
+      pays: "FR", theme: "quotidien",
+      sens: "Le vent violent de la vallée du Rhône",
+      leurres: ["Une pluie fine", "Une vague de chaleur", "Un orage d'été"],
+      exemple: "Le mistral a soufflé trois jours.",
+      fiche: "Provence. « Le mistral » : un vent froid et puissant qui descend la vallée du Rhône."
+    },
+    {
+      expression: "Un gadin",
+      pays: "FR", theme: "quotidien",
+      sens: "Une chute",
+      leurres: ["Un petit cadeau", "Un gros caillou", "Un raccourci"],
+      exemple: "Il a pris un gadin sur le verglas.",
+      fiche: "Familier. « Prendre un gadin » : tomber, se casser la figure."
+    },
+    {
+      expression: "Askip",
+      pays: "FR", theme: "quotidien",
+      sens: "À ce qu'il paraît, paraît-il",
+      leurres: ["Au revoir", "Tout de suite", "Sûrement pas"],
+      exemple: "Askip il déménage à Lyon.",
+      fiche: "Argot des jeunes. « Askip » : contraction de « à ce qu'il paraît »."
+    },
+    {
+      expression: "Un minot",
+      pays: "FR", theme: "gens",
+      sens: "Un enfant (Marseille)",
+      leurres: ["Un vieillard", "Un chef", "Un touriste"],
+      exemple: "Les minots jouent au foot sur la place.",
+      fiche: "Marseille. Un « minot » : un enfant, un gamin."
+    },
+    {
+      expression: "Un drôle",
+      pays: "FR", theme: "gens",
+      sens: "Un enfant (Sud-Ouest)",
+      leurres: ["Un comédien", "Un étranger", "Un vieux monsieur"],
+      exemple: "Les drôles rentrent de l'école.",
+      fiche: "Sud-Ouest. Un « drôle » (une « drôlesse ») : un enfant, un jeune."
+    },
+    {
+      expression: "Un ch'ti",
+      pays: "FR", theme: "gens",
+      sens: "Un habitant du Nord",
+      leurres: ["Un petit chat", "Un Breton", "Un Parisien"],
+      exemple: "Les ch'tis sont connus pour leur accueil.",
+      fiche: "Nord. Un « ch'ti » (ch'timi) : un habitant du Nord, et le parler de la région."
+    },
+    {
+      expression: "Adishatz",
+      pays: "FR", theme: "salutations",
+      sens: "Bonjour, salut (Gascogne)",
+      leurres: ["Merci beaucoup", "Bon appétit", "Félicitations"],
+      exemple: "Adishatz ! Ça va, l'ami ?",
+      fiche: "Gascon/occitan. « Adishatz » : bonjour comme au revoir, dans le Sud-Ouest."
+    },
+    {
+      expression: "Kiffer",
+      pays: "FR", theme: "emotions",
+      sens: "Adorer, aimer beaucoup",
+      leurres: ["Détester", "Oublier", "Craindre"],
+      exemple: "Je kiffe trop ce morceau.",
+      fiche: "Argot (de l'arabe « kif »). « Kiffer » : adorer, prendre du plaisir."
+    },
+    {
+      expression: "Vénère",
+      pays: "FR", theme: "emotions",
+      sens: "Énervé, en colère",
+      leurres: ["Calme", "Joyeux", "Fatigué"],
+      exemple: "Il est vénère, ne le cherche pas.",
+      fiche: "Verlan de « énervé ». « Vénère » : remonté, en colère."
+    },
+    {
+      expression: "Relou",
+      pays: "FR", theme: "emotions",
+      sens: "Pénible, lourd",
+      leurres: ["Agréable", "Drôle", "Discret"],
+      exemple: "Arrête, t'es relou là.",
+      fiche: "Verlan de « lourd ». « Relou » : pénible, casse-pieds."
+    },
+    {
+      expression: "De ouf",
+      pays: "FR", theme: "emotions",
+      sens: "Fou, incroyable",
+      leurres: ["Nul", "Minuscule", "Tranquille"],
+      exemple: "Le concert était de ouf !",
+      fiche: "Verlan de « fou ». « De ouf » : incroyable, dingue."
+    },
+    {
+      expression: "Nickel",
+      pays: "FR", theme: "emotions",
+      sens: "Parfait, impeccable",
+      leurres: ["Raté", "Bancal", "Sale"],
+      exemple: "Rendez-vous à 8h ? Nickel.",
+      fiche: "Familier. « Nickel » : parfait, impeccable."
+    },
+    {
+      expression: "La ducasse",
+      pays: "FR", theme: "fete",
+      sens: "La fête foraine, la kermesse (Nord)",
+      leurres: ["Un marché aux poissons", "Un repas de famille", "Une messe"],
+      exemple: "On va à la ducasse ce week-end.",
+      fiche: "Nord. La « ducasse » : la fête foraine ou la kermesse du village."
+    },
+    {
+      expression: "Une pastaga",
+      pays: "FR", theme: "manger",
+      sens: "Un pastis (anisé du Sud)",
+      leurres: ["Un café serré", "Une limonade", "Un vin chaud"],
+      exemple: "Une petite pastaga à l'ombre des platanes.",
+      fiche: "Sud. Une « pastaga » : un pastis, l'apéro anisé."
+    },
+    {
+      expression: "Le kouign-amann",
+      pays: "FR", theme: "manger",
+      sens: "Un gâteau breton au beurre",
+      leurres: ["Une crêpe au sucre", "Un far aux pruneaux", "Un cidre doux"],
+      exemple: "Un kouign-amann bien caramélisé.",
+      fiche: "Bretagne. Le « kouign-amann » : un gâteau feuilleté au beurre et au sucre, caramélisé."
+    },
+
+    // ---------- Québec (joual, cuisine) ----------
+    {
+      expression: "C'est le fun",
+      pays: "QC", theme: "emotions",
+      sens: "C'est amusant, c'est chouette",
+      leurres: ["C'est ennuyeux", "C'est difficile", "C'est cher"],
+      exemple: "La soirée était vraiment le fun.",
+      fiche: "Québec. « C'est le fun » : c'est amusant, agréable (de l'anglais « fun »)."
+    },
+    {
+      expression: "Voyons donc",
+      pays: "QC", theme: "emotions",
+      sens: "Allons donc ! (surprise, incrédulité)",
+      leurres: ["Au revoir", "Bien sûr", "Tant pis"],
+      exemple: "Voyons donc, c'est pas possible !",
+      fiche: "Québec. « Voyons donc ! » : exclamation de surprise ou d'incrédulité."
+    },
+    {
+      expression: "Capoter",
+      pays: "QC", theme: "emotions",
+      sens: "Paniquer, ou s'emballer d'enthousiasme",
+      leurres: ["S'endormir", "Se taire", "Ralentir"],
+      exemple: "Je capote, j'ai gagné !",
+      fiche: "Québec. « Capoter » : perdre la tête — de panique comme d'enthousiasme."
+    },
+    {
+      expression: "Achaler",
+      pays: "QC", theme: "quotidien",
+      sens: "Déranger, embêter quelqu'un",
+      leurres: ["Aider", "Féliciter", "Ignorer"],
+      exemple: "Arrête de m'achaler avec ça.",
+      fiche: "Québec. « Achaler » : embêter, importuner."
+    },
+    {
+      expression: "Jaser",
+      pays: "QC", theme: "quotidien",
+      sens: "Bavarder, discuter",
+      leurres: ["Se disputer", "Travailler", "Dormir"],
+      exemple: "On a jasé toute la soirée.",
+      fiche: "Québec. « Jaser » : bavarder, papoter (sans sens négatif)."
+    },
+    {
+      expression: "Pogner",
+      pays: "QC", theme: "quotidien",
+      sens: "Attraper, saisir, choper",
+      leurres: ["Lâcher", "Donner", "Perdre"],
+      exemple: "J'ai pogné le dernier autobus.",
+      fiche: "Québec. « Pogner » : attraper, saisir, choper — un verbe à tout faire."
+    },
+    {
+      expression: "Icitte",
+      pays: "QC", theme: "quotidien",
+      sens: "Ici",
+      leurres: ["Là-bas", "Demain", "Dehors"],
+      exemple: "Viens t'asseoir icitte.",
+      fiche: "Québec. « Icitte » : ici (une prononciation ancienne restée populaire)."
+    },
+    {
+      expression: "Astheure",
+      pays: "QC", theme: "quotidien",
+      sens: "Maintenant, à cette heure",
+      leurres: ["Hier", "Jamais", "Bientôt"],
+      exemple: "Astheure, on fait quoi ?",
+      fiche: "Québec. « Astheure » (« à cette heure ») : maintenant."
+    },
+    {
+      expression: "Chus",
+      pays: "QC", theme: "quotidien",
+      sens: "« Je suis » (prononcé « chu »)",
+      leurres: ["« Je sais »", "« Je vais »", "« J'ai »"],
+      exemple: "Chus tanné d'attendre.",
+      fiche: "Québec. « Chus » : la prononciation courante de « je suis »."
+    },
+    {
+      expression: "Barrer",
+      pays: "QC", theme: "quotidien",
+      sens: "Verrouiller (une porte)",
+      leurres: ["Ouvrir en grand", "Peindre", "Nettoyer"],
+      exemple: "N'oublie pas de barrer la porte.",
+      fiche: "Québec. « Barrer » : fermer à clé, verrouiller."
+    },
+    {
+      expression: "Avoir de la misère",
+      pays: "QC", theme: "quotidien",
+      sens: "Avoir du mal, peiner",
+      leurres: ["Être pauvre", "S'amuser", "Se reposer"],
+      exemple: "J'ai de la misère à démarrer l'auto l'hiver.",
+      fiche: "Québec. « Avoir de la misère » : avoir du mal, peiner à faire quelque chose."
+    },
+    {
+      expression: "Une piasse",
+      pays: "QC", theme: "argent",
+      sens: "Un dollar",
+      leurres: ["Un centime", "Un billet de loterie", "Une pièce ancienne"],
+      exemple: "Ça coûte dix piasses.",
+      fiche: "Québec. « Une piasse » (piastre) : un dollar."
+    },
+    {
+      expression: "Un bec",
+      pays: "QC", theme: "amour",
+      sens: "Un bisou, une bise",
+      leurres: ["Un câlin", "Une dispute", "Un cadeau"],
+      exemple: "Donne un bec à grand-maman.",
+      fiche: "Québec. « Un bec » : un bisou (« donner un bec »)."
+    },
+    {
+      expression: "Un breuvage",
+      pays: "QC", theme: "manger",
+      sens: "Une boisson",
+      leurres: ["Un dessert", "Un médicament", "Un plat chaud"],
+      exemple: "Qu'est-ce que tu prends comme breuvage ?",
+      fiche: "Québec. « Un breuvage » : une boisson (un sens resté courant au Québec)."
+    },
+    {
+      expression: "Le sirop d'érable",
+      pays: "QC", theme: "manger",
+      sens: "Le sirop tiré de la sève d'érable",
+      leurres: ["Un sirop contre la toux", "Du miel de fleurs", "De la mélasse"],
+      exemple: "Des crêpes noyées dans le sirop d'érable.",
+      fiche: "Québec. « Le sirop d'érable » : la sève d'érable réduite, une fierté nationale."
+    },
+    {
+      expression: "La tire d'érable",
+      pays: "QC", theme: "manger",
+      sens: "Du sirop d'érable figé sur la neige",
+      leurres: ["Une glace à l'eau", "Un caramel mou en pot", "Une barbe à papa"],
+      exemple: "À la cabane à sucre, on roule la tire sur la neige.",
+      fiche: "Québec. « La tire d'érable » : du sirop chaud versé sur la neige, qu'on enroule sur un bâton."
+    },
+    {
+      expression: "Une tourtière",
+      pays: "QC", theme: "manger",
+      sens: "Une tourte à la viande",
+      leurres: ["Une tarte aux pommes", "Une salade", "Une soupe"],
+      exemple: "La tourtière, incontournable au réveillon.",
+      fiche: "Québec. « La tourtière » : une tourte à la viande hachée, plat des Fêtes."
+    },
+    {
+      expression: "Un smoked meat",
+      pays: "QC", theme: "manger",
+      sens: "Un sandwich de bœuf fumé (Montréal)",
+      leurres: ["Un poisson pané", "Un hot-dog", "Une pizza"],
+      exemple: "Un smoked meat moutarde sur pain de seigle.",
+      fiche: "Montréal. Le « smoked meat » : de la poitrine de bœuf fumée et épicée, en sandwich."
+    },
+    {
+      expression: "Des bines",
+      pays: "QC", theme: "manger",
+      sens: "Des fèves au lard",
+      leurres: ["Des frites", "Des pâtes", "Des légumes crus"],
+      exemple: "Des bines et des œufs au déjeuner.",
+      fiche: "Québec. « Des bines » (de l'anglais « beans ») : des fèves au lard, souvent sucrées au sirop d'érable."
     }
 
   ];
