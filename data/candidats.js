@@ -3477,6 +3477,466 @@
       leurres: ["Une danse en cercle", "Un conte de montagne", "Un jeu de cartes"],
       exemple: "Un chœur de yodel à la fête du village.",
       fiche: "Le « yodel » (jodel) : un chant traditionnel alpin qui alterne voix de poitrine et voix de tête."
+    },
+
+    // ---------- Guadeloupe (créole antillais, cuisine, carnaval) ----------
+    {
+      expression: "Bonjou",
+      pays: "GP", theme: "salutations",
+      sens: "Bonjour",
+      leurres: ["Au revoir", "Merci", "Bonne nuit"],
+      exemple: "Bonjou ! Ça va, la famille ?",
+      fiche: "Créole guadeloupéen. « Bonjou » : bonjour."
+    },
+    {
+      expression: "Mèsi",
+      pays: "GP", theme: "salutations",
+      sens: "Merci",
+      leurres: ["Pardon", "Bonjour", "S'il te plaît"],
+      exemple: "Mèsi anpil ! (merci beaucoup)",
+      fiche: "Créole. « Mèsi » : merci (« mèsi anpil » : merci beaucoup)."
+    },
+    {
+      expression: "An nou !",
+      pays: "GP", theme: "quotidien",
+      sens: "Allons-y ! En avant !",
+      leurres: ["Attends !", "Reste ici !", "Au revoir !"],
+      exemple: "An nou, la plage nous attend !",
+      fiche: "Créole. « An nou ! » : allons-y, en avant !"
+    },
+    {
+      expression: "Woy !",
+      pays: "GP", theme: "emotions",
+      sens: "Exclamation de surprise ou de douleur",
+      leurres: ["Bravo !", "Chut !", "Bonjour !"],
+      exemple: "Woy ! Tu m'as fait peur !",
+      fiche: "Créole antillais. « Woy ! » : une exclamation de surprise, de douleur ou d'étonnement."
+    },
+    {
+      expression: "An tan lontan",
+      pays: "GP", theme: "quotidien",
+      sens: "Autrefois, dans le temps",
+      leurres: ["Tout à l'heure", "Dans le futur", "À toute vitesse"],
+      exemple: "An tan lontan, il n'y avait pas l'électricité ici.",
+      fiche: "Créole. « An tan lontan » : au temps jadis, autrefois."
+    },
+    {
+      expression: "Le madras",
+      pays: "GP", theme: "quotidien",
+      sens: "Un tissu à carreaux colorés",
+      leurres: ["Un chapeau de paille", "Un panier tressé", "Un collier de graines"],
+      exemple: "Une robe en madras pour la fête.",
+      fiche: "Le « madras » : un tissu à carreaux vifs, emblème du costume créole."
+    },
+    {
+      expression: "Un quimbois",
+      pays: "GP", theme: "quotidien",
+      sens: "La magie, la sorcellerie",
+      leurres: ["Un remède de grand-mère", "Un conte pour enfants", "Un jeu de société"],
+      exemple: "Certains croient au quimbois.",
+      fiche: "Antilles. Le « quimbois » : la magie, la sorcellerie et ses sortilèges."
+    },
+    {
+      expression: "La ravine",
+      pays: "GP", theme: "quotidien",
+      sens: "Un ravin, un petit cours d'eau",
+      leurres: ["Une plage de sable", "Un sommet rocheux", "Une place de marché"],
+      exemple: "L'eau descend par la ravine après la pluie.",
+      fiche: "Antilles. Une « ravine » : un ravin creusé par l'eau, souvent un petit torrent."
+    },
+    {
+      expression: "Le morne",
+      pays: "GP", theme: "quotidien",
+      sens: "Une colline",
+      leurres: ["Une plaine", "Une grotte", "Un lagon"],
+      exemple: "La maison est perchée sur le morne.",
+      fiche: "Antilles. Un « morne » : une colline, un petit mont."
+    },
+    {
+      expression: "La trace",
+      pays: "GP", theme: "quotidien",
+      sens: "Un sentier de randonnée",
+      leurres: ["Une autoroute", "Un pont", "Un tunnel"],
+      exemple: "On a pris la trace à travers la forêt.",
+      fiche: "Antilles. Une « trace » : un sentier qui traverse la forêt ou la montagne."
+    },
+    {
+      expression: "Un béké",
+      pays: "GP", theme: "gens",
+      sens: "Un Blanc créole, descendant des colons",
+      leurres: ["Un touriste de passage", "Un pêcheur", "Un métropolitain récent"],
+      exemple: "Les békés possèdent de grandes habitations.",
+      fiche: "Antilles. Un « béké » : un Blanc créole, descendant des colons, souvent propriétaire terrien."
+    },
+    {
+      expression: "Un zòrèy",
+      pays: "GP", theme: "gens",
+      sens: "Un métropolitain (Français de l'Hexagone)",
+      leurres: ["Un Antillais né sur place", "Un marin étranger", "Un enfant du quartier"],
+      exemple: "Le nouveau prof, c'est un zòrèy.",
+      fiche: "Antilles (et Réunion). Un « zòrèy » : un Français venu de métropole."
+    },
+    {
+      expression: "Un chabin",
+      pays: "GP", theme: "gens",
+      sens: "Une personne métisse claire, aux cheveux clairs",
+      leurres: ["Un homme très âgé", "Un enfant brun", "Un blond du Nord"],
+      exemple: "Une belle chabine aux yeux clairs.",
+      fiche: "Antilles. Un « chabin » (une « chabine ») : une personne métisse à la peau et aux cheveux clairs."
+    },
+    {
+      expression: "Un quimboiseur",
+      pays: "GP", theme: "gens",
+      sens: "Un sorcier-guérisseur",
+      leurres: ["Un prêtre catholique", "Un médecin de ville", "Un conteur"],
+      exemple: "On va voir le quimboiseur pour défaire le sort.",
+      fiche: "Antilles. Un « quimboiseur » : celui qui pratique le quimbois, sorcier et guérisseur."
+    },
+    {
+      expression: "Le colombo",
+      pays: "GP", theme: "manger",
+      sens: "Un plat de viande au curry antillais",
+      leurres: ["Une soupe froide", "Un dessert au coco", "Une salade de fruits"],
+      exemple: "Un colombo de poulet bien parfumé.",
+      fiche: "Le « colombo » : viande ou poisson mijoté dans un mélange d'épices (le colombo), hérité des engagés indiens."
+    },
+    {
+      expression: "Le boudin créole",
+      pays: "GP", theme: "manger",
+      sens: "Un boudin noir épicé et pimenté",
+      leurres: ["Une saucisse blanche", "Un pâté de foie", "Un gâteau salé"],
+      exemple: "Boudin créole et pain, à l'apéro.",
+      fiche: "Le « boudin créole » : un boudin noir bien relevé, incontournable de l'apéro antillais."
+    },
+    {
+      expression: "Le court-bouillon",
+      pays: "GP", theme: "manger",
+      sens: "Un poisson en sauce tomate relevée",
+      leurres: ["Un bouillon clair de légumes", "Un poisson grillé sec", "Une friture"],
+      exemple: "Un court-bouillon de vivaneau.",
+      fiche: "Antilles. Le « court-bouillon » : un poisson mijoté dans une sauce tomate pimentée et citronnée."
+    },
+    {
+      expression: "Le blaff",
+      pays: "GP", theme: "manger",
+      sens: "Un poisson poché épicé",
+      leurres: ["Un poisson pané", "Une soupe sucrée", "Un gratin"],
+      exemple: "Un blaff d'oursins au citron vert.",
+      fiche: "Antilles. Le « blaff » : des poissons ou fruits de mer pochés dans un bouillon épicé et citronné."
+    },
+    {
+      expression: "Le féroce d'avocat",
+      pays: "GP", theme: "manger",
+      sens: "Une purée d'avocat, morue et manioc",
+      leurres: ["Une salade verte", "Un dessert à l'avocat", "Une soupe de poisson"],
+      exemple: "Un féroce bien pimenté en entrée.",
+      fiche: "Le « féroce d'avocat » : une purée d'avocat, de morue et de farine de manioc, relevée au piment."
+    },
+    {
+      expression: "Les dombrés",
+      pays: "GP", theme: "manger",
+      sens: "Des petites boulettes de farine",
+      leurres: ["Des frites", "Des pâtes italiennes", "Des beignets sucrés"],
+      exemple: "Des dombrés aux crevettes.",
+      fiche: "Antilles. Les « dombrés » : de petites boulettes de farine, cuites avec des haricots rouges ou des crevettes."
+    },
+    {
+      expression: "Le ti-punch",
+      pays: "GP", theme: "manger",
+      sens: "Rhum, citron vert et sirop de canne",
+      leurres: ["Un jus de fruits frais", "Un café glacé", "Un vin chaud"],
+      exemple: "Un ti-punch pour l'apéro, sans glaçons.",
+      fiche: "Le « ti-punch » : rhum blanc agricole, citron vert et sirop de canne — l'apéritif antillais."
+    },
+    {
+      expression: "Le sinobol",
+      pays: "GP", theme: "manger",
+      sens: "De la glace pilée au sirop",
+      leurres: ["Une crêpe sucrée", "Un sorbet en pot", "Une barbe à papa"],
+      exemple: "Un sinobol menthe-grenadine sous le soleil.",
+      fiche: "Guadeloupe. Le « sinobol » (de l'anglais « snow-ball ») : de la glace pilée arrosée de sirop coloré."
+    },
+    {
+      expression: "Le sorbet coco",
+      pays: "GP", theme: "manger",
+      sens: "Une glace à la noix de coco artisanale",
+      leurres: ["Un flan au caramel", "Une tarte à la banane", "Un jus de coco"],
+      exemple: "Le marchand tourne le sorbet coco à la main.",
+      fiche: "Antilles. Le « sorbet coco » : une glace à la noix de coco, tournée dans une sorbetière à manivelle."
+    },
+    {
+      expression: "Le chodo",
+      pays: "GP", theme: "manger",
+      sens: "Une boisson chaude au lait, œuf et épices",
+      leurres: ["Un bouillon de poule", "Une soupe de légumes", "Un rhum chaud"],
+      exemple: "Un chodo pour fêter le baptême.",
+      fiche: "Guadeloupe. Le « chodo » (« chaudeau ») : une boisson chaude au lait, œufs, sucre et épices, servie aux fêtes."
+    },
+    {
+      expression: "Le ka",
+      pays: "GP", theme: "fete",
+      sens: "Le tambour du gwoka",
+      leurres: ["Une flûte en bambou", "Un violon", "Une guitare"],
+      exemple: "Les mains chauffent la peau du ka avant de jouer.",
+      fiche: "Guadeloupe. Le « ka » : le tambour du gwoka, cœur de la musique traditionnelle."
+    },
+    {
+      expression: "Un bwa bwa",
+      pays: "GP", theme: "fete",
+      sens: "Une grande marionnette de carnaval",
+      leurres: ["Un char fleuri", "Un tambour géant", "Un masque en plumes"],
+      exemple: "Le bwa bwa domine le défilé.",
+      fiche: "Antilles. Un « bwa bwa » : une grande marionnette articulée promenée au carnaval."
+    },
+    {
+      expression: "Le mas",
+      pays: "GP", theme: "fete",
+      sens: "Les groupes masqués du carnaval",
+      leurres: ["Les chars motorisés", "Les reines de beauté", "Les fanfares militaires"],
+      exemple: "Le mas a Senjan descend dans la rue.",
+      fiche: "Guadeloupe. Le « mas » : les groupes masqués et costumés qui animent le carnaval (mas a kon, mas a lanmò…)."
+    },
+    {
+      expression: "Le lewoz",
+      pays: "GP", theme: "fete",
+      sens: "Une veillée de danse et tambour gwoka",
+      leurres: ["Un bal de salon", "Un concert de jazz", "Une messe chantée"],
+      exemple: "On danse au lewoz jusqu'au petit matin.",
+      fiche: "Guadeloupe. Le « lewoz » : une soirée traditionnelle de gwoka — tambours, chant et danse."
+    },
+    {
+      expression: "Lanmou",
+      pays: "GP", theme: "amour",
+      sens: "L'amour",
+      leurres: ["La colère", "La jalousie", "La peur"],
+      exemple: "Sé lanmou ki pli fò (c'est l'amour le plus fort).",
+      fiche: "Créole antillais. « Lanmou » : l'amour."
+    },
+
+    // ---------- Martinique (créole antillais, cuisine, carnaval) ----------
+    {
+      expression: "Bonjou",
+      pays: "MQ", theme: "salutations",
+      sens: "Bonjour",
+      leurres: ["Au revoir", "Merci", "Bonne nuit"],
+      exemple: "Bonjou tout moun ! (bonjour tout le monde)",
+      fiche: "Créole martiniquais. « Bonjou » : bonjour."
+    },
+    {
+      expression: "Mèsi",
+      pays: "MQ", theme: "salutations",
+      sens: "Merci",
+      leurres: ["Pardon", "Bonjour", "De rien"],
+      exemple: "Mèsi anpil pou tou sa.",
+      fiche: "Créole. « Mèsi » : merci."
+    },
+    {
+      expression: "An tan lontan",
+      pays: "MQ", theme: "quotidien",
+      sens: "Autrefois, dans le temps",
+      leurres: ["Bientôt", "À l'instant", "Très vite"],
+      exemple: "An tan lontan, on s'éclairait à la lampe.",
+      fiche: "Créole. « An tan lontan » : au temps jadis, autrefois."
+    },
+    {
+      expression: "Un quimbois",
+      pays: "MQ", theme: "quotidien",
+      sens: "La magie, la sorcellerie",
+      leurres: ["Un remède de pharmacie", "Une recette de cuisine", "Un conte du soir"],
+      exemple: "Il accuse son voisin de quimbois.",
+      fiche: "Antilles. Le « quimbois » : la magie, la sorcellerie et ses sortilèges."
+    },
+    {
+      expression: "Le morne",
+      pays: "MQ", theme: "quotidien",
+      sens: "Une colline",
+      leurres: ["Une plage", "Une grotte", "Un marché"],
+      exemple: "Les cases colorées grimpent le morne.",
+      fiche: "Antilles. Un « morne » : une colline, un petit mont."
+    },
+    {
+      expression: "La trace",
+      pays: "MQ", theme: "quotidien",
+      sens: "Un sentier de randonnée",
+      leurres: ["Une route nationale", "Un quai de port", "Un escalier d'immeuble"],
+      exemple: "La trace des Jésuites traverse la forêt.",
+      fiche: "Antilles. Une « trace » : un sentier de forêt ou de montagne."
+    },
+    {
+      expression: "Le madras",
+      pays: "MQ", theme: "quotidien",
+      sens: "Un tissu à carreaux colorés",
+      leurres: ["Une nappe blanche", "Un panier", "Un éventail"],
+      exemple: "Un foulard en madras noué sur la tête.",
+      fiche: "Le « madras » : un tissu à carreaux vifs, au cœur du costume créole."
+    },
+    {
+      expression: "Tjenbé rèd",
+      pays: "MQ", theme: "quotidien",
+      sens: "Tiens bon, accroche-toi",
+      leurres: ["Laisse tomber", "Dépêche-toi", "Repose-toi"],
+      exemple: "Tjenbé rèd, pa moli ! (tiens bon, ne faiblis pas)",
+      fiche: "Créole martiniquais. « Tjenbé rèd » : tiens bon, accroche-toi, ne lâche pas."
+    },
+    {
+      expression: "Woy !",
+      pays: "MQ", theme: "emotions",
+      sens: "Exclamation de surprise ou de douleur",
+      leurres: ["Bravo !", "Silence !", "Bonjour !"],
+      exemple: "Woy ! Sa fè mal !",
+      fiche: "Créole antillais. « Woy ! » : exclamation de surprise, de douleur ou d'étonnement."
+    },
+    {
+      expression: "Lanmou",
+      pays: "MQ", theme: "amour",
+      sens: "L'amour",
+      leurres: ["La haine", "La tristesse", "La patience"],
+      exemple: "Lanmou pa ka gadé laj (l'amour ne regarde pas l'âge).",
+      fiche: "Créole antillais. « Lanmou » : l'amour."
+    },
+    {
+      expression: "Un béké",
+      pays: "MQ", theme: "gens",
+      sens: "Un Blanc créole, descendant des colons",
+      leurres: ["Un touriste", "Un marin", "Un métropolitain récent"],
+      exemple: "Les békés tiennent les grandes habitations de canne.",
+      fiche: "Antilles. Un « béké » : un Blanc créole, descendant des colons, souvent propriétaire terrien."
+    },
+    {
+      expression: "Un chabin",
+      pays: "MQ", theme: "gens",
+      sens: "Une personne métisse claire, aux cheveux clairs",
+      leurres: ["Un vieillard", "Un enfant très brun", "Un blond du Nord"],
+      exemple: "Une chabine au sourire éclatant.",
+      fiche: "Antilles. Un « chabin » (une « chabine ») : une personne métisse à la peau et aux cheveux clairs."
+    },
+    {
+      expression: "Un zòrèy",
+      pays: "MQ", theme: "gens",
+      sens: "Un métropolitain (Français de l'Hexagone)",
+      leurres: ["Un Martiniquais de souche", "Un étranger anglophone", "Un enfant du quartier"],
+      exemple: "Le médecin remplaçant est un zòrèy.",
+      fiche: "Antilles (et Réunion). Un « zòrèy » : un Français venu de métropole."
+    },
+    {
+      expression: "Le colombo",
+      pays: "MQ", theme: "manger",
+      sens: "Un plat de viande au curry antillais",
+      leurres: ["Une soupe froide", "Un dessert au coco", "Une salade"],
+      exemple: "Un colombo de cabri pour le dimanche.",
+      fiche: "Le « colombo » : viande ou poisson mijoté dans un mélange d'épices (le colombo), hérité des engagés indiens."
+    },
+    {
+      expression: "Le blaff",
+      pays: "MQ", theme: "manger",
+      sens: "Un poisson poché épicé",
+      leurres: ["Un poisson pané", "Une soupe sucrée", "Un gratin de légumes"],
+      exemple: "Un blaff de poissons au citron vert.",
+      fiche: "Antilles. Le « blaff » : des poissons ou fruits de mer pochés dans un bouillon épicé et citronné."
+    },
+    {
+      expression: "Le court-bouillon",
+      pays: "MQ", theme: "manger",
+      sens: "Un poisson en sauce tomate relevée",
+      leurres: ["Un bouillon clair", "Un poisson grillé", "Une friture sèche"],
+      exemple: "Un court-bouillon de dorade.",
+      fiche: "Antilles. Le « court-bouillon » : un poisson mijoté dans une sauce tomate pimentée et citronnée."
+    },
+    {
+      expression: "Le féroce d'avocat",
+      pays: "MQ", theme: "manger",
+      sens: "Une purée d'avocat, morue et manioc",
+      leurres: ["Une salade verte", "Un guacamole doux", "Une soupe de poisson"],
+      exemple: "Un féroce bien relevé en entrée.",
+      fiche: "Le « féroce d'avocat » : une purée d'avocat, de morue et de farine de manioc, relevée au piment."
+    },
+    {
+      expression: "Le ti-punch",
+      pays: "MQ", theme: "manger",
+      sens: "Rhum, citron vert et sirop de canne",
+      leurres: ["Un jus de canne", "Un café créole", "Un cocktail sans alcool"],
+      exemple: "Un ti-punch avant le repas, décollage !",
+      fiche: "Le « ti-punch » : rhum blanc agricole, citron vert et sirop de canne — l'apéritif antillais."
+    },
+    {
+      expression: "Le boudin créole",
+      pays: "MQ", theme: "manger",
+      sens: "Un boudin noir épicé et pimenté",
+      leurres: ["Une saucisse blanche", "Un pâté en croûte", "Un gâteau salé"],
+      exemple: "Boudin créole, l'incontournable de l'apéro.",
+      fiche: "Le « boudin créole » : un boudin noir bien relevé, servi à l'apéritif."
+    },
+    {
+      expression: "Les dombrés",
+      pays: "MQ", theme: "manger",
+      sens: "Des petites boulettes de farine",
+      leurres: ["Des frites", "Des gnocchis sucrés", "Des beignets"],
+      exemple: "Dombrés et crevettes, un régal.",
+      fiche: "Antilles. Les « dombrés » : de petites boulettes de farine cuites avec haricots rouges ou crevettes."
+    },
+    {
+      expression: "Le sorbet coco",
+      pays: "MQ", theme: "manger",
+      sens: "Une glace à la noix de coco artisanale",
+      leurres: ["Un flan nature", "Une tarte coco", "Un jus de coco"],
+      exemple: "Le sorbet coco du dimanche, tourné à la main.",
+      fiche: "Antilles. Le « sorbet coco » : une glace à la noix de coco, tournée à la manivelle."
+    },
+    {
+      expression: "Le trempage",
+      pays: "MQ", theme: "manger",
+      sens: "Du pain trempé dans une sauce de morue, à plusieurs",
+      leurres: ["Une fondue au fromage", "Une soupe de pain", "Un sandwich chaud"],
+      exemple: "Le trempage se mange à la main, tous ensemble.",
+      fiche: "Martinique. Le « trempage » : du pain arrosé d'une sauce de poisson ou de morue, partagé sur une même feuille."
+    },
+    {
+      expression: "Le ti-nain morue",
+      pays: "MQ", theme: "manger",
+      sens: "Des bananes vertes avec de la morue",
+      leurres: ["Des bananes flambées", "Un gratin de pâtes", "Une salade de fruits"],
+      exemple: "Ti-nain morue, le petit-déjeuner du dimanche.",
+      fiche: "Martinique. Le « ti-nain morue » : des bananes vertes bouillies, servies avec de la morue."
+    },
+    {
+      expression: "Le chadèque",
+      pays: "MQ", theme: "manger",
+      sens: "Un gros agrume parfumé (pomelo)",
+      leurres: ["Une mangue", "Une noix de coco", "Un ananas"],
+      exemple: "De la confiture de chadèque.",
+      fiche: "Antilles. Le « chadèque » : un gros agrume à la chair rosée, proche du pamplemousse."
+    },
+    {
+      expression: "Le shrubb",
+      pays: "MQ", theme: "manger",
+      sens: "Une liqueur de rhum à l'orange (Noël)",
+      leurres: ["Un vin chaud", "Un sirop d'orgeat", "Une bière locale"],
+      exemple: "Le shrubb de Noël, aux écorces d'orange.",
+      fiche: "Antilles. Le « shrubb » : une liqueur de rhum macéré avec des écorces d'orange, bue à Noël."
+    },
+    {
+      expression: "Le chouval bwa",
+      pays: "MQ", theme: "fete",
+      sens: "Un manège et sa musique de carnaval",
+      leurres: ["Une course de chevaux", "Un bal masqué", "Un feu d'artifice"],
+      exemple: "Les enfants tournent au chouval bwa.",
+      fiche: "Martinique. Le « chouval bwa » : un manège de bois traditionnel, animé par une musique entraînante."
+    },
+    {
+      expression: "La biguine",
+      pays: "MQ", theme: "fete",
+      sens: "Une musique et danse créole élégante",
+      leurres: ["Un chant religieux", "Une danse de combat", "Une berceuse"],
+      exemple: "Un orchestre de biguine ouvre le bal.",
+      fiche: "Antilles. La « biguine » : une musique et une danse créoles, élégantes, nées à la fin du XIXe siècle."
+    },
+    {
+      expression: "Vaval",
+      pays: "MQ", theme: "fete",
+      sens: "Le roi du carnaval, brûlé à la fin",
+      leurres: ["Un saint patron", "Un chanteur vedette", "Un pêcheur légendaire"],
+      exemple: "On brûle Vaval le mercredi des Cendres.",
+      fiche: "Antilles. « Vaval » : le roi du carnaval, une effigie géante brûlée pour clore les festivités."
     }
 
   ];
