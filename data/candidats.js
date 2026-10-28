@@ -3097,6 +3097,386 @@
       leurres: ["Des frites", "Des pâtes", "Des légumes crus"],
       exemple: "Des bines et des œufs au déjeuner.",
       fiche: "Québec. « Des bines » (de l'anglais « beans ») : des fèves au lard, souvent sucrées au sirop d'érable."
+    },
+
+    // ---------- Belgique (belgicismes, Bruxelles, cuisine) ----------
+    {
+      expression: "Nonante",
+      pays: "BE", theme: "quotidien",
+      sens: "Quatre-vingt-dix",
+      leurres: ["Quatre-vingts", "Soixante-dix", "Cent dix"],
+      exemple: "Ça coûte nonante euros.",
+      fiche: "Belgicisme (et Suisse). « Nonante » : 90, plus simple que « quatre-vingt-dix »."
+    },
+    {
+      expression: "Une fois",
+      pays: "BE", theme: "quotidien",
+      sens: "Interjection sans valeur précise (« viens une fois »)",
+      leurres: ["Une seule fois, pas plus", "Autrefois", "Une part de gâteau"],
+      exemple: "Viens une fois voir ça !",
+      fiche: "Belgicisme. « Une fois » ponctue la phrase, surtout à Bruxelles, sans vraiment compter."
+    },
+    {
+      expression: "Un clignoteur",
+      pays: "BE", theme: "quotidien",
+      sens: "Le clignotant de la voiture",
+      leurres: ["Un lampadaire", "Un feu rouge", "Un phare de vélo"],
+      exemple: "Mets ton clignoteur avant de tourner.",
+      fiche: "Belgicisme. Le « clignoteur » : le clignotant."
+    },
+    {
+      expression: "Une ramassette",
+      pays: "BE", theme: "quotidien",
+      sens: "La pelle à poussière",
+      leurres: ["Un balai", "Une éponge", "Un seau"],
+      exemple: "Passe-moi la ramassette pour les miettes.",
+      fiche: "Belgicisme. La « ramassette » : la pelle à poussière."
+    },
+    {
+      expression: "Une carabistouille",
+      pays: "BE", theme: "quotidien",
+      sens: "Une sornette, une bêtise",
+      leurres: ["Une friandise", "Une petite voiture", "Une dispute"],
+      exemple: "Arrête tes carabistouilles !",
+      fiche: "Belgicisme. Une « carabistouille » : une blague, une sornette, une bêtise."
+    },
+    {
+      expression: "Blinquer",
+      pays: "BE", theme: "quotidien",
+      sens: "Briller, reluire",
+      leurres: ["Clignoter", "Grincer", "Fondre"],
+      exemple: "Le parquet blinque après le nettoyage.",
+      fiche: "Belgicisme. « Blinquer » : briller, reluire (du néerlandais « blinken »)."
+    },
+    {
+      expression: "La clinche",
+      pays: "BE", theme: "quotidien",
+      sens: "La poignée de porte",
+      leurres: ["La serrure", "La sonnette", "Le paillasson"],
+      exemple: "Tourne la clinche, ce n'est pas fermé.",
+      fiche: "Belgicisme. La « clinche » : la poignée (ou le bec-de-cane) de porte."
+    },
+    {
+      expression: "Une drève",
+      pays: "BE", theme: "quotidien",
+      sens: "Une allée bordée d'arbres",
+      leurres: ["Une impasse", "Un pont", "Une place de marché"],
+      exemple: "On se promène dans la drève du château.",
+      fiche: "Belgicisme. Une « drève » : une allée bordée d'arbres."
+    },
+    {
+      expression: "Spitant",
+      pays: "BE", theme: "emotions",
+      sens: "Vif, plein d'énergie, pétillant",
+      leurres: ["Fatigué", "Timide", "Lent"],
+      exemple: "Les enfants sont spitants ce matin.",
+      fiche: "Belgicisme. « Spitant » : vif, pétillant, plein d'entrain."
+    },
+    {
+      expression: "Non peut-être",
+      pays: "BE", theme: "emotions",
+      sens: "Mais oui, bien sûr ! (ironique)",
+      leurres: ["Absolument pas", "Je ne sais pas", "Peut-être un jour"],
+      exemple: "Tu viens ? Non peut-être ! (= évidemment)",
+      fiche: "Bruxelles. « Non peut-être ! » veut dire… « mais oui, bien sûr ! » (ironie)."
+    },
+    {
+      expression: "Bardaf !",
+      pays: "BE", theme: "emotions",
+      sens: "Badaboum ! (bruit de choc)",
+      leurres: ["Bravo !", "Chut !", "Au secours !"],
+      exemple: "Il a glissé et bardaf, par terre !",
+      fiche: "Belgicisme. « Bardaf ! » : l'onomatopée du choc, de l'accident (« et patatras »)."
+    },
+    {
+      expression: "Un dikkenek",
+      pays: "BE", theme: "gens",
+      sens: "Un vantard, une grande gueule",
+      leurres: ["Un timide", "Un sage", "Un paresseux"],
+      exemple: "Quel dikkenek, il se vante tout le temps.",
+      fiche: "Bruxelles (du néerlandais « dikke nek », gros cou). Un « dikkenek » : un prétentieux, une grande gueule."
+    },
+    {
+      expression: "Un zinneke",
+      pays: "BE", theme: "gens",
+      sens: "Un bâtard (chien), un vrai Bruxellois mélangé",
+      leurres: ["Un chien de race", "Un chat de gouttière", "Un oiseau en cage"],
+      exemple: "Son chien est un adorable zinneke.",
+      fiche: "Bruxelles. Un « zinneke » : un chien bâtard — et, fièrement, un Bruxellois aux origines mêlées."
+    },
+    {
+      expression: "Un peï",
+      pays: "BE", theme: "gens",
+      sens: "Un gars, un type (Bruxelles)",
+      leurres: ["Un enfant", "Un vieillard", "Un chef"],
+      exemple: "C'est un bon peï, tu peux lui faire confiance.",
+      fiche: "Bruxelles. Un « peï » : un homme, un type (la femme, c'est une « meï »)."
+    },
+    {
+      expression: "Un ket",
+      pays: "BE", theme: "gens",
+      sens: "Un gamin, un gars (Bruxelles)",
+      leurres: ["Une fille", "Un grand-père", "Un policier"],
+      exemple: "Les kets jouent au foot dans la rue.",
+      fiche: "Bruxelles. Un « ket » : un gamin, un jeune gars."
+    },
+    {
+      expression: "Un fritkot",
+      pays: "BE", theme: "manger",
+      sens: "Une baraque à frites",
+      leurres: ["Une boulangerie", "Un bar à vin", "Une épicerie"],
+      exemple: "On se retrouve au fritkot du coin.",
+      fiche: "Belgicisme. Un « fritkot » (une « friterie ») : la baraque à frites, institution nationale."
+    },
+    {
+      expression: "Les chicons",
+      pays: "BE", theme: "manger",
+      sens: "Les endives",
+      leurres: ["Les épinards", "Les champignons", "Les haricots verts"],
+      exemple: "Des chicons au gratin, avec du jambon.",
+      fiche: "Belgicisme. Les « chicons » : les endives."
+    },
+    {
+      expression: "Un américain",
+      pays: "BE", theme: "manger",
+      sens: "Du bœuf cru haché assaisonné",
+      leurres: ["Un hamburger grillé", "Un steak bien cuit", "Un hot-dog"],
+      exemple: "Un pain garni d'américain, préparé minute.",
+      fiche: "Belgicisme. Un « américain » (filet américain) : du bœuf cru haché et assaisonné, comme un tartare."
+    },
+    {
+      expression: "Un stoemp",
+      pays: "BE", theme: "manger",
+      sens: "Une purée aux légumes écrasés",
+      leurres: ["Une soupe claire", "Une tarte salée", "Une salade verte"],
+      exemple: "Stoemp aux carottes et saucisse.",
+      fiche: "Belgicisme. Le « stoemp » : une purée de pommes de terre écrasées avec des légumes."
+    },
+    {
+      expression: "Une mitraillette",
+      pays: "BE", theme: "manger",
+      sens: "Un sandwich baguette-viande-frites",
+      leurres: ["Une petite pizza", "Une barquette de frites", "Un wrap"],
+      exemple: "Une mitraillette fricadelle, s'il vous plaît.",
+      fiche: "Belgicisme. Une « mitraillette » : une demi-baguette garnie de viande, de sauce et de frites."
+    },
+    {
+      expression: "Un cuberdon",
+      pays: "BE", theme: "manger",
+      sens: "Un bonbon conique à cœur tendre",
+      leurres: ["Un chocolat carré", "Une gaufre", "Une sucette dure"],
+      exemple: "Un cuberdon framboise, le fameux « nez ».",
+      fiche: "Belgicisme. Le « cuberdon » (ou « nez ») : un bonbon violet, dur dehors et tendre dedans."
+    },
+
+    // ---------- Suisse romande (helvétismes, cuisine, Alpes) ----------
+    {
+      expression: "Nonante",
+      pays: "CH", theme: "quotidien",
+      sens: "Quatre-vingt-dix",
+      leurres: ["Quatre-vingts", "Soixante-dix", "Cent"],
+      exemple: "Il a nonante ans.",
+      fiche: "Helvétisme (et Belgique). « Nonante » : 90."
+    },
+    {
+      expression: "Septante",
+      pays: "CH", theme: "quotidien",
+      sens: "Soixante-dix",
+      leurres: ["Soixante", "Quatre-vingts", "Cent dix"],
+      exemple: "Septante francs, s'il vous plaît.",
+      fiche: "Helvétisme (et Belgique). « Septante » : 70."
+    },
+    {
+      expression: "Service !",
+      pays: "CH", theme: "salutations",
+      sens: "De rien, je vous en prie",
+      leurres: ["Au revoir !", "À table !", "Attention !"],
+      exemple: "Merci beaucoup ! — Service !",
+      fiche: "Helvétisme. « Service ! » : la réponse à « merci » (« de rien »)."
+    },
+    {
+      expression: "Y a pas le feu au lac",
+      pays: "CH", theme: "quotidien",
+      sens: "Rien ne presse",
+      leurres: ["C'est urgent", "C'est interdit", "C'est très loin"],
+      exemple: "Prends ton temps, y a pas le feu au lac.",
+      fiche: "Helvétisme. « Y a pas le feu au lac » : rien ne presse, on a tout notre temps."
+    },
+    {
+      expression: "Un foehn",
+      pays: "CH", theme: "quotidien",
+      sens: "Un vent chaud des Alpes (et un sèche-cheveux)",
+      leurres: ["Une averse de grêle", "Un brouillard épais", "Une vague de froid"],
+      exemple: "Le foehn a fait fondre la neige ; passe-moi le foehn.",
+      fiche: "Helvétisme. Le « foehn » : un vent chaud et sec des Alpes ; par extension, le sèche-cheveux."
+    },
+    {
+      expression: "La bise",
+      pays: "CH", theme: "quotidien",
+      sens: "Un vent froid et sec du nord-est",
+      leurres: ["Un petit bisou", "Une pluie tiède", "Un vent du sud"],
+      exemple: "La bise souffle fort sur le Léman.",
+      fiche: "Helvétisme. « La bise » : le vent froid et sec qui balaie le Plateau et le lac."
+    },
+    {
+      expression: "Une action",
+      pays: "CH", theme: "argent",
+      sens: "Une promotion, un article en solde",
+      leurres: ["Un film d'aventure", "Une part en bourse", "Une bonne action"],
+      exemple: "Le café est en action cette semaine.",
+      fiche: "Helvétisme. Une « action » : une promotion, un rabais en magasin (« en action »)."
+    },
+    {
+      expression: "Un linge",
+      pays: "CH", theme: "quotidien",
+      sens: "Une serviette (de bain, de table)",
+      leurres: ["Un rideau", "Un drap de lit", "Un tapis"],
+      exemple: "Prends un linge pour te sécher.",
+      fiche: "Helvétisme. Un « linge » : une serviette (de bain ou de table)."
+    },
+    {
+      expression: "Un tablar",
+      pays: "CH", theme: "quotidien",
+      sens: "Une étagère, un rayon",
+      leurres: ["Un tabouret", "Un tableau", "Une table basse"],
+      exemple: "Range les bocaux sur le tablar.",
+      fiche: "Helvétisme. Un « tablar » : une étagère, une planche de rangement."
+    },
+    {
+      expression: "Poutzer",
+      pays: "CH", theme: "quotidien",
+      sens: "Nettoyer, faire le ménage",
+      leurres: ["Cuisiner", "Jardiner", "Bricoler"],
+      exemple: "On poutze l'appartement avant les invités.",
+      fiche: "Helvétisme. « Poutzer » : nettoyer à fond (« faire la poutze »)."
+    },
+    {
+      expression: "Réduire",
+      pays: "CH", theme: "quotidien",
+      sens: "Ranger, mettre de côté",
+      leurres: ["Rapetisser", "Jeter", "Cacher"],
+      exemple: "Réduis tes affaires avant de partir.",
+      fiche: "Helvétisme. « Réduire » : ranger, remettre à sa place."
+    },
+    {
+      expression: "Se réjouir",
+      pays: "CH", theme: "emotions",
+      sens: "Attendre avec impatience et plaisir",
+      leurres: ["Regretter", "S'inquiéter", "S'ennuyer"],
+      exemple: "Je me réjouis de te voir demain.",
+      fiche: "Helvétisme. « Se réjouir de » : avoir hâte, attendre quelque chose avec plaisir."
+    },
+    {
+      expression: "Une fourre",
+      pays: "CH", theme: "quotidien",
+      sens: "Une pochette, une chemise pour papiers",
+      leurres: ["Un manteau fourré", "Un coussin", "Un sac à dos"],
+      exemple: "Range la facture dans la fourre.",
+      fiche: "Helvétisme. Une « fourre » : une chemise, une pochette (et aussi une housse)."
+    },
+    {
+      expression: "Un bisse",
+      pays: "CH", theme: "quotidien",
+      sens: "Un canal d'irrigation de montagne (Valais)",
+      leurres: ["Un sommet enneigé", "Un refuge d'alpage", "Un téléphérique"],
+      exemple: "On randonne le long du bisse.",
+      fiche: "Helvétisme (Valais). Un « bisse » : un canal d'irrigation à flanc de montagne."
+    },
+    {
+      expression: "Le Cervin",
+      pays: "CH", theme: "quotidien",
+      sens: "La célèbre montagne pyramidale",
+      leurres: ["Un grand lac", "Une vallée viticole", "Un glacier plat"],
+      exemple: "Le Cervin domine Zermatt.",
+      fiche: "Le « Cervin » (Matterhorn) : la montagne emblématique des Alpes suisses."
+    },
+    {
+      expression: "Un chalet",
+      pays: "CH", theme: "quotidien",
+      sens: "Une maison de montagne en bois",
+      leurres: ["Un immeuble en ville", "Une tente", "Une péniche"],
+      exemple: "On loue un chalet pour l'hiver.",
+      fiche: "Un « chalet » : à l'origine, la maison de bois des alpages ; aujourd'hui, la maison de montagne."
+    },
+    {
+      expression: "La fondue",
+      pays: "CH", theme: "manger",
+      sens: "Du fromage fondu où l'on trempe du pain",
+      leurres: ["Une soupe de légumes", "Une tarte au fromage", "Un gratin"],
+      exemple: "On se fait une fondue ce soir.",
+      fiche: "La « fondue » : du fromage fondu au vin blanc, dans lequel on trempe des morceaux de pain."
+    },
+    {
+      expression: "La raclette",
+      pays: "CH", theme: "manger",
+      sens: "Du fromage fondu raclé sur des pommes de terre",
+      leurres: ["Une purée gratinée", "Une pizza au fromage", "Une soupe chaude"],
+      exemple: "Raclette-cornichons, le bonheur de l'hiver.",
+      fiche: "La « raclette » : un demi-meule de fromage qu'on fait fondre et qu'on racle sur des pommes de terre."
+    },
+    {
+      expression: "Le rösti",
+      pays: "CH", theme: "manger",
+      sens: "Une galette de pommes de terre rissolées",
+      leurres: ["Une crêpe sucrée", "Un gratin de courge", "Une omelette"],
+      exemple: "Un rösti doré avec un œuf dessus.",
+      fiche: "Le « rösti » : une galette de pommes de terre rissolées à la poêle, spécialité alémanique."
+    },
+    {
+      expression: "Le papet vaudois",
+      pays: "CH", theme: "manger",
+      sens: "Un plat de poireaux et pommes de terre à la saucisse",
+      leurres: ["Une tarte aux pommes", "Un rôti de bœuf", "Une salade composée"],
+      exemple: "Le papet vaudois avec sa saucisse aux choux.",
+      fiche: "Le « papet vaudois » : un fondant de poireaux et pommes de terre, servi avec la saucisse aux choux."
+    },
+    {
+      expression: "Le birchermüesli",
+      pays: "CH", theme: "manger",
+      sens: "Un muesli aux flocons et fruits",
+      leurres: ["Un gâteau au chocolat", "Un bol de soupe", "Une tarte salée"],
+      exemple: "Un birchermüesli au petit-déjeuner.",
+      fiche: "Le « birchermüesli » : flocons d'avoine trempés, pomme râpée, yaourt et fruits — inventé par le docteur Bircher."
+    },
+    {
+      expression: "La meringue double crème",
+      pays: "CH", theme: "manger",
+      sens: "Des meringues à la crème épaisse",
+      leurres: ["Une glace à la vanille", "Un flan au caramel", "Une mousse au chocolat"],
+      exemple: "Meringues et double crème de la Gruyère, un péché.",
+      fiche: "Un dessert suisse : des meringues croquantes nappées de crème double de la Gruyère."
+    },
+    {
+      expression: "Le Rivella",
+      pays: "CH", theme: "manger",
+      sens: "Un soda suisse à base de petit-lait",
+      leurres: ["Une eau minérale des Alpes", "Un jus de pomme", "Un vin blanc"],
+      exemple: "Un Rivella bien frais après le ski.",
+      fiche: "Le « Rivella » : une boisson gazeuse suisse… faite à partir de petit-lait."
+    },
+    {
+      expression: "Le cor des Alpes",
+      pays: "CH", theme: "fete",
+      sens: "Un très long cor en bois des alpages",
+      leurres: ["Un tambour de fête", "Une cornemuse", "Une cloche de vache"],
+      exemple: "Le cor des Alpes résonne dans la vallée.",
+      fiche: "Le « cor des Alpes » : un instrument de bois de plusieurs mètres, dont le son porte d'un alpage à l'autre."
+    },
+    {
+      expression: "La désalpe",
+      pays: "CH", theme: "fete",
+      sens: "La descente des troupeaux de l'alpage",
+      leurres: ["Une course de ski", "Une foire aux vins", "Un marché de Noël"],
+      exemple: "À la désalpe, les vaches défilent fleuries.",
+      fiche: "La « désalpe » : la fête d'automne, quand on ramène les vaches de l'alpage, parées de fleurs et de cloches."
+    },
+    {
+      expression: "Le yodel",
+      pays: "CH", theme: "fete",
+      sens: "Un chant alpin aux changements de voix",
+      leurres: ["Une danse en cercle", "Un conte de montagne", "Un jeu de cartes"],
+      exemple: "Un chœur de yodel à la fête du village.",
+      fiche: "Le « yodel » (jodel) : un chant traditionnel alpin qui alterne voix de poitrine et voix de tête."
     }
 
   ];
