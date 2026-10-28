@@ -1255,6 +1255,256 @@
       leurres: ["Un conseil de sages", "Une bonne nouvelle", "Un discours officiel"],
       exemple: "Au salon de coiffure, c'est le kongossa permanent.",
       fiche: "Le « kongossa » : les ragots, les potins — un mot partagé avec le Cameroun voisin."
+    },
+    {
+      expression: "Une bouquet",
+      pays: "GA", theme: "gens",
+      sens: "Une belle jeune femme",
+      leurres: ["Un bouquet de fleurs", "Un jeune homme élégant", "Une vieille dame"],
+      exemple: "Cette bouquet-là fait tourner les têtes dans le mapane.",
+      fiche: "Français du Gabon. Une « bouquet » : une belle jeune femme."
+    },
+    {
+      expression: "On est ensemble",
+      pays: "GA", theme: "salutations",
+      sens: "On est solidaires, à bientôt",
+      leurres: ["Chacun pour soi", "On se dépêche", "On a fini"],
+      exemple: "Pas de souci, on est ensemble !",
+      fiche: "Expression de solidarité chère aux Gabonais : « on est ensemble », on se soutient (aussi dite ailleurs en Afrique)."
+    },
+
+    // ---------- Bénin (vodoun, cuisine, histoire du Dahomey) ----------
+    {
+      expression: "Le vodoun",
+      pays: "BJ", theme: "quotidien",
+      sens: "La religion traditionnelle béninoise",
+      leurres: ["Une danse de mariage", "Un marché de nuit", "Un conte pour enfants"],
+      exemple: "Le vodoun est né sur ces terres, au cœur de l'ancien Dahomey.",
+      fiche: "Le « vodoun » : la religion traditionnelle du Bénin, culte des divinités et des ancêtres (à l'origine du mot « vaudou »)."
+    },
+    {
+      expression: "Un fa",
+      pays: "BJ", theme: "quotidien",
+      sens: "La divination traditionnelle",
+      leurres: ["Une note de musique", "Un plat de fête", "Un jeu de cartes"],
+      exemple: "Avant la grande décision, on consulte le Fa.",
+      fiche: "Le « Fa » : l'art divinatoire béninois, consulté pour connaître son destin."
+    },
+    {
+      expression: "Un bokonon",
+      pays: "BJ", theme: "gens",
+      sens: "Un devin qui consulte le Fa",
+      leurres: ["Un chef de village", "Un forgeron", "Un marchand ambulant"],
+      exemple: "Le bokonon lit les signes du Fa.",
+      fiche: "Un « bokonon » : le prêtre-devin qui interprète le Fa."
+    },
+    {
+      expression: "Le Dahomey",
+      pays: "BJ", theme: "quotidien",
+      sens: "L'ancien royaume, ancien nom du pays",
+      leurres: ["La capitale actuelle", "Un fleuve", "Un marché célèbre"],
+      exemple: "Les rois du Dahomey régnaient depuis Abomey.",
+      fiche: "Le « Dahomey » : le puissant royaume d'Abomey, et l'ancien nom du Bénin jusqu'en 1975."
+    },
+    {
+      expression: "Une amazone",
+      pays: "BJ", theme: "gens",
+      sens: "Une femme guerrière du Dahomey",
+      leurres: ["Une reine de beauté", "Une marchande du grand marché", "Une danseuse"],
+      exemple: "Les amazones du roi étaient redoutées au combat.",
+      fiche: "Les « Amazones » (Agojie) : le corps de femmes soldats du royaume du Dahomey."
+    },
+    {
+      expression: "La récade",
+      pays: "BJ", theme: "gens",
+      sens: "Le sceptre, emblème du pouvoir royal",
+      leurres: ["Une couronne en or", "Un tambour de guerre", "Un trône sculpté"],
+      exemple: "Le messager brandit la récade du roi.",
+      fiche: "La « récade » : le bâton-sceptre des rois du Dahomey, porté par leurs messagers."
+    },
+    {
+      expression: "Les appliqués d'Abomey",
+      pays: "BJ", theme: "quotidien",
+      sens: "Des tentures brodées racontant les rois",
+      leurres: ["Des bijoux en argent", "Des masques en bois", "Des poteries peintes"],
+      exemple: "Les appliqués d'Abomey racontent les exploits des rois.",
+      fiche: "Les « appliqués d'Abomey » : des tentures de tissu cousu qui illustrent l'histoire du royaume."
+    },
+    {
+      expression: "La Porte du Non-Retour",
+      pays: "BJ", theme: "quotidien",
+      sens: "Le mémorial de la traite à Ouidah",
+      leurres: ["Un ancien palais royal", "Une plage touristique", "Un marché aux poissons"],
+      exemple: "La Porte du Non-Retour, à Ouidah, rappelle le départ des esclaves.",
+      fiche: "La « Porte du Non-Retour » : le monument de Ouidah en mémoire des déportés de la traite."
+    },
+    {
+      expression: "Ganvié",
+      pays: "BJ", theme: "quotidien",
+      sens: "Un village sur pilotis, sur le lac",
+      leurres: ["Une montagne sacrée", "Un parc animalier", "Un désert de sable"],
+      exemple: "À Ganvié, on se déplace en pirogue entre les maisons.",
+      fiche: "« Ganvié » : un grand village lacustre sur le lac Nokoué, surnommé la « Venise de l'Afrique »."
+    },
+    {
+      expression: "Tokpa",
+      pays: "BJ", theme: "argent",
+      sens: "Le grand marché de Cotonou",
+      leurres: ["Le port de pêche", "La gare routière", "Le quartier des banques"],
+      exemple: "On trouve de tout à Tokpa, le plus grand marché.",
+      fiche: "« Dantokpa » (Tokpa) : l'immense marché de Cotonou, l'un des plus grands d'Afrique de l'Ouest."
+    },
+    {
+      expression: "Un hounon",
+      pays: "BJ", theme: "gens",
+      sens: "Un prêtre du vodoun",
+      leurres: ["Un maire", "Un instituteur", "Un médecin"],
+      exemple: "Le hounon dirige la cérémonie au couvent.",
+      fiche: "Un « hounon » : un prêtre du vodoun, gardien d'une divinité."
+    },
+    {
+      expression: "Un zangbeto",
+      pays: "BJ", theme: "fete",
+      sens: "Un masque gardien de la nuit",
+      leurres: ["Un épouvantail de champ", "Un costume de carnaval", "Un jouet d'enfant"],
+      exemple: "Le zangbeto tourne sur lui-même sans qu'on voie personne dessous.",
+      fiche: "Le « zangbeto » : le « veilleur de nuit » masqué, gardien traditionnel qui semble danser tout seul."
+    },
+    {
+      expression: "Un egungun",
+      pays: "BJ", theme: "fete",
+      sens: "Un masque qui incarne un ancêtre",
+      leurres: ["Un chanteur de rue", "Un conteur", "Un acrobate"],
+      exemple: "L'egungun sort en habits chatoyants, il ne faut pas le toucher.",
+      fiche: "L'« egungun » (« revenant ») : un masque qui fait revenir un ancêtre parmi les vivants."
+    },
+    {
+      expression: "Le gelede",
+      pays: "BJ", theme: "fete",
+      sens: "Un masque yoruba célébrant les mères",
+      leurres: ["Une danse guerrière", "Un chant de récolte", "Un jeu de société"],
+      exemple: "Le gelede honore le pouvoir des femmes et des mères.",
+      fiche: "Le « Gèlèdè » : une mascarade yoruba du sud Bénin, classée à l'UNESCO, en hommage aux mères."
+    },
+    {
+      expression: "Le zinli",
+      pays: "BJ", theme: "fete",
+      sens: "Une musique et danse du Dahomey",
+      leurres: ["Un plat de fête", "Un tissu royal", "Un proverbe"],
+      exemple: "Le zinli, au départ chant funèbre, fait aujourd'hui danser.",
+      fiche: "Le « zinli » : un rythme et une danse nés dans la région d'Abomey."
+    },
+    {
+      expression: "La fête du vodoun",
+      pays: "BJ", theme: "fete",
+      sens: "La fête nationale du vodoun (10 janvier)",
+      leurres: ["La fête de l'indépendance", "Un carnaval de rue", "Une fête des récoltes"],
+      exemple: "Chaque 10 janvier, Ouidah célèbre la fête du vodoun.",
+      fiche: "La « fête du vodoun » : la fête nationale du 10 janvier, qui rassemble adeptes et visiteurs à Ouidah."
+    },
+    {
+      expression: "Yovo",
+      pays: "BJ", theme: "gens",
+      sens: "Un Blanc, un étranger",
+      leurres: ["Un chef traditionnel", "Un enfant", "Un commerçant"],
+      exemple: "Les enfants chantent « yovo yovo » en voyant l'étranger.",
+      fiche: "« Yovo » : un Blanc, un Européen — mot partagé avec le Togo voisin."
+    },
+    {
+      expression: "Un zem",
+      pays: "BJ", theme: "transport",
+      sens: "Un moto-taxi",
+      leurres: ["Un vélo", "Un grand bus", "Un bateau"],
+      exemple: "Je prends un zem pour aller au marché.",
+      fiche: "« Zem » : le diminutif de « zémidjan », le moto-taxi omniprésent à Cotonou."
+    },
+    {
+      expression: "Le tchoukoutou",
+      pays: "BJ", theme: "manger",
+      sens: "Une bière de mil locale",
+      leurres: ["Un jus d'ananas", "Un café au lait", "Une limonade"],
+      exemple: "On partage le tchoukoutou dans une calebasse.",
+      fiche: "Le « tchoukoutou » : une bière de mil artisanale, bue en commun."
+    },
+    {
+      expression: "Le sodabi",
+      pays: "BJ", theme: "manger",
+      sens: "Un alcool de vin de palme",
+      leurres: ["Un sirop sucré", "Une tisane", "Un bouillon de poisson"],
+      exemple: "Le sodabi, c'est fort, on en boit un petit verre.",
+      fiche: "Le « sodabi » : un alcool fort distillé à partir du vin de palme, emblématique du Bénin."
+    },
+    {
+      expression: "Le tchakpalo",
+      pays: "BJ", theme: "manger",
+      sens: "Une bière de mil du nord",
+      leurres: ["Un thé à la menthe", "Une bouillie sucrée", "Un jus de gingembre"],
+      exemple: "Au marché, on sert le tchakpalo tiède.",
+      fiche: "Le « tchakpalo » : une bière de mil, surtout dans le nord du pays."
+    },
+    {
+      expression: "Le wassa-wassa",
+      pays: "BJ", theme: "manger",
+      sens: "Un couscous d'igname",
+      leurres: ["Un riz au poisson", "Une purée de banane", "Une soupe épaisse"],
+      exemple: "Le wassa-wassa se mange avec une sauce arachide.",
+      fiche: "Le « wassa-wassa » : un couscous fait de farine d'igname, plat du nord Bénin."
+    },
+    {
+      expression: "L'amiwo",
+      pays: "BJ", theme: "manger",
+      sens: "Une pâte de maïs à la tomate",
+      leurres: ["Une galette sucrée", "Un gratin de pommes de terre", "Une salade composée"],
+      exemple: "Amiwo et poulet, un classique.",
+      fiche: "L'« amiwo » : une pâte de maïs rouge, préparée avec une sauce tomate, souvent servie avec du poulet."
+    },
+    {
+      expression: "Le télibo",
+      pays: "BJ", theme: "manger",
+      sens: "Une pâte d'igname",
+      leurres: ["Un pain de blé", "Un beignet sucré", "Une crêpe fine"],
+      exemple: "Le télibo noir se mange avec une sauce gluante.",
+      fiche: "Le « télibo » : une pâte faite de cossettes d'igname, sombre et élastique."
+    },
+    {
+      expression: "Le gari",
+      pays: "BJ", theme: "manger",
+      sens: "De la semoule de manioc",
+      leurres: ["De la farine de blé", "Du sucre en poudre", "Du gros sel"],
+      exemple: "Un peu d'eau sur le gari et c'est prêt.",
+      fiche: "Le « gari » : une semoule de manioc, saupoudrée sur les plats ou bue délayée dans l'eau."
+    },
+    {
+      expression: "L'atassi",
+      pays: "BJ", theme: "manger",
+      sens: "Du riz cuit avec des haricots",
+      leurres: ["Des pâtes à la tomate", "Une salade de fruits", "Un ragoût de poisson"],
+      exemple: "Atassi bien chaud avec de l'huile rouge.",
+      fiche: "L'« atassi » : un plat de riz et de haricots cuits ensemble."
+    },
+    {
+      expression: "Le kuli-kuli",
+      pays: "BJ", theme: "manger",
+      sens: "Des bâtonnets croustillants d'arachide",
+      leurres: ["Des bonbons au miel", "Des chips de banane", "Des biscuits au beurre"],
+      exemple: "Des kuli-kuli pour grignoter sur la route.",
+      fiche: "Le « kuli-kuli » : des bâtonnets ou galettes frits à base de pâte d'arachide."
+    },
+    {
+      expression: "L'akpan",
+      pays: "BJ", theme: "manger",
+      sens: "Un yaourt de maïs fermenté",
+      leurres: ["Un fromage de chèvre", "Une crème au chocolat", "Un jus de tamarin"],
+      exemple: "Un akpan bien frais avec du sucre.",
+      fiche: "L'« akpan » : une préparation liquide et acidulée de maïs fermenté, servie fraîche et sucrée."
+    },
+    {
+      expression: "Le tchinkoumè",
+      pays: "BJ", theme: "manger",
+      sens: "Une pâte de maïs noire à la sauce",
+      leurres: ["Une purée de carottes", "Un gâteau au chocolat", "Une soupe claire"],
+      exemple: "Le tchinkoumè se fait avec du maïs grillé.",
+      fiche: "Le « tchinkoumè » : une pâte de maïs noircie (maïs grillé), typique de la région de Porto-Novo."
     }
 
   ];
