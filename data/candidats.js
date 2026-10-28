@@ -4623,6 +4623,298 @@
       leurres: ["Un radeau", "Un grand voilier", "Un ferry"],
       exemple: "Les pêcheurs partent en lakana à l'aube.",
       fiche: "Malgache. Le « lakana » : une pirogue à balancier, taillée dans un tronc, pour la pêche et le transport."
+    },
+
+    // ---------- Gabon (compléments : cuisine, peuples, nature, masques) ----------
+    {
+      expression: "Le gibier",
+      pays: "GA", theme: "manger",
+      sens: "La viande de brousse (antilope, phacochère…)",
+      leurres: ["Du poisson d'élevage", "De la volaille de ferme", "Des légumes grillés"],
+      exemple: "Au maquis, on sert le gibier en sauce.",
+      fiche: "Gabon. Le « gibier » (la viande de brousse) : antilope, phacochère, porc-épic… un classique de la gargote."
+    },
+    {
+      expression: "Le mâchoiron",
+      pays: "GA", theme: "manger",
+      sens: "Un poisson-chat, fumé ou à l'étouffée",
+      leurres: ["Un coquillage", "Un gros crabe", "Une sardine"],
+      exemple: "Du mâchoiron fumé à l'odika.",
+      fiche: "Gabon. Le « mâchoiron » : un poisson-chat d'eau douce, souvent fumé ou mijoté."
+    },
+    {
+      expression: "Les pistaches",
+      pays: "GA", theme: "manger",
+      sens: "Des graines de courge pilées, en sauce",
+      leurres: ["Des cacahuètes grillées", "Des noix de cajou", "Des amandes sucrées"],
+      exemple: "Une sauce de pistaches avec du poisson.",
+      fiche: "Afrique centrale. Les « pistaches » : des graines de courge (egusi) pilées, qui épaississent les sauces."
+    },
+    {
+      expression: "Le vin de palme",
+      pays: "GA", theme: "manger",
+      sens: "Une boisson tirée de la sève du palmier",
+      leurres: ["Un jus d'ananas", "Une bière industrielle", "Un sirop sucré"],
+      exemple: "On partage le vin de palme frais sous l'arbre.",
+      fiche: "Afrique centrale. Le « vin de palme » : la sève du palmier, récoltée et fermentée, douce puis piquante."
+    },
+    {
+      expression: "Le poisson braisé",
+      pays: "GA", theme: "manger",
+      sens: "Du poisson grillé à la braise",
+      leurres: ["Un poisson en conserve", "Une soupe de poisson", "Un poisson pané"],
+      exemple: "Poisson braisé-bananes, le plat du maquis.",
+      fiche: "Gabon. Le « poisson braisé » : un poisson grillé sur la braise, servi avec banane plantain ou manioc, star des maquis."
+    },
+    {
+      expression: "Le saka-saka",
+      pays: "GA", theme: "manger",
+      sens: "Des feuilles de manioc pilées et mijotées",
+      leurres: ["Une salade de crudités", "Un gratin de courgettes", "Une soupe de tomates"],
+      exemple: "Du saka-saka avec du poisson fumé.",
+      fiche: "Afrique centrale. Le « saka-saka » : des feuilles de manioc pilées, longuement mijotées (aussi le « pondu » à Kinshasa)."
+    },
+    {
+      expression: "Un Fang",
+      pays: "GA", theme: "gens",
+      sens: "Un membre du principal peuple du Gabon",
+      leurres: ["Un étranger récent", "Un peuple du désert", "Un marin asiatique"],
+      exemple: "Les Fang vivent surtout dans le nord du pays.",
+      fiche: "Gabon. Les « Fang » : le plus grand peuple du pays (présent aussi au Cameroun et en Guinée équatoriale)."
+    },
+    {
+      expression: "Un Punu",
+      pays: "GA", theme: "gens",
+      sens: "Un peuple du sud, connu pour ses masques blancs",
+      leurres: ["Un peuple de pêcheurs du Nord", "Un peuple nomade", "Un peuple des grandes villes"],
+      exemple: "Les masques blancs punu sont célèbres.",
+      fiche: "Gabon. Les « Punu » : un peuple du sud, connu pour ses masques blancs et la danse okuyi."
+    },
+    {
+      expression: "Un Myènè",
+      pays: "GA", theme: "gens",
+      sens: "Un peuple du littoral (Libreville, Port-Gentil)",
+      leurres: ["Un peuple des montagnes", "Un peuple du désert", "Un peuple d'éleveurs"],
+      exemple: "Le myènè est aussi une langue de la côte.",
+      fiche: "Gabon. Les « Myènè » : un peuple du littoral ; leur langue a donné des mots au français local (comme « akiba »)."
+    },
+    {
+      expression: "Les Panthères",
+      pays: "GA", theme: "gens",
+      sens: "L'équipe nationale de football du Gabon",
+      leurres: ["Un groupe de danse", "Une réserve d'animaux", "Un parti politique"],
+      exemple: "Les Panthères jouent ce soir à Libreville.",
+      fiche: "Gabon. « Les Panthères » : le surnom de l'équipe nationale de football."
+    },
+    {
+      expression: "L'okoumé",
+      pays: "GA", theme: "quotidien",
+      sens: "Le grand arbre, bois le plus exporté",
+      leurres: ["Un fruit tropical", "Une liane grimpante", "Une fleur rare"],
+      exemple: "L'okoumé fait vivre la filière bois.",
+      fiche: "Gabon. L'« okoumé » : un grand arbre de la forêt, dont le bois clair est le plus exporté du pays."
+    },
+    {
+      expression: "La Lopé",
+      pays: "GA", theme: "quotidien",
+      sens: "Un célèbre parc national (UNESCO)",
+      leurres: ["Une plage touristique", "Un quartier de Libreville", "Un grand marché"],
+      exemple: "On observe les mandrills au parc de la Lopé.",
+      fiche: "Gabon. La « Lopé » : un parc national de forêt et de savane, classé à l'UNESCO."
+    },
+    {
+      expression: "Port-Gentil",
+      pays: "GA", theme: "quotidien",
+      sens: "La capitale économique et pétrolière",
+      leurres: ["La plus haute montagne", "Un village de pêcheurs isolé", "La capitale politique"],
+      exemple: "Port-Gentil vit au rythme du pétrole.",
+      fiche: "Gabon. « Port-Gentil » : la capitale économique, cœur de l'industrie du pétrole et du bois."
+    },
+    {
+      expression: "Le pétrole",
+      pays: "GA", theme: "quotidien",
+      sens: "La principale richesse du pays",
+      leurres: ["La principale culture vivrière", "Le premier sport national", "La monnaie locale"],
+      exemple: "Le pétrole a longtemps porté l'économie.",
+      fiche: "Gabon. Le « pétrole » : la ressource qui a fait la prospérité du pays au XXe siècle."
+    },
+    {
+      expression: "Lambaréné",
+      pays: "GA", theme: "quotidien",
+      sens: "Une ville sur l'Ogooué, célèbre pour son hôpital",
+      leurres: ["Une station balnéaire", "Un sommet du Nord", "Un marché de la capitale"],
+      exemple: "L'hôpital d'Albert Schweitzer est à Lambaréné.",
+      fiche: "Gabon. « Lambaréné » : une ville sur le fleuve Ogooué, connue pour l'hôpital fondé par Albert Schweitzer."
+    },
+    {
+      expression: "L'Ogooué",
+      pays: "GA", theme: "quotidien",
+      sens: "Le grand fleuve du Gabon",
+      leurres: ["Un sommet volcanique", "Un désert de sable", "Un lac salé"],
+      exemple: "L'Ogooué traverse la forêt jusqu'à l'océan.",
+      fiche: "Gabon. L'« Ogooué » : le grand fleuve qui traverse le pays d'est en ouest."
+    },
+    {
+      expression: "L'éléphant de forêt",
+      pays: "GA", theme: "quotidien",
+      sens: "L'éléphant emblème de la faune gabonaise",
+      leurres: ["Un grand félin", "Un oiseau géant", "Un reptile du fleuve"],
+      exemple: "L'éléphant de forêt traverse parfois la route.",
+      fiche: "Gabon. L'« éléphant de forêt » : plus petit que celui de la savane, emblème de la faune du pays."
+    },
+    {
+      expression: "Le mandrill",
+      pays: "GA", theme: "quotidien",
+      sens: "Un grand singe au visage coloré",
+      leurres: ["Un petit lézard", "Un perroquet", "Un poisson du fleuve"],
+      exemple: "Le mandrill au museau bleu et rouge.",
+      fiche: "Gabon. Le « mandrill » : un grand singe au visage bleu et rouge, emblème national."
+    },
+    {
+      expression: "L'okuyi",
+      pays: "GA", theme: "fete",
+      sens: "Une danse masquée sur échasses",
+      leurres: ["Un plat de fête", "Un chant religieux", "Un jeu d'enfants"],
+      exemple: "Le danseur okuyi avance sur ses échasses.",
+      fiche: "Gabon. L'« okuyi » (mukudj) : une danse du peuple punu, exécutée masquée, parfois sur échasses."
+    },
+    {
+      expression: "Le ngontang",
+      pays: "GA", theme: "fete",
+      sens: "Une danse masquée fang (masque blanc)",
+      leurres: ["Une course de pirogues", "Un marché de nuit", "Une veillée silencieuse"],
+      exemple: "Le ngontang ouvre la cérémonie.",
+      fiche: "Gabon. Le « ngontang » : une danse masquée des Fang, au visage blanc, liée aux esprits."
+    },
+    {
+      expression: "Le ndjembé",
+      pays: "GA", theme: "fete",
+      sens: "Un rite et une danse féminins",
+      leurres: ["Un tournoi de lutte", "Un repas de mariage", "Un chant de pêcheurs"],
+      exemple: "Les femmes se réunissent pour le ndjembé.",
+      fiche: "Gabon. Le « ndjembé » : un rite initiatique et une danse réservés aux femmes."
+    },
+
+    // ---------- Tchad (compléments : cuisine, lac et massifs, peuples, culture) ----------
+    {
+      expression: "Le briyani",
+      pays: "TD", theme: "manger",
+      sens: "Un riz épicé à la viande (région du Lac)",
+      leurres: ["Une soupe claire", "Un pain plat", "Une salade de crudités"],
+      exemple: "Un briyani parfumé aux épices.",
+      fiche: "Tchad. Le « briyani » : un riz épicé à la viande, apprécié autour du lac Tchad (cousin du biryani)."
+    },
+    {
+      expression: "La dyé",
+      pays: "TD", theme: "manger",
+      sens: "Une sauce à base de spiruline",
+      leurres: ["Une sauce tomate", "Un bouillon de poulet", "Une crème sucrée"],
+      exemple: "La dyé verte, riche en spiruline du lac.",
+      fiche: "Tchad. La « dyé » : une sauce verte à base de spiruline, l'algue récoltée sur le lac Tchad."
+    },
+    {
+      expression: "Le mil",
+      pays: "TD", theme: "manger",
+      sens: "La céréale de base du pays",
+      leurres: ["Le riz importé", "Le blé", "Le café"],
+      exemple: "On fait la boule avec la farine de mil.",
+      fiche: "Tchad. Le « mil » : la céréale de base, dont on tire la boule et la bière de mil (bilibili)."
+    },
+    {
+      expression: "Le gombo",
+      pays: "TD", theme: "manger",
+      sens: "Un légume gluant, base de la daraba",
+      leurres: ["Un piment rouge", "Une pomme de terre", "Un oignon doux"],
+      exemple: "La sauce de gombo accompagne la boule.",
+      fiche: "Tchad. Le « gombo » : un légume vert gluant, cœur de la sauce daraba."
+    },
+    {
+      expression: "Le kilichi",
+      pays: "TD", theme: "manger",
+      sens: "De la viande séchée épicée, en fines lamelles",
+      leurres: ["Un fromage affiné", "Un poisson fumé", "Une galette de mil"],
+      exemple: "On grignote du kilichi sur la route.",
+      fiche: "Sahel. Le « kilichi » : de la viande séchée au soleil, enduite d'épices, en fines lamelles."
+    },
+    {
+      expression: "Le lac Tchad",
+      pays: "TD", theme: "quotidien",
+      sens: "Le grand lac qui donne son nom au pays",
+      leurres: ["Un fleuve rapide", "Un désert de dunes", "Une mer salée"],
+      exemple: "Les pêcheurs vivent au bord du lac Tchad.",
+      fiche: "Le « lac Tchad » : un grand lac peu profond, partagé entre quatre pays, qui a donné son nom au Tchad."
+    },
+    {
+      expression: "Le Chari",
+      pays: "TD", theme: "quotidien",
+      sens: "Le grand fleuve qui borde N'Djamena",
+      leurres: ["Un sommet volcanique", "Un marché central", "Un quartier de la capitale"],
+      exemple: "N'Djamena est posée au bord du Chari.",
+      fiche: "Tchad. Le « Chari » : le grand fleuve qui longe N'Djamena et alimente le lac Tchad."
+    },
+    {
+      expression: "Le Tibesti",
+      pays: "TD", theme: "quotidien",
+      sens: "Le massif volcanique du Nord",
+      leurres: ["Une forêt tropicale", "Une plaine fertile", "Un lac de montagne"],
+      exemple: "Les pics du Tibesti dominent le Sahara.",
+      fiche: "Tchad. Le « Tibesti » : un massif volcanique du Sahara, le plus haut du pays."
+    },
+    {
+      expression: "L'Ennedi",
+      pays: "TD", theme: "quotidien",
+      sens: "Un massif de grès aux arches (UNESCO)",
+      leurres: ["Une oasis de palmiers", "Une ville ancienne", "Un grand barrage"],
+      exemple: "Les arches de l'Ennedi sculptées par le vent.",
+      fiche: "Tchad. L'« Ennedi » : un massif de grès aux arches et canyons spectaculaires, classé à l'UNESCO."
+    },
+    {
+      expression: "Les Sao",
+      pays: "TD", theme: "quotidien",
+      sens: "Une civilisation ancienne (terres cuites)",
+      leurres: ["Une danse de carnaval", "Une tribu nomade actuelle", "Un plat de fête"],
+      exemple: "Les statuettes des Sao sont au musée.",
+      fiche: "Tchad. Les « Sao » : une ancienne civilisation du bassin du lac, connue pour ses statuettes de terre cuite."
+    },
+    {
+      expression: "Le bœuf kouri",
+      pays: "TD", theme: "quotidien",
+      sens: "Une race de bœuf aux énormes cornes",
+      leurres: ["Un petit mouton", "Un cheval de course", "Une chèvre naine"],
+      exemple: "Le bœuf kouri nage dans le lac Tchad.",
+      fiche: "Tchad. Le « bœuf kouri » : une race des îles du lac Tchad, aux cornes énormes et légères."
+    },
+    {
+      expression: "Un Sara",
+      pays: "TD", theme: "gens",
+      sens: "Un membre du principal peuple du sud",
+      leurres: ["Un nomade du désert", "Un commerçant arabe", "Un étranger de passage"],
+      exemple: "Les Sara cultivent les terres du sud.",
+      fiche: "Tchad. Les « Sara » : le principal peuple du sud du pays."
+    },
+    {
+      expression: "Un Toubou",
+      pays: "TD", theme: "gens",
+      sens: "Un peuple nomade du Sahara (nord)",
+      leurres: ["Un peuple de pêcheurs du lac", "Un peuple du sud agricole", "Un peuple de la capitale"],
+      exemple: "Les Toubou connaissent les pistes du désert.",
+      fiche: "Tchad. Les « Toubou » : un peuple nomade du Sahara, dans le nord du pays et le Tibesti."
+    },
+    {
+      expression: "Le festival Dary",
+      pays: "TD", theme: "fete",
+      sens: "Un grand festival des cultures tchadiennes",
+      leurres: ["Une course de chameaux", "Un marché hebdomadaire", "Une fête religieuse"],
+      exemple: "Le festival Dary rassemble les provinces à N'Djamena.",
+      fiche: "Tchad. Le « festival Dary » : un grand rendez-vous culturel à N'Djamena, qui met en valeur les traditions des provinces."
+    },
+    {
+      expression: "Le kakaki",
+      pays: "TD", theme: "fete",
+      sens: "Une très longue trompette de cérémonie",
+      leurres: ["Un tambour d'appel", "Une flûte en roseau", "Une cloche"],
+      exemple: "Le kakaki annonce l'entrée du sultan.",
+      fiche: "Sahel. Le « kakaki » : une trompette de métal de plusieurs mètres, jouée dans les cours royales."
     }
 
   ];
