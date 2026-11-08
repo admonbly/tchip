@@ -1257,12 +1257,12 @@
       fiche: "Le « kongossa » : les ragots, les potins — un mot partagé avec le Cameroun voisin."
     },
     {
-      expression: "Une bouquet",
-      pays: "GA", theme: "gens",
-      sens: "Une belle jeune femme",
-      leurres: ["Un bouquet de fleurs", "Un jeune homme élégant", "Une vieille dame"],
-      exemple: "Cette bouquet-là fait tourner les têtes dans le mapane.",
-      fiche: "Français du Gabon. Une « bouquet » : une belle jeune femme."
+      expression: "Le Transgabonais",
+      pays: "GA", theme: "transport",
+      sens: "Le train qui traverse le pays d'ouest en est",
+      leurres: ["Un grand marché de Libreville", "Un fleuve navigable", "Une compagnie aérienne"],
+      exemple: "On rejoint Franceville en Transgabonais.",
+      fiche: "Le « Transgabonais » : le chemin de fer qui relie Libreville (Owendo) à Franceville, à travers la forêt équatoriale — une fierté nationale."
     },
     {
       expression: "On est ensemble",
