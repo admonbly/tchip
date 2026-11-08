@@ -648,6 +648,12 @@
          (AP ? '<button class="btn secondaire" data-voyage="' + esc(P.e.pays) + '">' + ICONES.voyager + t("Plus de mots :") + ' ' + drapeau(P.e.pays) + ' ' + esc(p.nom) + '</button>' : '') +
          (proposerRappel ? '<button class="btn secondaire" data-act="proposer-rappel">' + ICONES.cloche + t("Me rappeler le tchip chaque jour") + '</button>' : '') +
          '<button class="btn secondaire" data-act="archives">' + t("Jouer un jour précédent") + '</button></div>';
+    if (jourAffiche === jourReel) {
+      var gg = etatGeo(jourReel);
+      h += '<section class="card geo-carte"><h3>🌍 ' + t("Devine le pays du jour") + '</h3>' +
+           '<p>' + (gg.fini ? (gg.gagne ? t("Trouvé ! Un nouveau pays t'attend demain.") : t("Pas trouvé aujourd'hui. Reviens demain !")) : t("Un second défi : retrouve le pays d'une expression mystère.")) + '</p>' +
+           '<button class="btn secondaire" data-act="devine-pays">' + ICONES.voyager + (gg.fini ? t("Voir le résultat") : t("Jouer")) + '</button></section>';
+    }
     h += '<section class="card proposer-carte">' +
          '<h3>' + t("Chez toi, on dit quoi ?") + '</h3>' +
          '<p>' + t("Propose une expression de ton pays ou de ton quartier, avec un ou plusieurs sens. Les meilleures deviendront le tchip du jour.") + '</p>' +
@@ -667,6 +673,78 @@
         el.textContent = avantMinuit();
       }, 1000);
     }
+  }
+
+  // ---------- Mini-jeu « Devine le pays » ----------
+  // Un défi quotidien à part : une expression mystère (différente du tchip du jour),
+  // on cherche son pays parmi les 23, avec des indices qui se dévoilent à chaque erreur.
+  var ESSAIS_GEO = 4;
+  function cleGeo(n) { return "tchip:geo:" + n; }
+  function geoIndex(n) { var j = confirmees(); return (n - 1 + Math.floor(j.length / 2)) % j.length; }
+  function motGeo(n) { return confirmees()[geoIndex(n)]; }
+  function etatGeo(n) { var g = lire(cleGeo(n), null); return g && g.essais ? g : { essais: [], fini: false, gagne: false }; }
+  function autreMotGeo(e) {
+    var m = confirmees().filter(function (x) { return x.pays === e.pays && x.expression !== e.expression; });
+    return m.length ? m[0] : null;
+  }
+  function indicesGeo(e, nb) {
+    var l = [];
+    if (nb >= 1) l.push([t("Région"), t(paysInfo(e.pays).region || "Ailleurs")]);
+    if (nb >= 2) { var a = autreMotGeo(e); if (a) l.push([t("Un autre mot de ce pays"), "« " + a.expression + " » — " + a.sens]); }
+    if (nb >= 3 && paysInfo(e.pays).intro) l.push([t("L'accent"), paysInfo(e.pays).intro]);
+    return l;
+  }
+  function devinerPays(code) {
+    var n = jourReel, e = motGeo(n), g = etatGeo(n);
+    if (g.fini || g.essais.indexOf(code) !== -1) return;
+    if (code === e.pays) {
+      g.gagne = true; g.fini = true; ecrire(cleGeo(n), g);
+      son("juste"); vibrer("succes");
+    } else {
+      g.essais.push(code);
+      if (g.essais.length >= ESSAIS_GEO) g.fini = true;
+      ecrire(cleGeo(n), g);
+      son("faux"); vibrer("erreur");
+    }
+    feuilleDevinePays();
+  }
+  function texteGeo(n, g) {
+    var grille = g.essais.map(function () { return "🟥"; }).join("") + (g.gagne ? "🟩" : "");
+    var note = g.gagne ? (g.essais.length + 1) + "/" + ESSAIS_GEO : "X/" + ESSAIS_GEO;
+    return t("Devine le pays #{n}", { n: n }) + " · " + note + "\n🌍 " + grille + "\n" + t("Tu parles d'où ?") + " " + ADRESSE_PARTAGE;
+  }
+  function feuilleDevinePays() {
+    var n = jourReel, e = motGeo(n), g = etatGeo(n), p = paysInfo(e.pays), coups = g.essais.length + 1;
+    var h = '<header><h2>' + t("Devine le pays") + '</h2>' + boutonFermer() + '</header>';
+    h += '<section class="card geo-mystere"><p class="question">' + t("D'où vient cette expression ?") + '</p>' +
+      '<h1 class="expression">« ' + esc(e.expression) + ' »</h1>' +
+      '<p class="geo-sens">' + esc(e.sens) + '</p></section>';
+    var ind = indicesGeo(e, g.essais.length);
+    if (ind.length) {
+      h += '<div class="geo-indices">' + ind.map(function (c) {
+        return '<p><b>' + c[0] + ' :</b> ' + esc(c[1]) + '</p>';
+      }).join("") + '</div>';
+    }
+    if (g.fini) {
+      var verdict = g.gagne ? (coups > 1 ? t("Bravo ! Trouvé en {n} essais.", { n: coups }) : t("Bravo ! Du premier coup !")) : t("Raté ! C'était :");
+      h += '<section class="card geo-fin ' + (g.gagne ? 'gagne' : 'rate') + '">' +
+        '<p class="geo-verdict">' + verdict + '</p>' +
+        '<p class="origine">' + drapeau(e.pays, "moyen") + ' ' + esc(p.nom) + '</p></section>';
+      h += '<div class="actions"><button class="btn" data-act="partager-geo">' + ICONES.partager + t("Partager") + '</button></div>';
+    } else {
+      h += '<p class="geo-essais">' + (ESSAIS_GEO - g.essais.length > 1
+        ? t("{n} essais restants", { n: ESSAIS_GEO - g.essais.length }) : t("Dernier essai")) + '</p>';
+      regions().forEach(function (reg) {
+        h += '<div class="geo-groupe"><span class="geo-region">' + esc(reg.nom) + '</span><div class="geo-grille">';
+        reg.codes.forEach(function (c) {
+          var faux = g.essais.indexOf(c) !== -1;
+          h += '<button class="geo-opt' + (faux ? ' faux' : '') + '" data-geo="' + esc(c) + '"' + (faux ? ' disabled' : '') +
+            ' aria-label="' + esc(paysInfo(c).nom) + '">' + drapeau(c, "moyen") + '</button>';
+        });
+        h += '</div></div>';
+      });
+    }
+    feuille(h, "geo");
   }
 
   function animerMascotte(cls) {
@@ -1582,6 +1660,7 @@
     if (b.hasAttribute("data-onglet")) { son("clic"); return allerA(b.getAttribute("data-onglet")); }
     if (b.hasAttribute("data-voyage")) return allerA("voyager", b.getAttribute("data-voyage"));
     if (b.hasAttribute("data-mot")) return feuilleMot(EXPR[+b.getAttribute("data-mot")]);
+    if (b.hasAttribute("data-geo")) return devinerPays(b.getAttribute("data-geo"));
     if (b.hasAttribute("data-rep")) return repondre(+b.getAttribute("data-rep"));
     if (b.hasAttribute("data-son")) return jouerSon(EXPR[+b.getAttribute("data-son")]);
     switch (b.getAttribute("data-act")) {
@@ -1615,6 +1694,8 @@
       case "archives": return feuilleArchives();
       case "fermer": return fermerFeuille(true);
       case "copier-partage": return copierSecours();
+      case "devine-pays": return feuilleDevinePays();
+      case "partager-geo": return partagerTexte(texteGeo(jourReel, etatGeo(jourReel)), t("Devine le pays"));
       case "partager": return partager();
       case "aujourdhui": onglet = "jour"; chargerJour(jourReel); entree = "place"; rendre(); window.scrollTo(0, 0); return;
       case "reglages": return feuilleReglages();

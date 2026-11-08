@@ -213,6 +213,24 @@ button {
 .drapeau-img.moyen { width: 36px; height: 27px; vertical-align: middle; }
 .drapeau-img.grand { width: 44px; height: 33px; border-radius: 5px; vertical-align: middle; }
 .drapeau-img.tres-grand { width: 72px; height: 54px; border-radius: 8px; box-shadow: 0 0 0 2.5px var(--encre), var(--pop-sm); }
+
+/* Mini-jeu « Devine le pays » */
+.geo-mystere { text-align: center; }
+.geo-sens { color: var(--encre-douce); margin: 8px 0 0; }
+.geo-indices { border: var(--bord); border-radius: var(--r-md); background: var(--sable); padding: 10px 14px; margin: 12px 0; }
+.geo-indices p { margin: 5px 0; font-size: 15px; }
+.geo-essais { text-align: center; font-weight: 700; color: var(--encre-douce); margin: 10px 0; }
+.geo-groupe { margin: 12px 0; }
+.geo-region { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--encre-douce); font-weight: 700; margin-bottom: 7px; }
+.geo-grille { display: flex; flex-wrap: wrap; gap: 8px; }
+.geo-opt { padding: 7px; border: var(--bord); border-radius: var(--r-md); background: var(--surface); cursor: pointer; line-height: 0; }
+.geo-opt:not([disabled]):active { transform: scale(.94); }
+.geo-opt.faux { opacity: .3; }
+.geo-fin { text-align: center; }
+.geo-fin.gagne { background: var(--menthe); color: var(--encre-fixe); border-color: var(--encre-fixe); }
+.geo-fin.rate { background: var(--piment); color: var(--encre-fixe); border-color: var(--encre-fixe); }
+.geo-verdict { font-weight: 800; font-size: 18px; margin: 0 0 8px; }
+.geo-carte h3 { margin: 0 0 6px; }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
 .etape-titre { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
