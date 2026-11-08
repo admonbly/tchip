@@ -1,6 +1,7 @@
 /* Tchip — logique du jeu (sans compte ni serveur de jeu)
  * Trois onglets :
- * - Aujourd'hui : une expression par jour, la même pour tout le monde, numérotée depuis le lancement.
+ * - Aujourd'hui : une expression par jour ; chacun commence à son jour 1 (sa première ouverture),
+ *   les mêmes expressions dans le même ordre pour tous, seul le numéro du jour dépend de la date de départ.
  *   Étape 1 « Ça veut dire quoi ? » : 4 propositions, 2 essais. Après une erreur, l'indice (phrase d'exemple) s'ouvre.
  *   Étape 2 « D'où ça vient ? » : 4 pays, 1 essai, +1 point. Score sur 4 : 3 (1er essai) ou 1 (2e essai) ou 0, + 1 pour le pays.
  * - Voyager : on choisit un pays, on joue des séries sans limite et on parcourt son lexique par thème.
@@ -12,7 +13,6 @@
   "use strict";
 
   // ---------- Réglages ----------
-  var LANCEMENT = { a: 2026, m: 10, j: 25 };      // jour #1 (année, mois 1-12, jour)
   var ADRESSE_PARTAGE = "tchip.app";               // domaine affiché dans les partages et les invitations
   var LIEN_JEU = "https://" + ADRESSE_PARTAGE + "/";
   var API_PROPOSITIONS = "https://api.tchip.app/propositions"; // le Worker de api/ : propositions des joueurs, non publiques
@@ -232,15 +232,23 @@
   window.addEventListener("unhandledrejection", function (ev) { signalerErreur(ev.reason && (ev.reason.message || ev.reason), "promesse"); });
 
   // ---------- Dates ----------
+  // Chaque joueur a son propre « jour 1 » : la date de sa première ouverture, gardée sur l'appareil.
+  // Tout le monde traverse les mêmes expressions dans le même ordre ; seul le numéro du jour change,
+  // selon la date à laquelle on a commencé à jouer.
+  function aujUTC() { var d = new Date(); return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function departJoueur() {
+    var d = lire("tchip:depart", null);
+    if (typeof d === "number") return d;
+    d = aujUTC();
+    ecrire("tchip:depart", d); // ancré une fois pour toutes, à la toute première ouverture
+    return d;
+  }
   function numeroDuJour(date) {
-    var d = date || new Date();
-    var auj = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
-    var dep = Date.UTC(LANCEMENT.a, LANCEMENT.m - 1, LANCEMENT.j);
-    return Math.max(1, Math.floor((auj - dep) / 86400000) + 1);
+    var auj = date ? Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) : aujUTC();
+    return Math.max(1, Math.floor((auj - departJoueur()) / 86400000) + 1);
   }
   function dateDuNumero(n) {
-    var dep = Date.UTC(LANCEMENT.a, LANCEMENT.m - 1, LANCEMENT.j);
-    var d = new Date(dep + (n - 1) * 86400000);
+    var d = new Date(departJoueur() + (n - 1) * 86400000);
     return d.toLocaleDateString(L === "en" ? "en-GB" : "fr-FR", { day: "numeric", month: "long", timeZone: "UTC" });
   }
   function avantMinuit() {
@@ -1505,7 +1513,7 @@
   function feuilleAide(depuisReglages) {
     var h = enteteFeuille(t("Comment jouer"), depuisReglages) +
       '<section class="aide-bloc"><h3><span class="pastille p1" aria-hidden="true">' + ICONES.jour + '</span>' + t("Aujourd'hui") + '</h3><ul>' +
-      [t("Une nouvelle expression chaque jour à minuit, la même pour tout le monde."),
+      [t("Une nouvelle expression chaque jour, à minuit. Tu commences au jour 1 et tu avances un jour après l'autre."),
         t("Trouve ce qu'elle veut dire. Tu as <b>2 essais</b> : du premier coup, <b>3 points</b> ; au deuxième, <b>1 point</b>."),
         t("Si tu te trompes, un <b>indice</b> apparaît."),
         t("Bonus : trouve le pays. <b>+1 point</b>."),

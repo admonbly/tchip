@@ -277,7 +277,7 @@ window.TCHIP_LANGUES = {
     "Gagne un tampon pour chaque pays que tu apprends.": "Earn a stamp for every country you learn.",
     "C'est parti&nbsp;!": "Let's go!",
     "Besoin d'aide plus tard ? Touche le <b>?</b> en haut de l'écran.": "Need help later? Tap the <b>?</b> at the top of the screen.",
-    "Une nouvelle expression chaque jour à minuit, la même pour tout le monde.": "A new expression every day at midnight, the same for everyone.",
+    "Une nouvelle expression chaque jour, à minuit. Tu commences au jour 1 et tu avances un jour après l'autre.": "A new expression every day, at midnight. You start on day 1 and move forward one day at a time.",
     "Trouve ce qu'elle veut dire. Tu as <b>2 essais</b> : du premier coup, <b>3 points</b> ; au deuxième, <b>1 point</b>.": "Find out what it means. You get <b>2 tries</b>: first try, <b>3 points</b>; second try, <b>1 point</b>.",
     "Si tu te trompes, un <b>indice</b> apparaît.": "If you get it wrong, a <b>hint</b> appears.",
     "Bonus : trouve le pays. <b>+1 point</b>.": "Bonus: find the country. <b>+1 point</b>.",
