@@ -317,7 +317,7 @@
   }
 
   function stats() {
-    return lire("tchip:stats", { joues: 0, trouves: 0, serie: 0, meilleure: 0, dernier: 0, distrib: [0, 0, 0, 0, 0] });
+    return lire("tchip:stats", { joues: 0, trouves: 0, serie: 0, meilleure: 0, dernier: 0, gels: 0, distrib: [0, 0, 0, 0, 0] });
   }
   function enregistrerStats() {
     if (jourAffiche !== jourReel) return; // les archives ne comptent pas
@@ -325,11 +325,21 @@
     if (s.dernier === jourReel) return;
     s.joues += 1;
     if (etat.sensOk) s.trouves += 1;
-    s.serie = s.dernier === jourReel - 1 ? s.serie + 1 : 1;
+    // Série, avec repêchage : un « gel » protège un jour manqué, pour ne pas perdre une longue série pour un oubli.
+    var sauvee = false;
+    if (s.dernier === jourReel - 1) {
+      s.serie += 1;
+    } else if (s.dernier === jourReel - 2 && (s.gels || 0) > 0) {
+      s.gels = (s.gels || 0) - 1; s.serie += 1; sauvee = true;
+    } else {
+      s.serie = 1;
+    }
+    if (s.serie >= 5 && s.serie % 5 === 0) s.gels = Math.min(2, (s.gels || 0) + 1); // un gel gagné à chaque palier de 5 jours
     s.meilleure = Math.max(s.meilleure, s.serie);
     s.dernier = jourReel;
     s.distrib[score(etat, P.e)] += 1;
     ecrire("tchip:stats", s);
+    if (sauvee) toast(t("🔥 Série sauvée grâce à un gel !"));
   }
   function serieActuelle() {
     var s = stats();
@@ -1630,7 +1640,11 @@
       '<div class="stat"><b>' + pct + '%</b><span>' + t("Sens trouvés") + '</span></div>' +
       '<div class="stat"><b>' + serieActuelle() + '</b><span>' + t("Série") + '</span></div>' +
       '<div class="stat"><b>' + s.meilleure + '</b><span>' + t("Record") + '</span></div>' +
-      '</div><h3 style="margin:0;font-family:var(--f-display);font-size:20px">' + t("Répartition des scores") + '</h3>' +
+      '</div>' +
+      '<p class="stats-gels">🛡️ ' + ((s.gels || 0)
+        ? t("Gels de série : {n} — un gel protège un jour manqué.", { n: s.gels })
+        : t("Pas de gel pour l'instant — enchaîne 5 jours de suite pour en gagner un.")) + '</p>' +
+      '<h3 style="margin:0;font-family:var(--f-display);font-size:20px">' + t("Répartition des scores") + '</h3>' +
       '<div class="distrib">' + lignes + '</div>' +
       (s.joues === 0 ? '<p class="vide">' + t("Joue ton premier tchip pour remplir tes stats.") + '</p>' : ''));
   }

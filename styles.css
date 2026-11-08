@@ -231,6 +231,7 @@ button {
 .geo-fin.rate { background: var(--piment); color: var(--encre-fixe); border-color: var(--encre-fixe); }
 .geo-verdict { font-weight: 800; font-size: 18px; margin: 0 0 8px; }
 .geo-carte h3 { margin: 0 0 6px; }
+.stats-gels { text-align: center; color: var(--encre-douce); font-size: 14px; margin: 12px 0 4px; }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
 .etape-titre { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }

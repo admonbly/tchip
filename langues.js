@@ -80,6 +80,9 @@ window.TCHIP_LANGUES = {
     "Bravo ! Du premier coup !": "Nice! First try!",
     "Raté ! C'était :": "Missed! It was:",
     "Partager": "Share",
+    "🔥 Série sauvée grâce à un gel !": "🔥 Streak saved with a freeze!",
+    "Gels de série : {n} — un gel protège un jour manqué.": "Streak freezes: {n} — a freeze protects one missed day.",
+    "Pas de gel pour l'instant — enchaîne 5 jours de suite pour en gagner un.": "No freeze yet — play 5 days in a row to earn one.",
     "Copie ce texte et colle-le où tu veux :": "Copy this text and paste it wherever you like:",
     "Copier": "Copy",
 
