@@ -473,7 +473,7 @@
 
   var WORDMARK = '<svg class="wordmark" viewBox="-8 0 232 100" role="img" aria-label="Tchip"><g class="ink" fill="none" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12V54q0 16 16 16"/><path d="M2 32H28"/><path d="M74 36A20 20 0 1 0 74 64"/><path d="M94 10V70M94 48A16 16 0 0 1 126 48V70"/><path d="M146 36V70"/><path d="M168 36V92"/><circle cx="186" cy="52" r="17"/></g><path d="M146 1c6.6 0 11 4.2 11 9.4s-4.4 9.4-11 9.4c-1.4 0-2.7-.2-3.9-.6L136 22l1.4-4.6c-1.6-1.8-2.4-4.2-2.4-7C135 5.2 139.4 1 146 1z" fill="var(--piment)"/></svg>';
 
-  function mascotte(humeur) {
+  function mascotte(humeur, id) {
     var bulle = '<path class="bulle" d="M60 12c27.6 0 48 18.8 48 44s-20.4 44-48 44c-6.2 0-12-.9-17.4-2.7L20 108l5.6-20.4C16.9 79.6 12 68.5 12 56 12 30.8 32.4 12 60 12z" style="fill:var(--indigo)" stroke="var(--encre)" stroke-width="3"/>';
     var visage;
     if (humeur === "joie") {
@@ -487,11 +487,21 @@
     var ondes = humeur === "joie"
       ? '<path class="ondes" d="M100 30l6-8M106 50h10M100 70l6 8" stroke="#FFC233" stroke-width="5.5" stroke-linecap="round"/>'
       : '<path class="ondes" d="M100 42l8-7M103 57h11M100 72l8 7" stroke="#FFC233" stroke-width="5.5" stroke-linecap="round"/>';
-    return '<svg class="mascotte" id="mascotte" viewBox="0 0 120 120" role="img" aria-label="Momo"><g transform="translate(2 6) scale(.86)">' + bulle + visage + '</g>' + ondes + '</svg>';
+    return '<svg class="mascotte"' + (id === false ? '' : ' id="mascotte"') + ' viewBox="0 0 120 120" role="img" aria-label="Momo"><g transform="translate(2 6) scale(.86)">' + bulle + visage + '</g>' + ondes + '</svg>';
   }
   // Momo, la mascotte : une petite phrase quand on le touche.
   var MOMO_LIGNES = ["Coucou, moi c'est Momo ! 🫧", "Tchip !", "On parle d'où aujourd'hui ? 🌍", "À toi de jouer !"];
   function momoDit() { toast(t(MOMO_LIGNES[Math.floor(Math.random() * MOMO_LIGNES.length)])); }
+  // Petit salut de Momo à l'ouverture (au retour seulement) : un pop rapide qui disparaît tout seul.
+  var MOMO_SALUTS = ["Bienvenue ! 🫧", "Content de te revoir !", "Prêt pour le tchip du jour ?", "Salut, c'est Momo !"];
+  function momoBonjour() {
+    if (document.getElementById("feuille") || document.querySelector(".momo-salut")) return;
+    var el = document.createElement("div");
+    el.className = "momo-salut"; el.setAttribute("role", "status");
+    el.innerHTML = mascotte("joie", false) + '<span>' + t(MOMO_SALUTS[Math.floor(Math.random() * MOMO_SALUTS.length)]) + '</span>';
+    document.body.appendChild(el);
+    setTimeout(function () { el.classList.add("partir"); setTimeout(function () { el.remove(); }, 400); }, 1800);
+  }
 
   function motif() {
     // demi-cercles « wax » : piment, mangue, menthe, indigo en alternance
@@ -1707,7 +1717,9 @@
         t("Trouve ce qu'elle veut dire. Tu as <b>2 essais</b> : du premier coup, <b>3 points</b> ; au deuxième, <b>1 point</b>."),
         t("Si tu te trompes, un <b>indice</b> apparaît."),
         t("Bonus : trouve le pays. <b>+1 point</b>."),
-        t("Partage ton score : la réponse reste secrète. Joue chaque jour pour faire monter ta série 🔥.")
+        t("Partage ton score : la réponse reste secrète. Joue chaque jour pour faire monter ta série 🔥."),
+        t("Un jour manqué ? Un <b>gel 🛡️</b> (gagné tous les 5 jours) protège ta série."),
+        t("Après ta partie, tente le mini-jeu <b>« Devine le pays »</b> : retrouve le pays d'une expression mystère, avec des indices.")
       ].map(function (x) { return '<li>' + x + '</li>'; }).join("") +
       '</ul></section>';
     if (AP) h +=
@@ -1899,7 +1911,9 @@
   chargerJour(apercu || jourReel);
   entree = "place";
   rendre();
-  if (!lire("tchip:vu-aide", false)) { ecrire("tchip:vu-aide", true); feuilleBienvenue(); }
+  var premiereFois = !lire("tchip:vu-aide", false);
+  if (premiereFois) { ecrire("tchip:vu-aide", true); feuilleBienvenue(); }
+  else momoBonjour(); // au retour, Momo fait un petit coucou ; au tout premier lancement, la bienvenue s'en charge
   enregistrerServiceWorker();
   restaurerSecours();
   verifierRappel();
