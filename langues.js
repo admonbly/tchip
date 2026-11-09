@@ -89,6 +89,9 @@ window.TCHIP_LANGUES = {
     "Mon pays": "My country",
     "Non renseigné": "Not set",
     "Chez toi": "Home",
+    "Défier un ami": "Challenge a friend",
+    "{n} jours": "{n} days",
+    "J'ai fait {s}/4 au Tchip du jour 🌶️ Et toi, tu parles d'où ? Bats-moi 👉 {lien}": "I scored {s}/4 on today's Tchip 🌶️ Where do you speak from? Beat me 👉 {lien}",
     "Copie ce texte et colle-le où tu veux :": "Copy this text and paste it wherever you like:",
     "Copier": "Copy",
 

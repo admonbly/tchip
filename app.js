@@ -655,6 +655,7 @@
     // Le rappel se propose ici, une seule fois, après une partie : c'est là que la permission a du sens (règle Apple).
     var proposerRappel = jourAffiche === jourReel && plugin("LocalNotifications") && !reglages().rappel && !lire("tchip:rappel-propose", false);
     h += '<div class="actions"><button class="btn" data-act="partager">' + ICONES.partager + t("Partager mon score") + '</button>' +
+         '<button class="btn secondaire" data-act="defier">' + ICONES.inviter + t("Défier un ami") + '</button>' +
          (AP ? '<button class="btn secondaire" data-voyage="' + esc(P.e.pays) + '">' + ICONES.voyager + t("Plus de mots :") + ' ' + drapeau(P.e.pays) + ' ' + esc(p.nom) + '</button>' : '') +
          (proposerRappel ? '<button class="btn secondaire" data-act="proposer-rappel">' + ICONES.cloche + t("Me rappeler le tchip chaque jour") + '</button>' : '') +
          '<button class="btn secondaire" data-act="archives">' + t("Jouer un jour précédent") + '</button></div>';
@@ -822,7 +823,63 @@
   var texteSecours = "";      // mémorisé pour le bouton « Copier » de la fenêtre de secours
   function partager() {
     signal("Partage");
-    partagerTexte(textePartage(), t("Partager mon score"));
+    partagerAvecImage(textePartage(), t("Partager mon score"));
+  }
+  // Une carte-image du résultat (plus belle à poster que du texte), là où le navigateur sait partager un fichier.
+  function imageResultat() {
+    return new Promise(function (resolve) {
+      try {
+        var W = 1080, H = 1080, c = document.createElement("canvas");
+        c.width = W; c.height = H;
+        var x = c.getContext("2d");
+        if (!x || !c.toBlob) return resolve(null);
+        x.fillStyle = "#FFFBF4"; x.fillRect(0, 0, W, H);
+        x.strokeStyle = "#1D1B4F"; x.lineWidth = 16; x.strokeRect(44, 44, W - 88, H - 88);
+        x.textAlign = "center"; x.fillStyle = "#1D1B4F";
+        x.font = "800 96px system-ui, sans-serif"; x.fillText("tchip", W / 2, 215);
+        x.fillStyle = "#5A5778"; x.font = "700 46px system-ui, sans-serif";
+        x.fillText("Tchip #" + jourAffiche, W / 2, 292);
+        x.fillStyle = "#1D1B4F"; x.font = "800 200px system-ui, sans-serif";
+        x.fillText(score(etat, P.e) + " / 4", W / 2, 500);
+        x.font = "80px system-ui, sans-serif";
+        x.fillText("💬 " + grilleTexte() + "  🌍 " + (etat.pays === P.e.pays ? "✅" : "❌"), W / 2, 630);
+        var serie = serieActuelle();
+        if (serie > 1) { x.font = "700 58px system-ui, sans-serif"; x.fillText("🔥 " + t("{n} jours", { n: serie }), W / 2, 730); }
+        var finir = function () {
+          x.fillStyle = "#5A5778"; x.font = "600 50px system-ui, sans-serif";
+          x.fillText(ADRESSE_PARTAGE, W / 2, 1000);
+          c.toBlob(function (b) { resolve(b); }, "image/png");
+        };
+        var img = new Image();
+        img.onload = function () { x.drawImage(img, W / 2 - 110, 770, 220, 165); finir(); };
+        img.onerror = finir;
+        img.src = "assets/drapeaux/" + String(P.e.pays).toLowerCase() + ".svg";
+      } catch (e) { resolve(null); }
+    });
+  }
+  function partagerAvecImage(texte, titre) {
+    if (partageEnCours) return;
+    // image seulement là où le partage de fichiers fonctionne (navigateur mobile) ; sinon, le texte habituel
+    if (!plugin("Share") && navigator.share && navigator.canShare) {
+      partageEnCours = true;
+      var relache = function () { partageEnCours = false; };
+      setTimeout(relache, 3000);
+      imageResultat().then(function (blob) {
+        var file = blob ? new File([blob], "tchip.png", { type: "image/png" }) : null;
+        if (file && navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], text: texte }).then(relache, function () { relache(); partagerTexte(texte, titre); });
+        } else { relache(); partagerTexte(texte, titre); }
+      }).catch(function () { relache(); partagerTexte(texte, titre); });
+      return;
+    }
+    partagerTexte(texte, titre);
+  }
+  function texteDefi() {
+    return t("J'ai fait {s}/4 au Tchip du jour 🌶️ Et toi, tu parles d'où ? Bats-moi 👉 {lien}", { s: score(etat, P.e), lien: LIEN_JEU });
+  }
+  function defierAmi() {
+    signal("Defi");
+    partagerTexte(texteDefi(), t("Défier un ami"));
   }
   function partagerTexte(texte, titre) {
     if (partageEnCours) return;
@@ -1738,6 +1795,7 @@
       case "demander-pays": fermerFeuille(); return demanderPays();
       case "passer-pays": ecrire("tchip:pays-demande", true); return fermerFeuille(true);
       case "partager-geo": return partagerTexte(texteGeo(jourReel, etatGeo(jourReel)), t("Devine le pays"));
+      case "defier": return defierAmi();
       case "partager": return partager();
       case "aujourdhui": onglet = "jour"; chargerJour(jourReel); entree = "place"; rendre(); window.scrollTo(0, 0); return;
       case "reglages": return feuilleReglages();
