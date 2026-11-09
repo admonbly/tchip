@@ -487,8 +487,11 @@
     var ondes = humeur === "joie"
       ? '<path class="ondes" d="M100 30l6-8M106 50h10M100 70l6 8" stroke="#FFC233" stroke-width="5.5" stroke-linecap="round"/>'
       : '<path class="ondes" d="M100 42l8-7M103 57h11M100 72l8 7" stroke="#FFC233" stroke-width="5.5" stroke-linecap="round"/>';
-    return '<svg class="mascotte" id="mascotte" viewBox="0 0 120 120" aria-hidden="true"><g transform="translate(2 6) scale(.86)">' + bulle + visage + '</g>' + ondes + '</svg>';
+    return '<svg class="mascotte" id="mascotte" viewBox="0 0 120 120" role="img" aria-label="Momo"><g transform="translate(2 6) scale(.86)">' + bulle + visage + '</g>' + ondes + '</svg>';
   }
+  // Momo, la mascotte : une petite phrase quand on le touche.
+  var MOMO_LIGNES = ["Coucou, moi c'est Momo ! 🫧", "Tchip !", "On parle d'où aujourd'hui ? 🌍", "À toi de jouer !"];
+  function momoDit() { toast(t(MOMO_LIGNES[Math.floor(Math.random() * MOMO_LIGNES.length)])); }
 
   function motif() {
     // demi-cercles « wax » : piment, mangue, menthe, indigo en alternance
@@ -1611,6 +1614,7 @@
   function feuilleAPropos() {
     var voix = EXPR.some(function (e) { return e.audio; });
     var credits = [
+      t("Momo, la mascotte de Tchip."),
       t("Expressions : rassemblées à partir de dictionnaires, d'études et de propositions de joueurs."),
       voix ? t("Voix : de vraies personnes du pays, créditées sur chaque mot.") : "",
       t("Musique et bruitages : créés pour Tchip."),
@@ -1663,6 +1667,7 @@
     );
     feuille('<header><h2>' + t("Bienvenue sur Tchip&nbsp;!") + '</h2>' + boutonFermer() + '</header>' +
       '<p class="intro-aide">' + t("Le jeu des expressions de la francophonie, de Dakar à Montréal.") + '</p>' +
+      '<p class="momo-presente">🫧 ' + t("Moi c'est Momo, je t'accompagne chaque jour&nbsp;!") + '</p>' +
       '<ol class="etapes-aide">' + etapes.map(function (x) {
         return '<li><span class="pastille ' + x[1] + '" aria-hidden="true">' + ICONES[x[0]] + '</span><div><b>' + x[2] + '</b><span>' + x[3] + '</span></div></li>';
       }).join("") + '</ol>' +
@@ -1762,7 +1767,7 @@
 
   // ---------- Événements ----------
   document.addEventListener("click", function (ev) {
-    if (ev.target.closest(".mascotte")) return animerMascotte("joie"); // la toucher la fait sauter
+    if (ev.target.closest(".mascotte")) { animerMascotte("joie"); momoDit(); return; } // Momo saute et dit un mot
     var b = ev.target.closest("button");
     if (!b || b.disabled) return;
     if (b.hasAttribute("data-sens")) return choisirSens(+b.getAttribute("data-sens"));

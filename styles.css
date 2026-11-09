@@ -234,6 +234,7 @@ button {
 .stats-gels { text-align: center; color: var(--encre-douce); font-size: 14px; margin: 12px 0 4px; }
 .geo-opt.bon { background: var(--menthe); border-color: var(--encre-fixe); }
 .chez-toi { display: inline-block; margin-top: 7px; font-size: 11px; font-weight: 700; background: var(--mangue); color: var(--encre-fixe); border: 1.5px solid var(--encre-fixe); border-radius: var(--r-pill); padding: 2px 9px; }
+.momo-presente { text-align: center; font-weight: 600; color: var(--encre-douce); margin: 4px 0 14px; }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
 .etape-titre { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
