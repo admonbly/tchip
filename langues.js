@@ -83,6 +83,12 @@ window.TCHIP_LANGUES = {
     "🔥 Série sauvée grâce à un gel !": "🔥 Streak saved with a freeze!",
     "Gels de série : {n} — un gel protège un jour manqué.": "Streak freezes: {n} — a freeze protects one missed day.",
     "Pas de gel pour l'instant — enchaîne 5 jours de suite pour en gagner un.": "No freeze yet — play 5 days in a row to earn one.",
+    "Choisis ton pays : on mettra un peu de chez toi en avant. C'est facultatif.": "Pick your country: we'll put a bit of home up front. It's optional.",
+    "Passer": "Skip",
+    "C'est noté : on mettra {pays} en avant 🏠": "Got it: we'll feature {pays} 🏠",
+    "Mon pays": "My country",
+    "Non renseigné": "Not set",
+    "Chez toi": "Home",
     "Copie ce texte et colle-le où tu veux :": "Copy this text and paste it wherever you like:",
     "Copier": "Copy",
 

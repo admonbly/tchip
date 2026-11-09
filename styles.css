@@ -232,6 +232,8 @@ button {
 .geo-verdict { font-weight: 800; font-size: 18px; margin: 0 0 8px; }
 .geo-carte h3 { margin: 0 0 6px; }
 .stats-gels { text-align: center; color: var(--encre-douce); font-size: 14px; margin: 12px 0 4px; }
+.geo-opt.bon { background: var(--menthe); border-color: var(--encre-fixe); }
+.chez-toi { display: inline-block; margin-top: 7px; font-size: 11px; font-weight: 700; background: var(--mangue); color: var(--encre-fixe); border: 1.5px solid var(--encre-fixe); border-radius: var(--r-pill); padding: 2px 9px; }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
 .etape-titre { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }

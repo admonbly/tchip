@@ -1003,7 +1003,8 @@
           '<b>' + esc(p.nom) + '</b>' +
           '<span class="compte">' + (pr.total > 1 ? t("{n} mots", { n: pr.total }) : t("1 mot")) +
           (pr.maitrises ? ' · ' + t("{pct} % maîtrisés", { pct: AP.pourcentage(pr) }) : pr.enCours ? ' · ' + texteEnCours(pr.enCours) : '') + '</span>' +
-          barreProgression(pr) + badgeRang(AP.rang(pr)) + '</button>';
+          barreProgression(pr) + badgeRang(AP.rang(pr)) +
+          (monPays() === c ? '<span class="chez-toi">' + t("Chez toi") + '</span>' : '') + '</button>';
       });
       h += '</div>';
     });
@@ -1502,6 +1503,7 @@
     }
     h += '</div><h3 class="groupe-titre">' + t("Divers") + '</h3><div class="groupe">' +
       segments("langue", L, [["fr", "Français", "fr"], ["en", "English", "en"]], t("Langue")) +
+      ligneLien("demander-pays", ICONES.voyager, t("Mon pays"), monPays() ? paysInfo(monPays()).nom : t("Non renseigné")) +
       ligneLien("regles", ICONES.aide, t("Règles du jeu")) +
       ligneLien("inviter", ICONES.inviter, t("Inviter des amis"), t("Par message, WhatsApp, réseaux sociaux…")) +
       ligneLien("a-propos", ICONES.info, t("À propos"), t("Version {v}", { v: esc(VERSION_APP) })) +
@@ -1593,8 +1595,31 @@
         return '<li><span class="pastille ' + x[1] + '" aria-hidden="true">' + ICONES[x[0]] + '</span><div><b>' + x[2] + '</b><span>' + x[3] + '</span></div></li>';
       }).join("") + '</ol>' +
       segments("langue", L, [["fr", "Français", "fr"], ["en", "English", "en"]], t("Langue")) +
-      '<button class="btn" data-act="fermer">' + t("C'est parti&nbsp;!") + '</button>' +
+      '<button class="btn" data-act="demander-pays">' + t("C'est parti&nbsp;!") + '</button>' +
       '<p class="vide centre">' + t("Besoin d'aide plus tard ? Touche le <b>?</b> en haut de l'écran.") + '</p>', "bienvenue");
+  }
+
+  // ---------- Pays du joueur (facultatif, pour un peu de « chez toi ») ----------
+  function monPays() { return lire("tchip:pays", null); }
+  function demanderPays() {
+    var h = '<header><h2>' + t("Tu parles d'où ?") + '</h2>' + boutonFermer() + '</header>' +
+      '<p class="geo-sens" style="text-align:center">' + t("Choisis ton pays : on mettra un peu de chez toi en avant. C'est facultatif.") + '</p>';
+    regions().forEach(function (reg) {
+      h += '<div class="geo-groupe"><span class="geo-region">' + esc(reg.nom) + '</span><div class="geo-grille">';
+      reg.codes.forEach(function (c) {
+        h += '<button class="geo-opt' + (monPays() === c ? ' bon' : '') + '" data-monpays="' + esc(c) + '"' +
+          ' aria-label="' + esc(paysInfo(c).nom) + '">' + drapeau(c, "moyen") + '</button>';
+      });
+      h += '</div></div>';
+    });
+    h += '<div class="actions"><button class="btn secondaire" data-act="passer-pays">' + t("Passer") + '</button></div>';
+    feuille(h, "monpays");
+  }
+  function choisirMonPays(code) {
+    ecrire("tchip:pays", code); ecrire("tchip:pays-demande", true);
+    fermerFeuille(true);
+    toast(t("C'est noté : on mettra {pays} en avant 🏠", { pays: paysInfo(code).nom }));
+    if (onglet === "voyager" && !paysOuvert && !serie) rendre();
   }
 
   // Aide complète (bouton « ? », ou « Règles du jeu » dans les réglages) : courte, une partie par onglet.
@@ -1675,6 +1700,7 @@
     if (b.hasAttribute("data-voyage")) return allerA("voyager", b.getAttribute("data-voyage"));
     if (b.hasAttribute("data-mot")) return feuilleMot(EXPR[+b.getAttribute("data-mot")]);
     if (b.hasAttribute("data-geo")) return devinerPays(b.getAttribute("data-geo"));
+    if (b.hasAttribute("data-monpays")) return choisirMonPays(b.getAttribute("data-monpays"));
     if (b.hasAttribute("data-rep")) return repondre(+b.getAttribute("data-rep"));
     if (b.hasAttribute("data-son")) return jouerSon(EXPR[+b.getAttribute("data-son")]);
     switch (b.getAttribute("data-act")) {
@@ -1709,6 +1735,8 @@
       case "fermer": return fermerFeuille(true);
       case "copier-partage": return copierSecours();
       case "devine-pays": return feuilleDevinePays();
+      case "demander-pays": fermerFeuille(); return demanderPays();
+      case "passer-pays": ecrire("tchip:pays-demande", true); return fermerFeuille(true);
       case "partager-geo": return partagerTexte(texteGeo(jourReel, etatGeo(jourReel)), t("Devine le pays"));
       case "partager": return partager();
       case "aujourdhui": onglet = "jour"; chargerJour(jourReel); entree = "place"; rendre(); window.scrollTo(0, 0); return;
