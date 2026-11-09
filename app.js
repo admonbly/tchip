@@ -25,7 +25,18 @@
   // Statistiques anonymes (TelemetryDeck, hébergé en UE, sans traçage publicitaire). "" = désactivé.
   var TELEMETRYDECK_APP_ID = "";
   var HEURES_RAPPEL = [7, 9, 12, 18, 20];
-  var ID_RAPPEL = 1;
+  var ID_RAPPEL = 1;                              // ancien rappel unique (annulé à la migration)
+  var IDS_RAPPEL = [11, 12, 13, 14, 15, 16, 17];  // un par jour de la semaine, pour varier l'accroche
+  // Accroches du rappel : neutres (aucune mention de pays), elles tournent sur la semaine.
+  var MESSAGES_RAPPEL = [
+    "Ton expression du jour t'attend 🌶️ Tu sais ce qu'elle veut dire ?",
+    "Nouveau tchip du jour ! Devine le sens, puis le pays 🌍",
+    "Une expression, deux essais. Tu tentes ta chance ? 😏",
+    "Garde ta série en vie 🔥 Le tchip du jour est prêt.",
+    "Petit défi du jour : trouve ce que ça veut dire 🧠",
+    "Fais chauffer ta langue : le tchip du jour est servi 😋",
+    "30 secondes, une expression à deviner. On y va ? ⏱️"
+  ];
 
   var TAILLE_SERIE = 8;
 
@@ -1472,14 +1483,18 @@
   function programmerRappel(heure) {
     var ln = plugin("LocalNotifications");
     if (!ln) return Promise.resolve(false);
-    return ln.cancel({ notifications: [{ id: ID_RAPPEL }] }).catch(function () {}).then(function () {
-      return ln.schedule({ notifications: [{
-        id: ID_RAPPEL,
-        title: "Tchip",
-        body: t("Ton expression du jour t'attend 🌶️ Tu sais ce qu'elle veut dire ?"),
-        schedule: { on: { hour: heure, minute: 0 }, allowWhileIdle: true },
-        isExactNotification: false // un rappel n'a pas besoin d'alarme exacte : aucune permission spéciale sur Android
-      }] });
+    var aAnnuler = IDS_RAPPEL.concat([ID_RAPPEL]).map(function (id) { return { id: id }; });
+    return ln.cancel({ notifications: aAnnuler }).catch(function () {}).then(function () {
+      // 7 rappels, un par jour de la semaine (weekday 1..7), chacun avec une accroche différente.
+      return ln.schedule({ notifications: IDS_RAPPEL.map(function (id, i) {
+        return {
+          id: id,
+          title: "Tchip",
+          body: t(MESSAGES_RAPPEL[i]),
+          schedule: { on: { weekday: i + 1, hour: heure, minute: 0 }, allowWhileIdle: true },
+          isExactNotification: false // pas d'alarme exacte : aucune permission spéciale sur Android
+        };
+      }) });
     }).then(function () { return true; });
   }
   function activerRappel(heure) {
@@ -1502,7 +1517,7 @@
   function desactiverRappel() {
     var ln = plugin("LocalNotifications");
     changerReglage("rappel", false);
-    if (ln) ln.cancel({ notifications: [{ id: ID_RAPPEL }] }).catch(function () {});
+    if (ln) ln.cancel({ notifications: IDS_RAPPEL.concat([ID_RAPPEL]).map(function (id) { return { id: id }; }) }).catch(function () {});
     signal("Rappel.desactive");
   }
   // Au lancement : si le joueur a coupé les notifications ou réinstallé l'app, on remet tout d'aplomb.
@@ -1512,7 +1527,7 @@
     ln.checkPermissions().then(function (p) {
       if (p.display !== "granted") { changerReglage("rappel", false); return; }
       return ln.getPending().then(function (r) {
-        var present = (r.notifications || []).some(function (n) { return n.id === ID_RAPPEL; });
+        var present = (r.notifications || []).some(function (n) { return IDS_RAPPEL.indexOf(n.id) !== -1; });
         if (!present) return programmerRappel(reglages().heure);
       });
     }).catch(function () {});

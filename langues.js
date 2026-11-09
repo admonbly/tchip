@@ -92,6 +92,12 @@ window.TCHIP_LANGUES = {
     "Défier un ami": "Challenge a friend",
     "{n} jours": "{n} days",
     "J'ai fait {s}/4 au Tchip du jour 🌶️ Et toi, tu parles d'où ? Bats-moi 👉 {lien}": "I scored {s}/4 on today's Tchip 🌶️ Where do you speak from? Beat me 👉 {lien}",
+    "Nouveau tchip du jour ! Devine le sens, puis le pays 🌍": "New daily tchip! Guess the meaning, then the country 🌍",
+    "Une expression, deux essais. Tu tentes ta chance ? 😏": "One expression, two tries. Feeling lucky? 😏",
+    "Garde ta série en vie 🔥 Le tchip du jour est prêt.": "Keep your streak alive 🔥 Today's tchip is ready.",
+    "Petit défi du jour : trouve ce que ça veut dire 🧠": "Daily challenge: work out what it means 🧠",
+    "Fais chauffer ta langue : le tchip du jour est servi 😋": "Warm up: today's tchip is served 😋",
+    "30 secondes, une expression à deviner. On y va ? ⏱️": "30 seconds, one expression to guess. Shall we? ⏱️",
     "Copie ce texte et colle-le où tu veux :": "Copy this text and paste it wherever you like:",
     "Copier": "Copy",
 
