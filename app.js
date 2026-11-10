@@ -500,7 +500,7 @@
     el.className = "momo-salut"; el.setAttribute("role", "status");
     el.innerHTML = mascotte("joie", false) + '<span>' + t(MOMO_SALUTS[Math.floor(Math.random() * MOMO_SALUTS.length)]) + '</span>';
     document.body.appendChild(el);
-    setTimeout(function () { el.classList.add("partir"); setTimeout(function () { el.remove(); }, 400); }, 1800);
+    setTimeout(function () { el.classList.add("partir"); setTimeout(function () { el.remove(); }, 400); }, 2600);
   }
 
   function motif() {
