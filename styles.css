@@ -247,6 +247,16 @@ button {
 .sans-animation .momo-salut { animation: none; }
 @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
+/* Culture & Usages (volet « guide ») */
+.culture-carte { text-align: left; }
+.culture-titre { font-size: 20px; margin: 0 0 6px; display: flex; align-items: center; gap: 8px; }
+.culture-cats { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 16px; }
+.culture-cat { font-size: 13px; font-weight: 700; color: var(--encre); background: var(--sable); border: 1.5px solid var(--encre); border-radius: var(--r-pill); padding: 4px 11px; }
+.culture-plus { margin: 12px 0 0; font-weight: 700; color: var(--encre-douce); font-size: 14px; }
+.culture-q { font-size: 23px; line-height: 1.25; }
+.culture-promo { text-align: center; border-color: var(--mangue); }
+.culture-promo .btn { margin-top: 12px; }
+
 .etape-titre { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .etape-titre h2 { font-family: var(--f-display); font-weight: 800; font-size: 22px; line-height: 1.2; margin: 0; }
 .etape-titre span { font-size: 13px; font-weight: 700; color: var(--encre-douce); }

@@ -105,6 +105,31 @@
   }
   verifier.traduction = verifierTraduction;
 
+  // Culture & Usages (data/culture.js) : chaque question jouable, rattachée à un vrai pays et une catégorie.
+  function verifierCulture(culture, categories, pays) {
+    if (!Array.isArray(culture)) return ["TCHIP_CULTURE doit être un tableau."];
+    if (!culture.length) return []; // volet facultatif
+    var pbs = [];
+    if (!categories || typeof categories !== "object" || !Object.keys(categories).length) {
+      pbs.push("TCHIP_CULTURE_CATEGORIES manquant.");
+    } else Object.keys(categories).forEach(function (k) {
+      if (!categories[k] || !texte(categories[k].nom) || !texte(categories[k].emoji)) pbs.push("Catégorie culture « " + k + " » : nom ou emoji manquant.");
+    });
+    culture.forEach(function (x, i) {
+      var num = "Culture #" + (i + 1) + (x && x.question ? " « " + String(x.question).slice(0, 40) + "… »" : "");
+      if (!x || typeof x !== "object") { pbs.push(num + " : entrée invalide."); return; }
+      if (!possede(pays || {}, x.pays)) pbs.push(num + " : pays « " + x.pays + " » inconnu.");
+      if (categories && !possede(categories, x.categorie)) pbs.push(num + " : catégorie « " + x.categorie + " » inconnue.");
+      if (!texte(x.question) || !texte(x.bonne) || !texte(x.explication)) pbs.push(num + " : question, bonne réponse ou explication manquante.");
+      if (!Array.isArray(x.leurres) || x.leurres.length !== 3 || !x.leurres.every(texte)) { pbs.push(num + " : il faut exactement 3 leurres."); return; }
+      var opts = [x.bonne].concat(x.leurres);
+      if (new Set(opts).size !== opts.length) pbs.push(num + " : deux propositions identiques.");
+      if (possede(x, "tchipPlus") && typeof x.tchipPlus !== "boolean") pbs.push(num + " : « tchipPlus » doit être true ou false.");
+    });
+    return pbs;
+  }
+  verifier.culture = verifierCulture;
+
   if (typeof module !== "undefined" && module.exports) module.exports = verifier;
   else racine.TCHIP_VERIFIER = verifier;
 })(this);

@@ -7,8 +7,9 @@ const verifier = require("../verification.js");
 const chargerDonnees = require("./charger-donnees.js");
 
 const racine = path.resolve(__dirname, "..");
-const { expressions, pays, themes, en } = chargerDonnees();
+const { expressions, pays, themes, en, culture, cultureCategories } = chargerDonnees();
 const problemes = verifier(expressions, pays, themes);
+problemes.push(...verifier.culture(culture, cultureCategories, pays));
 
 // La version anglaise : toutes les expressions traduites, et tous les textes de l'interface.
 if (!en) problemes.push("data/expressions-en.js manquant.");
@@ -49,3 +50,8 @@ const couverture = " — le jour couvre " + confirmees.length + " jours avant qu
 const avecAudio = expressions.filter((e) => e.audio).length;
 console.log("✓ " + confirmees.length + " expressions confirmées" + (candidats ? " + " + candidats + " candidats (Voyager)" : "") +
   ", " + Object.keys(pays).length + " pays, " + avecAudio + " enregistrement(s)" + couverture);
+if (culture.length) {
+  const plus = culture.filter((x) => x.tchipPlus).length;
+  const paysCulture = new Set(culture.map((x) => x.pays)).size;
+  console.log("✓ " + culture.length + " questions Culture & Usages (" + (culture.length - plus) + " gratuites + " + plus + " Tchip+) sur " + paysCulture + " pays");
+}

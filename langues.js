@@ -177,6 +177,23 @@ window.TCHIP_LANGUES = {
     "Partager mon passeport": "Share my passport",
     "Terminer": "Done",
 
+    // Culture & Usages
+    "Culture & Usages": "Culture & Customs",
+    "Les usages à connaître avant d'aller là-bas : saluer, manger, marchander, respecter.": "The customs to know before you go: greeting, eating, haggling, showing respect.",
+    "Découvrir les usages": "Discover the customs",
+    "+ {n} questions avec Tchip+": "+ {n} questions with Tchip+",
+    "Quitter": "Quit",
+    "Bien vu !": "Nicely spotted!",
+    "Sans faute : tu connais le pays !": "Flawless: you know the country!",
+    "Bien joué, tu t'en sors très bien.": "Well played, you're doing great.",
+    "Pas mal : tu repars en sachant des choses.": "Not bad: you're leaving knowing more.",
+    "L'essentiel, c'est d'avoir appris quelque chose.": "What matters is you learned something.",
+    "Encore {n} questions sur {pays} avec Tchip+": "{n} more questions on {pays} with Tchip+",
+    "Débloque toutes les coutumes du pays, et les packs des autres pays.": "Unlock all the country's customs, and the other country packs.",
+    "Voir Tchip+": "See Tchip+",
+    "Tchip+": "Tchip+",
+    "Tchip+ arrive bientôt : toutes les coutumes de chaque pays, et les packs pays complets. Le tchip du jour, lui, restera toujours gratuit.": "Tchip+ is coming soon: every country's customs, and the full country packs. The daily tchip will always stay free.",
+
     // Carnet
     "En route": "On the way",
     "{n} mots en cours": "{n} words in progress",

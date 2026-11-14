@@ -46,6 +46,8 @@
   var EXPR = BASE.expressions;
   var PAYS = BASE.pays;
   var THEMES = BASE.themes;
+  var CULTURE = window.TCHIP_CULTURE || [];                 // data/culture.js : volet « guide » (usages du pays)
+  var CULTURE_CAT = window.TCHIP_CULTURE_CATEGORIES || {};  // catégories : saluer, à table, argent, tabous, usages
   var verifier = window.TCHIP_VERIFIER || null; // verification.js ; sans lui, aucun contenu distant n'est accepté
   var AP = window.TCHIP_APPRENTISSAGE || null;   // apprentissage.js ; sans lui, seul le jeu du jour est proposé
   var SONS = window.TCHIP_SONS || null;          // sons.js : musique et bruitages
@@ -307,6 +309,7 @@
   var onglet = "jour";      // jour | voyager | carnet
   var paysOuvert = null;    // code du pays affiché dans Voyager
   var serie = null;         // série de questions en cours (Voyager ou révisions)
+  var culture = null;       // quiz Culture & Usages en cours (volet « guide »)
 
   function cleJour(n) { return "tchip:jour:" + n; }
   function chargerJour(n) {
@@ -568,9 +571,10 @@
   // Point d'entrée unique de l'affichage : l'onglet courant, ou la série en cours (plein écran).
   function rendreEcran() {
     clearInterval(timer);
-    document.body.classList.toggle("en-serie", !!serie);
+    document.body.classList.toggle("en-serie", !!serie || !!culture);
     if (AP) barreOnglets();
     if (!EXPR.length) { app.innerHTML = enTete() + '<p class="vide">' + t("Aucune expression chargée.") + '</p>'; return; }
+    if (culture) return rendreCulture();
     if (serie) return rendreSerie();
     if (onglet === "voyager") return paysOuvert ? rendrePays() : rendreVoyager();
     if (onglet === "carnet") return rendreCarnet();
@@ -1107,6 +1111,7 @@
       '<div class="actions"><button class="btn" data-act="serie-pays">' + ICONES.voyager + t("Jouer une série") + '</button></div>' +
       '<p class="vide centre">' + t("{n} mots par série. Un mot est maîtrisé quand tu l'as trouvé 3 fois au bon moment : la première fois, le lendemain, puis 3 jours plus tard.", { n: Math.min(TAILLE_SERIE, visibles.length) }) + '</p>';
     if (visibles.length < liste.length) h += '<p class="note-verrou">🔒 ' + t("Une expression de ce pays est le tchip du jour : elle apparaîtra ici quand tu l'auras jouée.") + '</p>';
+    h += carteCulture(c);
     h += '<h2 class="region">' + t("Lexique") + '</h2>';
     Object.keys(THEMES).forEach(function (th) {
       var mots = visibles.filter(function (e) { return e.theme === th; });
@@ -1135,6 +1140,125 @@
       '<p class="origine">' + drapeau(e.pays) + ' ' + esc(p.nom) + (th ? ' · ' + esc(th.emoji) + ' ' + esc(th.nom) : '') + '</p>' +
       blocSon(e) + '<div class="fiche">' + blocFiche(e) + '</div>' +
       '<div class="maitrise">' + pastilles(f) + '<span>' + etatMot(f) + '</span></div>', "mot");
+  }
+
+  // ---------- Culture & Usages (volet « guide ») ----------
+  // Un quiz léger sur les usages d'un pays : question → 4 choix → explication. Indépendant du système
+  // de maîtrise (on découvre, on ne révise pas). Contenu : data/culture.js.
+  function cultureDuPays(code) { return CULTURE.filter(function (x) { return x.pays === code; }); }
+  function estAbonnePlus() { return lire("tchip:plus", false) === true; } // branché plus tard sur l'achat (Tchip+)
+  function cultureJouable(code) {
+    var abo = estAbonnePlus();
+    return cultureDuPays(code).filter(function (x) { return abo || !x.tchipPlus; });
+  }
+  function carteCulture(code) {
+    var cult = cultureDuPays(code);
+    if (!cult.length) return "";
+    var plus = cult.filter(function (x) { return x.tchipPlus; }).length, abo = estAbonnePlus();
+    var presentes = {}; cult.forEach(function (x) { presentes[x.categorie] = true; });
+    var puces = Object.keys(CULTURE_CAT).filter(function (k) { return presentes[k]; }).map(function (k) {
+      return '<span class="culture-cat">' + esc(CULTURE_CAT[k].emoji) + ' ' + esc(CULTURE_CAT[k].nom) + '</span>';
+    }).join("");
+    return '<section class="card culture-carte">' +
+      '<h2 class="culture-titre"><span aria-hidden="true">🧭</span> ' + t("Culture & Usages") + '</h2>' +
+      '<p>' + t("Les usages à connaître avant d'aller là-bas : saluer, manger, marchander, respecter.") + '</p>' +
+      (puces ? '<div class="culture-cats">' + puces + '</div>' : '') +
+      (cultureJouable(code).length ? '<button class="btn" data-act="culture">' + ICONES.voyager + t("Découvrir les usages") + '</button>' : '') +
+      (plus && !abo ? '<p class="culture-plus">🔒 ' + t("+ {n} questions avec Tchip+", { n: plus }) + '</p>' : '') +
+      '</section>';
+  }
+  function lancerCulture(code) {
+    var items = cultureJouable(code);
+    if (!items.length) return;
+    var liste = melanger(items, Math.random);
+    culture = {
+      code: code, i: 0, bonnes: 0, reponse: null,
+      questions: liste.map(function (x) {
+        var opts = melanger([x.bonne].concat(x.leurres), Math.random);
+        return { x: x, options: opts, bonne: opts.indexOf(x.bonne) };
+      })
+    };
+    entree = "du-bas";
+    fermerFeuille(); rendre(); window.scrollTo(0, 0);
+    signal("Culture.lancee", { pays: code, questions: culture.questions.length });
+  }
+  function repondreCulture(k) {
+    if (!culture || culture.reponse !== null) return;
+    var q = culture.questions[culture.i], juste = k === q.bonne;
+    culture.reponse = k;
+    if (juste) culture.bonnes++;
+    son(juste ? "juste" : "faux"); vibrer(juste ? "succes" : "erreur");
+    rendre();
+    if (juste) confettis(app.querySelector(".option.bon"));
+  }
+  function suivantCulture() {
+    culture.i++; culture.reponse = null;
+    if (culture.i >= culture.questions.length) {
+      culture.fini = true;
+      signal("Culture.finie", { pays: culture.code, bonnes: culture.bonnes, total: culture.questions.length });
+    }
+    entree = culture.fini ? "place" : "de-droite";
+    rendre(); window.scrollTo(0, 0);
+  }
+  function quitterCulture() {
+    var code = culture ? culture.code : paysOuvert;
+    culture = null;
+    allerA("voyager", code);
+  }
+  function rendreCulture() {
+    if (culture.fini) return rendreFinCulture();
+    var q = culture.questions[culture.i], x = q.x, p = paysInfo(culture.code), cat = CULTURE_CAT[x.categorie];
+    var rep = culture.reponse, n = culture.questions.length;
+    var h = '<div class="serie-haut"><button class="icon-btn" data-act="quitter-culture" aria-label="' + t("Quitter") + '">' + ICONES.fermer + '</button>' +
+      '<span class="progression" role="progressbar" aria-valuemin="0" aria-valuemax="' + n + '" aria-valuenow="' + culture.i + '"><i style="--p:' + (culture.i / n).toFixed(3) + ';--de:' + (Math.max(0, culture.i - 1) / n).toFixed(3) + '"></i></span>' +
+      '<span class="compteur">' + (culture.i + 1) + '/' + n + '</span></div>';
+    h += '<section class="card carte-question"><p class="question">' + drapeau(culture.code) + ' ' + esc(p.nom) +
+      (cat ? ' · ' + esc(cat.emoji) + ' ' + esc(cat.nom) : '') + '</p>' +
+      '<h1 class="expression culture-q">' + esc(x.question) + '</h1></section>';
+    h += '<div class="options">';
+    q.options.forEach(function (txt, k) {
+      var cls = rep === null ? "" : k === q.bonne ? " bon" : k === rep ? " faux" : " eteint";
+      var lettre = rep !== null && k === q.bonne ? '✓' : rep === k ? '✕' : "ABCD"[k];
+      h += '<button class="option' + cls + '" data-culrep="' + k + '"' + (rep !== null ? ' disabled' : '') + '>' +
+        '<span class="lettre">' + lettre + '</span><span>' + esc(txt) + '</span></button>';
+    });
+    h += '</div>';
+    if (rep !== null) {
+      var juste = rep === q.bonne;
+      h += '<section class="card retour-reponse ' + (juste ? 'juste' : 'rate') + '">' +
+        '<p class="verdict-court">' + (juste ? t("Bien vu !") : t("Pas tout à fait…")) + '</p>' +
+        '<p class="sens-rappel">' + esc(x.bonne) + '</p>' +
+        '<p class="petit">' + esc(x.explication) + '</p>' +
+        '<button class="btn" data-act="suivant-culture">' + (culture.i + 1 < n ? t("Continuer") : t("Voir mon bilan")) + '</button></section>';
+    }
+    app.innerHTML = h;
+    if (rep !== null) {
+      var bloc = app.querySelector(".retour-reponse");
+      if (bloc && bloc.scrollIntoView) bloc.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+  }
+  function rendreFinCulture() {
+    var n = culture.questions.length, b = culture.bonnes, part = b / n, code = culture.code;
+    var abo = estAbonnePlus(), plus = cultureDuPays(code).filter(function (x) { return x.tchipPlus; }).length;
+    var msg = t(part === 1 ? "Sans faute : tu connais le pays !" : part >= 0.75 ? "Bien joué, tu t'en sors très bien." :
+      part >= 0.5 ? "Pas mal : tu repars en sachant des choses." : "L'essentiel, c'est d'avoir appris quelque chose.");
+    var h = '<section class="resultat">' +
+      '<div class="card score-card">' + mascotte(part >= 0.75 ? "joie" : "neutre") +
+      '<p class="question">' + drapeau(code) + ' ' + esc(paysInfo(code).nom) + ' · ' + t("Culture & Usages") + '</p>' +
+      '<p class="score"><span data-compte="' + b + '">' + b + '</span><small>/' + n + '</small></p><p class="verdict">' + msg + '</p></div>';
+    if (plus && !abo) {
+      h += '<div class="card culture-promo">' +
+        '<p><b>' + t("Encore {n} questions sur {pays} avec Tchip+", { n: plus, pays: esc(paysInfo(code).nom) }) + '</b></p>' +
+        '<p class="petit">' + t("Débloque toutes les coutumes du pays, et les packs des autres pays.") + '</p>' +
+        '<button class="btn" data-act="tchip-plus">' + t("Voir Tchip+") + '</button></div>';
+    }
+    h += motif() + '<div class="actions"><button class="btn secondaire" data-act="quitter-culture">' + t("Terminer") + '</button></div></section>';
+    app.innerHTML = h;
+    if (!culture.fete) { culture.fete = true; if (part >= 0.75) son("fanfare"); }
+  }
+  function feuilleTchipPlus() {
+    feuille('<header><h2>' + t("Tchip+") + '</h2>' + boutonFermer() + '</header>' +
+      '<p>' + t("Tchip+ arrive bientôt : toutes les coutumes de chaque pays, et les packs pays complets. Le tchip du jour, lui, restera toujours gratuit.") + '</p>', "tchip-plus");
   }
 
   // ---------- Séries (Voyager et révisions) ----------
@@ -1791,10 +1915,15 @@
     if (b.hasAttribute("data-geo")) return devinerPays(b.getAttribute("data-geo"));
     if (b.hasAttribute("data-monpays")) return choisirMonPays(b.getAttribute("data-monpays"));
     if (b.hasAttribute("data-rep")) return repondre(+b.getAttribute("data-rep"));
+    if (b.hasAttribute("data-culrep")) return repondreCulture(+b.getAttribute("data-culrep"));
     if (b.hasAttribute("data-son")) return jouerSon(EXPR[+b.getAttribute("data-son")]);
     switch (b.getAttribute("data-act")) {
       case "retour-voyager": return allerA("voyager");
       case "serie-pays": return lancerSerie(exprDuPays(paysOuvert), { onglet: "voyager", code: paysOuvert, source: "pays" });
+      case "culture": return lancerCulture(paysOuvert);
+      case "suivant-culture": return suivantCulture();
+      case "quitter-culture": return quitterCulture();
+      case "tchip-plus": signal("TchipPlus.vu", { depuis: "culture" }); return feuilleTchipPlus();
       case "reviser": return lancerSerie(aRevoir(), { onglet: onglet, code: paysOuvert, source: "revision" });
       case "suivant": return suivant();
       case "quitter-serie": return quitterSerie();
@@ -1878,6 +2007,7 @@
     appNatif.addListener("backButton", function () {
       if (feuilleOuverte()) fermerFeuille(true);
       else if (serie) quitterSerie();
+      else if (culture) quitterCulture();
       else if (onglet === "voyager" && paysOuvert) allerA("voyager");
       else if (onglet !== "jour") allerA("jour");
       else if (jourAffiche !== jourReel) { chargerJour(jourReel); rendre(); window.scrollTo(0, 0); }

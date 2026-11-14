@@ -8,7 +8,7 @@ var CACHE = "tchip-" + VERSION;
 var DELAI_RESEAU = 4000;
 var COQUILLE = [
   "./", "index.html", "app.js", "verification.js", "apprentissage.js", "sons.js", "langues.js", "styles.css",
-  "data/expressions.js", "data/expressions-en.js",
+  "data/expressions.js", "data/candidats.js", "data/culture.js", "data/expressions-en.js",
   "manifest.webmanifest", "confidentialite.html", "confidentialite-en.html",
   "assets/fonts/polices.css",
   "assets/fonts/bricolage-grotesque-latin-opsz-normal.woff2",
