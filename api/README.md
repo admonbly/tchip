@@ -29,7 +29,7 @@ Les joueurs proposent des expressions **sans compte** et **sans rien rendre publ
 
 ## Lire les propositions
 
-Account ID : `47fcbb92580a3bca41e375db1471d9c8` · Database ID : `a097a18e-827e-448f-b527-98682e3af31c`
+L'identifiant de la base est dans `wrangler.toml` (`database_id`) ; celui du compte se lit dans le dashboard Cloudflare (ni l'un ni l'autre n'est un secret, mais ils n'ont rien à faire ailleurs que là).
 
 - **Dashboard** : Cloudflare › Storage & Databases › D1 › `tchip-propositions` › *Console*.
 - **En ligne de commande** :

@@ -3,7 +3,7 @@
   "appName": "Tchip",
   "webDir": "www",
   "backgroundColor": "#FFF3DF",
-  "loggingBehavior": "debug",
+  "loggingBehavior": "production",
   "ios": {
     "contentInset": "never",
     "limitsNavigationsToAppBoundDomains": false

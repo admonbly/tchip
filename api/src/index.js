@@ -2,7 +2,8 @@
  *
  * api.tchip.app   POST /propositions : un joueur envoie une expression (et, s'il veut, sa voix).
  *                 Protections : origines autorisées, Turnstile (anti-robot), champ piège, limites par appareil
- *                 et par jour, tout revérifié côté serveur (regles.js), taille maximale. Aucune donnée lue en retour.
+ *                 (IPv4, ou /64 en IPv6) et quota global compté après l'anti-robot, tout revérifié côté serveur
+ *                 (regles.js), taille maximale. Aucune donnée lue en retour.
  * admin.tchip.app page de tri, réservée à l'admin : Cloudflare Access filtre en amont, et le Worker revérifie
  *                 le jeton d'Access (signature, audience, expiration) avant de répondre.
  * Tous les jours  purge : refus de plus de 90 jours, compteurs anti-abus de plus de 2 jours.
@@ -70,19 +71,21 @@ async function routePublique(requete, env) {
   if (requete.method !== "POST") return json({ erreur: "methode" }, 405, cors);
   if (+(requete.headers.get("Content-Length") || 0) > LIMITES.voixOctets + 64 * 1024) return json({ erreur: "trop lourd" }, 413, cors);
 
-  // Anti-abus d'abord (avant tout appel externe) : par appareil et par heure, par jour, et pour tout le monde.
+  // Anti-abus d'abord (avant tout appel externe) : par appareil et par heure, puis par jour.
+  // En IPv6, « l'appareil » est le préfixe /64 : un même abonné en a des milliards d'adresses, inutile de les compter une à une.
   const ip = requete.headers.get("CF-Connecting-IP") || "local";
   const jour = new Date().toISOString().slice(0, 10), heure = new Date().getUTCHours();
-  const empreinte = await sha256(ip + "|" + jour + "|" + (env.SEL || ""));
-  const [h, j, total] = await Promise.all([
-    compter(env, "h:" + empreinte + ":" + heure), compter(env, "j:" + empreinte), compter(env, "total:" + jour)
-  ]);
-  if (h > LIMITES.parHeure || j > LIMITES.parJour || total > LIMITES.totalParJour) return json({ erreur: "limite" }, 429, cors);
+  const empreinte = await sha256(prefixeIp(ip) + "|" + jour + "|" + (env.SEL || ""));
+  const [h, j] = await Promise.all([compter(env, "h:" + empreinte + ":" + heure), compter(env, "j:" + empreinte)]);
+  if (h > LIMITES.parHeure || j > LIMITES.parJour) return json({ erreur: "limite" }, 429, cors);
 
   let form;
   try { form = await requete.formData(); } catch (e) { return json({ erreur: "format" }, 400, cors); }
 
   if (!(await turnstileValide(form.get("turnstile"), ip, env))) return json({ erreur: "robot" }, 403, cors);
+  // Le quota de tout le monde ne se compte qu'après l'anti-robot : des robots avec des milliers d'adresses
+  // ne doivent pas pouvoir l'épuiser et bloquer les vraies propositions de la journée.
+  if ((await compter(env, "total:" + jour)) > LIMITES.totalParJour) return json({ erreur: "limite" }, 429, cors);
 
   let champs = null;
   try { champs = JSON.parse(String(form.get("donnees") || "")); } catch (e) { /* champs reste vide : refusé plus bas */ }
@@ -104,6 +107,16 @@ async function routePublique(requete, env) {
   }
   await env.DB.batch(ordres);
   return json({ ok: true }, 201, cors);
+}
+
+// Ce qui identifie « un appareil » dans les compteurs : l'adresse IPv4 entière, ou le préfixe /64 d'une IPv6.
+export function prefixeIp(ip) {   // exportée pour les tests
+  const v4 = /^(?:::ffff:)?(\d{1,3}(?:\.\d{1,3}){3})$/i.exec(ip);
+  if (v4) return v4[1];
+  if (ip.indexOf(":") === -1) return ip;
+  const groupes = ip.split("::")[0].split(":").filter(Boolean); // après « :: », tout est à zéro
+  while (groupes.length < 4) groupes.push("0");
+  return groupes.slice(0, 4).map((g) => g.toLowerCase().replace(/^0+(?=.)/, "")).join(":") + "::/64";
 }
 
 async function compter(env, cle) {

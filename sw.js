@@ -45,7 +45,8 @@ function reseauDabord(req) {
       });
     }
     var reseau = fetch(req).then(function (rep) {
-      if (rep.status === 200) cache.put(req, rep.clone());
+      // Les voix (audio/) ne sont pas gardées : des centaines d'enregistrements feraient grossir le cache sans fin.
+      if (rep.status === 200 && !/\/audio\//.test(req.url)) cache.put(req, rep.clone());
       return rep;
     });
     var lent = new Promise(function (ok) { setTimeout(ok, DELAI_RESEAU); })

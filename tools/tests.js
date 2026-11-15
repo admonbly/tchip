@@ -259,6 +259,17 @@ test("une proposition acceptée donne un brouillon prêt à compléter", async (
   assert.strictEqual(b.credit, "Proposé par Aya (Douala)");
 });
 
+test("les compteurs anti-abus voient une IPv4 entière et une IPv6 par /64", async () => {
+  const { prefixeIp } = await import("../api/src/index.js");
+  assert.strictEqual(prefixeIp("203.0.113.9"), "203.0.113.9");
+  assert.strictEqual(prefixeIp("::ffff:203.0.113.9"), "203.0.113.9");
+  assert.strictEqual(prefixeIp("2001:db8:ABCD:12:aaaa:bbbb:cccc:1"), "2001:db8:abcd:12::/64");
+  assert.strictEqual(prefixeIp("2001:db8:abcd:12::1"), prefixeIp("2001:0db8:abcd:0012:ffff::9"), "même /64, même empreinte");
+  assert.strictEqual(prefixeIp("2001:db8::1"), "2001:db8:0:0::/64");
+  assert.notStrictEqual(prefixeIp("2001:db8:abcd:12::1"), prefixeIp("2001:db8:abcd:13::1"));
+  assert.strictEqual(prefixeIp("local"), "local");
+});
+
 test("l'admin n'ouvre qu'avec un vrai jeton Cloudflare Access (signature, audience, expiration)", async () => {
   const { accessValide } = await import("../api/src/index.js");
   const { subtle } = globalThis.crypto;
@@ -306,7 +317,7 @@ function mondeSw(reseau) {
   return {
     installer: () => new Promise((ok) => ecouteurs.install({ waitUntil: (p) => p.then(ok) })),
     demander: (url, mode) => new Promise((ok) => ecouteurs.fetch({ request: { method: "GET", url, mode: mode || "cors" }, respondWith: ok })),
-    ecouteurs
+    ecouteurs, stock
   };
 }
 test("hors ligne : le jeu sort du cache", async () => {
@@ -321,6 +332,14 @@ test("en ligne : la dernière version du réseau est servie", async () => {
 test("réseau lent : le cache répond sans attendre", async () => {
   const w = mondeSw("lent"); await w.installer();
   assert.strictEqual((await w.demander("http://x/styles.css")).corps, "cache:styles.css");
+});
+test("les voix (audio/) sont servies mais jamais mises en cache", async () => {
+  const w = mondeSw("normal"); await w.installer();
+  assert.strictEqual((await w.demander("http://x/audio/ci/woro-woro.m4a")).corps, "réseau");
+  assert.strictEqual((await w.demander("http://x/app.js")).corps, "réseau");
+  assert.ok(!w.stock.has("http://x/audio/ci/woro-woro.m4a") && w.stock.has("http://x/app.js"), "le jeu est gardé, la voix non");
+  const coupe = mondeSw("coupé"); await coupe.installer();
+  assert.strictEqual((await coupe.demander("http://x/audio/ci/woro-woro.m4a")).status, 0, "hors ligne, pas de voix : rien n'a été gardé");
 });
 test("les autres domaines ne sont pas interceptés", () => {
   const w = mondeSw("normal"); let pris = false;
